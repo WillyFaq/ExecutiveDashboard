@@ -7,8 +7,25 @@ window.chartColors = {
 	green: 'rgb(75, 192, 192)',
 	blue: 'rgb(54, 162, 235)',
 	purple: 'rgb(153, 102, 255)',
+	cream: 'rgb(243,244,146)',
+	sky: 'rgb(168,125,238)',
+	darkblue: 'rgb(99,81,129)',
 	grey: 'rgb(201, 203, 207)'
 };
+
+
+window.chartColors2 = [
+	'rgb(255, 99, 132)',
+	'rgb(255, 159, 64)',
+	'rgb(255, 205, 86)',
+	'rgb(75, 192, 192)',
+	'rgb(54, 162, 235)',
+	'rgb(153, 102, 255)',
+	'rgb(243,244,146)',
+	'rgb(168,125,238)',
+	'rgb(99,81,129)',
+	'rgb(201, 203, 207)'
+];
 
 (function(global) {
 	var MONTHS = [

@@ -46,6 +46,21 @@
 	  stroke: #BF1E2E;
 	}
 
+	.circular-chart.yellow>.circle:hover{
+		stroke-width:5.2;
+		stroke:#FFE24E;
+	}
+
+	.circular-chart.green>.circle:hover {
+		stroke-width:5.2;
+	  stroke: #77B579;
+	}
+
+	.circular-chart.red>.circle:hover {
+		stroke-width:5.2;
+	  stroke: #D9646F;
+	}
+
 	.percentage {
 	  font-family: arial;
 	  font-size: 0.35em;

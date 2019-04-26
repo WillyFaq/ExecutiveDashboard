@@ -28,7 +28,55 @@ class SdmController extends Controller
 
     public function profil($judul="", $nilai=""){
     	if($judul!='' || $nilai!=""){
-    		return view('sdm_profil_detail', ['judul' => $judul, 'nilai' => $nilai]);
+    		$line = array(
+    					'2011' => 1.4,
+						'2012' => 1.2,
+						'2013' => 2.6,
+						'2014' => 3.7,
+						'2015' => 2.8,
+						'2016' => 3.2,
+						'2017' => 3.6,
+						'2018' => 3.1);
+
+    		/*$line = array(
+    					'2011' => array("dosen 1" => 3.4, "dosen 2" => 3.6),
+    					'2012' => array("dosen 1" => 2.4, "dosen 2" => 2.6)
+    					);*/
+    		$bar = array(
+    					'SI' => 3.4,
+    					'SK' => 3.2,
+    					'DKV' => 3.3,
+    					'D3 SI' => 2.7,
+    					'Profiti' => 3.0,
+    					'Desgraf' => 1.7,
+    					'Manajemen' => 2.4,
+    					'Akuntansi' => 2.6,
+    					'KPK' => 2.7
+    					);
+    		if($judul=="Lektor & Guru besar"){
+    			$line = array(
+    					'2011' => array("Lektor" => 2.0, "Guru Besar" => 2.3),
+    					'2012' => array("Lektor" => 2.1, "Guru Besar" => 2.4),
+    					'2013' => array("Lektor" => 2.2, "Guru Besar" => 2.5),
+    					'2014' => array("Lektor" => 2.3, "Guru Besar" => 2.7),
+    					'2015' => array("Lektor" => 2.7, "Guru Besar" => 2.6),
+    					'2016' => array("Lektor" => 2.1, "Guru Besar" => 2.8),
+    					'2017' => array("Lektor" => 3.6, "Guru Besar" => 3.7),
+    					'2018' => array("Lektor" => 3.7, "Guru Besar" => 3.8),
+    					);
+    			$bar = array(
+    					'SI' => array("Lektor" => 2.0, "Guru Besar" => 2.3),
+    					'SK' => array("Lektor" => 2.1, "Guru Besar" => 2.4),
+    					'DKV' => array("Lektor" => 2.2, "Guru Besar" => 2.5),
+    					'D3 SI' => array("Lektor" => 2.3, "Guru Besar" => 2.7),
+    					'Profiti' => array("Lektor" => 2.7, "Guru Besar" => 2.6),
+    					'Desgraf' => array("Lektor" => 2.1, "Guru Besar" => 2.8),
+    					'Manajemen' => array("Lektor" => 3.6, "Guru Besar" => 3.7),
+    					'Akuntansi' => array("Lektor" => 3.7, "Guru Besar" => 3.8),
+    					'KPK' => array("Lektor" => 2.0, "Guru Besar" => 2.3)
+    				);
+    		}
+    		return view('sdm_detail', ['judul' => $judul, 'nilai' => $nilai, 'line' => $line, 'bar' => $bar]);
     	}else{
     		return view('sdm_profil');
     	}
