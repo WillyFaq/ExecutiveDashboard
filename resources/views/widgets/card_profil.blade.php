@@ -12,7 +12,7 @@
 				@include('widgets.charts.gauge', $chart)
 			</div>
 			<div class="col-xs-6" style="padding:0px;">
-				<table class="table tbl-ket-card">
+				<table class="table tbl-sdm-porfil">
 					<tbody>
 						@foreach($data as $row => $v)
 						<tr>

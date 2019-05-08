@@ -5,7 +5,8 @@
 	}
 
 	.single-chart {
-	  width: 100%;
+	  width: 70%;
+	  margin: 0 auto;
 	  justify-content: space-around ;
 	}
 
@@ -26,6 +27,8 @@
 	  stroke-width:4.8;
 	  stroke-linecap: round; 
 	  animation: progress 1s ease-out forwards;
+	  -webkit-transition: all 0.5s; /* Safari */
+  	  transition: all 0.5s;
 	}
 
 	@keyframes progress {

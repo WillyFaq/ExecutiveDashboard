@@ -14,7 +14,7 @@
 			$title = 'Publikasi Jurnal';
 			$chart = array( 'value' => 87.5, 'skor'=> 3.5, 'type' => 2 );
 			$icon = array('name' => 'gradbook', 'icon_arr' => array('width' => 50, 'height' => 50) );
-			$data = array('Skor' => '3.7', '# Dosen ' => 40, 'Rata rata Bimbing' => 40, 'Target Minimal' => 20 );
+			$data = array('Skor' => '3.7/4', '# Dosen ' => 40, 'Rata rata Bimbing' => 40, 'Target Minimal' => 20 );
 		@endphp
 
 		<div class="col-xs-6">
@@ -27,7 +27,7 @@
 			$title = 'Luaran (KI)';
 			$chart = array( 'value' => 87.5, 'skor'=> 3.5, 'type' => 2 );
 			$icon = array('name' => 'quality', 'icon_arr' => array('width' => 50, 'height' => 50) );
-			$data = array('Skor' => '3.7', '# Dosen ' => 40, 'Rata rata Bimbing' => 40, 'Target Minimal' => 20 );
+			$data = array('Skor' => '3.7/4', '# Dosen ' => 40, 'Rata rata Bimbing' => 40, 'Target Minimal' => 20 );
 		@endphp
 
 		<div class="col-xs-6">
@@ -40,7 +40,7 @@
 			$title = 'Sitasi Dosen';
 			$chart = array( 'value' => 87.5, 'skor'=> 3.5, 'type' => 2 );
 			$icon = array('name' => 'certificate', 'icon_arr' => array('width' => 50, 'height' => 50) );
-			$data = array('Skor' => '3.7', '# Dosen ' => 40, 'Rata rata Bimbing' => 40, 'Target Minimal' => 20 );
+			$data = array('Skor' => '3.7/4', '# Dosen ' => 40, 'Rata rata Bimbing' => 40, 'Target Minimal' => 20 );
 		@endphp
 
 		<div class="col-xs-6">
@@ -50,10 +50,10 @@
 
 		@php
 			$link = '/sdm';
-			$title = 'Seminar / Tulisan';
+			$title = 'Publikasi Seminar';
 			$chart = array( 'value' => 87.5, 'skor'=> 3.5, 'type' => 2 );
 			$icon = array('name' => 'graduate', 'icon_arr' => array('width' => 50, 'height' => 50) );
-			$data = array('Skor' => '3.7', '# Dosen ' => 40, 'Rata rata Bimbing' => 40, 'Target Minimal' => 20 );
+			$data = array('Skor' => '3.7/4', '# Dosen ' => 40, 'Rata rata Bimbing' => 40, 'Target Minimal' => 20 );
 		@endphp
 
 		<div class="col-xs-6">

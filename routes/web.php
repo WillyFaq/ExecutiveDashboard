@@ -19,6 +19,7 @@ Route::get('/sdm/profil/{judul}/{nilai}', 'SdmController@profil');
 Route::get('/sdm/beban_kerja', 'SdmController@beban_kerja');
 Route::get('/sdm/produktivitas', 'SdmController@produktivitas');
 
+Route::get('/penelitian', 'PenelitianController@index');
 /*Route::get('/', function () {
     return view('home');
 });*/

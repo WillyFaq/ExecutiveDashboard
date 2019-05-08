@@ -31,8 +31,8 @@
 						<div class="col-xs-2" >
 							@include('widgets.charts.gauge', $chart)
 						</div>
-						<div class="col-xs-offset-1 col-xs-2" style="padding:0px;">
-							<table class="table tbl-sdm-porfil">
+						<div class="col-xs-2" style="padding:0px;">
+							<table class="table tbl-ket-card">
 								<tbody>
 									@foreach($data as $row => $v)
 									<tr>
@@ -43,7 +43,7 @@
 								</tbody>
 							</table>
 						</div>
-						<div class="col-xs-offset-1 col-xs-5">
+						<div class="col-xs-offset-2 col-xs-5">
 							<div class="row">
 								<div class="col-xs-2 sks-box sks-red">
 									<h1>A</h1>
@@ -68,8 +68,9 @@
 							</div>
 						</div>
 						<div class="col-xs-12">
+							<br>
 							<div class="row">
-								<div class="col-xs-offset-4 col-xs-4">
+								<div class="col-xs-offset-3 col-xs-6">
 									<div class="row legend-chart-box">
 										<div class="col-xs-4">
 											<dl class="dl-horizontal legend-chart">

@@ -30,7 +30,6 @@
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                
                     @include('widgets.charts.linechart', array('data' => $line))
                 </div>
                 <!-- /.panel-body -->

@@ -1,4 +1,4 @@
-<canvas  id="barchart"></canvas >
+<canvas height="85px" id="barchart"></canvas >
 <script>
 		var barChartData = {
 			labels: [
@@ -73,6 +73,7 @@
 					scales: {
 						xAxes: [{
 							stacked: {{$is_multi?'true':'false'}},
+							ticks: {autoSkip: false,maxRotation: 0,minRotation: 0}
 						}],
 						yAxes: [{
 							stacked: {{$is_multi?'true':'false'}}

@@ -28,7 +28,7 @@
                      Indikator SDM
                 </div>
                 <!-- /.panel-heading -->
-                <div class="panel-body">
+                <div class="panel-body" style="padding-top:5px; padding-bottom:5px;">
                     <table class="table tbl-stipeded">
                     	<tbody>
                     		@php

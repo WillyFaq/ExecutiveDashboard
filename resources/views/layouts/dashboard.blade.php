@@ -57,7 +57,7 @@
                             <a {{ (Request::is('*sdm') || Request::is('*sdm/*') ? 'class=active' : '') }} href="{{ url ('sdm') }}"><i class="fa fa-briefcase fa-fw"></i> SDM</a>
                         </li>
                         <li >
-                            <a href="{{ url ('peneliian') }}">&nbsp;<i class="fa fa-file-text"></i>&nbsp;  Penelitian</a>
+                            <a {{ (Request::is('*penelitian') || Request::is('*penelitian/*') ? 'class=active' : '') }} href="{{ url ('penelitian') }}">&nbsp;<i class="fa fa-file-text"></i>&nbsp;  Penelitian</a>
                         </li>
                         <li >
                             <a href="{{ url ('inovasi') }}"><i class="fa fa-pencil fa-fw"></i> Inovasi</a>

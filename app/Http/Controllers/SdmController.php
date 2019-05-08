@@ -37,11 +37,6 @@ class SdmController extends Controller
 						'2016' => 3.2,
 						'2017' => 3.6,
 						'2018' => 3.1);
-
-    		/*$line = array(
-    					'2011' => array("dosen 1" => 3.4, "dosen 2" => 3.6),
-    					'2012' => array("dosen 1" => 2.4, "dosen 2" => 2.6)
-    					);*/
     		$bar = array(
     					'SI' => 3.4,
     					'SK' => 3.2,
@@ -78,7 +73,82 @@ class SdmController extends Controller
     		}
     		return view('sdm_detail', ['judul' => $judul, 'nilai' => $nilai, 'line' => $line, 'bar' => $bar]);
     	}else{
-    		return view('sdm_profil');
+    		$data_profil = [];
+
+    		$nilai = 2.5;
+    		array_push($data_profil, 
+    			array(
+    				'title' 	=> "Dosen Tetap", 
+    				'link' 		=> '/sdm/profil/Dosen Tetap/'.$nilai,
+    				'skor' 		=> $nilai, 
+					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
+					'icon' 		=> array('name' => 'grad', 'icon_arr' => array('width' => 50, 'height' => 50) ),
+    				'data' 		=> array("skor"=>$nilai." / 4", "Rasio"=>"60%", "# Dosen"=>40, "# Dosen Tetap"=>12),
+    				'legend' 	=> array('green' => 'Bagus (DTPS &#8805; 12)', 'yellow' => 'Menegah (DTPS 	&#60; 12) (DTPS &#62; 6)', 'red' => 'Kurang dari 2' )
+    			)
+    		);
+    		$nilai = 3.7;
+    		array_push($data_profil, 
+    			array(
+    				'title' 	=> "Dosen S3", 
+    				'link' 		=> '/sdm/profil/Dosen Tetap/'.$nilai,
+    				'skor' 		=> $nilai, 
+					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
+					'icon' 		=> array('name' => 'gradbook', 'icon_arr' => array('width' => 50, 'height' => 50) ),
+					'data' 		=> array('Skor' => $nilai.' / 4', '# Dosen ' => 40, '# Dosen' => 40, '# Dosen S3' => 20 ),
+					'legend' 	=> array('green' => 'Bagus (PS &#8805; 50%)', 'yellow' => 'Menegah (PS &#60; 50%)', 'red' => 'Kurang dari 2' )
+    			)
+    		);
+    		$nilai = 3.5;
+    		array_push($data_profil, 
+    			array(
+    				'title' 	=> "Lektor &#38; Guru besar", 
+    				'link' 		=> '/sdm/profil/Lektor &#38; Guru besar/'.$nilai,
+    				'skor' 		=> $nilai, 
+					'chart'		=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
+					'icon'		=> array('name' => 'quality', 'icon_arr' => array('width' => 50, 'height' => 50) ),
+					'data'		=> array('Skor' => $nilai.' / 4', '# Dosen ' => 40, '# Dosen' => 40, '# Lektor' => 10, '# Guru Besar' => 10 ),
+					'legend'	=> array('green' => 'Bagus (PS &#8805; 50%)', 'yellow' => 'Menegah (PS &#60; 50%)', 'red' => 'Kurang dari 2' )
+				)
+    		);
+    		$nilai = 3.5;
+    		array_push($data_profil, 
+    			array(
+    				'title' 	=> "Sertifikasi Dosen", 
+    				'link' 		=> '/sdm/profil/Sertifikasi Dosen/'.$nilai,
+    				'skor' 		=> $nilai, 
+					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
+					'icon' 		=> array('name' => 'certificate', 'icon_arr' => array('width' => 50, 'height' => 50) ),
+					'data' 		=> array('Skor' => $nilai.' / 4', '# Dosen ' => 40, '# Dosen' => 40, '# PSPP' => 36 ),
+					'legend' 	=> array('green' => 'Bagus (PS &#8805; 50%)', 'yellow' => 'Menegah (PS &#60; 50%)', 'red' => 'Kurang dari 2' )
+				)
+    		);
+    		$nilai = 3.6;
+    		array_push($data_profil, 
+    			array(
+    				'title' 	=> "Rasio Mahasiswa &#38; Dosen", 
+    				'link' 		=> '/sdm/profil/Rasio Mahasiswa &#38; Dosen/'.$nilai,
+    				'skor' 		=> $nilai, 
+					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
+					'icon' 		=> array('name' => 'graduate', 'icon_arr' => array('width' => 50, 'height' => 50) ),
+					'data' 		=> array('Skor' => $nilai.' / 4', '# Dosen ' => 40, '# Dosen' => 40, '# Dosen S3' => 36 ),
+					'legend' 	=> array('green' => 'Bagus (PS &#8805; 50%)', 'yellow' => 'Menegah (PS &#60; 50%)', 'red' => 'Kurang dari 2' )
+				)
+    		);
+    		$nilai = 1.2;
+    		array_push($data_profil, 
+    			array(
+    				'title' 	=> "Dosen Tidak Tetap", 
+    				'link' 		=> '/sdm/profil/Dosen Tidak Tetap/'.$nilai,
+    				'skor' 		=> $nilai, 
+					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
+					'icon' 		=> array('name' => 'feedback', 'icon_arr' => array('width' => 50, 'height' => 50) ),
+					'data' 		=> array('Skor' => $nilai.' / 4', '# Dosen ' => 40, '# Dosen' => 40, '# PDTT' => 20 ),
+					'legend' 	=> array('green' => 'Bagus (PS &#8805; 50%)', 'yellow' => 'Menegah (PS &#60; 50%)', 'red' => 'Tidak ada Nilai' )
+				)
+    		);
+    		$data = array('data' => $data_profil);
+    		return view('sdm_profil', ['data_profil' => $data_profil]);
     	}
     } 
 

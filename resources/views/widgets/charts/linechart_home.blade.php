@@ -1,4 +1,4 @@
-<canvas height="85px" id="linechart"></canvas >
+<canvas height="105px" id="linechart"></canvas >
 
 <script>
 		var lineChartData = {
@@ -52,6 +52,7 @@
 							}
 							echo "\t],\n";
 							echo "\tyAxisID: 'y-axis-1',\n";
+							echo "\tlineTension: 0,\n";
 							echo "},";
 							$i++;
 						}
@@ -83,7 +84,7 @@
 					},
 					legend: {
 			            display: true,
-			            position: 'bottom'
+			            position: 'right'
 			        }
 				}
 			});

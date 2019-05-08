@@ -28,6 +28,10 @@ body {
     }
 }
 
+.navbar-brand{
+    padding: 5px 15px;
+}
+
 .navbar-top-links {
     margin-right: 0;
 }
@@ -41,8 +45,8 @@ body {
 }
 
 .navbar-top-links li a {
-    padding: 15px;
-    min-height: 50px;
+    padding: 5px 15px;
+    min-height: 45px;
 }
 
 .navbar-top-links .dropdown-menu li {
@@ -376,24 +380,25 @@ canvas.round {
 }
 
 .brand-text{
-    margin: 15px 0 0 0;
+    margin: 10px 0 0 0;
     float: left;
-    padding: 15px 0 15px 120px;
+    padding: 10px 0 0 120px;
     font-size: 18px;
     line-height: 20px;
     color: #A5A4BF;
 }
 
 .img-web{
-    width: 85px;
+    width: 80px;
+    height: 45px;
     margin-left: 55px;
 }
 
 .img-profil-pic{
     object-fit: cover;
     margin-left: 15px;
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     border-radius: 40px;
 }
 
@@ -435,11 +440,16 @@ a.active{
 .tabar{
     border-top: 2px solid #D3D3D3;
     padding: 0 30px; 
+    min-height: auto;
 }
 
 .nav-tabar> li{
     padding: 0 30px;
     font-weight:bold;
+}
+
+.nav-tabar> li > a{
+    padding: 5px 15px;
 }
 
 .nav-tabar> li > a:hover, .nav-tabar> .active> a{
@@ -465,7 +475,9 @@ a.active{
 
 .tbl-stipeded {
     border-collapse:separate; 
-    border-spacing:0 15px; 
+    border-spacing:0 10px;
+    font-size: 1em; 
+    margin-bottom: 0;
 }
 
 .tbl-stipeded> tbody > tr {
@@ -474,9 +486,21 @@ a.active{
     color: #949090;    
 }
 
+.tbl-stipeded> tfoot {
+    border-spacing:0 0;
+}
+
 .tbl-stipeded> tfoot > tr {
-    font-weight: bold;
+    font-weight: bold; 
     color: #949090;    
+    height: 11px;
+}
+
+.tbl-stipeded> tfoot > tr >th {
+    padding: 0 8px;
+}
+.tbl-stipeded> tfoot > tr >th >p {
+    margin-bottom: 0;
 }
 
 .tbl-stipeded> tbody > tr >td {
@@ -494,6 +518,7 @@ a.active{
 .txt_color_red{color: #BF1E2E; }
 .txt_color_yellow{color: #FFCC00; }
 .txt_color_green{color: #388E3C; }
+.txt_color_grey{color: #A6A4BF; }
 
 
 .dot {
@@ -518,7 +543,7 @@ a.active{
     margin: 0 10px;
     background: #FFF;
     border-radius: 10px;
-    min-height: 310px;
+    min-height: 240px;
 }
 .card>.row>.col-xs-6, .card>.row>.col-xs-12 {
     padding: 0;
@@ -530,10 +555,27 @@ a.active{
     padding-bottom: 0;
 }
 
+.tbl-sdm-porfil{
+    margin-bottom: 0;
+}
+
 .tbl-sdm-porfil> tbody > tr > th, .tbl-sdm-porfil>tbody> tr > td{
     color: #A6A4BF;
-    padding: 5px 0;
+    padding: 2px 0;
     border-top:none;
+    font-size: 0.8em;
+}
+
+
+.tbl-ket-card{
+    margin-bottom: 0;
+}
+
+.tbl-ket-card> tbody > tr > th, .tbl-ket-card>tbody> tr > td{
+    color: #A6A4BF;
+    padding: 2px 0;
+    border-top:none;
+    font-size: 1em;
 }
 
 .legend-chart-box{
