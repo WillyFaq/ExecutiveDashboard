@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Karyawan extends Model
 {
     protected $table = 'v_karyawan';
+    protected $primaryKey = 'nik';
+    public $incrementing = false;
+    protected $casts = [
+        'nik' => 'string',
+        'nidn' => 'string',
+        'nidk' => 'string',
+        'nup' => 'string',
+    ];
 
     public function newQuery()
     {
