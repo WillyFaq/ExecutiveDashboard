@@ -12,10 +12,16 @@ class PembinaUnitKegiatanMahasiswa extends Model
     {
         return parent::newQuery()
         ->addSelect([
-            \DB::Raw('substr(p.nosk,-4,4) tahun'),
+            \DB::Raw('SUBSTR(nosk,-4,4) tahun'),
+            'nik',
             'nosk',
             'nama_ukm',
             'sie',
         ]);
+    }
+
+    public function pembina()
+    {
+        return $this->belongsTo(Karyawan::class, 'nik');
     }
 }
