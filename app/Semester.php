@@ -11,7 +11,7 @@ class Semester extends Model
     public function newQuery()
     {
         return parent::newQuery()
-            ->addColumn([
+            ->addSelect([
                 \DB::Raw(<<<SQL
 CASE
     WHEN SYSDATE <= (SELECT tgl_berlaku
@@ -21,7 +21,8 @@ CASE
     ELSE smt_yad
 END AS semester
 SQL
-                )
+                ),
+                'fak_id',
             ]);
     }
 }
