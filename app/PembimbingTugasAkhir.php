@@ -11,6 +11,14 @@ class PembimbingTugasAkhir extends Model
     public function newQuery()
     {
         return parent::newQuery()
+            ->addSelect([
+                'v_propta.semester',
+                \DB::Raw('v_propta.pembimbing_1 AS nik_pembimbing_1'),
+                \DB::Raw('v_propta.pembimbing_2 AS nik_pembimbing_2'),
+                'v_propta.mhs_nim',
+                'tgl_smn',
+                'v_propta.jdl_proposal',
+            ])
             ->join('v_antri_proposal', 'v_propta.mhs_nim', 'v_antri_proposal.mhs_nim');
     }
 
@@ -23,11 +31,16 @@ class PembimbingTugasAkhir extends Model
 
     public function pembimbing1()
     {
-        return $this->belongsTo(Karyawan::class, 'v_propta.pembimbing_1');
+        return $this->belongsTo(Karyawan::class, 'nik_pembimbing_1');
     }
 
     public function pembimbing2()
     {
-        return $this->belongsTo(Karyawan::class, 'v_propta.pembimbing_2');
+        return $this->belongsTo(Karyawan::class, 'nik_pembimbing_2');
+    }
+
+    public function mahasiswa()
+    {
+        return $this->belongsTo(Mahasiswa::class, 'mhs_nim');
     }
 }
