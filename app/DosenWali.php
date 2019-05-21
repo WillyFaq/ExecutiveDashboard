@@ -13,7 +13,7 @@ class DosenWali extends Model
         return parent::newQuery()
             ->addSelect([
                 'dosen_wl',
-                'nim',
+                'mhs_nim',
                 'semester',
             ]);
     }
@@ -25,6 +25,6 @@ class DosenWali extends Model
 
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class, 'nim');
+        return $this->belongsTo(Mahasiswa::class, 'mhs_nim');
     }
 }
