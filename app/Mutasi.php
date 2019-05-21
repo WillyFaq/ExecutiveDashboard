@@ -13,8 +13,9 @@ class Mutasi extends Model
         return parent::newQuery()
             ->addSelect([
                 'no_mutasi',
-                'bagian',
-                'bagian_lama',
+                'nik',
+                \DB::Raw('bagian AS kode_bagian_baru'),
+                \DB::Raw('bagian_lama AS kode_bagian_lama'),
                 'jabatan',
                 'keterangan',
                 'tanggal',
@@ -24,5 +25,15 @@ class Mutasi extends Model
     public function karyawan()
     {
         return $this->belongsTo(Karyawan::class, 'nik');
+    }
+
+    public function bagian_lama()
+    {
+        return $this->belongsTo(Bagian::class, 'kode_bagian_lama');
+    }
+
+    public function bagian_baru()
+    {
+        return $this->belongsTo(Bagian::class, 'kode_bagian_baru');
     }
 }
