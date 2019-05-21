@@ -19,9 +19,9 @@ class HakAtasKekayaanIntelektual extends Model
             ->addSelect([
                 'haki.judul',
             ])
-            ->join('kode_jenis_haki', 'haki.jenis', 'kode_jenis_haki.id')
+            ->join('kode_jenis_haki', 'haki.jenis', 'kode_jenis_haki.id_jenis')
             ->addSelect([
-                'kode_jenis_haki.judul',
+                'kode_jenis_haki.jenis',
             ]);
     }
 
