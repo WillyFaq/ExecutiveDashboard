@@ -11,8 +11,17 @@ class PembimbingKerjaPraktik extends Model
     public function newQuery()
     {
         return parent::newQuery()
+            ->addSelect([
+                \DB::Raw('substr(v_grup_kp.group_kp,1,3) semester'),
+                \DB::Raw('pembimbing nik_pembimbing'),
+                'object_kp',
+                'tgl_awal',
+                'tgl_akhir',
+            ])
             ->join('v_nilkp', 'v_grup_kp.group_kp', 'v_nilkp.group_kp')
-            ->where('');
+            ->addSelect([
+                'mhs_nim',
+            ]);
     }
 
     public function scopeWhereStatusSelesai($query)
@@ -24,6 +33,11 @@ class PembimbingKerjaPraktik extends Model
 
     public function pembimbing()
     {
-        return $this->belongsTo(Karyawan::class, 'v_grup_kp.pembimbing');
+        return $this->belongsTo(Karyawan::class, 'nik_pembimbing');
+    }
+
+    public function mahasiswa()
+    {
+        return $this->belongsTo(Mahasiswa::class, 'mhs_nim');
     }
 }
