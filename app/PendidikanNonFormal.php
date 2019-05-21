@@ -12,4 +12,9 @@ class PendidikanNonFormal extends Model
     {
         return $query->whereNotNull('nama_instansi');
     }
+
+    public function karyawan()
+    {
+        return $this->belongsTo(Karyawan::class, 'nik');
+    }
 }
