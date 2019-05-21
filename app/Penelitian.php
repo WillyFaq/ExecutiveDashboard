@@ -2,9 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Penelitian extends Model
+class Penelitian extends RekapEwmp
 {
-    //
+    public function newQuery()
+    {
+        return parent::newQuery()
+            ->where('jenis', 1)
+            ->where('bidang', 'B');
+    }
 }

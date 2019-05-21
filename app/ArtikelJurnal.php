@@ -2,9 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class ArtikelJurnal extends Model
+class ArtikelJurnal extends RekapEwmp
 {
-    //
+    public function newQuery()
+    {
+        return parent::newQuery()
+            ->where('jenis', 2)
+            ->where('bidang', 'B');
+    }
 }

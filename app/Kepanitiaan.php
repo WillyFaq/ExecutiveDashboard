@@ -2,9 +2,11 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Kepanitiaan extends Model
+class Kepanitiaan extends RekapEwmp
 {
-    //
+    public function newQuery()
+    {
+        return parent::newQuery()
+            ->where('bidang', 'D');
+    }
 }

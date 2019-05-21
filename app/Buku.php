@@ -2,9 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Buku extends Model
+class Buku extends RekapEwmp
 {
-    //
+    public function newQuery()
+    {
+        return parent::newQuery()
+            ->where('jenis', 3)
+            ->where('bidang', 'B');
+    }
 }

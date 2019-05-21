@@ -2,9 +2,11 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class HibahPengabdian extends Model
+class HibahPengabdian extends RekapEwmp
 {
-    //
+    public function newQuery()
+    {
+        return parent::newQuery()
+            ->where('bidang', 'C');
+    }
 }

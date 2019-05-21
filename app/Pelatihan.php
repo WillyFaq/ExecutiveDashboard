@@ -2,9 +2,11 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Pelatihan extends Model
+class Pelatihan extends RekapEwmp
 {
-    //
+    public function newQuery()
+    {
+        return parent::newQuery()
+            ->where('bidang', 'C');
+    }
 }
