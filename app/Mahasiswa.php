@@ -12,4 +12,9 @@ class Mahasiswa extends Model
     protected $casts = [
         'nim' => 'string',
     ];
+
+    public function dosen_wali()
+    {
+        return $this->belongsTo(Karyawan::class, 'dosen_wl');
+    }
 }

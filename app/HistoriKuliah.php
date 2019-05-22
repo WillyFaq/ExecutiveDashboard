@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DosenWali extends Model
+class HistoriKuliah extends Model
 {
     protected $table = 'v_his_kul';
 
@@ -12,15 +12,16 @@ class DosenWali extends Model
     {
         return parent::newQuery()
             ->addSelect([
-                'dosen_wl',
-                'mhs_nim',
-                'semester',
+                'v_his_kul.mhs_nim',
+                'v_his_kul.semester',
             ]);
     }
 
-    public function dosen()
+    public function scopeWhereIsAktif($query)
     {
-        return $this->belongsTo(Karyawan::class, 'dosen_wl');
+        return $query
+            ->whereNotIn('sts_mhs', ['N', 'A', 'L', 'O'])
+            ->orWhereNull('sts_mhs');
     }
 
     public function mahasiswa()
