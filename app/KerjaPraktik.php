@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PembimbingKerjaPraktik extends Model
+class KerjaPraktik extends Model
 {
     protected $table = 'v_grup_kp';
 
