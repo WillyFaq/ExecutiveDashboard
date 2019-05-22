@@ -32,8 +32,23 @@ class Karyawan extends Model
             ]);
     }
 
+    public function scopeWhereIsAktif($query)
+    {
+        return $query->where('status', 'A');
+    }
+
     public function scopeWhereIsDosen($query)
     {
         return $query->where('kary_type', 'LIKE', '%D%');
+    }
+
+    public function scopeWhereIsDosenTetap($query)
+    {
+        return $query->where('kary_type', 'TD');
+    }
+
+    public function scopeWhereIsDosenTidakTetap($query)
+    {
+        return $query->whereIsDosen()->where('kary_type', '!=', 'TD');
     }
 }
