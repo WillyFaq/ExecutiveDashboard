@@ -17,6 +17,13 @@ class HistoriKuliah extends Model
             ]);
     }
 
+    public function scopeWhereIsAktif($query)
+    {
+        return $query
+            ->whereNotIn('sts_mhs', ['N', 'A', 'L', 'O'])
+            ->orWhereNull('sts_mhs');
+    }
+
     public function mahasiswa()
     {
         return $this->belongsTo(Mahasiswa::class, 'mhs_nim');
