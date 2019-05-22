@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DosenWali extends Model
+class HistoriKuliah extends Model
 {
     protected $table = 'v_his_kul';
 
@@ -12,15 +12,9 @@ class DosenWali extends Model
     {
         return parent::newQuery()
             ->addSelect([
-                'dosen_wl',
-                'mhs_nim',
-                'semester',
+                'v_his_kul.mhs_nim',
+                'v_his_kul.semester',
             ]);
-    }
-
-    public function dosen()
-    {
-        return $this->belongsTo(Karyawan::class, 'dosen_wl');
     }
 
     public function mahasiswa()
