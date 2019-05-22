@@ -18,8 +18,8 @@ class PendidikanFormal extends Model
         return  $query->whereNotNull('nama_sekolah');
     }
 
-    public function scopeFilterJenjang($query = ['SD', 'SLTP', 'SMTP', 'SMU'])
+    public function scopeFilterJenjang($query, $filteredOut = ['SD', 'SLTP', 'SMTP', 'SMU'])
     {
-        return $query->whereNotIn('jenjang', $query);
+        return $query->whereNotIn('jenjang', $filteredOut);
     }
 }
