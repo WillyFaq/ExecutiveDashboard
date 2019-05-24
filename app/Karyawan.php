@@ -29,7 +29,9 @@ class Karyawan extends Model
             ->join('v_email_kar', 'v_karyawan.nik', 'v_email_kar.nik')
             ->addSelect([
                 'v_email_kar.email',
-            ]);
+            ])
+            ->leftJoin('v_prodiewmp', 'v_karyawan.nik', 'v_prodiewmp.nik')
+            ->addSelect(['v_prodiewmp.prodi']);
     }
 
     public function scopeWhereIsAktif($query)
