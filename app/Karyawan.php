@@ -26,7 +26,7 @@ class Karyawan extends Model
                 'nup',
                 \DB::Raw('nama_plus_gelar(v_karyawan.nik) AS NAMA'),
             ])
-            ->join('v_email_kar', 'v_karyawan.nik', 'v_email_kar.nik')
+            ->leftJoin('v_email_kar', 'v_karyawan.nik', 'v_email_kar.nik')
             ->addSelect([
                 'v_email_kar.email',
             ])
