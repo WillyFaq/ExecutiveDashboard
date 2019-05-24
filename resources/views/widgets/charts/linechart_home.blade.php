@@ -12,18 +12,11 @@
 			datasets: [
 			@php
 				if(isset($line)){
-					$is_multi = false;
-					foreach($line as $k => $v){
-						if(is_array($v)){
-							$is_multi = true; 
-						}
-					}
-
-					if(!$is_multi){
-						echo "{";
-						echo "label: '$judul',";
-						echo "borderColor: window.chartColors.red,";
-						echo "backgroundColor: window.chartColors.red,";
+					echo "{";
+						echo "label: 'Peringkat',";
+						echo "borderColor: '#8EA4AF',";
+						echo "backgroundColor: '#8EA4AF',";
+						echo "borderWidth: 3,";
 						echo "fill: false,";
 						echo "data: [";
 						foreach($line as $k => $v){
@@ -31,40 +24,66 @@
 						}
 						echo "],";
 						echo "yAxisID: 'y-axis-1',";
-						echo "}";
-					}else{
-						$data = [];
-						foreach($line as $k => $v){
-							foreach($v as $a => $b){
-								$data[$a][$k] = $b;
-							}
-						}
-						$i=0;
-						foreach($data as $k => $v){
-							echo "{";
-							echo "\tlabel: '$k',\n";
-							echo "\tborderColor: window.chartColors2[$i],\n";
-							echo "\tbackgroundColor: window.chartColors2[$i],\n";
-							echo "\tfill: false,\n";
-							echo "\tdata: [\n";
-							foreach($v as $a => $b){
-								echo "\t\t$b,\n";
-							}
-							echo "\t],\n";
-							echo "\tyAxisID: 'y-axis-1',\n";
-							echo "\tlineTension: 0,\n";
-							echo "},";
-							$i++;
-						}
-					}
+						echo "pointRadius: 5,";
+						echo "pointHoverRadius: 6,";
+						echo "},";
 				}
 			@endphp
+				{
+					label: 'Dashed',
+					fill: false,
+					borderColor: window.chartColors.red,
+					borderWidth: 1,
+					borderDash: [5, 5, 5],
+					data: [
+						@php
+						foreach($line as $k => $v){
+							echo "200,";
+						}
+						@endphp
+					],
+					pointRadius: 0,
+					pointHoverRadius: 0,
+				},
+				{
+					label: 'Dashed',
+					fill: false,
+					borderColor: window.chartColors.red,
+					borderWidth: 1,
+					borderDash: [5, 5, 5],
+					data: [
+						@php
+						foreach($line as $k => $v){
+							echo "300,";
+						}
+						@endphp
+					],
+					pointRadius: 0,
+					pointHoverRadius: 0,
+				},
+				{
+					label: 'Dashed',
+					fill: false,
+					borderColor: window.chartColors.red,
+					borderWidth: 1,
+					borderDash: [5, 5, 5],
+					data: [
+						@php
+						foreach($line as $k => $v){
+							echo "360,";
+						}
+						@endphp
+					],
+					pointRadius: 0,
+					pointHoverRadius: 0,
+				},
 			]
 		};
 
 		$(document).ready(function(){
 			var ctx = document.getElementById('linechart').getContext('2d');
-			window.myLine = Chart.Line(ctx, {
+			
+			var myLine = Chart.Line(ctx, {
 				data: lineChartData,
 				options: {
 					responsive: true,
@@ -75,18 +94,37 @@
 						text: 'Chart.js Line Chart - Multi Axis'
 					},
 					scales: {
+						xAxes: [{
+							gridLines:  {
+								display: false
+							},
+							ticks: {
+								fontSize: 10
+							}
+						}],
 						yAxes: [{
+							gridLines:  {
+								display: true,
+							},
 							type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
 							display: true,
-							position: 'left',
 							id: 'y-axis-1',
+					        ticks: {
+								min: 150,
+								max: 400,
+								stepSize: 50,
+								suggestedMin: 0,
+								suggestedMax: 400,
+								fontSize: 10
+							}
 						}],
 					},
 					legend: {
-			            display: true,
+			            display: false,
 			            position: 'right'
 			        }
 				}
 			});
+
 		});
 	</script>

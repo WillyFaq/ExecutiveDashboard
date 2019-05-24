@@ -14,6 +14,11 @@
 	</style>
 	<div class="row">
 		<div class="col-xs-5">
+			<style>
+				.flex-wrapper{
+					padding:0 60px !important;
+				}
+			</style>
 			@include('widgets.charts.gauge', array('tittle' => 'Kondisi SDM', 'skor'=> 2.69, 'type' => 1, 'subtittle' => 'skor saat ini' ))
 			<div class="keterangan_box">
 				<h4><strong>Keterangan : </strong></h4>
@@ -45,11 +50,11 @@
 										$val_per = $val * 100/4;
 										
 										if($val>3){
-											$class = "success";
+											$class = "pg_success";
 										}else if($val<=3 && $val>=2){
-											$class = "warning";
+											$class = "pg_warning";
 										}else{
-											$class = "danger";
+											$class = "pg_danger";
 										}
 
 										$tot += $val;

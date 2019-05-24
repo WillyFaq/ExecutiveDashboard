@@ -83,8 +83,7 @@ class SdmController extends Controller
     				'skor' 		=> $nilai, 
 					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
 					'icon' 		=> array('name' => 'grad', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-    				'data' 		=> array("skor"=>$nilai." / 4", "Rasio"=>"60%", "# Dosen"=>40, "# Dosen Tetap"=>12),
-    				'legend' 	=> array('green' => 'Bagus (DTPS &#8805; 12)', 'yellow' => 'Menegah (DTPS 	&#60; 12) (DTPS &#62; 6)', 'red' => 'Kurang dari 2' )
+    				'data' 		=> array("Skor" => [($nilai*100/4), $nilai], "Kondisi Saat Ini" => [60, "60"], "# Dosen Tetap"=>[12, "12"]),
     			)
     		);
     		$nilai = 3.7;
@@ -95,8 +94,7 @@ class SdmController extends Controller
     				'skor' 		=> $nilai, 
 					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
 					'icon' 		=> array('name' => 'gradbook', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-					'data' 		=> array('Skor' => $nilai.' / 4', '# Dosen ' => 40, '# Dosen' => 40, '# Dosen S3' => 20 ),
-					'legend' 	=> array('green' => 'Bagus (PS &#8805; 50%)', 'yellow' => 'Menegah (PS &#60; 50%)', 'red' => 'Kurang dari 2' )
+					'data' 		=> array('Skor' => [($nilai*100/4), $nilai], 'Kondisi Saat Ini' => [100, "100"], '# Dosen S3' => [20, "20"] ),
     			)
     		);
     		$nilai = 3.5;
@@ -107,8 +105,7 @@ class SdmController extends Controller
     				'skor' 		=> $nilai, 
 					'chart'		=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
 					'icon'		=> array('name' => 'quality', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-					'data'		=> array('Skor' => $nilai.' / 4', '# Dosen ' => 40, '# Dosen' => 40, '# Lektor' => 10, '# Guru Besar' => 10 ),
-					'legend'	=> array('green' => 'Bagus (PS &#8805; 50%)', 'yellow' => 'Menegah (PS &#60; 50%)', 'red' => 'Kurang dari 2' )
+					'data'		=> array('Skor' => [($nilai*100/4), $nilai], 'Kondisi Saat Ini' => [40, "40"], 'LK & GB' => [40, "40"]),
 				)
     		);
     		$nilai = 3.5;
@@ -119,8 +116,7 @@ class SdmController extends Controller
     				'skor' 		=> $nilai, 
 					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
 					'icon' 		=> array('name' => 'certificate', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-					'data' 		=> array('Skor' => $nilai.' / 4', '# Dosen ' => 40, '# Dosen' => 40, '# PSPP' => 36 ),
-					'legend' 	=> array('green' => 'Bagus (PS &#8805; 50%)', 'yellow' => 'Menegah (PS &#60; 50%)', 'red' => 'Kurang dari 2' )
+					'data' 		=> array('Skor' => [($nilai*100/4), $nilai], 'Kondisi Saat Ini' => [40, "40"], '# PSPP' => [40, "40"] ),
 				)
     		);
     		$nilai = 3.6;
@@ -131,8 +127,7 @@ class SdmController extends Controller
     				'skor' 		=> $nilai, 
 					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
 					'icon' 		=> array('name' => 'graduate', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-					'data' 		=> array('Skor' => $nilai.' / 4', '# Dosen ' => 40, '# Dosen' => 40, '# Dosen S3' => 36 ),
-					'legend' 	=> array('green' => 'Bagus (PS &#8805; 50%)', 'yellow' => 'Menegah (PS &#60; 50%)', 'red' => 'Kurang dari 2' )
+					'data' 		=> array('Skor' => [($nilai*100/4), $nilai], 'Kondisi Saat Ini' => [40, "40"], 'Rasio' => [40, "40"] ),
 				)
     		);
     		$nilai = 1.2;
@@ -143,8 +138,7 @@ class SdmController extends Controller
     				'skor' 		=> $nilai, 
 					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
 					'icon' 		=> array('name' => 'feedback', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-					'data' 		=> array('Skor' => $nilai.' / 4', '# Dosen ' => 40, '# Dosen' => 40, '# PDTT' => 20 ),
-					'legend' 	=> array('green' => 'Bagus (PS &#8805; 50%)', 'yellow' => 'Menegah (PS &#60; 50%)', 'red' => 'Tidak ada Nilai' )
+					'data' 		=> array('Skor' => [($nilai*100/4), $nilai], 'Kondisi Saat Ini' => [40, "40"], '# PDTT' => [20, "20"] ),
 				)
     		);
     		$data = array('data' => $data_profil);

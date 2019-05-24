@@ -5,8 +5,17 @@
  */
 
 body {
-    /* background-color: #f8f8f8; */
-    background-color: #FFFFFF;
+    background-color: #f8f8f8;
+/*     background-color: #FFFFFF;
+ */
+    background: rgba(233,37,119,1);
+    background: -moz-linear-gradient(14deg, rgba(233,37,119,1) 0%, rgba(150,150,150,0.29) 100%);
+    background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(233,37,119,1)), color-stop(100%, rgba(150,150,150,0.29)));
+    background: -webkit-linear-gradient(14deg, rgba(233,37,119,1) 0%, rgba(150,150,150,0.29) 100%);
+    background: -o-linear-gradient(14deg, rgba(233,37,119,1) 0%, rgba(150,150,150,0.29) 100%);
+    background: -ms-linear-gradient(14deg, rgba(233,37,119,1) 0%, rgba(150,150,150,0.29) 100%);
+    background: linear-gradient(14deg, rgba(233,37,119,1) 0%, rgba(150,150,150,0.29) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e92577', endColorstr='#969696', GradientType=1 );
 }
 
 #wrapper {
@@ -16,13 +25,12 @@ body {
 #page-wrapper {
     padding: 0 15px;
     min-height: 568px;
-    background-color: #EEE;
 }
 
 @media(min-width:768px) {
     #page-wrapper {
         position: inherit;
-        margin: 0 0 0 250px;
+        margin: 0 0 0 0;
         padding: 0 30px;
         border-left: 1px solid #e7e7e7;
     }
@@ -354,16 +362,17 @@ table.dataTable thead .sorting:after {
 .panel-yellow a:hover {
     color: #df8a13;
 }
+/* 
 canvas {
-            max-width: 100% !important;
-            max-width: 400px;
-            height: auto !important;
+    max-width: 100% !important;
+    max-width: 400px;
+    height: auto !important;
 }
 canvas.round {
     max-width: 100% !important;
     max-width: 350px;
     height: auto !important;
-}
+} */
 .margin-inverse-top {
     margin-top: -44px;
 }
@@ -389,8 +398,8 @@ canvas.round {
 }
 
 .img-web{
-    width: 80px;
-    height: 45px;
+    width: 70px;
+    height: 40px;
     margin-left: 55px;
 }
 
@@ -432,10 +441,6 @@ a.active{
     color: #BF1E2E !important;
 }
 
-#page-wrapper{
-    padding: 0;
-    margin: 0 0 0 249px;
-}
 
 .tabar{
     border-top: 2px solid #D3D3D3;
@@ -537,22 +542,187 @@ a.active{
 .pg_success{background-color: #388E3C;}
 .pg_warning{background-color: #FFCC00;}
 .pg_danger{background-color: #BF1E2E;}
+.pg_info{background-color: #3C4296;}
 
 /* ======================== */
 
 .card{
     padding: 0;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 .card>a>div{
     margin: 0 10px;
     background: #FFF;
     border-radius: 5px;
     min-height: 220px;
+    padding: 10px;
+}
+.main-dash>div{
+    padding: 0;
+}
+
+.card>div{
+    margin: 0 5px;
+    background: #FFF;
+    border-radius: 5px;
+    padding: 20px;
+
 }
 .card>.row>.col-xs-6, .card>.row>.col-xs-12 {
     padding: 0;
 }
+
+.txt_card_title{
+    color: #000;
+    font-size: 1em;
+    font-weight: bold;
+    margin: 0;
+    line-height: 18px;
+}
+.txt_card_subtitle{
+    color: #aaa;
+    font-size: 0.8em;
+    font-weight: bold;
+    margin: 0;
+    line-height: 18px;
+}
+.img-card{
+    margin: 15px auto 0 auto;
+    width: 80%;
+    height: 55px;
+    border-radius: 50%;
+}
+
+.card_gradient{
+    border-radius: 10px;
+    background: rgba(255,138,144,1);
+    background: -moz-linear-gradient(top, rgba(255,138,144,1) 0%, rgba(255,181,131,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,138,144,1)), color-stop(100%, rgba(255,181,131,1)));
+    background: -webkit-linear-gradient(top, rgba(255,138,144,1) 0%, rgba(255,181,131,1) 100%);
+    background: -o-linear-gradient(top, rgba(255,138,144,1) 0%, rgba(255,181,131,1) 100%);
+    background: -ms-linear-gradient(top, rgba(255,138,144,1) 0%, rgba(255,181,131,1) 100%);
+    background: linear-gradient(to bottom, rgba(255,138,144,1) 0%, rgba(255,181,131,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff8a90', endColorstr='#ffb583', GradientType=0 );
+}
+.card_gradient>.row>div{
+    padding: 0;
+}
+
+.card-home-icon{
+    width: 32px !important;
+    height: 32px;
+    background: #E7F8F0;
+    padding: 0 5px ;
+    border-radius: 50%;
+}
+.card-home-icon>img{
+    width: 100%;
+    height: 100%;
+}
+.card-home-title{
+    margin: 0;
+}
+.card-home-title > h2{
+    float: left;
+    font-size: 1em;
+    font-weight: bold;
+    margin: 10px 0 0 0;
+}
+.card-home-title > form{
+    display: inline;
+    margin: 0;
+    margin-left: 10px;
+}
+.card-home-subtitle{
+    padding-left: 15px !important;
+}
+.select-home{
+    padding-top:7px;
+   /*  -webkit-box-shadow: 19px 23px 16px -12px rgba(0,0,0,0.75);
+   -moz-box-shadow: 19px 23px 16px -12px rgba(0,0,0,0.75);
+   box-shadow: 19px 23px 16px -12px rgba(0,0,0,0.75); */
+}
+.select-home>select{
+    padding: 2px 5px;
+    height: 20px;
+    font-size: 0.9em;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
+.kriteria-khusus-box>p{
+    color:#3C4296;
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+.kriteria-pt-box{
+    padding-bottom: 10px;
+}
+.kriteria-pt-box>p{
+    color: #4D4F5C;
+    font-size: 0.875em;
+    margin: 0 0 0 30px;
+    font-weight: bold;
+}
+.kriteria-pt-box>h3{
+    color: #4D4F5C;
+    font-size: 1.25em;
+    margin: 10px 0 20px 30px;
+    font-weight: bold;
+}
+.rangking-ket{
+    padding-top: 20px !important;
+}
+
+.rangking-ket>p{
+    color: #FFF;
+    margin: 0;
+}
+.rangking-ket>h3{
+    margin: 5px 0 10px 0;
+    color: #FFF;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.radar-home{
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 400px;
+}
+.penmaru-box{
+    background:#D2D7D3; 
+    border-radius:5px; 
+    margin-left:-10px;
+    padding: 10px;
+}
+.card-home-right{
+    padding: 0;
+}
+.card-home-right>h1{
+    margin: 0;  
+    font-size: 1.5em;
+}
+
+.tbl-legend-home{
+    width: 100%;
+    font-size: 10px;
+    padding: 0;
+}
+.tbl-legend-home>tbody>tr>td{
+    padding: 0 !important;
+    color: #546E7A;
+}
+.line-txt{
+    width: 50px;
+    height: 1px;
+}
+.sts-apt-line{border: 1px dashed #FF8993;}
+.nil-pt-line{border: 1px solid #90A4AE;}
+
 
 .icons_profil_sdm{
     text-align: right;

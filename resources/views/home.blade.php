@@ -4,48 +4,265 @@
 
 <script src="{{ asset("js/chart.js") }}" type="text/javascript"></script>
 <script src="{{ asset("js/Utils.js") }}" type="text/javascript"></script>
-<div class="container container-main" style="padding-top:20px;">
+<div class="container container-main container-home" style="padding-top:10px;">
 	<div class="row">
-		<div class="col-xs-7">
-			<div class="panel panel-main" style="margin-bottom:0;">
-                <div class="panel-heading">
-                     IAPT vs IAPS
-                </div>
-                <!-- /.panel-heading -->
-                <div class="panel-body">
-                    @include('widgets.charts.linechart_home', array('data' => $line))
-                </div>
-                <!-- /.panel-body -->
-            </div>
+		<div class="col-xs-9">
+			<div class="row main-dash">
+				<div class="col-xs-5">
+					<div class="card">
+						<div class="row" style="">
+							<div class="col-xs-3" style="padding-right:0;">
+								<img src="{{ asset("imgs/stikom.jpg") }}" alt="Stikom" class="img-responsive img-card">
+							</div>
+							<div class="col-xs-9" >
+								<h3 class="txt_card_title">Institut Bisnis dan Informatika Stikom Surabaya</h3>
+								<p class="txt_card_subtitle">Jl. Raya Kedung Baruk No.98 <br>(031) 8721731</p>
+							</div>
+						</div>
+						<div class="row" style="padding-top:0;padding-bottom:12px;">
+							<div class="col-xs-12 card_gradient">
+								@php
+									$chart = array( 'value' => 3, 'skor'=> 234, 'type' => 2 );
+								@endphp
+								<div class="row">
+									<div class="col-xs-6">
+										@include('widgets.charts.gauge_home', $chart)
+									</div>
+									<div class="col-xs-6 rangking-ket">
+										<p>Status</p>
+										<h3>Baik Sekali</h3>
+										<p>Nilai Saat ini</p>
+										<h3>328</h3>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-7">
+					<div class="card">
+						<div class="row">
+							<div class="col-xs-1 card-home-icon">
+								<img src="{{ asset("imgs/chart.svg") }}" alt="chart">
+							</div>
+							<div class="col-xs-8 card-home-title">
+								<h2>Nilai Perguruan Tinggi</h2> 
+								<form class="form-inline">
+									<div class="form-group select-home">
+										<select class="form-control" >
+											<option value="">2010</option>
+											<option value="">2011</option>
+											<option value="">2012</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label> - </label>
+									</div>
+									<div class="form-group select-home">
+										<select class="form-control" >
+											<option value="">2010</option>
+											<option value="">2011</option>
+											<option value="">2012</option>
+										</select>
+									</div>
+								</form>
+							</div>
+							<div class="col-xs-3">
+								<table class="tbl-legend-home" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><div class="line-txt sts-apt-line"></div></td>
+										<td>Status APT</td>
+									</tr>
+									<tr>
+										<td><div class="line-txt nil-pt-line"></div></td>
+										<td>Nilai PT</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+						<div class="row" style="padding-top:0;">
+							<div class="col-xs-12">
+								@include('widgets.charts.linechart_home', array('data' => $line))
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row  main-dash">
+				<div class="col-xs-5">
+					<div class="card">
+						<div class="row" style="padding-bottom:0">
+							<div class="col-xs-1 card-home-icon">
+								<img src="{{ asset("imgs/copy.svg") }}" alt="chart">
+							</div>
+							<div class="col-xs-9 card-home-title">
+								<h2>Kriteria Khusus Unggul</h2> 
+							</div>
+							<div class="col-xs-2"></div>
+						</div>
+						<div class="row" style="padding-top:0">
+							<div class="col-xs-12 kriteria-khusus-box">
+							@php
+								$kriteria_khusus = [
+									["Skor Akreditasi Program Studi", 1.78],
+									["Skor Jurnal", 3.50],
+									["Presnetasi Visiting Lectures", 3.01],
+									["Kerjasama Internasional Pendidikan", 2.46],
+									["Skor Produktifitas Pendidikan", 2.86],
+								];
+							@endphp
+							@foreach($kriteria_khusus as $kk => $row)
+								<p>{{$row[0]}} 
+									<span class="pull-right"><strong>{{$row[1]}}</strong> /4.00</span></p>
+	                    		@include('widgets.progress', array('class'=>'pg_info', 'value'=>$row[1]*100/4))
+							@endforeach
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-7">
+					<div class="card">
+						<div class="row">
+							<div class="col-xs-1 card-home-icon">
+								<img src="{{ asset("imgs/copy.svg") }}" alt="chart">
+							</div>
+							<div class="col-xs-9 card-home-title">
+								<h2>Kriteria Perguruan Tinggi</h2>
+							</div>
+							<div class="col-xs-2"></div>
+							<div class=" col-xs-11 card-home-subtitle">
+								<p class="txt_card_subtitle">2018/2019</p>
+							</div>
+						</div>
+						<div class="row" style="padding-top:0;">
+							<div class="col-xs-4 kriteria-pt-box">
+								<p>Luaran</p>
+								<h3>2.87</h3>
+								<p>Luaran</p>
+								<h3>2.87</h3>
+								<p>Luaran</p>
+								<h3>2.87</h3>
+							</div>
+							<div class="radar-home">
+	                    		@include('widgets.charts.radarchart', array('class'=>'pg_info', 'value'=>$row[1]*100/4))
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="col-xs-5" style="padding:0 110px;">
-			<style>
-				.txt-main{
-					font-size: 2em;
-					margin-bottom: 20px;
-				}
-			</style>
-			@include('widgets.charts.gauge', array('tittle' => 'Akumulasi Nilai Total', 'skor'=> 2.7, 'type' => 1, 'subtittle' => 'skor saat ini' ))
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-xs-offset-10 col-xs-2">
-			<div class="form-group">
-				<select name="" id="" class="form-control">
-					<option value="IAPT">IAPT</option>
-					<option value="IAPS">IAPS</option>
-				</select>
+		<div class="col-xs-3" >
+			<div class="row main-dash penmaru-box">
+				<div class="col-xs-12">
+					<div class="card" style="">
+						<div class="row" style="padding:10px 10px 0 10px;">
+							<div class="col-xs-1 card-home-icon">
+								<img src="{{ asset("imgs/person.svg") }}" alt="chart">
+							</div>
+							<div class="col-xs-9 card-home-title">
+								<h2>Pendaftar</h2>
+							</div>
+							<div class="col-xs-1 card-home-right">
+								<h1>840</h1>
+							</div>
+							<div class="col-xs-9 card-home-subtitle">
+								<p class="txt_card_subtitle">2018/2019</p>
+							</div>
+							<div class="col-xs-1 text-right card-home-right">
+								<p class="txt_card_subtitle">Pendafar</p>
+							</div>
+						</div>
+						<div class="row" style="padding-top:0;">
+							<div class="col-xs-12">
+								@php
+									$mix = array(
+												'sekarang' => ['2019',array(
+																	'Jan' => 200,
+																	'Feb' => 250,
+																	'Mar' => 300,
+																	'Apr' => 350,
+																	'Mei' => 380,
+																	'Jun' => 400,
+																	)],
+												'lalu'		=> ['2018', array(
+																	'Jan' => 180,
+																	'Feb' => 250,
+																	'Mar' => 250,
+																	'Apr' => 340,
+																	'Mei' => 370,
+																	'Jun' => 390,
+																	) ]
+												);
+								
+								@endphp
+								@include('widgets.charts.mixchart', array('data' => $mix))
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-12">
+					<div class="card" style="margin-bottom">
+						<div class="row" style="padding:10px 10px 0 10px;">
+							<div class="col-xs-1 card-home-icon">
+								<img src="{{ asset("imgs/person.svg") }}" alt="chart">
+							</div>
+							<div class="col-xs-9 card-home-title">
+								<h2>Registrasi</h2>
+							</div>
+							<div class="col-xs-1 card-home-right">
+								<h1>473</h1>
+							</div>
+							<div class="col-xs-9 card-home-subtitle">
+								<p class="txt_card_subtitle">2018/2019</p>
+							</div>
+							<div class="col-xs-1 text-right card-home-right">
+								<p class="txt_card_subtitle">Register</p>
+							</div>
+						</div>
+						<div class="row" style="padding-top:0;">
+							<div class="col-xs-12">
+								@php
+									$regis = array(
+												'sekarang' => ['2019',array(
+																	'SI' => 410,
+																	'TK' => 400,
+																	'DKV' => 396,
+																	'Dispro' => 200,
+																	'Profiti' => 240,
+																	'Ak' => 290,
+																	'MJN' => 299,
+																	'D3 SI' => 350,
+																	'D3 Ap' => 200,
+																	)],
+												'lalu'		=> ['2018', array(
+																	'SI' => 400,
+																	'TK' => 390,
+																	'DKV' => 386,
+																	'Dispro' => 190,
+																	'Profiti' => 230,
+																	'Ak' => 280,
+																	'MJN' => 289,
+																	'D3 SI' => 340,
+																	'D3 Ap' => 190,
+																	) ]
+												);
+								
+								@endphp
+								@include('widgets.charts.barhorizontalchart', array('data' => $regis))
+							
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
-
 	<div class="row">
-		@foreach($data_profil as $key => $value)
-		<div class="col-xs-1" style="width:19.666%; padding:0;">
-			@include('widgets.card_home', $value)
-		</div>
-		@endforeach
-		
+		<div class="col-xs-6"></div>
+		<div class="col-xs-4"></div>
+		<div class="col-xs-2"></div>
 	</div>
-</div>
+	
 @stop
