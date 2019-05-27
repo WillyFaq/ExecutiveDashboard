@@ -41,16 +41,21 @@ class Karyawan extends Model
 
     public function scopeWhereIsDosen($query)
     {
-        return $query->where('kary_type', 'LIKE', '%D%');
+        return $query->where(function ($query_) {
+            return $query_->where('kary_type', 'LIKE', '%D%')
+                ->orWhere('kary_type', 'LIKE', 'LB');
+        });
     }
 
     public function scopeWhereIsDosenTetap($query)
     {
-        return $query->where('kary_type', 'TD');
+        return $query->where('kary_type', 'TD')
+            ->where('kary_type', '!=', 'LB');
     }
 
     public function scopeWhereIsDosenTidakTetap($query)
     {
-        return $query->whereIsDosen()->where('kary_type', '!=', 'TD');
+        return $query->whereIsDosen()
+            ->where('kary_type', '!=', 'TD');
     }
 }
