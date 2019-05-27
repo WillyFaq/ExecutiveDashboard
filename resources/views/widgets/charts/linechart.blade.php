@@ -30,7 +30,8 @@
 							echo "$v,";
 						}
 						echo "],";
-						echo "yAxisID: 'y-axis-1',";
+						echo "yAxisID: 'y-axis-1',\n";
+						echo "\tlineTension: 0,\n";
 						echo "}";
 					}else{
 						$data = [];
@@ -52,6 +53,7 @@
 							}
 							echo "\t],\n";
 							echo "\tyAxisID: 'y-axis-1',\n";
+							echo "\tlineTension: 0,\n";
 							echo "},";
 							$i++;
 						}

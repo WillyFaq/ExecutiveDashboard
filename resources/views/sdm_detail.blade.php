@@ -15,6 +15,10 @@
 			-webkit-user-select: none;
 			-ms-user-select: none;
 		}
+
+		.flex-wrapper{
+			padding:0 60px !important;
+		}
 	</style>
 
 	<script src="{{ asset("js/chart.js") }}" type="text/javascript"></script>

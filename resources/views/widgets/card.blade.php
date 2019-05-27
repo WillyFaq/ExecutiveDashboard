@@ -8,49 +8,35 @@
 					@include('icons.'.$icon['name'], $icon['icon_arr'])
 				</div>
 			</div>
-			<div class="col-xs-6" style="min-height:110px">
+			<div class="col-xs-6 chat-area-box" >
 				@include('widgets.charts.gauge', $chart)
 			</div>
 			<div class="col-xs-6" style="padding:0px;">
-				<table class="table tbl-ket-card">
+				<table class="table tbl-sdm-porfil">
 					<tbody>
+						@php
+							if($skor>3){
+								$class = "pg_success";
+							}else if($skor<=3 && $skor>=2){
+								$class = "pg_warning";
+							}else{
+								$class = "pg_danger";
+							}
+						@endphp
 						@foreach($data as $row => $v)
 						<tr>
-							<th>{{$row}}</th>
-							<td>: <strong>{{$v}}</strong></td>
+							<th colspan="2">{{$row}}</th>
+						</tr>
+						<tr>
+							<td width="65%">
+	                    		@include('widgets.progress', array('class'=>$class, 'striped'=>true, 'value'=>$v[0]))
+							</td>
+							<th style="padding-left:10px;"><span>{{$v[1]}}</span> {{{ ($row=='Skor')?"/4":(($row=='Kondisi Saat Ini')?"%":"") }}}</th>
 						</tr>
 						@endforeach
 					</tbody>
 				</table>
 			</div>
-			@php
-				if(isset($legend)){
-			@endphp
-			<div class="col-xs-12">
-				<div class="row legend-chart-box">
-					<div class="col-xs-4">
-						<dl class="dl-horizontal legend-chart">
-						  	<dt><span class="dot d_green"></span></dt>
-						  	<dd>{{$legend['green']}}</dd>
-						</dl>
-					</div>
-					<div class="col-xs-4">
-						<dl class="dl-horizontal legend-chart">
-						  	<dt><span class="dot d_yellow"></span></dt>
-						  	<dd>{{$legend['yellow']}}</dd>
-						</dl>
-					</div>
-					<div class="col-xs-4">
-						<dl class="dl-horizontal legend-chart">
-						  	<dt><span class="dot d_red"></span></dt>
-						  	<dd>{{$legend['red']}}</dd>
-						</dl>
-					</div>
-				</div>
-			</div>
-			@php
-				}
-			@endphp
 		</div>
 	</a>
 </div>
