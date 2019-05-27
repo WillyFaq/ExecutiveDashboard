@@ -2,10 +2,11 @@
 	.flex-wrapper {
 	  display: flex;
 	  flex-flow: row nowrap;
+		padding: 20px 20px 20px 50px;
 	}
 
 	.single-chart {
-	  width: 100%;
+	  width: 90%;
 	  margin: 0 auto;
 	  justify-content: space-around ;
 	}
@@ -100,13 +101,7 @@
 	<div class="flex-wrapper">
 		<div class="single-chart">
 			@php
-				if($skor>3){
-					$class = 'green';
-				}else if($skor <=3 && $skor >= 2){
-					$class = 'yellow';
-				}else{
-					$class = 'red';
-				}
+				$class = 'blue';
 				$value = ($skor*100/4) - 15;
 			@endphp
 		    <svg viewBox="2 2 32 32" class="circular-chart {{$class}}">

@@ -15,7 +15,7 @@
                 <a class="navbar-brand" href="{{ url ('') }}">
                     <img src="{{ asset("imgs/logo_stikom_warna.png") }}" alt="Stikom" class="img-web">
                 </a>
-                <p class="brand-text">@yield('page_heading')</p>
+                <!-- <p class="brand-text">@yield('page_heading')</p> -->
             </div>
             <!-- /.navbar-header -->
 
@@ -29,11 +29,12 @@
                     </a>
                     
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        <!-- <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
                         </li>
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                        </li>
+                        </li> 
                         <li class="divider"></li>
+                        -->
                         <li><a href="{{ url ('login') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
@@ -42,31 +43,6 @@
             </ul>
             <!-- /.navbar-top-links -->
 
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li class="sidebar-search">
-                        </li>
-                        <li>
-                            <a {{ (Request::is('/') ? 'class=active' : '') }} href="{{ url ('/') }}"><i class="fa fa-bar-chart-o fa-2x fa-fw"></i> Dashboard</a>
-                        </li>
-                        <li >
-                            <a href="{{ url ('mahasiswa') }}"><i class="fa fa-graduation-cap fa-2x fa-fw"></i> Mahasiswa</a>
-                        </li>
-                        <li >
-                            <a {{ (Request::is('*sdm') || Request::is('*sdm/*') ? 'class=active' : '') }} href="{{ url ('sdm') }}"><i class="fa fa-briefcase fa-fw"></i> SDM</a>
-                        </li>
-                        <li >
-                            <a {{ (Request::is('*penelitian') || Request::is('*penelitian/*') ? 'class=active' : '') }} href="{{ url ('penelitian') }}">&nbsp;<i class="fa fa-file-text"></i>&nbsp;  Penelitian</a>
-                        </li>
-                        <li >
-                            <a href="{{ url ('inovasi') }}"><i class="fa fa-pencil fa-fw"></i> Inovasi</a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- /.sidebar-collapse -->
-            </div>
-            <!-- /.navbar-static-side -->
         </nav>
 
         <div id="page-wrapper">

@@ -9,30 +9,15 @@ class HomeController extends Controller
 
     public function index(){
 
- 		$indikator_sdm = [
-							array('inidkator' => 'DTPS', 'value' => 2.5 ),
-							array('inidkator' => 'DTPS S3', 'value' => 3.7 ),
-							array('inidkator' => 'LKGB', 'value' => 3.5 ),
-							array('inidkator' => 'PSPP', 'value' => 2.56 ),
-							array('inidkator' => 'DTT', 'value' => 2.5 ),
-							array('inidkator' => 'Rasio antara dosen & mahasiswa', 'value' => 1.2 ),
-							array('inidkator' => 'Dosen pembimbing utama', 'value' => 1.5 ),
-							array('inidkator' => 'Kinerja Dosen', 'value' => 2.9 ),
-							array('inidkator' => 'Pengakuan kinerja Dosen', 'value' => 3.6 ),
-							array('inidkator' => 'Publikasi jurnal', 'value' => 1.67 ),
-							array('inidkator' => 'Seminar/Tulisan di media masa', 'value' => 2.9 ),
-							array('inidkator' => 'Sitasi Dosen', 'value' => 4 ),
-							array('inidkator' => 'Luaran', 'value' => 2.5 )
-						];
 		$line = array(
-			'2011' => array("IAPT" => 2.0, "IAPS" => 2.3),
-			'2012' => array("IAPT" => 2.1, "IAPS" => 2.4),
-			'2013' => array("IAPT" => 2.2, "IAPS" => 2.5),
-			'2014' => array("IAPT" => 2.3, "IAPS" => 2.7),
-			'2015' => array("IAPT" => 2.7, "IAPS" => 2.6),
-			'2016' => array("IAPT" => 2.1, "IAPS" => 2.8),
-			'2017' => array("IAPT" => 3.6, "IAPS" => 3.7),
-			'2018' => array("IAPT" => 3.7, "IAPS" => 3.8),
+			'2011' => 320,
+			'2012' => 340,
+			'2013' => 320,
+			'2014' => 320,
+			'2015' => 320,
+			'2016' => 330,
+			'2017' => 320,
+			'2018' => 350,
 			);
 
 		$data_profil = [];
@@ -45,8 +30,7 @@ class HomeController extends Controller
     				'skor' 		=> $nilai, 
 					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
 					'icon' 		=> array('name' => 'grad', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-    				'data' 		=> array("skor"=>$nilai." / 4", "Rasio"=>"60%", "# Dosen"=>40, "# Dosen Tetap"=>12),
-    				'legend' 	=> array('green' => 'Bagus (DTPS &#8805; 12)', 'yellow' => 'Menegah (DTPS 	&#60; 12) (DTPS &#62; 6)', 'red' => 'Kurang dari 2' )
+                    'prog'      => 1
     			)
     		);
     		$nilai = 3.7;
@@ -57,8 +41,7 @@ class HomeController extends Controller
     				'skor' 		=> $nilai, 
 					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
 					'icon' 		=> array('name' => 'gradbook', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-					'data' 		=> array('Skor' => $nilai.' / 4', '# Dosen ' => 40, '# Dosen' => 40, '# Dosen S3' => 20 ),
-					'legend' 	=> array('green' => 'Bagus (PS &#8805; 50%)', 'yellow' => 'Menegah (PS &#60; 50%)', 'red' => 'Kurang dari 2' )
+                    'prog'      => 0
     			)
     		);
     		$nilai = 3.5;
@@ -69,8 +52,7 @@ class HomeController extends Controller
     				'skor' 		=> $nilai, 
 					'chart'		=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
 					'icon'		=> array('name' => 'quality', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-					'data'		=> array('Skor' => $nilai.' / 4', '# Dosen ' => 40, '# Dosen' => 40, '# Lektor' => 10, '# Guru Besar' => 10 ),
-					'legend'	=> array('green' => 'Bagus (PS &#8805; 50%)', 'yellow' => 'Menegah (PS &#60; 50%)', 'red' => 'Kurang dari 2' )
+                    'prog'      => 1
 				)
     		);
     		$nilai = 3.5;
@@ -81,8 +63,7 @@ class HomeController extends Controller
     				'skor' 		=> $nilai, 
 					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
 					'icon' 		=> array('name' => 'certificate', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-					'data' 		=> array('Skor' => $nilai.' / 4', '# Dosen ' => 40, '# Dosen' => 40, '# PSPP' => 36 ),
-					'legend' 	=> array('green' => 'Bagus (PS &#8805; 50%)', 'yellow' => 'Menegah (PS &#60; 50%)', 'red' => 'Kurang dari 2' )
+                    'prog'      => 1
 				)
     		);
     		$nilai = 3.6;
@@ -93,8 +74,7 @@ class HomeController extends Controller
     				'skor' 		=> $nilai, 
 					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
 					'icon' 		=> array('name' => 'graduate', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-					'data' 		=> array('Skor' => $nilai.' / 4', '# Dosen ' => 40, '# Dosen' => 40, '# Dosen S3' => 36 ),
-					'legend' 	=> array('green' => 'Bagus (PS &#8805; 50%)', 'yellow' => 'Menegah (PS &#60; 50%)', 'red' => 'Kurang dari 2' )
+                    'prog'      => 1
 				)
     		);
     		$nilai = 1.2;
@@ -105,8 +85,7 @@ class HomeController extends Controller
     				'skor' 		=> $nilai, 
 					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
 					'icon' 		=> array('name' => 'feedback', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-					'data' 		=> array('Skor' => $nilai.' / 4', '# Dosen ' => 40, '# Dosen' => 40, '# PDTT' => 20 ),
-					'legend' 	=> array('green' => 'Bagus (PS &#8805; 50%)', 'yellow' => 'Menegah (PS &#60; 50%)', 'red' => 'Tidak ada Nilai' )
+                    'prog'      => 0
 				)
     		);
 
@@ -118,8 +97,7 @@ class HomeController extends Controller
     				'skor' 		=> $nilai, 
 					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
 					'icon' 		=> array('name' => 'feedback', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-					'data' 		=> array('Skor' => $nilai.' / 4', '# Dosen ' => 40, '# Dosen' => 40, '# PDTT' => 20 ),
-					'legend' 	=> array('green' => 'Bagus (PS &#8805; 50%)', 'yellow' => 'Menegah (PS &#60; 50%)', 'red' => 'Tidak ada Nilai' )
+                    'prog'      => 1
 				)
     		);
 
@@ -131,24 +109,22 @@ class HomeController extends Controller
     				'skor' 		=> $nilai, 
 					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
 					'icon' 		=> array('name' => 'feedback', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-					'data' 		=> array('Skor' => $nilai.' / 4', '# Dosen ' => 40, '# Dosen' => 40, '# PDTT' => 20 ),
-					'legend' 	=> array('green' => 'Bagus (PS &#8805; 50%)', 'yellow' => 'Menegah (PS &#60; 50%)', 'red' => 'Tidak ada Nilai' )
-				)
-    		);
-    		$nilai = 1.2;
-    		array_push($data_profil, 
-    			array(
-    				'title' 	=> "Sumbar Daya Manusia", 
-    				'link' 		=> '/sdm/profil/Dosen Tidak Tetap/'.$nilai,
-    				'skor' 		=> $nilai, 
-					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
-					'icon' 		=> array('name' => 'feedback', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-					'data' 		=> array('Skor' => $nilai.' / 4', '# Dosen ' => 40, '# Dosen' => 40, '# PDTT' => 20 ),
-					'legend' 	=> array('green' => 'Bagus (PS &#8805; 50%)', 'yellow' => 'Menegah (PS &#60; 50%)', 'red' => 'Tidak ada Nilai' )
+                    'prog'      => 1
+                )
+            );
+            $nilai = 1.2;
+            array_push($data_profil, 
+                array(
+                    'title'     => "Sumbar Daya Manusia", 
+                    'link'      => '/sdm/profil/Dosen Tidak Tetap/'.$nilai,
+                    'skor'      => $nilai, 
+                    'chart'     => array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
+                    'icon'      => array('name' => 'feedback', 'icon_arr' => array('width' => 50, 'height' => 50) ),
+                    'prog'      => 0
 				)
     		);
 
-    	return view('home', ['indikator_sdm' => $indikator_sdm, 'line' => $line, 'data_profil' => $data_profil]);
+    	return view('home', ['line' => $line, 'data_profil' => $data_profil]);
     	//return view('home');
     } 
 }

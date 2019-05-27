@@ -21,7 +21,6 @@
 						$col = "txt_color_yellow";
 					}else if($skor<=4){
 						$col = "txt_color_green";
-
 					}
 				@endphp
 				<div class="row">
@@ -29,8 +28,20 @@
 						<h1 class="txt-score {{$col}}">{{ isset($skor)?$skor:'' }}</h1>
 					</div>
 					<div class="col-xs-6" style="padding:10px 0 0 30px;">
-						<if class="fa fa-chevron-up txt_color_green"></if>
-						<if class="fa fa-chevron-down txt_color_grey"></if>
+						@php
+							if($prog==0){
+								$progres_up= "txt_color_grey";
+								$progres_down = "txt_color_red";
+							}else if($prog==1){
+								$progres_up= "txt_color_green";
+								$progres_down= "txt_color_grey";
+							}else{
+								$progres_up= "txt_color_grey";
+								$progres_down= "txt_color_grey";
+							}
+						@endphp
+						<i class="fa fa-chevron-up {{$progres_up}}"></i>
+						<i class="fa fa-chevron-down {{$progres_down}}"></i>
 					</div>
 				</div>
 			</div>
