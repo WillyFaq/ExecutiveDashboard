@@ -17,4 +17,9 @@ class Mahasiswa extends Model
     {
         return $this->belongsTo(Karyawan::class, 'dosen_wl');
     }
+
+    public function histori_kuliah()
+    {
+        return $this->hasMany(HistoriKuliah::class, 'mhs_nim');
+    }
 }
