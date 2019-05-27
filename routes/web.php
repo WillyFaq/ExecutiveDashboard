@@ -15,7 +15,7 @@ Route::get('/', 'HomeController@index');
 
 Route::get('/sdm', 'SdmController@index');
 Route::get('/sdm/profil', 'SdmController@profil');
-Route::get('/sdm/profil/{judul}/{nilai}', 'SdmController@profil');
+Route::get('/sdm/profil/{judul}/{nilai}', 'SdmController@detail');
 Route::get('/sdm/beban_kerja', 'SdmController@beban_kerja');
 Route::get('/sdm/produktivitas', 'SdmController@produktivitas');
 

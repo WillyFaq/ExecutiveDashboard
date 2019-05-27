@@ -26,8 +26,7 @@ class SdmController extends Controller
     	return view('sdm_utama', ['indikator_sdm' => $indikator_sdm]);
     } 
 
-    public function profil($judul="", $nilai=""){
-    	if($judul!='' || $nilai!=""){
+    public function detail($judul="", $nilai=""){
     		$line = array(
     					'2011' => 1.4,
 						'2012' => 1.2,
@@ -72,7 +71,9 @@ class SdmController extends Controller
     				);
     		}
     		return view('sdm_detail', ['judul' => $judul, 'nilai' => $nilai, 'line' => $line, 'bar' => $bar]);
-    	}else{
+		}
+
+		public function profil(){
     		$data_profil = [];
 
     		$nilai = 2.5;
@@ -144,7 +145,6 @@ class SdmController extends Controller
     		$data = array('data' => $data_profil);
     		return view('sdm_profil', ['data_profil' => $data_profil]);
     	}
-    } 
 
     public function beban_kerja(){
     	return view('sdm_beban_kerja');
