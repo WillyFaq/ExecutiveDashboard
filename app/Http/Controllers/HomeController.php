@@ -17,6 +17,18 @@ class HomeController extends Controller
         // DATA NILAI PER TAHUN
         $nilai_tahun_lalu = NilaiBorang::with('materi')
             ->whereBetween('tahun', [$tahun_start, $tahun_end])
+            ->whereHas('materi', function ($query) {
+                return $query
+                    ->where('kd_jns', 1)
+                    ->where('kd_std', '!=', '1810')
+                    ->where(function ($query_) {
+                        return $query_
+                            ->whereLayer(1)
+                            ->orWhere(function ($query__) {
+                                return $query__->whereLayer(0);
+                            });
+                    });
+            })
             ->get()
             ->groupBy('tahun')
             ->map(function ($tahun) {
