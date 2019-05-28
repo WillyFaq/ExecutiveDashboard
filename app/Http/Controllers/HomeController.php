@@ -40,10 +40,24 @@ class HomeController extends Controller
             ->map(function ($nilai_tahun) {
                 return round($nilai_tahun->first()->nilai, 2);
             });
+        // DATA NILAI KRITERIA KHUSUS
+        $nilai_kriteria_khusus = NilaiBorang::where('tahun', $tahun_now)
+            ->whereHas('materi', function ($query) {
+                return $query->whereIsKriteriaKhusus();
+            })
+            ->with('materi')
+            ->get()
+            ->map(function ($nilai_tahun) {
+                return [
+                    $nilai_tahun->materi->nm_std,
+                    round($nilai_tahun->nilai, 2),
+                ];
+            });
 
         return view('home', [
             'line' => $nilai_tahun_lalu->toArray(),
             'data_profil' => $nilai_tahun_ini->toArray(),
+            'kriteria_khusus' => $nilai_kriteria_khusus->toArray(),
         ]);
     }
 }
