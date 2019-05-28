@@ -69,18 +69,16 @@ class HomeController extends Controller
             return round($nilai ? $nilai->nilai : 0, 2);
         });
         // DATA NILAI KRITERIA KHUSUS
-        $nilai_kriteria_khusus = NilaiBorang::where('tahun', $tahun_now)
-            ->whereHas('materi', function ($query) {
-                return $query->whereIsKriteriaKhusus();
-            })
-            ->with('materi')
-            ->get()
-            ->map(function ($nilai_tahun) {
-                return [
-                    $nilai_tahun->materi->nm_std,
-                    round($nilai_tahun->nilai, 2),
-                ];
-            });
+        $nilai_kriteria_khusus = MateriBorang::whereIsKriteriaKhusus()
+        ->with(['nilai' => function ($query) use ($tahun_now) {
+            return $query->where('tahun', $tahun_now);
+        }])
+        ->get()
+        ->map(function ($materi) {
+            $nilai = $materi->nilai->first();
+
+            return [$materi->nm_std, round($nilai ? $nilai->nilai : 0, 2)];
+        });
         // SKOR
         $skor = NilaiBorang::with('materi')
             ->where('tahun', $tahun_now)
