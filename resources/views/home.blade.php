@@ -2,8 +2,8 @@
 @section('page_heading','Dashboard')
 @section('section')
 
-<script src="{{ asset("js/chart.js") }}" type="text/javascript"></script>
-<script src="{{ asset("js/Utils.js") }}" type="text/javascript"></script>
+<script src="{{ asset("js/Chart.js") }}" type="text/javascript"></script>
+<script src="{{ asset("js/utils.js") }}" type="text/javascript"></script>
 <div class="container container-main container-home" style="padding-top:10px;">
 	<div class="row">
 		<div class="col-xs-9">
@@ -12,7 +12,7 @@
 					<div class="card">
 						<div class="row" style="">
 							<div class="col-xs-3" style="padding-right:0;">
-								<img src="{{ asset("imgs/stikom.jpg") }}" alt="Stikom" class="img-responsive img-card">
+								<img src="{{ asset("imgs/logo_stikom_warna.PNG") }}" alt="Stikom" class="img-responsive img-card">
 							</div>
 							<div class="col-xs-9" >
 								<h3 class="txt_card_title">Institut Bisnis dan Informatika Stikom Surabaya</h3>
