@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\NilaiBorang;
+use App\Mahasiswa;
 use Carbon\Carbon;
 
 class HomeController extends Controller
@@ -99,6 +100,23 @@ class HomeController extends Controller
             ->sum(function ($nilai) {
                 return round($nilai->nilai * ($nilai->materi->persen * 100), 2);
             });
+        // MHS REGISTRASI
+        $mhs_registrasi = Mahasiswa::whereBetween(\DB::raw("TO_CHAR(TO_DATE(SUBSTR(nim, 0, 2),'RR'),'YYYY')"), [
+                $tahun_now - 1, $tahun_now,
+            ])
+            ->with('prodi')
+            ->select(['nim', \DB::raw("TO_CHAR(TO_DATE(SUBSTR(nim, 0, 2),'RR'),'YYYY') AS tahun")])
+            ->get()
+            ->groupBy('tahun')
+            ->map(function ($tahun) {
+                return $tahun->groupBy(function ($mahasiswa) {
+                    return $mahasiswa->prodi->alias;
+                })
+                ->map(function ($prodi) {
+                    return $prodi->count();
+                })
+                ->sort();
+            });
 
         return view('home', [
             'skor' => [
@@ -110,6 +128,16 @@ class HomeController extends Controller
             'data_profil' => $nilai_tahun_ini->toArray(),
             'data_profil_0' => $nilai_tahun_ini_layer_0->toArray(),
             'kriteria_khusus' => $nilai_kriteria_khusus->toArray(),
+            'regis' => [
+                'lalu' => [
+                    $tahun_now - 1,
+                    $mhs_registrasi[$tahun_now - 1]->toArray(),
+                ],
+                'sekarang' => [
+                    $tahun_now,
+                    $mhs_registrasi[$tahun_now]->toArray(),
+                ],
+            ],
         ]);
     }
 }
