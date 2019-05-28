@@ -23,13 +23,13 @@
 							<div class="col-xs-12 card_gradient">
 								<div class="row">
 									<div class="col-xs-6">
-										@include('widgets.charts.gauge_home', $chart)
+										@include('widgets.charts.gauge_home', $skor['chart'])
 									</div>
 									<div class="col-xs-6 rangking-ket">
 										<p>Status</p>
-										<h3>Baik Sekali</h3>
+										<h3>{{$skor['status']}}</h3>
 										<p>Nilai Saat ini</p>
-										<h3>328</h3>
+										<h3>{{$skor['nilai']}}</h3>
 									</div>
 								</div>
 							</div>

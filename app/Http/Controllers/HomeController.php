@@ -101,7 +101,11 @@ class HomeController extends Controller
             });
 
         return view('home', [
-            'chart' => ['value' => 3, 'skor' => $skor, 'type' => 2],
+            'skor' => [
+                'chart' => ['value' => 3, 'skor' => 230, 'type' => 2],
+                'status' => 'Baik',
+                'nilai' => $skor,
+            ],
             'line' => $nilai_tahun_lalu->toArray(),
             'data_profil' => $nilai_tahun_ini->toArray(),
             'data_profil_0' => $nilai_tahun_ini_layer_0->toArray(),
