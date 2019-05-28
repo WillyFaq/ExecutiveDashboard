@@ -138,6 +138,7 @@ class HomeController extends Controller
                     $mhs_registrasi[$tahun_now]->toArray(),
                 ],
             ],
+            'periode' => ($tahun_now - 1).'/'.$tahun_now,
         ]);
     }
 }
