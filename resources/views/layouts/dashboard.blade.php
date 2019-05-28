@@ -13,7 +13,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="{{ url ('') }}">
-                    <img src="{{ asset("imgs/logo_stikom_warna.png") }}" alt="Stikom" class="img-web">
+                    <img src="{{ asset("imgs/logo_stikom_warna.PNG") }}" alt="Stikom" class="img-web">
                 </a>
                 <!-- <p class="brand-text">@yield('page_heading')</p> -->
             </div>
