@@ -8,18 +8,24 @@ use Carbon\Carbon;
 
 class HomeController extends Controller
 {
-    public function index(Request $request, $tahun_start = 2016, $tahun_end = 2017)
+    public function index(Request $request)
     {
-        $nilai = NilaiBorang::with('materi')
+        $tahun_now = Carbon::now()->format('Y');
+        // DEFAULT RANGE : TAHUN LALU - 5 s/d TAHUN LALU
+        $tahun_end = $request->input('tahun_end', $tahun_now - 1);
+        $tahun_start = $request->input('tahun_start', $tahun_end - 5);
+        // DATA NILAI PER TAHUN
+        $nilai_tahun_lalu = NilaiBorang::with('materi')
             ->whereBetween('tahun', [$tahun_start, $tahun_end])
             ->get()
             ->groupBy('tahun')
             ->map(function ($tahun) {
                 return $tahun->sum(function ($nilai) {
-                    return $nilai->nilai * ($nilai->materi->persen * 100);
+                    return round($nilai->nilai * ($nilai->materi->persen * 100), 2);
                 });
             });
-        $nilai_tahun = NilaiBorang::where('tahun', Carbon::now()->format('Y'))
+        // DATA NILAI TAHUN INI
+        $nilai_tahun_ini = NilaiBorang::where('tahun', $tahun_now)
             ->whereHas('materi', function ($query) {
                 return $query
                     ->where('kd_jns', 1)
@@ -32,12 +38,12 @@ class HomeController extends Controller
                 return $nilai_tahun->materi->nm_std;
             })
             ->map(function ($nilai_tahun) {
-                return $nilai_tahun->first()->nilai;
+                return round($nilai_tahun->first()->nilai, 2);
             });
 
         return view('home', [
-            'line' => $nilai,
-            'data_profil' => $nilai_tahun->toArray(),
+            'line' => $nilai_tahun_lalu->toArray(),
+            'data_profil' => $nilai_tahun_ini->toArray(),
         ]);
     }
 }
