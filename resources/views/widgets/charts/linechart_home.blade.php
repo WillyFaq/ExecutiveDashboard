@@ -1,5 +1,4 @@
-<canvas height="105px" id="linechart"></canvas >
-
+<canvas height="115px" id="linechart"></canvas >
 <script>
 		var lineChartData = {
 			labels: [
@@ -14,9 +13,9 @@
 				if(isset($line)){
 					echo "{";
 						echo "label: 'Peringkat',";
-						echo "borderColor: '#8EA4AF',";
-						echo "backgroundColor: '#8EA4AF',";
-						echo "borderWidth: 3,";
+						echo "borderColor: '#BE1E2D',";
+						echo "backgroundColor: '#BE1E2D',";
+						echo "borderWidth: 1.5,";
 						echo "fill: false,";
 						echo "data: [";
 						foreach($line as $k => $v){
@@ -32,7 +31,7 @@
 				{
 					label: 'Dashed',
 					fill: false,
-					borderColor: window.chartColors.red,
+					borderColor: '#FE8C00',
 					borderWidth: 1,
 					borderDash: [5, 5, 5],
 					data: [
@@ -48,7 +47,7 @@
 				{
 					label: 'Dashed',
 					fill: false,
-					borderColor: window.chartColors.red,
+					borderColor: '#FE8C00',
 					borderWidth: 1,
 					borderDash: [5, 5, 5],
 					data: [
@@ -64,7 +63,7 @@
 				{
 					label: 'Dashed',
 					fill: false,
-					borderColor: window.chartColors.red,
+					borderColor: '#FE8C00',
 					borderWidth: 1,
 					borderDash: [5, 5, 5],
 					data: [
