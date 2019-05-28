@@ -11,7 +11,7 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        $tahun_now = Carbon::now()->format('Y');
+        $tahun_now = $request->input('tahun', Carbon::now()->format('Y'));
         // DEFAULT RANGE : TAHUN LALU - 5 s/d TAHUN LALU
         $tahun_end = $request->input('tahun_end', $tahun_now - 1);
         $tahun_start = $request->input('tahun_start', $tahun_end - 5);
@@ -136,6 +136,7 @@ class HomeController extends Controller
                     $tahun_now,
                     $mhs_registrasi_sekarang->toArray(),
                 ],
+                'total' => $mhs_registrasi_sekarang->flatten()->sum(),
             ],
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
         ]);
