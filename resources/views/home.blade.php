@@ -120,7 +120,7 @@
 							</div>
 							<div class="col-xs-2"></div>
 							<div class=" col-xs-11 card-home-subtitle">
-								<p class="txt_card_subtitle">2018/2019</p>
+								<p class="txt_card_subtitle">{{$periode}}</p>
 							</div>
 						</div>
 						<div class="row" style="padding-top:0;">
@@ -153,7 +153,7 @@
 								<h1>840</h1>
 							</div>
 							<div class="col-xs-9 card-home-subtitle">
-								<p class="txt_card_subtitle">2018/2019</p>
+								<p class="txt_card_subtitle">{{$periode}}</p>
 							</div>
 							<div class="col-xs-1 text-right card-home-right">
 								<p class="txt_card_subtitle">Pendafar</p>
@@ -201,7 +201,7 @@
 								<h1>473</h1>
 							</div>
 							<div class="col-xs-9 card-home-subtitle">
-								<p class="txt_card_subtitle">2018/2019</p>
+								<p class="txt_card_subtitle">{{$periode}}</p>
 							</div>
 							<div class="col-xs-1 text-right card-home-right">
 								<p class="txt_card_subtitle">Register</p>
