@@ -128,12 +128,10 @@
 						</div>
 						<div class="row" style="padding-top:0;">
 							<div class="col-xs-4 kriteria-pt-box">
-								<p>Luaran</p>
-								<h3>2.87</h3>
-								<p>Luaran</p>
-								<h3>2.87</h3>
-								<p>Luaran</p>
-								<h3>2.87</h3>
+								@foreach($data_profil_0 as $nama => $nilai)
+									<p>{{$nama}}</p>
+									<h3>{{$nilai}}</h3>
+								@endforeach
 							</div>
 							<div class="radar-home">
 	                    		@include('widgets.charts.radarchart', array('class'=>'pg_info', 'value'=>$row[1]*100/4))
