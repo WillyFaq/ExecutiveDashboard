@@ -21,9 +21,6 @@
 						</div>
 						<div class="row" style="padding-top:0;padding-bottom:12px;">
 							<div class="col-xs-12 card_gradient">
-								@php
-									$chart = array( 'value' => 3, 'skor'=> 234, 'type' => 2 );
-								@endphp
 								<div class="row">
 									<div class="col-xs-6">
 										@include('widgets.charts.gauge_home', $chart)
@@ -103,15 +100,6 @@
 						</div>
 						<div class="row" style="padding-top:0">
 							<div class="col-xs-12 kriteria-khusus-box">
-							@php
-								$kriteria_khusus = [
-									["Skor Akreditasi Program Studi", 1.78],
-									["Skor Jurnal", 3.50],
-									["Presnetasi Visiting Lectures", 3.01],
-									["Kerjasama Internasional Pendidikan", 2.46],
-									["Skor Produktifitas Pendidikan", 2.86],
-								];
-							@endphp
 							@foreach($kriteria_khusus as $kk => $row)
 								<p>{{$row[0]}} 
 									<span class="pull-right"><strong>{{$row[1]}}</strong> /4.00</span></p>
@@ -137,15 +125,13 @@
 						</div>
 						<div class="row" style="padding-top:0;">
 							<div class="col-xs-4 kriteria-pt-box">
-								<p>Luaran</p>
-								<h3>2.87</h3>
-								<p>Luaran</p>
-								<h3>2.87</h3>
-								<p>Luaran</p>
-								<h3>2.87</h3>
+								@foreach($data_profil_0 as $nama => $nilai)
+									<p>{{$nama}}</p>
+									<h3>{{$nilai}}</h3>
+								@endforeach
 							</div>
 							<div class="radar-home">
-	                    		@include('widgets.charts.radarchart', array('class'=>'pg_info', 'value'=>$row[1]*100/4))
+	                    		@include('widgets.charts.radarchart', array('class'=>'pg_info'))
 							</div>
 						</div>
 					</div>

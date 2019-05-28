@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class NilaiBorang extends Model
 {
     protected $table = 'nilai_borang';
+
+    public function materi()
+    {
+        return $this->belongsTo(MateriBorang::class, 'kd_std');
+    }
 }

@@ -26,14 +26,36 @@ class Karyawan extends Model
                 'nup',
                 \DB::Raw('nama_plus_gelar(v_karyawan.nik) AS NAMA'),
             ])
-            ->join('v_email_kar', 'v_karyawan.nik', 'v_email_kar.nik')
+            ->leftJoin('v_email_kar', 'v_karyawan.nik', 'v_email_kar.nik')
             ->addSelect([
                 'v_email_kar.email',
-            ]);
+            ])
+            ->leftJoin('v_prodiewmp', 'v_karyawan.nik', 'v_prodiewmp.nik')
+            ->addSelect(['v_prodiewmp.prodi']);
+    }
+
+    public function scopeWhereIsAktif($query)
+    {
+        return $query->where('status', 'A');
     }
 
     public function scopeWhereIsDosen($query)
     {
-        return $query->where('kary_type', 'LIKE', '%D%');
+        return $query->where(function ($query_) {
+            return $query_->where('kary_type', 'LIKE', '%D%')
+                ->orWhere('kary_type', 'LIKE', 'LB');
+        });
+    }
+
+    public function scopeWhereIsDosenTetap($query)
+    {
+        return $query->where('kary_type', 'TD')
+            ->where('kary_type', '!=', 'LB');
+    }
+
+    public function scopeWhereIsDosenTidakTetap($query)
+    {
+        return $query->whereIsDosen()
+            ->where('kary_type', '!=', 'TD');
     }
 }

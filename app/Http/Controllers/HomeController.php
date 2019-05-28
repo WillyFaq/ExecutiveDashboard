@@ -3,128 +3,109 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\NilaiBorang;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
+    public function index(Request $request)
+    {
+        $tahun_now = Carbon::now()->format('Y');
+        // DEFAULT RANGE : TAHUN LALU - 5 s/d TAHUN LALU
+        $tahun_end = $request->input('tahun_end', $tahun_now - 1);
+        $tahun_start = $request->input('tahun_start', $tahun_end - 5);
+        // DATA NILAI PER TAHUN
+        $nilai_tahun_lalu = NilaiBorang::with('materi')
+            ->whereBetween('tahun', [$tahun_start, $tahun_end])
+            ->whereHas('materi', function ($query) {
+                return $query
+                    ->where('kd_jns', 1)
+                    ->where('kd_std', '!=', '1810')
+                    ->where(function ($query_) {
+                        return $query_
+                            ->whereLayer(1)
+                            ->orWhere(function ($query__) {
+                                return $query__->whereLayer(0);
+                            });
+                    });
+            })
+            ->get()
+            ->groupBy('tahun')
+            ->map(function ($tahun) {
+                return $tahun->sum(function ($nilai) {
+                    return round($nilai->nilai * ($nilai->materi->persen * 100), 2);
+                });
+            });
+        // DATA NILAI TAHUN INI
+        $nilai_tahun_ini = NilaiBorang::where('tahun', $tahun_now)
+            ->whereHas('materi', function ($query) {
+                return $query
+                    ->where('kd_jns', 1)
+                    ->whereLayer(1)
+                    ->where('kd_std', '!=', '1810');
+            })
+            ->with('materi')
+            ->get()
+            ->groupBy(function ($nilai_tahun) {
+                return $nilai_tahun->materi->nm_std;
+            })
+            ->map(function ($nilai_tahun) {
+                return round($nilai_tahun->first()->nilai, 2);
+            });
+        // DATA NILAI TAHUN INI - LAYER 0
+        $nilai_tahun_ini_layer_0 = NilaiBorang::where('tahun', $tahun_now)
+            ->whereHas('materi', function ($query) {
+                return $query
+                    ->where('kd_jns', 1)
+                    ->whereLayer(0);
+            })
+            ->with('materi')
+            ->get()
+            ->groupBy(function ($nilai_tahun) {
+                return $nilai_tahun->materi->nm_std;
+            })
+            ->map(function ($nilai_tahun) {
+                return round($nilai_tahun->first()->nilai, 2);
+            });
+        // DATA NILAI KRITERIA KHUSUS
+        $nilai_kriteria_khusus = NilaiBorang::where('tahun', $tahun_now)
+            ->whereHas('materi', function ($query) {
+                return $query->whereIsKriteriaKhusus();
+            })
+            ->with('materi')
+            ->get()
+            ->map(function ($nilai_tahun) {
+                return [
+                    $nilai_tahun->materi->nm_std,
+                    round($nilai_tahun->nilai, 2),
+                ];
+            });
+        // SKOR
+        $skor = NilaiBorang::with('materi')
+            ->where('tahun', $tahun_now)
+            ->whereHas('materi', function ($query) {
+                return $query
+                    ->where('kd_jns', 1)
+                    ->where('kd_std', '!=', '1810')
+                    ->where(function ($query_) {
+                        return $query_
+                            ->whereLayer(1)
+                            ->orWhere(function ($query__) {
+                                return $query__->whereLayer(0);
+                            });
+                    });
+            })
+            ->get()
+            ->sum(function ($nilai) {
+                return round($nilai->nilai * ($nilai->materi->persen * 100), 2);
+            });
 
-    public function index(){
-
-		$line = array(
-			'2011' => 320,
-			'2012' => 340,
-			'2013' => 320,
-			'2014' => 320,
-			'2015' => 320,
-			'2016' => 330,
-			'2017' => 320,
-			'2018' => 350,
-			);
-
-		$data_profil = [];
-
-    		$nilai = 2.5;
-    		array_push($data_profil, 
-    			array(
-    				'title' 	=> "Sumber Daya Manusia", 
-    				'link' 		=> '/sdm/profil/Dosen Tetap/'.$nilai,
-    				'skor' 		=> $nilai, 
-					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
-					'icon' 		=> array('name' => 'grad', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-                    'prog'      => 1
-    			)
-    		);
-    		$nilai = 3.7;
-    		array_push($data_profil, 
-    			array(
-    				'title' 	=> "Lembaga", 
-    				'link' 		=> '/sdm/profil/Dosen Tetap/'.$nilai,
-    				'skor' 		=> $nilai, 
-					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
-					'icon' 		=> array('name' => 'gradbook', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-                    'prog'      => 0
-    			)
-    		);
-    		$nilai = 3.5;
-    		array_push($data_profil, 
-    			array(
-    				'title' 	=> "Kemahasiswaan", 
-    				'link' 		=> '/sdm/profil/Lektor &#38; Guru besar/'.$nilai,
-    				'skor' 		=> $nilai, 
-					'chart'		=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
-					'icon'		=> array('name' => 'quality', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-                    'prog'      => 1
-				)
-    		);
-    		$nilai = 3.5;
-    		array_push($data_profil, 
-    			array(
-    				'title' 	=> "LITABMAS", 
-    				'link' 		=> '/sdm/profil/Sertifikasi Dosen/'.$nilai,
-    				'skor' 		=> $nilai, 
-					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
-					'icon' 		=> array('name' => 'certificate', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-                    'prog'      => 1
-				)
-    		);
-    		$nilai = 3.6;
-    		array_push($data_profil, 
-    			array(
-    				'title' 	=> "Inovasi", 
-    				'link' 		=> '/sdm/profil/Rasio Mahasiswa &#38; Dosen/'.$nilai,
-    				'skor' 		=> $nilai, 
-					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
-					'icon' 		=> array('name' => 'graduate', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-                    'prog'      => 1
-				)
-    		);
-    		$nilai = 1.2;
-    		array_push($data_profil, 
-    			array(
-    				'title' 	=> "Keuangan", 
-    				'link' 		=> '/sdm/profil/Dosen Tidak Tetap/'.$nilai,
-    				'skor' 		=> $nilai, 
-					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
-					'icon' 		=> array('name' => 'feedback', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-                    'prog'      => 0
-				)
-    		);
-
-    		$nilai = 1.2;
-    		array_push($data_profil, 
-    			array(
-    				'title' 	=> "Sumbar Daya Manusia", 
-    				'link' 		=> '/sdm/profil/Dosen Tidak Tetap/'.$nilai,
-    				'skor' 		=> $nilai, 
-					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
-					'icon' 		=> array('name' => 'feedback', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-                    'prog'      => 1
-				)
-    		);
-
-    		$nilai = 1.2;
-    		array_push($data_profil, 
-    			array(
-    				'title' 	=> "Sumbar Daya Manusia", 
-    				'link' 		=> '/sdm/profil/Dosen Tidak Tetap/'.$nilai,
-    				'skor' 		=> $nilai, 
-					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
-					'icon' 		=> array('name' => 'feedback', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-                    'prog'      => 1
-                )
-            );
-            $nilai = 1.2;
-            array_push($data_profil, 
-                array(
-                    'title'     => "Sumbar Daya Manusia", 
-                    'link'      => '/sdm/profil/Dosen Tidak Tetap/'.$nilai,
-                    'skor'      => $nilai, 
-                    'chart'     => array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
-                    'icon'      => array('name' => 'feedback', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-                    'prog'      => 0
-				)
-    		);
-
-    	return view('home', ['line' => $line, 'data_profil' => $data_profil]);
-    	//return view('home');
-    } 
+        return view('home', [
+            'chart' => ['value' => 3, 'skor' => $skor, 'type' => 2],
+            'line' => $nilai_tahun_lalu->toArray(),
+            'data_profil' => $nilai_tahun_ini->toArray(),
+            'data_profil_0' => $nilai_tahun_ini_layer_0->toArray(),
+            'kriteria_khusus' => $nilai_kriteria_khusus->toArray(),
+        ]);
+    }
 }
