@@ -209,33 +209,6 @@
 						</div>
 						<div class="row" style="padding-top:0;">
 							<div class="col-xs-12">
-								@php
-									$regis = array(
-												'sekarang' => ['2019',array(
-																	'SI' => 410,
-																	'TK' => 400,
-																	'DKV' => 396,
-																	'Dispro' => 200,
-																	'Profiti' => 240,
-																	'Ak' => 290,
-																	'MJN' => 299,
-																	'D3 SI' => 350,
-																	'D3 Ap' => 200,
-																	)],
-												'lalu'		=> ['2018', array(
-																	'SI' => 400,
-																	'TK' => 390,
-																	'DKV' => 386,
-																	'Dispro' => 190,
-																	'Profiti' => 230,
-																	'Ak' => 280,
-																	'MJN' => 289,
-																	'D3 SI' => 340,
-																	'D3 Ap' => 190,
-																	) ]
-												);
-								
-								@endphp
 								@include('widgets.charts.barhorizontalchart', array('data' => $regis))
 							
 							</div>
