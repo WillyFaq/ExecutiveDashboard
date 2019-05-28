@@ -29,6 +29,11 @@ class MateriBorang extends Model
         return $this->belongsTo(StandarBorang::class, 'kd_std');
     }
 
+    public function nilai()
+    {
+        return $this->hasMany(NilaiBorang::class, 'kd_std');
+    }
+
     public function induk_materi()
     {
         return $this->belongsTo(self::class, 'kd_induk');
