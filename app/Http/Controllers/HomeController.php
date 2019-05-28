@@ -101,22 +101,21 @@ class HomeController extends Controller
                 return round($nilai->nilai * ($nilai->materi->persen * 100), 2);
             });
         // MHS REGISTRASI
-        $mhs_registrasi = Mahasiswa::whereBetween(\DB::raw("TO_CHAR(TO_DATE(SUBSTR(nim, 0, 2),'RR'),'YYYY')"), [
-                $tahun_now - 1, $tahun_now,
-            ])
+        $get_mhs_registrasi = function ($tahun) {
+            return Mahasiswa::where(\DB::raw("TO_CHAR(TO_DATE(SUBSTR(nim, 0, 2),'RR'),'YYYY')"), $tahun)
             ->with('prodi')
             ->select(['nim', \DB::raw("TO_CHAR(TO_DATE(SUBSTR(nim, 0, 2),'RR'),'YYYY') AS tahun")])
             ->get()
-            ->groupBy('tahun')
-            ->map(function ($tahun) {
-                return $tahun->groupBy(function ($mahasiswa) {
-                    return $mahasiswa->prodi->alias;
-                })
-                ->map(function ($prodi) {
-                    return $prodi->count();
-                })
-                ->sort();
-            });
+            ->groupBy(function ($mahasiswa) {
+                return $mahasiswa->prodi->alias;
+            })
+            ->map(function ($prodi) {
+                return $prodi->count();
+            })
+            ->sort();
+        };
+        $mhs_registrasi_lalu = $get_mhs_registrasi($tahun_now - 1);
+        $mhs_registrasi_sekarang = $get_mhs_registrasi($tahun_now);
 
         return view('home', [
             'skor' => [
@@ -131,11 +130,11 @@ class HomeController extends Controller
             'regis' => [
                 'lalu' => [
                     $tahun_now - 1,
-                    $mhs_registrasi[$tahun_now - 1]->toArray(),
+                    $mhs_registrasi_lalu->toArray(),
                 ],
                 'sekarang' => [
                     $tahun_now,
-                    $mhs_registrasi[$tahun_now]->toArray(),
+                    $mhs_registrasi_sekarang->toArray(),
                 ],
             ],
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
