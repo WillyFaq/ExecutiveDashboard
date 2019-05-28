@@ -198,7 +198,7 @@
 								<h2>Registrasi</h2>
 							</div>
 							<div class="col-xs-1 card-home-right">
-								<h1>473</h1>
+								<h1>{{$regis['total']}}</h1>
 							</div>
 							<div class="col-xs-9 card-home-subtitle">
 								<p class="txt_card_subtitle">{{$periode}}</p>
