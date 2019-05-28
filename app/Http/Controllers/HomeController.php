@@ -80,8 +80,28 @@ class HomeController extends Controller
                     round($nilai_tahun->nilai, 2),
                 ];
             });
+        // SKOR
+        $skor = NilaiBorang::with('materi')
+            ->where('tahun', $tahun_now)
+            ->whereHas('materi', function ($query) {
+                return $query
+                    ->where('kd_jns', 1)
+                    ->where('kd_std', '!=', '1810')
+                    ->where(function ($query_) {
+                        return $query_
+                            ->whereLayer(1)
+                            ->orWhere(function ($query__) {
+                                return $query__->whereLayer(0);
+                            });
+                    });
+            })
+            ->get()
+            ->sum(function ($nilai) {
+                return round($nilai->nilai * ($nilai->materi->persen * 100), 2);
+            });
 
         return view('home', [
+            'chart' => ['value' => 3, 'skor' => $skor, 'type' => 2],
             'line' => $nilai_tahun_lalu->toArray(),
             'data_profil' => $nilai_tahun_ini->toArray(),
             'data_profil_0' => $nilai_tahun_ini_layer_0->toArray(),
