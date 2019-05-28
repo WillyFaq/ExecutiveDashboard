@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\NilaiBorang;
+use App\Mahasiswa;
 use Carbon\Carbon;
 
 class HomeController extends Controller
@@ -99,13 +100,44 @@ class HomeController extends Controller
             ->sum(function ($nilai) {
                 return round($nilai->nilai * ($nilai->materi->persen * 100), 2);
             });
+        // MHS REGISTRASI
+        $get_mhs_registrasi = function ($tahun) {
+            return Mahasiswa::where(\DB::raw("TO_CHAR(TO_DATE(SUBSTR(nim, 0, 2),'RR'),'YYYY')"), $tahun)
+            ->with('prodi')
+            ->select(['nim', \DB::raw("TO_CHAR(TO_DATE(SUBSTR(nim, 0, 2),'RR'),'YYYY') AS tahun")])
+            ->get()
+            ->groupBy(function ($mahasiswa) {
+                return $mahasiswa->prodi->alias;
+            })
+            ->map(function ($prodi) {
+                return $prodi->count();
+            })
+            ->sort();
+        };
+        $mhs_registrasi_lalu = $get_mhs_registrasi($tahun_now - 1);
+        $mhs_registrasi_sekarang = $get_mhs_registrasi($tahun_now);
 
         return view('home', [
-            'chart' => ['value' => 3, 'skor' => $skor, 'type' => 2],
+            'skor' => [
+                'chart' => ['value' => 3, 'skor' => 230, 'type' => 2],
+                'status' => 'Baik',
+                'nilai' => $skor,
+            ],
             'line' => $nilai_tahun_lalu->toArray(),
             'data_profil' => $nilai_tahun_ini->toArray(),
             'data_profil_0' => $nilai_tahun_ini_layer_0->toArray(),
             'kriteria_khusus' => $nilai_kriteria_khusus->toArray(),
+            'regis' => [
+                'lalu' => [
+                    $tahun_now - 1,
+                    $mhs_registrasi_lalu->toArray(),
+                ],
+                'sekarang' => [
+                    $tahun_now,
+                    $mhs_registrasi_sekarang->toArray(),
+                ],
+            ],
+            'periode' => ($tahun_now - 1).'/'.$tahun_now,
         ]);
     }
 }

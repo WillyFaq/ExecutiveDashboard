@@ -23,13 +23,13 @@
 							<div class="col-xs-12 card_gradient">
 								<div class="row">
 									<div class="col-xs-6">
-										@include('widgets.charts.gauge_home', $chart)
+										@include('widgets.charts.gauge_home', $skor['chart'])
 									</div>
 									<div class="col-xs-6 rangking-ket">
 										<p>Status</p>
-										<h3>Baik Sekali</h3>
+										<h3>{{$skor['status']}}</h3>
 										<p>Nilai Saat ini</p>
-										<h3>328</h3>
+										<h3>{{$skor['nilai']}}</h3>
 									</div>
 								</div>
 							</div>
@@ -120,7 +120,7 @@
 							</div>
 							<div class="col-xs-2"></div>
 							<div class=" col-xs-11 card-home-subtitle">
-								<p class="txt_card_subtitle">2018/2019</p>
+								<p class="txt_card_subtitle">{{$periode}}</p>
 							</div>
 						</div>
 						<div class="row" style="padding-top:0;">
@@ -153,7 +153,7 @@
 								<h1>840</h1>
 							</div>
 							<div class="col-xs-9 card-home-subtitle">
-								<p class="txt_card_subtitle">2018/2019</p>
+								<p class="txt_card_subtitle">{{$periode}}</p>
 							</div>
 							<div class="col-xs-1 text-right card-home-right">
 								<p class="txt_card_subtitle">Pendafar</p>
@@ -201,7 +201,7 @@
 								<h1>473</h1>
 							</div>
 							<div class="col-xs-9 card-home-subtitle">
-								<p class="txt_card_subtitle">2018/2019</p>
+								<p class="txt_card_subtitle">{{$periode}}</p>
 							</div>
 							<div class="col-xs-1 text-right card-home-right">
 								<p class="txt_card_subtitle">Register</p>
@@ -209,33 +209,6 @@
 						</div>
 						<div class="row" style="padding-top:0;">
 							<div class="col-xs-12">
-								@php
-									$regis = array(
-												'sekarang' => ['2019',array(
-																	'SI' => 410,
-																	'TK' => 400,
-																	'DKV' => 396,
-																	'Dispro' => 200,
-																	'Profiti' => 240,
-																	'Ak' => 290,
-																	'MJN' => 299,
-																	'D3 SI' => 350,
-																	'D3 Ap' => 200,
-																	)],
-												'lalu'		=> ['2018', array(
-																	'SI' => 400,
-																	'TK' => 390,
-																	'DKV' => 386,
-																	'Dispro' => 190,
-																	'Profiti' => 230,
-																	'Ak' => 280,
-																	'MJN' => 289,
-																	'D3 SI' => 340,
-																	'D3 Ap' => 190,
-																	) ]
-												);
-								
-								@endphp
 								@include('widgets.charts.barhorizontalchart', array('data' => $regis))
 							
 							</div>
