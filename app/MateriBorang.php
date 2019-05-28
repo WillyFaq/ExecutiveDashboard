@@ -14,6 +14,11 @@ class MateriBorang extends Model
         return $query->where(\DB::Raw('LENGTH(kd_std)'), $layer + 3);
     }
 
+    public function scopeWhereIsKriteriaKhusus($query)
+    {
+        return $query->where('keterangan', 'KH');
+    }
+
     public function jenis()
     {
         return $this->belongsTo(JenisBorang::class, 'kd_jns');
