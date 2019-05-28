@@ -21,9 +21,6 @@
 						</div>
 						<div class="row" style="padding-top:0;padding-bottom:12px;">
 							<div class="col-xs-12 card_gradient">
-								@php
-									$chart = array( 'value' => 3, 'skor'=> 234, 'type' => 2 );
-								@endphp
 								<div class="row">
 									<div class="col-xs-6">
 										@include('widgets.charts.gauge_home', $chart)
@@ -134,7 +131,7 @@
 								@endforeach
 							</div>
 							<div class="radar-home">
-	                    		@include('widgets.charts.radarchart', array('class'=>'pg_info', 'value'=>$row[1]*100/4))
+	                    		@include('widgets.charts.radarchart', array('class'=>'pg_info'))
 							</div>
 						</div>
 					</div>
