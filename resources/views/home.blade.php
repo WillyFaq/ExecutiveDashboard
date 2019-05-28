@@ -103,15 +103,6 @@
 						</div>
 						<div class="row" style="padding-top:0">
 							<div class="col-xs-12 kriteria-khusus-box">
-							@php
-								$kriteria_khusus = [
-									["Skor Akreditasi Program Studi", 1.78],
-									["Skor Jurnal", 3.50],
-									["Presnetasi Visiting Lectures", 3.01],
-									["Kerjasama Internasional Pendidikan", 2.46],
-									["Skor Produktifitas Pendidikan", 2.86],
-								];
-							@endphp
 							@foreach($kriteria_khusus as $kk => $row)
 								<p>{{$row[0]}} 
 									<span class="pull-right"><strong>{{$row[1]}}</strong> /4.00</span></p>
