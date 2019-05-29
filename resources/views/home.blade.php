@@ -140,31 +140,25 @@
 							</div>
 						</div>
 						<div class="row" style="padding-top:0;">
-							<div class="col-xs-4 kriteria-pt-box">
-								@foreach($data_profil_0 as $nama => $nilai)
-									<p>{{$nama}}</p>
-									<h3>{{$nilai}}</h3>
-								@endforeach
-							</div>
 							<div class="radar-home">
 	                    		@include('widgets.charts.radarchart', array('class'=>'pg_info'))
 							</div>
 							<div class="profil_institusi">
 								<div class="sub_card">
-									<h4>Profil Institusi</h4>
-									<h1 class="c-counter" data-value="2.45" data-before="up"><i class="fa fa-arrow-up"></i> 2.45</h1>
+									<h4>{{$data_profil_0['profil_institusi']['nama']}}</h4>
+									<h1 class="c-counter" data-value="2.45" data-before="up"><i class="fa fa-arrow-up"></i>{{$data_profil_0['profil_institusi']['nilai']}}</h1>
 								</div>
 							</div>
 							<div class="kondisi_ekternal">
 								<div class="sub_card">
-									<h4>Kondisi Ekternal</h4>
-									<h1><i class="fa fa-arrow-up"></i> 2.45</h1>
+									<h4>{{$data_profil_0['kondisi_ekternal']['nama']}}</h4>
+									<h1><i class="fa fa-arrow-up"></i>{{$data_profil_0['kondisi_ekternal']['nilai']}}</h1>
 								</div>
 							</div>
 							<div class="pengembangan">
 								<div class="sub_card">
-									<h4>Pengembangan</h4>
-									<h1><i class="fa fa-arrow-up"></i> 2.45</h1>
+									<h4>{{$data_profil_0['pengembangan']['nama']}}</h4>
+									<h1><i class="fa fa-arrow-up"></i>{{$data_profil_0['pengembangan']['nilai']}}</h1>
 								</div>
 							</div>
 						</div>

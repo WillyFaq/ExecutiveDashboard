@@ -53,21 +53,27 @@ class HomeController extends Controller
 
             return round($nilai ? $nilai->nilai : 0, 2);
         });
-        $nilai_tahun_ini_layer_0 = MateriBorang::where('kd_jns', 1)
-        ->whereLayer(0)
-        ->where('kd_std', '!=', '1810')
-        ->with(['nilai' => function ($query) use ($tahun_now) {
-            return $query->where('tahun', $tahun_now);
-        }])
-        ->get()
-        ->groupBy(function ($materi) {
-            return $materi->nm_std;
-        })
-        ->map(function ($materi) {
-            $nilai = $materi->first()->nilai->first();
+        // NILAI TAHUN INI LAYER 0
+        $get_nilai_tahun_ini_layer_0 = function ($kd_std) use ($tahun_now) {
+            return MateriBorang::where('kd_jns', 1)
+            ->with(['nilai' => function ($query) use ($tahun_now) {
+                return $query->where('tahun', $tahun_now);
+            }])
+            ->find($kd_std);
+        };
+        $nilai_tahun_ini_layer_0 = collect(array_map(function ($kd_std) use ($get_nilai_tahun_ini_layer_0) {
+            $materi = $get_nilai_tahun_ini_layer_0($kd_std);
+            $nilai = $materi->nilai->first();
 
-            return round($nilai ? $nilai->nilai : 0, 2);
-        });
+            return [
+                'nama' => $materi->nm_std,
+                'nilai' => round($nilai ? $nilai->nilai : 0, 2),
+            ];
+        }, [
+            'profil_institusi' => 181,
+            'kondisi_ekternal' => 182,
+            'pengembangan' => 183,
+        ]));
         // DATA NILAI KRITERIA KHUSUS
         $nilai_kriteria_khusus = MateriBorang::whereIsKriteriaKhusus()
         ->with(['nilai' => function ($query) use ($tahun_now) {
