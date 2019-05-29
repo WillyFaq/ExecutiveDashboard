@@ -26,7 +26,7 @@
 							</div>
 						</div>
 						<div class="row" style="padding:0; margin:0 -5px;">
-							<div class="col-xs-12 card_gradient">
+							<div class="col-xs-12 card_gradient cg_bs">
 								@php
 									$chart = array( 'value' => 3, 'skor'=> 234, 'type' => 2 );
 								@endphp
