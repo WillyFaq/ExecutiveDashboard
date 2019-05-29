@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\NilaiBorang;
 use App\Mahasiswa;
 use App\MateriBorang;
+use App\PendaftaranOnline;
 use Carbon\Carbon;
 
 class HomeController extends Controller
@@ -120,6 +121,26 @@ class HomeController extends Controller
         };
         $mhs_registrasi_lalu = $get_mhs_registrasi($tahun_now - 1);
         $mhs_registrasi_sekarang = $get_mhs_registrasi($tahun_now);
+        // MHS DAFTAR
+        $get_mhs_daftar = function ($tahun) {
+            return PendaftaranOnline::where('no_online', 'LIKE', $tahun.'%')
+            ->where(\DB::Raw('SUBSTR(no_online,5,2)'), '<=', Carbon::now()->format('m'))
+            ->whereSudahBayarForm()
+            ->get()
+            ->sortBy('no_online')
+            ->groupBy(function ($pendaftar) {
+                $bulan = (int) substr($pendaftar->no_online, 4, 2);
+                // `day` harus disertakan dalam prosedur, kalau tidak 30 februari -> maret
+                $nama_bulan = Carbon::createFromFormat('d-m', '01-'.$bulan)->format('M');
+
+                return $nama_bulan;
+            })
+            ->map(function ($pendaftar) {
+                return $pendaftar->count();
+            });
+        };
+        $mhs_daftar_lalu = $get_mhs_daftar($tahun_now - 1);
+        $mhs_daftar_sekarang = $get_mhs_daftar($tahun_now);
 
         return view('home', [
             'skor' => [
@@ -131,6 +152,17 @@ class HomeController extends Controller
             'data_profil' => $nilai_tahun_ini->toArray(),
             'data_profil_0' => $nilai_tahun_ini_layer_0->toArray(),
             'kriteria_khusus' => $nilai_kriteria_khusus->toArray(),
+            'daftar' => [
+                'lalu' => [
+                    $tahun_now - 1,
+                    $mhs_daftar_lalu->toArray(),
+                ],
+                'sekarang' => [
+                    $tahun_now,
+                    $mhs_daftar_sekarang->toArray(),
+                ],
+                'total' => $mhs_daftar_sekarang->flatten()->sum(),
+            ],
             'regis' => [
                 'lalu' => [
                     $tahun_now - 1,
