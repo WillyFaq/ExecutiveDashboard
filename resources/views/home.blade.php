@@ -178,7 +178,7 @@
 								<h2>Pendaftar</h2>
 							</div>
 							<div class="col-xs-2 text-center card-home-right">
-								<h1>840</h1>
+								<h1>{{$daftar['total']}}</h1>
 							</div>
 							<div class="col-xs-9 card-home-subtitle">
 								<p class="txt_card_subtitle">{{$periode}}</p>
@@ -189,28 +189,7 @@
 						</div>
 						<div class="row" style="padding-top:0;">
 							<div class="col-xs-12">
-								@php
-									$mix = array(
-												'sekarang' => ['2019',array(
-																	'Jan' => 200,
-																	'Feb' => 250,
-																	'Mar' => 300,
-																	'Apr' => 350,
-																	'Mei' => 380,
-																	'Jun' => 400,
-																	)],
-												'lalu'		=> ['2018', array(
-																	'Jan' => 180,
-																	'Feb' => 250,
-																	'Mar' => 250,
-																	'Apr' => 340,
-																	'Mei' => 370,
-																	'Jun' => 390,
-																	) ]
-												);
-								
-								@endphp
-								@include('widgets.charts.mixchart', array('data' => $mix))
+								@include('widgets.charts.mixchart', array('data' => $daftar))
 							</div>
 						</div>
 					</div>
