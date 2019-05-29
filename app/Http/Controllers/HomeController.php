@@ -14,7 +14,7 @@ class HomeController extends Controller
     {
         $tahun_now = $request->input('tahun', Carbon::now()->format('Y'));
         // DEFAULT RANGE : TAHUN LALU - 5 s/d TAHUN LALU
-        $tahun_end = $request->input('tahun_end', $tahun_now - 1);
+        $tahun_end = $request->input('tahun_end', $tahun_now);
         $tahun_start = $request->input('tahun_start', $tahun_end - 5);
         // DATA NILAI PER TAHUN
         $nilai_tahun_lalu = NilaiBorang::with('materi')
