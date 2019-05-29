@@ -27,18 +27,15 @@
 						</div>
 						<div class="row" style="padding:0; margin:0 -5px;">
 							<div class="col-xs-12 card_gradient cg_bs">
-								@php
-									$chart = array( 'value' => 3, 'skor'=> 234, 'type' => 2 );
-								@endphp
 								<div class="row">
 									<div class="col-xs-6">
-										@include('widgets.charts.gauge_home', $chart)
+										@include('widgets.charts.gauge_home', $skor['chart'])
 									</div>
 									<div class="col-xs-6 rangking-ket">
 										<p>Status</p>
-										<h3>Baik Sekali</h3>
+										<h3>{{$skor['status']}}</h3>
 										<p>Nilai Saat ini</p>
-										<h3>328</h3>
+										<h3>{{$skor['nilai']}}</h3>
 									</div>
 								</div>
 							</div>
@@ -111,15 +108,6 @@
 						</div>
 						<div class="row" style="padding-top:0">
 							<div class="col-xs-12 kriteria-khusus-box">
-							@php
-								$kriteria_khusus = [
-									["Skor Akreditasi Program Studi", 1.78],
-									["Skor Jurnal", 3.50],
-									["Presnetasi Visiting Lectures", 3.01],
-									["Kerjasama Internasional Pendidikan", 2.46],
-									["Skor Produktifitas Pendidikan", 2.86],
-								];
-							@endphp
 							@foreach($kriteria_khusus as $kk => $row)
 								<p>{{$row[0]}} 
 									<span class="pull-right"><strong>{{$row[1]}}</strong> /4.00</span></p>
@@ -148,29 +136,29 @@
 							</div>
 							<div class="col-xs-2"></div>
 							<div class=" col-xs-11 card-home-subtitle">
-								<p class="txt_card_subtitle">2018/2019</p>
+								<p class="txt_card_subtitle">{{$periode}}</p>
 							</div>
 						</div>
 						<div class="row" style="padding-top:0;">
 							<div class="radar-home">
-	                    		@include('widgets.charts.radarchart', array('class'=>'pg_info', 'value'=>$row[1]*100/4))
+	                    		@include('widgets.charts.radarchart', array('class'=>'pg_info'))
 							</div>
 							<div class="profil_institusi">
 								<div class="sub_card">
-									<h4>Profil Institusi</h4>
-									<h1 class="c-counter" data-value="2.45" data-before="up"><i class="fa fa-arrow-up"></i> 2.45</h1>
+									<h4>{{$data_profil_0['profil_institusi']['nama']}}</h4>
+									<h1 class="c-counter" data-value="2.45" data-before="up"><i class="fa fa-arrow-up"></i>{{$data_profil_0['profil_institusi']['nilai']}}</h1>
 								</div>
 							</div>
 							<div class="kondisi_ekternal">
 								<div class="sub_card">
-									<h4>Kondisi Ekternal</h4>
-									<h1><i class="fa fa-arrow-up"></i> 2.45</h1>
+									<h4>{{$data_profil_0['kondisi_ekternal']['nama']}}</h4>
+									<h1><i class="fa fa-arrow-up"></i>{{$data_profil_0['kondisi_ekternal']['nilai']}}</h1>
 								</div>
 							</div>
 							<div class="pengembangan">
 								<div class="sub_card">
-									<h4>Pengembangan</h4>
-									<h1><i class="fa fa-arrow-up"></i> 2.45</h1>
+									<h4>{{$data_profil_0['pengembangan']['nama']}}</h4>
+									<h1><i class="fa fa-arrow-up"></i>{{$data_profil_0['pengembangan']['nilai']}}</h1>
 								</div>
 							</div>
 						</div>
@@ -190,10 +178,10 @@
 								<h2>Pendaftar</h2>
 							</div>
 							<div class="col-xs-2 text-center card-home-right">
-								<h1>840</h1>
+								<h1>{{$daftar['total']}}</h1>
 							</div>
-							<div class="col-xs-8 card-home-subtitle">
-								<p class="txt_card_subtitle">2018/2019</p>
+							<div class="col-xs-9 card-home-subtitle">
+								<p class="txt_card_subtitle">{{$periode}}</p>
 							</div>
 							<div class="col-xs-1 text-center card-home-right">
 								<p class="txt_card_subtitle">Pendafar</p>
@@ -201,28 +189,7 @@
 						</div>
 						<div class="row" style="padding-top:0;">
 							<div class="col-xs-12">
-								@php
-									$mix = array(
-												'sekarang' => ['2019',array(
-																	'Jan' => 200,
-																	'Feb' => 250,
-																	'Mar' => 300,
-																	'Apr' => 350,
-																	'Mei' => 380,
-																	'Jun' => 400,
-																	)],
-												'lalu'		=> ['2018', array(
-																	'Jan' => 180,
-																	'Feb' => 250,
-																	'Mar' => 250,
-																	'Apr' => 340,
-																	'Mei' => 370,
-																	'Jun' => 390,
-																	) ]
-												);
-								
-								@endphp
-								@include('widgets.charts.mixchart', array('data' => $mix))
+								@include('widgets.charts.mixchart', array('data' => $daftar))
 							</div>
 						</div>
 					</div>
@@ -237,11 +204,11 @@
 							<div class="col-xs-8 card-home-title">
 								<h2>Registrasi</h2>
 							</div>
-							<div class="col-xs-2 text-center card-home-right">
-								<h1>473</h1>
+							<div class="col-xs-1 card-home-right">
+								<h1>{{$regis['total']}}</h1>
 							</div>
-							<div class="col-xs-8 card-home-subtitle">
-								<p class="txt_card_subtitle">2018/2019</p>
+							<div class="col-xs-9 card-home-subtitle">
+								<p class="txt_card_subtitle">{{$periode}}</p>
 							</div>
 							<div class="col-xs-1 text-center card-home-right">
 								<p class="txt_card_subtitle">Register</p>
@@ -249,33 +216,6 @@
 						</div>
 						<div class="row" style="padding-top:0;">
 							
-								@php
-									$regis = array(
-												'sekarang' => ['2019',array(
-																	'SI' => 510,
-																	'TK' => 400,
-																	'DKV' => 396,
-																	'Dispro' => 200,
-																	'Profiti' => 240,
-																	'Ak' => 290,
-																	'MJN' => 299,
-																	'D3 SI' => 350,
-																	'D3 Ap' => 200,
-																	)],
-												'lalu'		=> ['2018', array(
-																	'SI' => 400,
-																	'TK' => 390,
-																	'DKV' => 386,
-																	'Dispro' => 190,
-																	'Profiti' => 230,
-																	'Ak' => 280,
-																	'MJN' => 289,
-																	'D3 SI' => 340,
-																	'D3 Ap' => 190,
-																	) ]
-												);
-								
-								@endphp
 								@include('widgets.charts.barhorizontalchart', array('data' => $regis))
 							
 						</div>

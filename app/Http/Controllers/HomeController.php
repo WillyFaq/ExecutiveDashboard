@@ -3,128 +3,178 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\NilaiBorang;
+use App\Mahasiswa;
+use App\MateriBorang;
+use App\PendaftaranOnline;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
+    public function index(Request $request)
+    {
+        $tahun_now = $request->input('tahun', Carbon::now()->format('Y'));
+        // DEFAULT RANGE : TAHUN LALU - 5 s/d TAHUN LALU
+        $tahun_end = $request->input('tahun_end', $tahun_now);
+        $tahun_start = $request->input('tahun_start', $tahun_end - 5);
+        // DATA NILAI PER TAHUN
+        $nilai_tahun_lalu = NilaiBorang::with('materi')
+            ->whereBetween('tahun', [$tahun_start, $tahun_end])
+            ->whereHas('materi', function ($query) {
+                return $query
+                    ->where('kd_jns', 1)
+                    ->where('kd_std', '!=', '1810')
+                    ->where(function ($query_) {
+                        return $query_
+                            ->whereLayer(1)
+                            ->orWhere(function ($query__) {
+                                return $query__->whereLayer(0);
+                            });
+                    });
+            })
+            ->get()
+            ->groupBy('tahun')
+            ->map(function ($tahun) {
+                return $tahun->sum(function ($nilai) {
+                    return round($nilai->nilai * ($nilai->materi->persen * 100), 2);
+                });
+            });
+        $nilai_tahun_ini = MateriBorang::where('kd_jns', 1)
+        ->whereLayer(1)
+        ->where('kd_std', '!=', '1810')
+        ->with(['nilai' => function ($query) use ($tahun_now) {
+            return $query->where('tahun', $tahun_now);
+        }])
+        ->get()
+        ->groupBy(function ($materi) {
+            return $materi->nm_std;
+        })
+        ->map(function ($materi) {
+            $nilai = $materi->first()->nilai->first();
 
-    public function index(){
+            return round($nilai ? $nilai->nilai : 0, 2);
+        });
+        // NILAI TAHUN INI LAYER 0
+        $get_nilai_tahun_ini_layer_0 = function ($kd_std) use ($tahun_now) {
+            return MateriBorang::where('kd_jns', 1)
+            ->with(['nilai' => function ($query) use ($tahun_now) {
+                return $query->where('tahun', $tahun_now);
+            }])
+            ->find($kd_std);
+        };
+        $nilai_tahun_ini_layer_0 = collect(array_map(function ($kd_std) use ($get_nilai_tahun_ini_layer_0) {
+            $materi = $get_nilai_tahun_ini_layer_0($kd_std);
+            $nilai = $materi->nilai->first();
 
-		$line = array(
-			'2011' => 320,
-			'2012' => 340,
-			'2013' => 320,
-			'2014' => 320,
-			'2015' => 320,
-			'2016' => 330,
-			'2017' => 320,
-			'2018' => 350,
-			);
+            return [
+                'nama' => $materi->nm_std,
+                'nilai' => round($nilai ? $nilai->nilai : 0, 2),
+            ];
+        }, [
+            'profil_institusi' => 181,
+            'kondisi_ekternal' => 182,
+            'pengembangan' => 183,
+        ]));
+        // DATA NILAI KRITERIA KHUSUS
+        $nilai_kriteria_khusus = MateriBorang::whereIsKriteriaKhusus()
+        ->with(['nilai' => function ($query) use ($tahun_now) {
+            return $query->where('tahun', $tahun_now);
+        }])
+        ->get()
+        ->map(function ($materi) {
+            $nilai = $materi->nilai->first();
 
-		$data_profil = [];
+            return [$materi->nm_std, round($nilai ? $nilai->nilai : 0, 2)];
+        });
+        // SKOR
+        $skor = NilaiBorang::with('materi')
+            ->where('tahun', $tahun_now)
+            ->whereHas('materi', function ($query) {
+                return $query
+                    ->where('kd_jns', 1)
+                    ->where('kd_std', '!=', '1810')
+                    ->where(function ($query_) {
+                        return $query_
+                            ->whereLayer(1)
+                            ->orWhere(function ($query__) {
+                                return $query__->whereLayer(0);
+                            });
+                    });
+            })
+            ->get()
+            ->sum(function ($nilai) {
+                return round($nilai->nilai * ($nilai->materi->persen * 100), 2);
+            });
+        // MHS REGISTRASI
+        $get_mhs_registrasi = function ($tahun) {
+            return Mahasiswa::where(\DB::raw("TO_CHAR(TO_DATE(SUBSTR(nim, 0, 2),'RR'),'YYYY')"), $tahun)
+            ->with('prodi')
+            ->select(['nim', \DB::raw("TO_CHAR(TO_DATE(SUBSTR(nim, 0, 2),'RR'),'YYYY') AS tahun")])
+            ->get()
+            ->groupBy(function ($mahasiswa) {
+                return $mahasiswa->prodi->alias;
+            })
+            ->map(function ($prodi) {
+                return $prodi->count();
+            })
+            ->sort();
+        };
+        $mhs_registrasi_lalu = $get_mhs_registrasi($tahun_now - 1);
+        $mhs_registrasi_sekarang = $get_mhs_registrasi($tahun_now);
+        // MHS DAFTAR
+        $get_mhs_daftar = function ($tahun) {
+            return PendaftaranOnline::where('no_online', 'LIKE', $tahun.'%')
+            ->where(\DB::Raw('SUBSTR(no_online,5,2)'), '<=', Carbon::now()->format('m'))
+            ->whereSudahBayarForm()
+            ->get()
+            ->sortBy('no_online')
+            ->groupBy(function ($pendaftar) {
+                $bulan = (int) substr($pendaftar->no_online, 4, 2);
+                // `day` harus disertakan dalam prosedur, kalau tidak 30 februari -> maret
+                $nama_bulan = Carbon::createFromFormat('d-m', '01-'.$bulan)->format('M');
 
-    		$nilai = 2.5;
-    		array_push($data_profil, 
-    			array(
-    				'title' 	=> "Sumber Daya Manusia", 
-    				'link' 		=> '/sdm/profil/Dosen Tetap/'.$nilai,
-    				'skor' 		=> $nilai, 
-					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
-					'icon' 		=> array('name' => 'grad', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-                    'prog'      => 1
-    			)
-    		);
-    		$nilai = 3.7;
-    		array_push($data_profil, 
-    			array(
-    				'title' 	=> "Lembaga", 
-    				'link' 		=> '/sdm/profil/Dosen Tetap/'.$nilai,
-    				'skor' 		=> $nilai, 
-					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
-					'icon' 		=> array('name' => 'gradbook', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-                    'prog'      => 0
-    			)
-    		);
-    		$nilai = 3.5;
-    		array_push($data_profil, 
-    			array(
-    				'title' 	=> "Kemahasiswaan", 
-    				'link' 		=> '/sdm/profil/Lektor &#38; Guru besar/'.$nilai,
-    				'skor' 		=> $nilai, 
-					'chart'		=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
-					'icon'		=> array('name' => 'quality', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-                    'prog'      => 1
-				)
-    		);
-    		$nilai = 3.5;
-    		array_push($data_profil, 
-    			array(
-    				'title' 	=> "LITABMAS", 
-    				'link' 		=> '/sdm/profil/Sertifikasi Dosen/'.$nilai,
-    				'skor' 		=> $nilai, 
-					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
-					'icon' 		=> array('name' => 'certificate', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-                    'prog'      => 1
-				)
-    		);
-    		$nilai = 3.6;
-    		array_push($data_profil, 
-    			array(
-    				'title' 	=> "Inovasi", 
-    				'link' 		=> '/sdm/profil/Rasio Mahasiswa &#38; Dosen/'.$nilai,
-    				'skor' 		=> $nilai, 
-					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
-					'icon' 		=> array('name' => 'graduate', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-                    'prog'      => 1
-				)
-    		);
-    		$nilai = 1.2;
-    		array_push($data_profil, 
-    			array(
-    				'title' 	=> "Keuangan", 
-    				'link' 		=> '/sdm/profil/Dosen Tidak Tetap/'.$nilai,
-    				'skor' 		=> $nilai, 
-					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
-					'icon' 		=> array('name' => 'feedback', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-                    'prog'      => 0
-				)
-    		);
+                return $nama_bulan;
+            })
+            ->map(function ($pendaftar) {
+                return $pendaftar->count();
+            });
+        };
+        $mhs_daftar_lalu = $get_mhs_daftar($tahun_now - 1);
+        $mhs_daftar_sekarang = $get_mhs_daftar($tahun_now);
 
-    		$nilai = 1.2;
-    		array_push($data_profil, 
-    			array(
-    				'title' 	=> "Sumbar Daya Manusia", 
-    				'link' 		=> '/sdm/profil/Dosen Tidak Tetap/'.$nilai,
-    				'skor' 		=> $nilai, 
-					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
-					'icon' 		=> array('name' => 'feedback', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-                    'prog'      => 1
-				)
-    		);
-
-    		$nilai = 1.2;
-    		array_push($data_profil, 
-    			array(
-    				'title' 	=> "Sumbar Daya Manusia", 
-    				'link' 		=> '/sdm/profil/Dosen Tidak Tetap/'.$nilai,
-    				'skor' 		=> $nilai, 
-					'chart' 	=> array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
-					'icon' 		=> array('name' => 'feedback', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-                    'prog'      => 1
-                )
-            );
-            $nilai = 1.2;
-            array_push($data_profil, 
-                array(
-                    'title'     => "Sumbar Daya Manusia", 
-                    'link'      => '/sdm/profil/Dosen Tidak Tetap/'.$nilai,
-                    'skor'      => $nilai, 
-                    'chart'     => array( 'value' => ($nilai*100/4), 'skor'=> $nilai, 'type' => 2 ),
-                    'icon'      => array('name' => 'feedback', 'icon_arr' => array('width' => 50, 'height' => 50) ),
-                    'prog'      => 0
-				)
-    		);
-
-    	return view('home', ['line' => $line, 'data_profil' => $data_profil]);
-    	//return view('home');
-    } 
+        return view('home', [
+            'skor' => [
+                'chart' => ['value' => 3, 'skor' => 230, 'type' => 2],
+                'status' => 'Baik',
+                'nilai' => $skor,
+            ],
+            'line' => $nilai_tahun_lalu->toArray(),
+            'data_profil' => $nilai_tahun_ini->toArray(),
+            'data_profil_0' => $nilai_tahun_ini_layer_0->toArray(),
+            'kriteria_khusus' => $nilai_kriteria_khusus->toArray(),
+            'daftar' => [
+                'lalu' => [
+                    $tahun_now - 1,
+                    $mhs_daftar_lalu->toArray(),
+                ],
+                'sekarang' => [
+                    $tahun_now,
+                    $mhs_daftar_sekarang->toArray(),
+                ],
+                'total' => $mhs_daftar_sekarang->flatten()->sum(),
+            ],
+            'regis' => [
+                'lalu' => [
+                    $tahun_now - 1,
+                    $mhs_registrasi_lalu->toArray(),
+                ],
+                'sekarang' => [
+                    $tahun_now,
+                    $mhs_registrasi_sekarang->toArray(),
+                ],
+                'total' => $mhs_registrasi_sekarang->flatten()->sum(),
+            ],
+            'periode' => ($tahun_now - 1).'/'.$tahun_now,
+        ]);
+    }
 }

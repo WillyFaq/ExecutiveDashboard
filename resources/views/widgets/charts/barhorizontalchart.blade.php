@@ -122,10 +122,9 @@
 						}],
 						xAxes: [{
 							ticks: {
-								/*min: 150,
-								*/
-								max: 500,
-								stepSize: 125,
+								// min: 150,
+								// max: 500,
+								// stepSize: 125,
 							},
 							gridLines:  {
 								display: true,

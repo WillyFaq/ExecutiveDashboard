@@ -2,16 +2,12 @@
 
 <script>
 	var label = [
-					['Visi Misi', 3.50], 
-					['Tata Pamong', 3.20], 
-					['Mahasiswa', 3.15], 
-					['SDM', 2.05],
-					['Keuangan', 2.05], 
-					['Pendidikan', 2.87], 
-					['Penelitian', 2.56], 
-					['Pengabdian', 2.75], 
-					['Luaran', 2.45]
-				];
+		@php
+			foreach($data_profil as $k => $v){
+				echo "['$k',$v],";
+			}
+		@endphp
+	];
 	var datas = [];
 	for(var i = 0; i < label.length; i++){
 		datas.push(label[i][1]);
