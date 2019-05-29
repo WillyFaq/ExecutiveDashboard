@@ -1,15 +1,42 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<canvas height="230px" id="hormixchart"></canvas >
+<style>
+	#chart-legends{
+  		position: absolute;
+  		bottom: 30px;
+  		right: -25px;
+	}
+	.regis-legend{
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+	.regis-legend>li{
+		padding: 0;
+		margin: 0;
+	}
+	.regis-legend>li>div{
+		width: 8px;
+		height: 8px;
+		float: left;
+		margin-top: 6px;
+		margin-right: 5px;
+	}
+</style>
+<div class="col-xs-11" style="padding:0;">
+	<canvas height="299px" id="hormixchart"></canvas >
+	<div id="chart-legends"></div>
+</div>
 
 <script>
 		var hormixChartData = {
 			labels: [
 				@php
 				foreach($data['sekarang'][1] as $k => $v){
-					echo "'$k',";
+					echo "'$k', ";
 				}
+				echo "' '";
 				@endphp
 			],
 			datasets: [
@@ -17,27 +44,29 @@
 				if(isset($data)){
 					echo "{";
 						echo "label: '".$data['sekarang'][0]."',";
-						echo "borderColor: '#FF6B6B',";
-						echo "backgroundColor: '#FF6B6B',";
+						echo "borderColor: '#BE1E2D',";
+						echo "backgroundColor: '#BE1E2D',";
 						echo "borderWidth: 1,";
 						echo "data: [";
 						foreach($data['sekarang'][1] as $k => $v){
 							echo "$v,";
 						}
+						echo '0';
 						echo "],";
 					echo "},\n";
 					echo "{";
 						echo "label: '".$data['lalu'][0]."',";
-						echo "borderColor: '#91EAE4',";
-						echo "backgroundColor: '#91EAE4',";
+						echo "borderColor: 'rgba(35, 134, 222, 0.3)',";
+						echo "backgroundColor: 'rgba(35, 134, 222, 0.3)',";
 						echo "borderWidth: 3,";
-						echo "fill: false,";
 						echo "data: [";
 						foreach($data['lalu'][1] as $k => $v){
-							echo "{x:$v, y:'$k'},";
+							echo "{y:'$k', x:$v},";
 						}
+						echo "{y:' ', x:0},";
 						echo "],";
-						echo "type: 'line'";
+						echo "type: 'line',";
+						echo "fill: 'end',";
 					echo "},";
 				}
 			@endphp
@@ -61,7 +90,48 @@
 					},
 					responsive: true,
 					legend: {
+						display:false,
 						position: 'right',
+					},
+					legendCallback: function(chart) {
+			            var text = []; 
+					    text.push('<ul class="regis-legend ' + chart.id + '-legend">'); 
+					    for (var i = 0; i < chart.data.datasets.length; i++) { 
+					        text.push('<li><div style="background-color:' + chart.data.datasets[i].backgroundColor + '"></div>'); 
+					        if (chart.data.datasets[i].label) { 
+					            text.push(chart.data.datasets[i].label); 
+					        } 
+					        text.push('</li>'); 
+					    } 
+					    text.push('</ul>'); 
+					    //console.log(text);
+					    return text.join(''); 
+			        },
+					scales: {
+						yAxes: [{
+							barPercentage: 0.5,
+				            barThickness: 6,
+				            ticks:{
+				            	beginAtZero: true,
+	                            reverse: true,
+	                            start: 0
+				            },
+							gridLines:  {
+								display: false,
+							},
+						}],
+						xAxes: [{
+							ticks: {
+								/*min: 150,
+								*/
+								max: 500,
+								stepSize: 125,
+							},
+							gridLines:  {
+								display: true,
+							},
+						}]
+						
 					},
 					title: {
 						display: false,
@@ -69,6 +139,7 @@
 					}
 				}
 			});
+			document.getElementById('chart-legends').innerHTML = hormixchart.generateLegend();
 
 		});
 

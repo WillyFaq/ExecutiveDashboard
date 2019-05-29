@@ -22,9 +22,9 @@
 				labels: label,
 				datasets: [{
 					label: 'Kriteria Perguruan Tinggi',
-					backgroundColor: color(window.chartColors.red).alpha(0.2).rgbString(),
-					borderColor: window.chartColors.red,
-					pointBackgroundColor: window.chartColors.red,
+					backgroundColor: 'rgba(190, 30, 45, 0.5)',//color(window.chartColors.red).alpha(0.2).rgbString(),
+					borderColor: '#BE1E2D',//window.chartColors.red,
+					pointBackgroundColor: '#BE1E2D',//window.chartColors.red,
 					data: datas
 				}]
 			},
