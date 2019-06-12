@@ -13,11 +13,13 @@ class SdmController extends Controller
         $tahun_now = $request->input('tahun', Carbon::now()->format('Y'));
         // DATA DOSEN & SERTIFIKASINYA
         $dosen_tetap = Karyawan::whereIsDosenTetap()
-        ->with('sertifikasi')
+        ->with('sertifikasi', 'prodi')
         ->get();
         $dosen_tetap_bersertifikasi = $dosen_tetap->filter(function ($dosen_tetap) {
             return count($dosen_tetap->sertifikasi);
-        })->values();
+        })
+        ->values()
+        ->groupBy('prodi.alias');
 
         return view('sdm', [
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
