@@ -31,7 +31,9 @@ class Karyawan extends Model
                 'v_email_kar.email',
             ])
             ->leftJoin('v_prodiewmp', 'v_karyawan.nik', 'v_prodiewmp.nik')
-            ->addSelect(['v_prodiewmp.prodi']);
+            ->addSelect([
+                \DB::Raw('v_prodiewmp.prodi AS kode_prodi'),
+            ]);
     }
 
     public function scopeWhereIsAktif($query)
@@ -59,8 +61,18 @@ class Karyawan extends Model
             ->where('kary_type', '!=', 'TD');
     }
 
+    public function prodi()
+    {
+        return $this->belongsTo(Prodi::class, 'kode_prodi');
+    }
+
     public function sertifikasi()
     {
         return $this->hasMany(SertifikasiKaryawan::class, 'nik');
+    }
+
+    public function jabatan_fungsional()
+    {
+        return $this->hasMany(JabatanFungsional::class, 'nik');
     }
 }
