@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Karyawan;
+use App\Mahasiswa;
 
 class SdmController extends Controller
 {
@@ -43,6 +44,17 @@ class SdmController extends Controller
             });
         })
         ->groupBy('prodi.alias');
+        // RASIO DOSEN:MAHASISWA
+        $jml_dosen = Karyawan::whereIsAktif()
+        ->whereIsDosenTetap()
+        ->count();
+        $jml_mahasiswa = Mahasiswa::whereHas('histori_kuliah', function ($query) use ($tahun_now) {
+            return $query
+            ->where('semester', 'LIKE', Carbon::createFromFormat('Y', $tahun_now - 1)->format('y').'1')
+            ->whereIsAktif();
+        })
+        ->count();
+        $rasio_dosen_mahasiswa = round($jml_mahasiswa / $jml_dosen, 2);
         // PRESENTASE DOSEN: TETAP TIDAK TETAP
         $jml_dosen_tetap = Karyawan::whereIsAktif()
         ->whereIsDosenTetap()
@@ -60,6 +72,8 @@ class SdmController extends Controller
             // JABATAN FUNGSIONAL DOSEN
             'dosen_lektor_kepala' => $dosen_lektor_kepala->toArray(),
             'dosen_guru_besar' => $dosen_guru_besar->toArray(),
+            // RASIO DOSEN:MAHASISWA
+            'rasio_dosen_mahasiswa' => $rasio_dosen_mahasiswa,
             // PRESENTASE DOSEN: TETAP
             'jml_dosen_tetap' => $jml_dosen_tetap,
             'jml_dosen_tidak_tetap' => $jml_dosen_tidak_tetap,
