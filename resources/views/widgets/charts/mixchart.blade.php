@@ -1,7 +1,7 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<canvas height="220px" id="mixchart_{{$_idbx}}"></canvas >
+<canvas height="245px" id="mixchart_{{$_idbx}}"></canvas >
 
 <script>
 		var mixChartData = {
@@ -17,8 +17,8 @@
 				if(isset($data)){
 					echo "{";
 						echo "label: '".$data['sekarang'][0]."',";
-						echo "borderColor: '#FF6B6B',";
-						echo "backgroundColor: '#FF6B6B',";
+						echo "borderColor: '#BE1E2D',";
+						echo "backgroundColor: '#BE1E2D',";
 						echo "borderWidth: 1,";
 						echo "fill: false,";
 						echo "data: [";
@@ -30,8 +30,8 @@
 					echo "},\n";
 					echo "{";
 						echo "label: '".$data['lalu'][0]."',";
-						echo "borderColor: '#91EAE4',";
-						echo "backgroundColor: '#91EAE4',";
+						echo "borderColor: 'rgba(35, 134, 222, 0.3)',";
+						echo "backgroundColor: 'rgba(35, 134, 222, 0.3)',";
 						echo "borderWidth: 3,";
 						echo "fill: true,";
 						echo "data: [";
@@ -81,12 +81,12 @@
 							display: true,
 							id: 'y-axis-1',
 					        ticks: {
-								min: 150,
-								max: 400,
-								stepSize: 50,
-								suggestedMin: 0,
-								suggestedMax: 400,
-								fontSize: 10
+								// min: 150,
+								// max: 400,
+								// stepSize: 50,
+								// suggestedMin: 0,
+								// suggestedMax: 400,
+								// fontSize: 10
 							}
 						}],
 					},

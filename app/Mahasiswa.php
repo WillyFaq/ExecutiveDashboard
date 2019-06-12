@@ -22,4 +22,14 @@ class Mahasiswa extends Model
     {
         return $this->hasMany(HistoriKuliah::class, 'mhs_nim');
     }
+
+    public function prodi()
+    {
+        return $this->belongsTo(Prodi::class, 'kode_prodi');
+    }
+
+    public function getKodeProdiAttribute()
+    {
+        return substr($this->nim, 2, 5);
+    }
 }

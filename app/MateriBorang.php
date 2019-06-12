@@ -9,6 +9,16 @@ class MateriBorang extends Model
     protected $table = 'materi_borang';
     protected $primaryKey = 'kd_std';
 
+    public function scopeWhereLayer($query, $layer)
+    {
+        return $query->where(\DB::Raw('LENGTH(kd_std)'), $layer + 3);
+    }
+
+    public function scopeWhereIsKriteriaKhusus($query)
+    {
+        return $query->where('keterangan', 'KH');
+    }
+
     public function jenis()
     {
         return $this->belongsTo(JenisBorang::class, 'kd_jns');
@@ -17,6 +27,11 @@ class MateriBorang extends Model
     public function standar()
     {
         return $this->belongsTo(StandarBorang::class, 'kd_std');
+    }
+
+    public function nilai()
+    {
+        return $this->hasMany(NilaiBorang::class, 'kd_std');
     }
 
     public function induk_materi()
