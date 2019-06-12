@@ -12,7 +12,8 @@ class SdmController extends Controller
     {
         $tahun_now = $request->input('tahun', Carbon::now()->format('Y'));
         // DATA DOSEN & SERTIFIKASINYA
-        $dosen_tetap = Karyawan::whereIsDosenTetap()
+        $dosen_tetap = Karyawan::whereIsAktif()
+        ->whereIsDosenTetap()
         ->with('sertifikasi', 'prodi')
         ->get();
         $dosen_tetap_bersertifikasi = $dosen_tetap->filter(function ($dosen_tetap) {
@@ -23,7 +24,8 @@ class SdmController extends Controller
         $dosen_tetap = $dosen_tetap
         ->groupBy('prodi.alias');
         // DOSEN DENGAN JABATAN FUNGSIONALNYA
-        $dosen = Karyawan::whereIsDosen()
+        $dosen = Karyawan::whereIsAktif()
+        ->whereIsDosen()
         ->with('jabatan_fungsional')
         ->wherehas('jabatan_fungsional', function ($query) {
             return $query->whereIn('id_jfa', [4, 5]);
