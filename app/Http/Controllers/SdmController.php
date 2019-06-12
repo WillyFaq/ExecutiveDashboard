@@ -20,6 +20,27 @@ class SdmController extends Controller
         })
         ->values()
         ->groupBy('prodi.alias');
+        $dosen_tetap = $dosen_tetap
+        ->groupBy('prodi.alias');
+        // DOSEN DENGAN JABATAN FUNGSIONALNYA
+        $dosen = Karyawan::whereIsDosen()
+        ->with('jabatan_fungsional')
+        ->wherehas('jabatan_fungsional', function ($query) {
+            return $query->whereIn('id_jfa', [4, 5]);
+        })
+        ->get();
+        $dosen_lektor_kepala = $dosen->filter(function ($dosen) {
+            return $dosen->jabatan_fungsional->filter(function ($jabatan_fungsional) {
+                return $jabatan_fungsional->id_jfa = 4;
+            });
+        })
+        ->groupBy('prodi.alias');
+        $dosen_guru_besar = $dosen->filter(function ($dosen) {
+            return $dosen->jabatan_fungsional->filter(function ($jabatan_fungsional) {
+                return $jabatan_fungsional->id_jfa = 5;
+            });
+        })
+        ->groupBy('prodi.alias');
 
         return view('sdm', [
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
@@ -27,6 +48,9 @@ class SdmController extends Controller
             'dosen_tetap' => $dosen_tetap->toArray(),
             'dosen_tetap_bersertifikasi' => $dosen_tetap_bersertifikasi->toArray(),
             'skor' => 12.5,
+            // JABATAN FUNGSIONAL DOSEN
+            'dosen_lektor_kepala' => $dosen_lektor_kepala->toArray(),
+            'dosen_guru_besar' => $dosen_guru_besar->toArray(),
         ]);
     }
 
