@@ -15,6 +15,7 @@ class Karyawan extends Model
         'nidk' => 'string',
         'nup' => 'string',
     ];
+    protected $appends = ['sum_histori_sks'];
 
     public function newQuery()
     {
@@ -74,5 +75,15 @@ class Karyawan extends Model
     public function jabatan_fungsional()
     {
         return $this->hasMany(JabatanFungsional::class, 'nik');
+    }
+
+    public function histori_ajar()
+    {
+        return $this->hasMany(HistoriAjar::class, 'kary_nik');
+    }
+
+    public function getSumHistoriSksAttribute()
+    {
+        return $this->histori_ajar->sum('sks');
     }
 }
