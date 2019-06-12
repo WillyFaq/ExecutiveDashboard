@@ -43,6 +43,13 @@ class SdmController extends Controller
             });
         })
         ->groupBy('prodi.alias');
+        // PRESENTASE DOSEN: TETAP TIDAK TETAP
+        $jml_dosen_tetap = Karyawan::whereIsAktif()
+        ->whereIsDosenTetap()
+        ->count();
+        $jml_dosen_tidak_tetap = Karyawan::whereIsAktif()
+        ->whereIsDosenTidakTetap()
+        ->count();
 
         return view('sdm', [
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
@@ -53,6 +60,9 @@ class SdmController extends Controller
             // JABATAN FUNGSIONAL DOSEN
             'dosen_lektor_kepala' => $dosen_lektor_kepala->toArray(),
             'dosen_guru_besar' => $dosen_guru_besar->toArray(),
+            // PRESENTASE DOSEN: TETAP
+            'jml_dosen_tetap' => $jml_dosen_tetap,
+            'jml_dosen_tidak_tetap' => $jml_dosen_tidak_tetap,
         ]);
     }
 
