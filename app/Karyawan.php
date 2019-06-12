@@ -58,4 +58,9 @@ class Karyawan extends Model
         return $query->whereIsDosen()
             ->where('kary_type', '!=', 'TD');
     }
+
+    public function sertifikasi()
+    {
+        return $this->hasMany(SertifikasiKaryawan::class, 'nik');
+    }
 }
