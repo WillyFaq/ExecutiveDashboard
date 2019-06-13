@@ -15,15 +15,15 @@ class SdmController extends Controller
         // DATA DOSEN & SERTIFIKASINYA
         $dosen_tetap = Karyawan::whereIsAktif()
         ->whereIsDosenTetap()
-        ->with('sertifikasi', 'prodi')
+        ->with('sertifikasi', 'prodi_ewmp.prodi')
         ->get();
         $dosen_tetap_bersertifikasi = $dosen_tetap->filter(function ($dosen_tetap) {
             return count($dosen_tetap->sertifikasi);
         })
         ->values()
-        ->groupBy('prodi.alias');
+        ->groupBy('prodi_ewmp.prodi.alias');
         $dosen_tetap = $dosen_tetap
-        ->groupBy('prodi.alias');
+        ->groupBy('prodi_ewmp.prodi.alias');
         // DOSEN DENGAN JABATAN FUNGSIONALNYA
         $dosen = Karyawan::whereIsAktif()
         ->whereIsDosen()
