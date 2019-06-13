@@ -14,18 +14,34 @@ class SdmController extends Controller
     {
         $tahun_now = $request->input('tahun', Carbon::now()->format('Y'));
         // DATA DOSEN & SERTIFIKASINYA
-        $dosen_tetap = Karyawan::whereIsAktif()
-        ->whereIsDosenTetap()
-        ->with('sertifikasi', 'prodi_ewmp.prodi')
+        $prodi = Prodi::whereIsAktif()
+        ->orderBy('id')
+        ->with(['prodi_ewmp'=>function($query){
+            return $query
+            ->whereHas('karyawan', function($query){
+                return $query
+                ->whereIsAktif()
+                ->whereIsDosenTetap();
+            })
+            ->with('karyawan.sertifikasi');
+        }])
         ->get();
-        $dosen_tetap_bersertifikasi = $dosen_tetap->filter(function ($dosen_tetap) {
-            return count($dosen_tetap->sertifikasi);
+        $dosen_tetap = $prodi
+        ->groupBy('alias')
+        ->map(function($prodi){
+            return $prodi->first()->prodi_ewmp->count();
+        });
+        $dosen_tetap_bersertifikasi = $prodi
+        ->map(function($prodi){
+            $prodi->prodi_ewmp = $prodi->prodi_ewmp->filter(function($prodi_ewmp){
+                return count($prodi_ewmp->karyawan->sertifikasi);
+            });
+            return $prodi;
         })
-        ->values()
-        ->groupBy('prodi_ewmp.prodi.alias');
-        $dosen_tetap = $dosen_tetap
-        ->groupBy('prodi_ewmp.prodi.alias');
-        // DOSEN DENGAN JABATAN FUNGSIONALNYA
+        ->groupBy('alias')
+        ->map(function($prodi){
+            return $prodi->first()->prodi_ewmp->count();
+        });
         $prodi = Prodi::whereIsAktif()
         ->orderBy('id')
         ->with(['prodi_ewmp' => function($query){
