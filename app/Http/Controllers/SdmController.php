@@ -93,7 +93,6 @@ class SdmController extends Controller
             // PRESENTASE SERTIFIKAT PENDIDIKAN
             'dosen_tetap' => $dosen_tetap->toArray(),
             'dosen_tetap_bersertifikasi' => $dosen_tetap_bersertifikasi->toArray(),
-            'skor' => 12.5,
             // JABATAN FUNGSIONAL DOSEN
             'dosen_lektor_kepala' => $dosen_lektor_kepala->toArray(),
             'dosen_guru_besar' => $dosen_guru_besar->toArray(),
