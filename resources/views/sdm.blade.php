@@ -308,12 +308,15 @@
 						</div>
 						<div class="row" style="padding-top:20px;">
 							<div class="col-xs-12">
-                    			@include('widgets.charts.cpiechart', array('value' => 3.78))
+								@include('widgets.charts.cpiechart', ['data' => [
+									'Dosen Tetap' => $jml_dosen_tetap,
+									'Dosen Tidak Tetap' => $jml_dosen_tidak_tetap,
+								]])
 							</div>
 							<div class="col-xs-12 card-home-legend">
 									<ul>
-										<li><span class="dot d_red"></span>Dosen Tetap : <strong>106 Orang</strong> </li>
-										<li><span class="dot d_yellow"></span>Sertifiakat : <strong>80 Orang</strong> </li>
+										<li><span class="dot d_red"></span>Dosen Tetap : <strong>{{ $jml_dosen_tetap }} Orang</strong> </li>
+										<li><span class="dot d_yellow"></span>Dosen Tidak Tetap : <strong>{{ $jml_dosen_tidak_tetap }} Orang</strong> </li>
 									</ul>
 								
 							</div>
