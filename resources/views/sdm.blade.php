@@ -6,8 +6,8 @@
 <script src="{{ asset("js/popper.min.js") }}" type="text/javascript"></script>
 <script src="{{ asset("d3-chart/d3.v5.min.js") }}" type="text/javascript"></script>
 
-<script src="{{ asset("js/chart.js") }}" type="text/javascript"></script>
-<script src="{{ asset("js/Utils.js") }}" type="text/javascript"></script>
+<script src="{{ asset("js/Chart.js") }}" type="text/javascript"></script>
+<script src="{{ asset("js/utils.js") }}" type="text/javascript"></script>
 <script src="{{ asset("js/apexcharts.js") }}" type="text/javascript"></script>
 
 <div class="container container-main container-home" style="padding-top:10px;">

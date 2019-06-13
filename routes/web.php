@@ -18,8 +18,14 @@ Route::get('/sdm/profil', 'SdmController@profil');
 Route::get('/sdm/profil/{judul}/{nilai}', 'SdmController@detail');
 Route::get('/sdm/beban_kerja', 'SdmController@beban_kerja');
 Route::get('/sdm/produktivitas', 'SdmController@produktivitas');
+Route::get('/sdm/list_dosen', 'SdmController@list_dosen');
+//Route::get('/sdm/list_dosen_detail', 'SdmController@list_dosen_detail');
+Route::get('/sdm/list_dosen_detail/{id}', 'SdmController@list_dosen_detail');
 
 Route::get('/pendidikan', 'PendidikanController@index');
+
+
+
 /*Route::get('/', function () {
     return view('home');
 });*/
