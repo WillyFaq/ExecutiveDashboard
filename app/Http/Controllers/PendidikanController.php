@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Prodi;
 
 class PendidikanController extends Controller
 {
@@ -107,6 +108,24 @@ class PendidikanController extends Controller
 
     public function detail(Request $request, $kode_prodi)
     {
-        return null;
+        $prodi = Prodi::whereIsAktif()
+        ->with([
+            'fakultas',
+            'mata_kuliah' => function ($query) {
+                return $query->whereIsAktif();
+            },
+        ])
+        ->find($kode_prodi);
+        $prodi->web = 'si.stikom.edu';
+
+        $mata_kuliah = $prodi->mata_kuliah
+        ->sortBy('id')
+        ->sortBy('semester')
+        ->groupBy('semester');
+
+        return view('pendidikan_detail', [
+            'prodi' => $prodi->toArray(),
+            'mata_kuliah' => $mata_kuliah->toArray(),
+        ]);
     }
 }
