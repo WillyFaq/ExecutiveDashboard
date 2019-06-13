@@ -1,0 +1,59 @@
+@extends('layouts.dashboard')
+@section('page_heading','SDM')
+@section('section')
+<link rel="stylesheet" href="{{ asset("d3-chart/gauge.css") }}">
+<script src="{{ asset("js/popper.min.js") }}" type="text/javascript"></script>
+<script src="{{ asset("d3-chart/d3.v5.min.js") }}" type="text/javascript"></script>
+
+<script src="{{ asset("js/chart.js") }}" type="text/javascript"></script>
+<script src="{{ asset("js/Utils.js") }}" type="text/javascript"></script>
+<script src="{{ asset("js/apexcharts.js") }}" type="text/javascript"></script>
+
+<div class="container container-main container-home" style="padding-top:10px;">
+    <div class="row">
+        <div class="col">
+            @foreach($prodi as $i => $prodi)
+                @if($i % 3 == 0)
+                    <div class="row main-dash">
+                @endif
+                <div class="col col-xs-4">
+                    <div class="card" style="height:205px">
+                        <div class="card-header">
+                            <h6 class="card-title">{{ $prodi['fakultas'] }}</h6>
+                            <h4 class="card-title"><strong>{{ $prodi['nama'] }}</strong></h4>
+                        </div>
+                        <div class="card-body">
+                            <h5><strong>Profil Lulusan</strong></h5>
+                            <div class="row">
+                                @if(count($prodi['profil']) > 3)
+                                <div class="col-xs-6">
+                                @else
+                                <div class="col-xs-12">
+                                @endif
+                                    <ol style="padding-left:20px">
+                                    @for($j = 0; $j < 3; $j++)
+                                        <li>{{ $prodi['profil'][$j] }}</li>
+                                    @endfor
+                                    </ol>
+                                </div>
+                                @if(count($prodi['profil']) > 3)
+                                    <div class="col-xs-6">
+                                        <ol style="padding-left:20px">
+                                        @for($j; $j < count($prodi['profil']); $j++)
+                                            <li>{{ $prodi['profil'][$j] }}</li>
+                                        @endfor
+                                        </ol>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if(($i+1) % 3 == 0)
+                    </div>
+                @endif
+            @endforeach
+        </div>
+    </div>
+</div>
+@stop
