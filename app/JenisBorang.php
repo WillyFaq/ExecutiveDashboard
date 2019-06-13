@@ -8,4 +8,5 @@ class JenisBorang extends Model
 {
     protected $table = 'jenis_borang';
     protected $primaryKey = 'kd_jns';
+    protected $connection = 'oracle_stikom_dev';
 }
