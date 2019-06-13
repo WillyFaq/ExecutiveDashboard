@@ -56,8 +56,8 @@
 							</div>
 							<div class="col-xs-4 card-home-legend">
 								<ul>
-                                    <li><span class="dot d_red"></span>Guru Besar : <strong>{{ array_sum(array_values($dosen_lektor_kepala)) }} Orang</strong> </li>
-                                    <li><span class="dot d_yellow"></span>Lekor Kepala : <strong>{{ array_sum(array_values($dosen_guru_besar)) }} Orang</strong> </li>
+                                    <li><span class="dot d_red"></span>Guru Besar : <strong>{{ array_sum(array_values($dosen_guru_besar)) }} Orang</strong> </li>
+                                    <li><span class="dot d_yellow"></span>Lekor Kepala : <strong>{{ array_sum(array_values($dosen_lektor_kepala)) }} Orang</strong> </li>
 								</ul>
 							</div>
 							<div class="col-xs-1">
