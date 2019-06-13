@@ -63,7 +63,7 @@
 					        ticks: {
 								// min: 150,
 								// max: 500,
-								stepSize: 1,
+								// stepSize: 1,
 								// suggestedMin: 0,
 								// suggestedMax: 400,
 								fontSize: 10
