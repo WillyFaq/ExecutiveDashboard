@@ -243,8 +243,8 @@
 							</div>
 							<div class="col-xs-4 card-home-legend">
 								<ul>
-									<li><span class="dot d_red"></span>Dosen Tetap : <strong>106 Orang</strong> </li>
-									<li><span class="dot d_yellow"></span>Sertifiakat : <strong>80 Orang</strong> </li>
+									<li><span class="dot d_red"></span>Dosen Tetap : <strong>{{ array_sum(array_values($dosen_tetap)) }} Orang</strong> </li>
+									<li><span class="dot d_yellow"></span>Sertifiakat : <strong>{{ array_sum(array_values($dosen_tetap_bersertifikasi)) }} Orang</strong> </li>
 								</ul>
 							</div>
 							<div class="col-xs-1">
@@ -260,35 +260,10 @@
 						</div>
 						<div class="row">
 							<div class="col-xs-12" style="padding-top:10px;">
-								@php
-								
-									$mix = array(
-												'bar' => ['Lektor Kepala',array(
-																	'SI' => 200,
-																	'SK' => 250,
-																	'DKV' => 300,
-																	'D3 SI' => 350,
-																	'Profiti' => 380,
-																	'Desgraf' => 400,
-																	'Manajemen' => 400,
-																	'Akuntansi' => 400,
-																	'KPK' => 400,
-																	)],
-												'line'		=> ['Guru Besar', array(
-																	'SI' => 300,
-																	'SK' => 350,
-																	'DKV' => 200,
-																	'D3 SI' => 450,
-																	'Profiti' => 480,
-																	'Desgraf' => 200,
-																	'Manajemen' => 200,
-																	'Akuntansi' => 500,
-																	'KPK' => 400,
-																	) ]
-												); 
-								
-								@endphp
-								@include('widgets.charts.mixchart_sdm', array('data' => $mix))
+                                @include('widgets.charts.mixchart_sdm', array('data' => [
+                                    'bar' => ['Sertifikasi', $dosen_tetap_bersertifikasi],
+                                    'line'	=> ['Dosen Tetap', $dosen_tetap ],
+                                ]))
 							</div>
 						</div>
 					</div>
