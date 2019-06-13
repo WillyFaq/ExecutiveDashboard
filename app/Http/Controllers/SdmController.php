@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Karyawan;
 use App\Mahasiswa;
+use App\Prodi;
 
 class SdmController extends Controller
 {
@@ -25,25 +26,49 @@ class SdmController extends Controller
         $dosen_tetap = $dosen_tetap
         ->groupBy('prodi_ewmp.prodi.alias');
         // DOSEN DENGAN JABATAN FUNGSIONALNYA
-        $dosen = Karyawan::whereIsAktif()
-        ->whereIsDosen()
-        ->with('jabatan_fungsional')
-        ->wherehas('jabatan_fungsional', function ($query) {
-            return $query->whereIn('id_jfa', [4, 5]);
-        })
+        $prodi = Prodi::whereIsAktif()
+        ->orderBy('id')
+        ->with(['prodi_ewmp' => function($query){
+            return $query
+            ->with('karyawan.jabatan_fungsional')
+            ->whereHas('karyawan', function($query) {
+                return $query
+                ->whereIsDosen()
+                ->whereIsAktif()
+                ->wherehas('jabatan_fungsional', function ($query) {
+                    return $query->whereIn('id_jfa', [4, 5]);
+                });
+            });
+        }])
         ->get();
-        $dosen_lektor_kepala = $dosen->filter(function ($dosen) {
-            return $dosen->jabatan_fungsional->filter(function ($jabatan_fungsional) {
-                return $jabatan_fungsional->id_jfa = 4;
+        $dosen_lektor_kepala = $prodi->map(function($prodi){
+            $prodi->prodi_ewmp = $prodi->prodi_ewmp->filter(function ($prodi_ewmp) {
+                return $prodi_ewmp->karyawan->jabatan_fungsional
+                ->filter(function ($jabatan_fungsional) {
+                    return $jabatan_fungsional->id_jfa == 4;
+                })
+                ->count();
             });
+            return $prodi;
         })
-        ->groupBy('prodi.alias');
-        $dosen_guru_besar = $dosen->filter(function ($dosen) {
-            return $dosen->jabatan_fungsional->filter(function ($jabatan_fungsional) {
-                return $jabatan_fungsional->id_jfa = 5;
+        ->groupBy('alias')
+        ->map(function($prodi){
+            return $prodi->first()->prodi_ewmp->count();
+        });
+        $dosen_guru_besar = $prodi->map(function($prodi){
+            $prodi->prodi_ewmp = $prodi->prodi_ewmp->filter(function ($prodi_ewmp) {
+                return $prodi_ewmp->karyawan->jabatan_fungsional
+                ->filter(function ($jabatan_fungsional) {
+                    return $jabatan_fungsional->id_jfa == 5;
+                })
+                ->count();
             });
+            return $prodi;
         })
-        ->groupBy('prodi.alias');
+        ->groupBy('alias')
+        ->map(function($prodi){
+            return $prodi->first()->prodi_ewmp->count();
+        });
         // RASIO DOSEN:MAHASISWA
         $jml_dosen = Karyawan::whereIsAktif()
         ->whereIsDosenTetap()
