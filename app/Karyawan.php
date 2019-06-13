@@ -82,7 +82,7 @@ class Karyawan extends Model
 
     public function sertifikasi()
     {
-        return $this->hasMany(SertifikasiKaryawan::class, 'nik');
+        return $this->hasMany(SertifikasiDosen::class, 'nik');
     }
 
     public function jabatan_fungsional()
