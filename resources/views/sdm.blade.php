@@ -27,7 +27,7 @@
 						</div>
 						<div class="row" style="padding-top:20px;">
 							<div class="col-xs-12">
-                    			@include('widgets.charts.gauge_sdm', array('value' => 3.78))
+                    			@include('widgets.charts.gauge_sdm', array('value' => $skor_nilai_sdm))
 							</div>
 							<div class="col-xs-12">
 								<div class="keterangan_box">

@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Karyawan;
 use App\Mahasiswa;
 use App\Prodi;
+use App\MateriBorang;
 use DB;
 
 class SdmController extends Controller
@@ -14,6 +15,15 @@ class SdmController extends Controller
     public function index(Request $request)
     {
         $tahun_now = $request->input('tahun', Carbon::now()->format('Y'));
+        // SKOR NILAI SDM
+        $materi_sdm = MateriBorang::with([
+            'nilai' => function ($query) use ($tahun_now) {
+                return $query->where('tahun', $tahun_now);
+            }
+        ])
+        ->find(1804);
+        $nilai_sdm = $materi_sdm->nilai->first();
+        $skor_nilai_sdm = round($nilai_sdm->nilai ? $nilai_sdm->nilai : 0,2);
         // DATA DOSEN & SERTIFIKASINYA
         $prodi = Prodi::whereIsAktif()
         ->orderBy('id')
@@ -110,6 +120,8 @@ class SdmController extends Controller
 
         return view('sdm', [
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
+            // NILAI SDM
+            'skor_nilai_sdm' => $skor_nilai_sdm,
             // PRESENTASE SERTIFIKAT PENDIDIKAN
             'dosen_tetap' => $dosen_tetap->toArray(),
             'dosen_tetap_bersertifikasi' => $dosen_tetap_bersertifikasi->toArray(),
