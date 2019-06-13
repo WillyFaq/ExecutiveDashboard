@@ -90,8 +90,7 @@ class SdmController extends Controller
             return $prodi->first()->prodi_ewmp->count();
         });
         // RASIO DOSEN:MAHASISWA
-        $jml_dosen = Karyawan::whereIsAktif()
-        ->whereIsDosenTetap()
+        $jml_dosen = Karyawan::whereIsDosenTetap()
         ->count();
         $jml_mahasiswa = Mahasiswa::whereHas('histori_kuliah', function ($query) use ($tahun_now) {
             return $query
@@ -101,11 +100,12 @@ class SdmController extends Controller
         ->count();
         $rasio_dosen_mahasiswa = round($jml_mahasiswa / $jml_dosen, 2);
         // RASIO PRODI:DOSEN
-        $jml_prodi = Prodi::whereIsAktif()->count();
+        $jml_prodi = Prodi::whereIsAktif()
+        ->whereNotIn('id',['41011','39090'])
+        ->count();
         $rasio_prodi_dosen = round($jml_dosen / $jml_prodi, 2);
         // PRESENTASE DOSEN: TETAP TIDAK TETAP
-        $jml_dosen_tetap = Karyawan::whereIsAktif()
-        ->whereIsDosenTetap()
+        $jml_dosen_tetap = Karyawan::whereIsDosenTetap()
         ->count();
 
         return view('sdm', [
