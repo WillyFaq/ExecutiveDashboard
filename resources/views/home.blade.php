@@ -26,7 +26,7 @@
 							</div>
 						</div>
 						<div class="row" style="padding:0; margin:0 -5px;">
-							<div class="col-xs-12 card_gradient cg_bs">
+							<div class="col-xs-12 card_gradient">
 								<div class="row">
 									<div class="col-xs-6">
 										@include('widgets.charts.gauge_home', $skor['chart'])
