@@ -18,4 +18,14 @@ class Prodi extends Model
     {
         return $this->hasMany(ProdiEwmp::class, 'prodi');
     }
+
+    public function fakultas()
+    {
+        return $this->belongsTo(Fakultas::class, 'id_fakultas');
+    }
+
+    public function mata_kuliah()
+    {
+        return $this->hasMany(MataKuliah::class, 'fakul_id');
+    }
 }

@@ -1,13 +1,6 @@
 @extends('layouts.dashboard')
 @section('page_heading','SDM')
 @section('section')
-<link rel="stylesheet" href="{{ asset("d3-chart/gauge.css") }}">
-<script src="{{ asset("js/popper.min.js") }}" type="text/javascript"></script>
-<script src="{{ asset("d3-chart/d3.v5.min.js") }}" type="text/javascript"></script>
-
-<script src="{{ asset("js/chart.js") }}" type="text/javascript"></script>
-<script src="{{ asset("js/Utils.js") }}" type="text/javascript"></script>
-<script src="{{ asset("js/apexcharts.js") }}" type="text/javascript"></script>
 
 <div class="container container-main container-home" style="padding-top:10px;">
     <div class="row">
@@ -20,7 +13,9 @@
                     <div class="card" style="height:205px">
                         <div class="card-header">
                             <h6 class="card-title">{{ $prodi['fakultas'] }}</h6>
-                            <h4 class="card-title"><strong>{{ $prodi['nama'] }}</strong></h4>
+                            <h4 class="card-title"><strong>
+                                <a href="{!! url('pendidikan/'.$prodi['kode']) !!}">{{ $prodi['nama'] }}</a>
+                            </strong></h4>
                         </div>
                         <div class="card-body">
                             <h5><strong>Profil Lulusan</strong></h5>

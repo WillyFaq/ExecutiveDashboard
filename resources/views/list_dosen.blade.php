@@ -8,11 +8,23 @@
 		$(document).ready(function() {
 			$('#example').DataTable();
 		} );
+		
+		/*function getprodi(){
+
+		}*/
 	</script>
 	
 <div class="container container-main container-home" style="padding-top:10px;">
 <div class="card">
 	<p><b>Dosen Program Studi S1 Sistem Informasi</b></p><br>
+	<p>
+		Filter By : 
+		<select name="prodi" id="prodi">
+		@foreach($prodi as $hasil)
+			<option value="{{$hasil->id}}">{{$hasil->nama}}</option>			  
+		@endforeach
+		</select>
+	</p>
 	<table id="example" class="display" style="width:100%">
 		<thead>
 			<tr>
@@ -75,19 +87,70 @@
 					  <div class="modal-dialog" role="document">
 						<div class="modal-content">
 						  <div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+							<h5 class="modal-title" id="exampleModalLabel">{{$row->nama}} <br> ( {{$row->nip}} )</h5>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							  <span aria-hidden="true">&times;</span>
 							</button>
 						  </div>
 						  <div class="modal-body">
-								
+							<div class="row">
+							  <div class="col-6 col-md-1">No.</div>
+							  <div class="col-6 col-md-3">Nama Berkas</div>
+							  <div class="col-6 col-md-3">Action</div>
+							</div>
 							@foreach($row->berkas_portofolio as $berkas_portofolio)
-								
-								
-								<p>{{$berkas_portofolio->nama_jenis}} {{$berkas_portofolio->file_path}}</p>
-							
+								<div class="row">
+								  <div class="col-6 col-md-1">No.</div>
+								  <div class="col-6 col-md-3">{{$berkas_portofolio->nama_jenis}}</div>
+								  <div class="col-6 col-md-3"><a href='' data-toggle="modal" data-target="#Modalfile{{$berkas_portofolio->file_path}}">{{$berkas_portofolio->file_path}}</a></div>
+								</div>								
 							@endforeach
+							<!--	</tbody>
+							</table>
+							Tes Modal 
+							<img src="<?//=asset('imgs/berkas/'.$row->berkas)?>">
+							-->
+						  </div>
+						</div>
+					  </div>
+					</div>
+					
+					@foreach($row->berkas_portofolio as $berkas_portofolio)
+					<div class="modal fade" id="Modalfile{{$berkas_portofolio->file_path}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+						<div class="modal-content">
+						  <div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">dalm modal</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div>
+						  <div class="modal-body">
+													
+							
+							<!--	</tbody>
+							</table>
+							Tes Modal 
+							<img src="<?//=asset('imgs/berkas/'.$row->berkas)?>">
+							-->
+						  </div>
+						</div>
+					  </div>
+					</div>
+					@endforeach
+					
+					<div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+						<div class="modal-content">
+						  <div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">modal dalam modal</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div>
+						  <div class="modal-body">
+													
+							berkas
 							<!--	</tbody>
 							</table>
 							Tes Modal 

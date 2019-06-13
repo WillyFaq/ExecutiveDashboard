@@ -274,7 +274,11 @@ class SdmController extends Controller
 		->whereIsDosenTetap()
 		->get();
 		
-		return view('list_dosen', ['result' => $result]);		
+		$prodi = Prodi::whereIsAktif()
+        ->orderBy('id')        
+        ->get();
+		
+		return view('list_dosen', ['result' => $result, 'prodi' => $prodi]);		
 		//return view('list_dosen');
 	}
 	
@@ -289,9 +293,12 @@ class SdmController extends Controller
 							from v_karyawan kar where nik = '$id'");
 		$akademik = DB::select("select no, jenjang, nama_sekolah, jenjang_studi, substr(tahun_lulus, -4) tahun_lulus, jurusan from V_PEND_FORMAL_KAR where nik = '$id'
 										and lower(jenjang_studi) in ('s1','s2','s3') order by 1");										
-		$penelitian = DB::select("select mk, 'Institut Bisnis dan Informatika Stikom Surabaya' lembaga, substr(periode, -4) tahun from rekap_ewmp_lain_pc_prodi where bidang = 'B' and jenis = '1' and nik = '$id'");
+		$penelitian = DB::select("select mk, 'Institut Bisnis dan Informatika Stikom Surabaya' lembaga, substr(periode, -4) tahun from pantja.ewmp_b@get_ori where nik = '$id'");
 		
-		$riwayat = DB::select("select substr(smt,1,2) tahun, sum(b.sks) sks from jdwkul_mf_his a join kurlkl_mf b on a.klkl_id = b.id where a.prodi = b.fakul_id and kary_nik = '$id' group by substr(smt,1,2) order by 1");
+		/*$riwayat = DB::select("select substr(smt,1,2) tahun, sum(b.sks) sks from jdwkul_mf_his a join kurlkl_mf b on a.klkl_id = b.id where a.prodi = b.fakul_id and kary_nik = '$id' group by substr(smt,1,2) order by 1");*/
+		
+		$riwayat = DB::select("select substr(a.semester,1,2) tahun, sum(b.sks) sks from rekap_mf a join kurlkl_mf b on a.jkul_klkl_id = b.id where a.prodi = b.fakul_id and jkul_kary_nik = '$id' and sts_dosen = '*' and substr(a.semester, 1,1) <> '9' group by substr(a.semester,1,2) order by 1");
+		
 		return view('list_dosen_detail', ['result' => $result, 'akademik' => $akademik, 'penelitian' => $penelitian, 'line' => $riwayat]);
 	}
 }

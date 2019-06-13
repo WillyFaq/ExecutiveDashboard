@@ -23,9 +23,7 @@ Route::get('/sdm/list_dosen', 'SdmController@list_dosen');
 Route::get('/sdm/list_dosen_detail/{id}', 'SdmController@list_dosen_detail');
 
 Route::get('/pendidikan', 'PendidikanController@index');
-
-
-
+Route::get('/pendidikan/{kode_prodi}', 'PendidikanController@detail');
 /*Route::get('/', function () {
     return view('home');
 });*/
