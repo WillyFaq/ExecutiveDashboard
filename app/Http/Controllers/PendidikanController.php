@@ -10,6 +10,7 @@ class PendidikanController extends Controller
     {
         $prodi = collect([
             [
+                'kode' => 41010,
                 'nama' => 'S1 Sistem Informasi',
                 'fakultas' => 'Fakultas Teknologi Informasi',
                 'profil' => [
@@ -20,6 +21,7 @@ class PendidikanController extends Controller
                     'Consultant Programmer',
                 ],
             ], [
+                'kode' => 41020,
                 'nama' => 'S1 Teknik Komputer',
                 'fakultas' => 'Fakultas Teknologi Informasi',
                 'profil' => [
@@ -28,6 +30,7 @@ class PendidikanController extends Controller
                     'Computer Control Engineer',
                 ],
             ], [
+                'kode' => 42010,
                 'nama' => 'S1 Desain Komunikasi Visual',
                 'fakultas' => 'Fakultas Teknologi Informasi',
                 'profil' => [
@@ -37,6 +40,7 @@ class PendidikanController extends Controller
                     'Copywriter',
                 ],
             ], [
+                'kode' => 42020,
                 'nama' => 'S1 Desain Produk',
                 'fakultas' => 'Fakultas Teknologi Informasi',
                 'profil' => [
@@ -47,7 +51,8 @@ class PendidikanController extends Controller
                     'Product Design Consultant',
                 ],
             ], [
-                'nama' => 'S1 Produksi Film & Television',
+                'kode' => 51016,
+                'nama' => 'D4 Produksi Film & Television',
                 'fakultas' => 'Fakultas Teknologi Informasi',
                 'profil' => [
                     'Broadcaster',
@@ -55,6 +60,7 @@ class PendidikanController extends Controller
                     'Ilustrator',
                 ],
             ], [
+                'kode' => 39010,
                 'nama' => 'D3 Sistem Informasi',
                 'fakultas' => 'Fakultas Teknologi Informasi',
                 'profil' => [
@@ -64,6 +70,7 @@ class PendidikanController extends Controller
                     'System Analyst',
                 ],
             ], [
+                'kode' => 43020,
                 'nama' => 'S1 Akutansi',
                 'fakultas' => 'Fakultas Ekonomi Bisnis',
                 'profil' => [
@@ -72,6 +79,7 @@ class PendidikanController extends Controller
                     'Accounting Information System Consultant',
                 ],
             ], [
+                'kode' => 43010,
                 'nama' => 'S1 Manajemen',
                 'fakultas' => 'Fakultas Ekonomi Bisnis',
                 'profil' => [
@@ -80,6 +88,7 @@ class PendidikanController extends Controller
                     'Professioal Accountant',
                 ],
             ], [
+                'kode' => 39015,
                 'nama' => 'D3 Administrasi Perkantoran',
                 'fakultas' => 'Fakultas Ekonomi Bisnis',
                 'profil' => [
@@ -94,5 +103,10 @@ class PendidikanController extends Controller
         return view('pendidikan', [
             'prodi' => $prodi->toArray(),
         ]);
+    }
+
+    public function detail(Request $request, $kode_prodi)
+    {
+        return null;
     }
 }
