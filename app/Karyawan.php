@@ -25,23 +25,25 @@ class Karyawan extends Model
                 'nidk',
                 'nup',
                 'nama',
-				'gelar_depan',
-				'gelar_belakang',
-				'kary_type',
+                'gelar_depan',
+                'gelar_belakang',
+                'kary_type',
             ])
             ->leftJoin('v_email_kar', 'v_karyawan.nik', 'v_email_kar.nik')
             ->addSelect([
                 'v_email_kar.email',
             ]);
     }
-	
-	public function pendidikan_formal() {
-		return $this->hasMany(PendidikanFormal::class,'nik');
-	}
-	
-	public function berkas_portofolio(){
-		return $this->hasMany(BerkasPortofolio::class,'nik');
-	}
+
+    public function pendidikan_formal()
+    {
+        return $this->hasMany(PendidikanFormal::class, 'nik');
+    }
+
+    public function berkas_portofolio()
+    {
+        return $this->hasMany(BerkasPortofolio::class, 'nik');
+    }
 
     public function scopeWhereIsAktif($query)
     {
@@ -55,22 +57,22 @@ class Karyawan extends Model
             ->where('kary_type', 'LIKE', '%D%')
             ->orWhere('kary_type', 'LB');
         })
-        ->where('kary_type','!=','AD');
+        ->where('kary_type', '!=', 'AD');
     }
 
     public function scopeWhereIsDosenTetap($query)
     {
         return $query->whereisDosen()
         ->whereIsAktif()
-        ->where('kary_type','!=','LB')
-        ->where(\DB::Raw('length(v_karyawan.nik)'),6);
+        ->where('kary_type', '!=', 'LB')
+        ->where(\DB::Raw('length(v_karyawan.nik)'), 6);
     }
 
     public function scopeWhereIsDosenTidakTetap($query)
     {
         return $query->whereIsDosen()
         ->whereIsAktif()
-        ->where(\DB::Raw('length(v_karyawan.nik)'),3);
+        ->where(\DB::Raw('length(v_karyawan.nik)'), 3);
     }
 
     public function prodi_ewmp()
