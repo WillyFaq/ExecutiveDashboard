@@ -74,7 +74,13 @@
             </div>
         </div>
         <div class="col-xs-4">
-            <div class="card"></div>
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Bahan Kajian</h4>
+                </div>
+                <div class="card-body">
+                </div>
+            </div>
         </div>
     </div>
 </div>
