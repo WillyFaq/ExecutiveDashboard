@@ -28,6 +28,7 @@
 						echo "},";
 				}
 			@endphp
+				
 				{
 					label: 'Dashed',
 					fill: false,
