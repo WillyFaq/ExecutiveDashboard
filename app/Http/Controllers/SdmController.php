@@ -122,19 +122,26 @@ class SdmController extends Controller
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
             // NILAI SDM
             'skor_nilai_sdm' => $skor_nilai_sdm,
+            // TENAGA KEPENDIDIKAN
+            'skor_tenaga_kependidikan' => 3,
             // PRESENTASE SERTIFIKAT PENDIDIKAN
             'dosen_tetap' => $dosen_tetap->toArray(),
             'dosen_tetap_bersertifikasi' => $dosen_tetap_bersertifikasi->toArray(),
+            'skor_sertifikat_pendidikan' => 3.21,
             // JABATAN FUNGSIONAL DOSEN
             'dosen_lektor_kepala' => $dosen_lektor_kepala->toArray(),
             'dosen_guru_besar' => $dosen_guru_besar->toArray(),
+            'skor_jabatan_fungsional' => 2.00,
             // RASIO DOSEN:MAHASISWA
             'rasio_dosen_mahasiswa' => $rasio_dosen_mahasiswa,
+            'skor_rasio_dosen_mahasiswa' => 4.00,
             // RASIO PRODI:DOSEN
             'rasio_prodi_dosen' => $rasio_prodi_dosen,
+            'skor_rasio_prodi_dosen' => 3.26,
             // PRESENTASE DOSEN: TETAP
             'jml_dosen_tetap' => $jml_dosen_tetap,
             'jml_dosen_tidak_tetap' => 0,
+            'skor_presentase_dosen_tidak_tetap' => 4,
         ]);
     }
 

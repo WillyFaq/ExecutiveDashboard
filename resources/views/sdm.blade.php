@@ -64,7 +64,7 @@
 							</div>
 								<div class="text-center card-sdm-right top-right pg_info">
 									<p class="txt_card_subtitle">Skor</p>
-									<h1>1.22</h1>
+                                    <h1>{{ $skor_jabatan_fungsional }}</h1>
 								</div>
 							<div class="col-xs-10 card-home-subtitle">
 							</div>
@@ -92,7 +92,7 @@
 										<h1 class="txt_color_info">1 : {{ $rasio_dosen_mahasiswa }}</h1>
 									</div>
 									<div class="col-xs-4">
-										@include('widgets.charts.gauge', array( 'value' => (3.15*100/4), 'skor'=> 3.15, 'type' => 2 ))
+                                        @include('widgets.charts.gauge', array( 'value' => (3.15*100/4), 'skor'=> $skor_rasio_dosen_mahasiswa, 'type' => 2 ))
 									</div>
 								</div>
 							</div>
@@ -105,7 +105,7 @@
 										<h1 class="txt_color_yellow">1 : {{ $rasio_prodi_dosen }}</h1>
 									</div>
 									<div class="col-xs-4">
-										@include('widgets.charts.gauge', array( 'value' => (2.89*100/4), 'skor'=> 2.89, 'type' => 2 ))
+                                        @include('widgets.charts.gauge', array( 'value' => (2.89*100/4), 'skor'=> $skor_rasio_prodi_dosen, 'type' => 2 ))
 									</div>
 								</div>
 							</div>
@@ -116,14 +116,17 @@
 									<div class="col-xs-8 sdm-small-card-tittle">
 										<p>Tenaga Kependidikan</p>
 										<div class="star-box">
-											<img src="{{ asset("imgs/star-on.svg") }}" alt="On">
-											<img src="{{ asset("imgs/star-on.svg") }}" alt="On">
-											<img src="{{ asset("imgs/star-on.svg") }}" alt="On">
-											<img src="{{ asset("imgs/star-off.svg") }}" alt="Off">
+                                            @for($i=1; $i <= 4; $i++)
+                                                @if($i <= $skor_tenaga_kependidikan)
+                                                    <img src="{{ asset("imgs/star-on.svg") }}" alt="On">
+                                                @else
+                                                    <img src="{{ asset("imgs/star-off.svg") }}" alt="Off">
+                                                @endif
+                                            @endfor
 										</div>
 									</div>
 									<div class="col-xs-4">
-										@include('widgets.charts.gauge', array( 'value' => (3*100/4), 'skor'=> 3.00, 'type' => 2 ))
+                                        @include('widgets.charts.gauge', array( 'value' => (3*100/4), 'skor'=> $skor_tenaga_kependidikan, 'type' => 2 ))
 									</div>
 								</div>
 							</div>
@@ -251,7 +254,7 @@
 							</div>
 								<div class="text-center card-sdm-right top-right pg_warning">
 									<p class="txt_card_subtitle">Skor</p>
-									<h1>1,46</h1>
+                                    <h1>{{ $skor_sertifikat_pendidikan }}</h1>
 								</div>
 							<div class="col-xs-10 card-home-subtitle">
 							</div>
@@ -277,7 +280,7 @@
 								<h2>Persentase Dosen Tidak Tetap</h2>
 							</div>
 							<div class="col-xs-2 text-center card-home-right">
-								<h1 class="txt_color_info">1,46</h1>
+                                <h1 class="txt_color_info">{{ $skor_presentase_dosen_tidak_tetap }}</h1>
 								<p class="txt_card_subtitle">Skor</p>
 							</div>
 						</div>
