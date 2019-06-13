@@ -15,7 +15,6 @@ class Karyawan extends Model
         'nidk' => 'string',
         'nup' => 'string',
     ];
-    protected $appends = ['sum_histori_sks'];
 
     public function newQuery()
     {
@@ -30,10 +29,6 @@ class Karyawan extends Model
             ->leftJoin('v_email_kar', 'v_karyawan.nik', 'v_email_kar.nik')
             ->addSelect([
                 'v_email_kar.email',
-            ])
-            ->leftJoin('v_prodiewmp', 'v_karyawan.nik', 'v_prodiewmp.nik')
-            ->addSelect([
-                \DB::Raw('v_prodiewmp.prodi AS kode_prodi'),
             ]);
     }
 
@@ -62,9 +57,9 @@ class Karyawan extends Model
             ->where('kary_type', '!=', 'TD');
     }
 
-    public function prodi()
+    public function prodi_ewmp()
     {
-        return $this->belongsTo(Prodi::class, 'kode_prodi');
+        return $this->hasMany(ProdiEwmp::class, 'nik');
     }
 
     public function sertifikasi()

@@ -14,8 +14,8 @@ class Prodi extends Model
         return $query->where('sts_aktif', 'Y');
     }
 
-    public function dosen()
+    public function prodi_ewmp()
     {
-        return $this->hasMany(Karyawan::class, 'v_prodiewmp.prodi');
+        return $this->hasMany(ProdiEwmp::class, 'prodi');
     }
 }
