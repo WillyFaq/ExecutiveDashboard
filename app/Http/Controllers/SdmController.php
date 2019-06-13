@@ -107,9 +107,6 @@ class SdmController extends Controller
         $jml_dosen_tetap = Karyawan::whereIsAktif()
         ->whereIsDosenTetap()
         ->count();
-        $jml_dosen_tidak_tetap = Karyawan::whereIsAktif()
-        ->whereIsDosenTidakTetap()
-        ->count();
 
         return view('sdm', [
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
@@ -125,7 +122,7 @@ class SdmController extends Controller
             'rasio_prodi_dosen' => $rasio_prodi_dosen,
             // PRESENTASE DOSEN: TETAP
             'jml_dosen_tetap' => $jml_dosen_tetap,
-            'jml_dosen_tidak_tetap' => $jml_dosen_tidak_tetap,
+            'jml_dosen_tidak_tetap' => 0,
         ]);
     }
 
