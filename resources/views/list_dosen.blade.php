@@ -1,7 +1,6 @@
-@extends('sdm')
-@section('sub_section')
+@extends('layouts.dashboard')
+@section('section')
 
-<head>
 	<link href="{{ asset("css/jquery.dataTables.min.css") }}" rel="stylesheet" type="text/css">
 	<script src="{{ asset("js/jquery-3.3.1.js") }}" type="text/javascript"></script>
 	<script src="{{ asset("js/jquery.dataTables.min.js") }}" type="text/javascript"></script>
@@ -11,9 +10,7 @@
 		} );
 	</script>
 	
-</head>
-
-<body>
+<div class="container container-main container-home" style="padding-top:10px;">
 <div class="card">
 	<p><b>Dosen Program Studi S1 Sistem Informasi</b></p><br>
 	<table id="example" class="display" style="width:100%">
@@ -108,7 +105,5 @@
 	</table>
 
 </div>
-
-</body>
-
+</div>
 @stop
