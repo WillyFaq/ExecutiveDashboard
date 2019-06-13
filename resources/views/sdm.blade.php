@@ -55,10 +55,6 @@
 								</div>
 							</div>
 							<div class="col-xs-4 card-home-legend">
-								<ul>
-                                    <li><span class="dot d_red"></span>Guru Besar : <strong>{{ array_sum(array_values($dosen_guru_besar)) }} Orang</strong> </li>
-                                    <li><span class="dot d_yellow"></span>Lekor Kepala : <strong>{{ array_sum(array_values($dosen_lektor_kepala)) }} Orang</strong> </li>
-								</ul>
 							</div>
 							<div class="col-xs-1">
 							</div>
@@ -141,94 +137,35 @@
 			<div class="row main-dash">
 
 				<div class="col-xs-3">
-					<div class="row sdm-small-card">
-						<div class="col-xs-12">
-							<div class="card">
-								<div class="row">
-									<div class="col-xs-12 sdm-small-card-tittle">
-										<p>Rata-Rata Penelitian Dosen</p>
-									</div>
-									<div class="col-xs-6">
-									</div>
-									<div class="col-xs-6">
-										<table class="table-keterangan-sdm-card">
-											<thead>
-												<tr class="txt_color_info">
-													<th>35</th>
-													<th>0.05</th>
-													<th>1.46</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Total</td>
-													<td>Internasional</td>
-													<td>Skor</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-xs-12">
-							<div class="card">
-								<div class="row">
-									<div class="col-xs-12 sdm-small-card-tittle">
-										<p>Rata-Rata Penelitian Dosen</p>
-									</div>
-									<div class="col-xs-6">
-										
-									</div>
-									<div class="col-xs-6">
-										<table class="table-keterangan-sdm-card">
-											<thead>
-												<tr class="txt_color_yellow">
-													<th>20</th>
-													<th>0.39</th>
-													<th>1.51</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Total</td>
-													<td>Internasional</td>
-													<td>Skor</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-xs-12">
-							<div class="card">
-								<div class="row">
-									<div class="col-xs-12 sdm-small-card-tittle">
-										<p>Rata-Rata Penelitian Dosen</p>
-									</div>
-									<div class="col-xs-6">
-									</div>
-									<div class="col-xs-6">
-										<table class="table-keterangan-sdm-card">
-											<thead>
-												<tr class="txt_color_info">
-													<th>35</th>
-													<th>1.46</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Total</td>
-													<td>Skor</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+                    <div class="card"><div class="card-body"><div class="row">
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-12 card-home-title" style="margin-bottom:20px">
+                                    <h2>Jabatan Fungsional Dosen</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 card-home-legend">
+                            <ul>
+                                <li><span class="dot d_red"></span>Guru Besar : <strong>{{ array_sum(array_values($dosen_guru_besar)) }} Orang</strong> </li>
+                                <li><span class="dot d_yellow"></span>Lekor Kepala : <strong>{{ array_sum(array_values($dosen_lektor_kepala)) }} Orang</strong> </li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-12" style="margin-bottom:30px"></div>
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-12 card-home-title" style="margin-bottom:20px">
+                                    <h2>Persentase Sertifikat Pendidikan</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 card-home-legend">
+                            <ul>
+                                <li><span class="dot d_red"></span>Dosen Tetap : <strong>{{ array_sum(array_values($dosen_tetap)) }} Orang</strong> </li>
+                                <li><span class="dot d_yellow"></span>Sertifiakat : <strong>{{ array_sum(array_values($dosen_tetap_bersertifikasi)) }} Orang</strong> </li>
+                            </ul>
+                        </div>
+                    </div></div></div>
 				</div>
 
 				<div class="col-xs-6">
@@ -245,10 +182,6 @@
 								</div>
 							</div>
 							<div class="col-xs-4 card-home-legend">
-								<ul>
-									<li><span class="dot d_red"></span>Dosen Tetap : <strong>{{ array_sum(array_values($dosen_tetap)) }} Orang</strong> </li>
-									<li><span class="dot d_yellow"></span>Sertifiakat : <strong>{{ array_sum(array_values($dosen_tetap_bersertifikasi)) }} Orang</strong> </li>
-								</ul>
 							</div>
 							<div class="col-xs-1">
 							</div>
