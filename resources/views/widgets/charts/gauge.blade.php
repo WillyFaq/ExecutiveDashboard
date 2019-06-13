@@ -19,12 +19,12 @@
 	.circle-bg {
 	  fill: none;
 	  stroke: #B6B6B6;
-	  stroke-width: 5.1;
+	   stroke-width: 3.1;
 	}
 
 	.circle {
 	  fill: none;
-	  stroke-width:4.8;
+	  stroke-width:2.8;
 	  stroke-linecap: round; 
 	  animation: progress 1s ease-out forwards;
 	  -webkit-transition: all 0.5s; /* Safari */
@@ -42,7 +42,7 @@
 	}
 
 	.circular-chart.green .circle {
-	  stroke: #388E3C;
+	  stroke: #2386DE;
 	}
 
 	.circular-chart.red .circle {
@@ -56,7 +56,7 @@
 
 	.circular-chart.green>.circle:hover {
 		stroke-width:5.2;
-	  stroke: #77B579;
+	  stroke: #2386DE;
 	}
 
 	.circular-chart.red>.circle:hover {
@@ -72,7 +72,7 @@
 	}
 	.percentage.red {fill: #BF1E2E}
 	.percentage.yellow {fill: #FFCC00}
-	.percentage.green {fill: #388E3C}
+	.percentage.green {fill: #2386DE}
 
 	.percentage_ket{
 	  font-family: sans-serif;

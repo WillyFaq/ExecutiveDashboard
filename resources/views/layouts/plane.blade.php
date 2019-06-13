@@ -19,7 +19,9 @@
 
     <!-- MetisMenu CSS -->
     <link href="{{ asset("css/metisMenu.css") }}" rel="stylesheet">
-
+	
+    <!-- Nunito sans Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="{{ asset("css/new_style.css") }}" rel="stylesheet">
 

@@ -1,7 +1,6 @@
-@extends('sdm')
-@section('sub_section')
+@extends('layouts.dashboard')
+@section('section')
 
-<head>
 	<link href="{{ asset("css/jquery.dataTables.min.css") }}" rel="stylesheet" type="text/css">
 	<script src="{{ asset("js/jquery-3.3.1.js") }}" type="text/javascript"></script>
 	<script src="{{ asset("js/jquery.dataTables.min.js") }}" type="text/javascript"></script>
@@ -17,9 +16,8 @@
 			$('#example2').DataTable();
 		} );
 	</script>
-</head>
 
-<body>
+<div class="container container-main container-home" style="padding-top:10px;">
 <div class="card">
 	<p><b>Biodata Dosen S1 Sistem Informasi</b></p>
 </div>
@@ -143,6 +141,7 @@
 	</div>	
 
 </div>
+</div>
 
 <script>
 var ctx = document.getElementById('myChart').getContext('2d');
@@ -206,6 +205,5 @@ var myChart = new Chart(ctx, {
     }
 });
 </script>
-</body>
 
 @stop

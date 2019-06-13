@@ -1,4 +1,4 @@
-<canvas height="85px" id="barchart"></canvas >
+<canvas height="95px" id="barchart"></canvas >
 <script>
 		var barChartData = {
 			labels: [
