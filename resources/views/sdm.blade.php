@@ -89,7 +89,7 @@
 								<div class="row">
 									<div class="col-xs-8 sdm-small-card-tittle">
 										<p>Rasio Dosen : Mahasiswa</p>
-										<h1 class="txt_color_info">1 : 17.2</h1>
+										<h1 class="txt_color_info">1 : {{ $rasio_dosen_mahasiswa }}</h1>
 									</div>
 									<div class="col-xs-4">
 										@include('widgets.charts.gauge', array( 'value' => (3.15*100/4), 'skor'=> 3.15, 'type' => 2 ))
