@@ -1,20 +1,19 @@
 <canvas style="width:100%; height:280px"  id="radarchart"></canvas >
 
 <script>
-	var label = [
-		@php
-			foreach($data_profil as $k => $v){
-				echo "['$k',$v],";
-			}
-		@endphp
-	];
-	var datas = [];
-	for(var i = 0; i < label.length; i++){
-		datas.push(label[i][1]);
-	}
-		var randomScalingFactor = function() {
-			return Math.round(Math.random() * 4);
-		};
+    @php
+        $label = array_map(function($data_profil) {
+            return [
+                $data_profil['nama'],
+                $data_profil['nilai'],
+            ];
+        }, $data_profil);
+        $data = array_map(function($data_profil) {
+            return $data_profil['nilai'];
+        }, $data_profil);
+    @endphp
+    var label = {!! json_encode(array_values($label)) !!};
+    var data = {!! json_encode(array_values($data)) !!};
 		var color = Chart.helpers.color;
 		var config = {
 			type: 'radar',
@@ -25,7 +24,7 @@
 					backgroundColor: 'rgba(190, 30, 45, 0.5)',//color(window.chartColors.red).alpha(0.2).rgbString(),
 					borderColor: '#BE1E2D',//window.chartColors.red,
 					pointBackgroundColor: '#BE1E2D',//window.chartColors.red,
-					data: datas
+					data: data
 				}]
 			},
 			options: {

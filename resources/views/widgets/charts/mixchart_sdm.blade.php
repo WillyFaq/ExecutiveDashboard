@@ -4,57 +4,35 @@
 <canvas height="105px" id="mixchart_{{$_idbx}}"></canvas >
 
 <script>
-		var mixChartData = {
-			labels: [
-				@php
-				foreach($data['bar'][1] as $k => $v){
-					echo "'$k',";
-				}
-				@endphp
-			],
-			datasets: [
-			@php
-				if(isset($data)){
-					echo "{";
-						echo "label: '".$data['line'][0]."',";
-						echo "borderColor: '#BE1E2D',";
-						echo "backgroundColor: '#BE1E2D',";
-						echo "borderWidth: 4,";
-						echo "fill: false,";
-						echo "data: [";
-						foreach($data['line'][1] as $k => $v){
-							echo "$v,";
-						}
-						echo "],";
-						echo "type: 'line',";
-						echo "lineTension: 0";
-					echo "},\n";
-					echo "{";
-						echo "label: '".$data['bar'][0]."',";
-						echo "borderColor: '#FE9D28',";
-						echo "backgroundColor: '#FE9D28',";
-						echo "borderWidth: 1,";
-						echo "fill: false,";
-						echo "data: [";
-						foreach($data['bar'][1] as $k => $v){
-							echo "$v,";
-						}
-						echo "],";
-						echo "yAxisID: 'y-axis-1',";
-					echo "},\n";
-					
-				}
-			@endphp
-				
-			]
-		};
-
 		$(document).ready(function(){
 			var ctxa = document.getElementById('mixchart_{{$_idbx}}').getContext('2d');
 			
 			var mixchart = new Chart(ctxa, {
     			type: 'bar',
-				data: mixChartData,
+				data: {!! json_encode([
+                    'labels' => array_keys($data['line'][1]),
+                    'datasets' => [
+                        [
+                            'label' => $data['line'][0],
+                            'borderColor' => '#BE1E2D',
+                            'backgroundColor' => '#BE1E2D',
+                            'borderWidth' => 4,
+                            'fill' => false,
+                            'data' => array_values($data['line'][1]),
+                            'type' => 'line',
+                            'lineTension' => 0
+                        ],
+                        [
+                            'label' => $data['bar'][0],
+                            'borderColor' => '#FE9D28',
+                            'backgroundColor' => '#FE9D28',
+                            'borderWidth' => 1,
+                            'fill' => false,
+                            'data' => array_values($data['bar'][1]),
+                            'yAxisID' => 'y-axis-1',
+                        ]
+                    ],
+                ]) !!},
 				options: {
 					responsive: true,
 					hoverMode: 'index',
@@ -83,11 +61,11 @@
 							display: true,
 							id: 'y-axis-1',
 					        ticks: {
-								min: 150,
-								max: 500,
-								stepSize: 50,
-								suggestedMin: 0,
-								suggestedMax: 400,
+								// min: 150,
+								// max: 500,
+								// stepSize: 1,
+								// suggestedMin: 0,
+								// suggestedMax: 400,
 								fontSize: 10
 							}
 						}],

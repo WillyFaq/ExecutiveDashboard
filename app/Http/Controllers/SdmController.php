@@ -3,28 +3,130 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use App\Karyawan;
+use App\Mahasiswa;
+use App\Prodi;
 
 class SdmController extends Controller
 {
+    public function index(Request $request)
+    {
+        $tahun_now = $request->input('tahun', Carbon::now()->format('Y'));
+        // DATA DOSEN & SERTIFIKASINYA
+        $prodi = Prodi::whereIsAktif()
+        ->orderBy('id')
+        ->with(['prodi_ewmp' => function ($query) {
+            return $query
+            ->whereHas('karyawan', function ($query) {
+                return $query
+                ->whereIsAktif()
+                ->whereIsDosenTetap();
+            })
+            ->with('karyawan.sertifikasi');
+        }])
+        ->get();
+        $dosen_tetap = $prodi
+        ->groupBy('alias')
+        ->map(function ($prodi) {
+            return $prodi->first()->prodi_ewmp->count();
+        });
+        $dosen_tetap_bersertifikasi = $prodi
+        ->map(function ($prodi) {
+            $prodi->prodi_ewmp = $prodi->prodi_ewmp->filter(function ($prodi_ewmp) {
+                return count($prodi_ewmp->karyawan->sertifikasi);
+            });
 
-    public function index(){
- 		$indikator_sdm = [
-							array('inidkator' => 'DTPS', 'value' => 2.5 ),
-							array('inidkator' => 'DTPS S3', 'value' => 3.7 ),
-							array('inidkator' => 'LKGB', 'value' => 3.5 ),
-							array('inidkator' => 'PSPP', 'value' => 2.56 ),
-							array('inidkator' => 'DTT', 'value' => 2.5 ),
-							array('inidkator' => 'Rasio antara dosen & mahasiswa', 'value' => 1.2 ),
-							array('inidkator' => 'Dosen pembimbing utama', 'value' => 1.5 ),
-							array('inidkator' => 'Kinerja Dosen', 'value' => 2.9 ),
-							array('inidkator' => 'Pengakuan kinerja Dosen', 'value' => 3.6 ),
-							array('inidkator' => 'Publikasi jurnal', 'value' => 1.67 ),
-							array('inidkator' => 'Seminar/Tulisan di media masa', 'value' => 2.9 ),
-							array('inidkator' => 'Sitasi Dosen', 'value' => 4 ),
-							array('inidkator' => 'Luaran', 'value' => 2.5 )
-						];
-    	return view('sdm_utama', ['indikator_sdm' => $indikator_sdm]);
-    } 
+            return $prodi;
+        })
+        ->groupBy('alias')
+        ->map(function ($prodi) {
+            return $prodi->first()->prodi_ewmp->count();
+        });
+        $prodi = Prodi::whereIsAktif()
+        ->orderBy('id')
+        ->with(['prodi_ewmp' => function ($query) {
+            return $query
+            ->with('karyawan.jabatan_fungsional')
+            ->whereHas('karyawan', function ($query) {
+                return $query
+                ->whereIsDosen()
+                ->whereIsAktif()
+                ->wherehas('jabatan_fungsional', function ($query) {
+                    return $query->whereIn('id_jfa', [4, 5]);
+                });
+            });
+        }])
+        ->get();
+        $dosen_lektor_kepala = $prodi->map(function ($prodi) {
+            $prodi->prodi_ewmp = $prodi->prodi_ewmp->filter(function ($prodi_ewmp) {
+                return $prodi_ewmp->karyawan->jabatan_fungsional
+                ->filter(function ($jabatan_fungsional) {
+                    return 4 == $jabatan_fungsional->id_jfa;
+                })
+                ->count();
+            });
+
+            return $prodi;
+        })
+        ->groupBy('alias')
+        ->map(function ($prodi) {
+            return $prodi->first()->prodi_ewmp->count();
+        });
+        $dosen_guru_besar = $prodi->map(function ($prodi) {
+            $prodi->prodi_ewmp = $prodi->prodi_ewmp->filter(function ($prodi_ewmp) {
+                return $prodi_ewmp->karyawan->jabatan_fungsional
+                ->filter(function ($jabatan_fungsional) {
+                    return 5 == $jabatan_fungsional->id_jfa;
+                })
+                ->count();
+            });
+
+            return $prodi;
+        })
+        ->groupBy('alias')
+        ->map(function ($prodi) {
+            return $prodi->first()->prodi_ewmp->count();
+        });
+        // RASIO DOSEN:MAHASISWA
+        $jml_dosen = Karyawan::whereIsAktif()
+        ->whereIsDosenTetap()
+        ->count();
+        $jml_mahasiswa = Mahasiswa::whereHas('histori_kuliah', function ($query) use ($tahun_now) {
+            return $query
+            ->where('semester', 'LIKE', Carbon::createFromFormat('Y', $tahun_now - 1)->format('y').'1')
+            ->whereIsAktif();
+        })
+        ->count();
+        $rasio_dosen_mahasiswa = round($jml_mahasiswa / $jml_dosen, 2);
+        // RASIO PRODI:DOSEN
+        $jml_prodi = Prodi::whereIsAktif()->count();
+        $rasio_prodi_dosen = round($jml_dosen / $jml_prodi, 2);
+        // PRESENTASE DOSEN: TETAP TIDAK TETAP
+        $jml_dosen_tetap = Karyawan::whereIsAktif()
+        ->whereIsDosenTetap()
+        ->count();
+        $jml_dosen_tidak_tetap = Karyawan::whereIsAktif()
+        ->whereIsDosenTidakTetap()
+        ->count();
+
+        return view('sdm', [
+            'periode' => ($tahun_now - 1).'/'.$tahun_now,
+            // PRESENTASE SERTIFIKAT PENDIDIKAN
+            'dosen_tetap' => $dosen_tetap->toArray(),
+            'dosen_tetap_bersertifikasi' => $dosen_tetap_bersertifikasi->toArray(),
+            // JABATAN FUNGSIONAL DOSEN
+            'dosen_lektor_kepala' => $dosen_lektor_kepala->toArray(),
+            'dosen_guru_besar' => $dosen_guru_besar->toArray(),
+            // RASIO DOSEN:MAHASISWA
+            'rasio_dosen_mahasiswa' => $rasio_dosen_mahasiswa,
+            // RASIO PRODI:DOSEN
+            'rasio_prodi_dosen' => $rasio_prodi_dosen,
+            // PRESENTASE DOSEN: TETAP
+            'jml_dosen_tetap' => $jml_dosen_tetap,
+            'jml_dosen_tidak_tetap' => $jml_dosen_tidak_tetap,
+        ]);
+    }
 
     public function detail($judul="", $nilai=""){
     		$line = array(

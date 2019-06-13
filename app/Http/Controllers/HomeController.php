@@ -46,13 +46,16 @@ class HomeController extends Controller
             return $query->where('tahun', $tahun_now);
         }])
         ->get()
-        ->groupBy(function ($materi) {
-            return $materi->nm_std;
+        ->groupBy(function($materi){
+            return $materi->kd_std;
         })
         ->map(function ($materi) {
             $nilai = $materi->first()->nilai->first();
 
-            return round($nilai ? $nilai->nilai : 0, 2);
+            return [
+                'nama' => $materi->first()->nm_std,
+                'nilai' => round($nilai ? $nilai->nilai : 0, 2),
+            ];
         });
         // NILAI TAHUN INI LAYER 0
         $get_nilai_tahun_ini_layer_0 = function ($kd_std) use ($tahun_now) {
