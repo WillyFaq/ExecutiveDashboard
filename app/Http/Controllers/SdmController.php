@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Karyawan;
 use App\Mahasiswa;
 use App\Prodi;
+use App\MateriBorang;
 use DB;
 
 class SdmController extends Controller
@@ -14,6 +15,15 @@ class SdmController extends Controller
     public function index(Request $request)
     {
         $tahun_now = $request->input('tahun', Carbon::now()->format('Y'));
+        // SKOR NILAI SDM
+        $materi_sdm = MateriBorang::with([
+            'nilai' => function ($query) use ($tahun_now) {
+                return $query->where('tahun', $tahun_now);
+            }
+        ])
+        ->find(1804);
+        $nilai_sdm = $materi_sdm->nilai->first();
+        $skor_nilai_sdm = round($nilai_sdm->nilai ? $nilai_sdm->nilai : 0,2);
         // DATA DOSEN & SERTIFIKASINYA
         $prodi = Prodi::whereIsAktif()
         ->orderBy('id')
@@ -90,8 +100,7 @@ class SdmController extends Controller
             return $prodi->first()->prodi_ewmp->count();
         });
         // RASIO DOSEN:MAHASISWA
-        $jml_dosen = Karyawan::whereIsAktif()
-        ->whereIsDosenTetap()
+        $jml_dosen = Karyawan::whereIsDosenTetap()
         ->count();
         $jml_mahasiswa = Mahasiswa::whereHas('histori_kuliah', function ($query) use ($tahun_now) {
             return $query
@@ -101,31 +110,38 @@ class SdmController extends Controller
         ->count();
         $rasio_dosen_mahasiswa = round($jml_mahasiswa / $jml_dosen, 2);
         // RASIO PRODI:DOSEN
-        $jml_prodi = Prodi::whereIsAktif()->count();
+        $jml_prodi = Prodi::whereIsAktif()
+        ->whereNotIn('id',['41011','39090'])
+        ->count();
         $rasio_prodi_dosen = round($jml_dosen / $jml_prodi, 2);
         // PRESENTASE DOSEN: TETAP TIDAK TETAP
-        $jml_dosen_tetap = Karyawan::whereIsAktif()
-        ->whereIsDosenTetap()
-        ->count();
-        $jml_dosen_tidak_tetap = Karyawan::whereIsAktif()
-        ->whereIsDosenTidakTetap()
+        $jml_dosen_tetap = Karyawan::whereIsDosenTetap()
         ->count();
 
         return view('sdm', [
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
+            // NILAI SDM
+            'skor_nilai_sdm' => $skor_nilai_sdm,
+            // TENAGA KEPENDIDIKAN
+            'skor_tenaga_kependidikan' => 3,
             // PRESENTASE SERTIFIKAT PENDIDIKAN
             'dosen_tetap' => $dosen_tetap->toArray(),
             'dosen_tetap_bersertifikasi' => $dosen_tetap_bersertifikasi->toArray(),
+            'skor_sertifikat_pendidikan' => 3.21,
             // JABATAN FUNGSIONAL DOSEN
             'dosen_lektor_kepala' => $dosen_lektor_kepala->toArray(),
             'dosen_guru_besar' => $dosen_guru_besar->toArray(),
+            'skor_jabatan_fungsional' => 2.00,
             // RASIO DOSEN:MAHASISWA
             'rasio_dosen_mahasiswa' => $rasio_dosen_mahasiswa,
+            'skor_rasio_dosen_mahasiswa' => 4.00,
             // RASIO PRODI:DOSEN
             'rasio_prodi_dosen' => $rasio_prodi_dosen,
+            'skor_rasio_prodi_dosen' => 3.26,
             // PRESENTASE DOSEN: TETAP
             'jml_dosen_tetap' => $jml_dosen_tetap,
-            'jml_dosen_tidak_tetap' => $jml_dosen_tidak_tetap,
+            'jml_dosen_tidak_tetap' => 0,
+            'skor_presentase_dosen_tidak_tetap' => 4,
         ]);
     }
 

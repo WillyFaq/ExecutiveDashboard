@@ -65,7 +65,7 @@ class Karyawan extends Model
     {
         return $query->whereisDosen()
         ->whereIsAktif()
-        ->where('kary_type', '!=', 'LB')
+        ->whereNotIn('kary_type', ['LB', 'DP'])
         ->where(\DB::Raw('length(v_karyawan.nik)'), 6);
     }
 
@@ -83,7 +83,7 @@ class Karyawan extends Model
 
     public function sertifikasi()
     {
-        return $this->hasMany(SertifikasiKaryawan::class, 'nik');
+        return $this->hasMany(SertifikasiDosen::class, 'nik');
     }
 
     public function jabatan_fungsional()
