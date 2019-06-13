@@ -78,7 +78,7 @@
 									$mix = array(
 												'bar' => ['Lektor Kepala',array(
 																	'SI' => 200,
-																	'SK' => 250,
+																	'TK' => 250,
 																	'DKV' => 300,
 																	'D3 SI' => 350,
 																	'Profiti' => 380,
@@ -89,7 +89,7 @@
 																	)],
 												'line'		=> ['Guru Besar', array(
 																	'SI' => 300,
-																	'SK' => 350,
+																	'TK' => 350,
 																	'DKV' => 200,
 																	'D3 SI' => 450,
 																	'Profiti' => 480,
@@ -113,7 +113,7 @@
 							<div class="card">
 								<div class="row">
 									<div class="col-xs-8 sdm-small-card-tittle">
-										<p>Rasio Mahasiswa : Dosen</p>
+										<p>Rasio Dosen : Mahasiswa</p>
 										<h1 class="txt_color_info">1 : 17.2</h1>
 									</div>
 									<div class="col-xs-4">
@@ -126,7 +126,7 @@
 							<div class="card">
 								<div class="row">
 									<div class="col-xs-8 sdm-small-card-tittle">
-										<p>Rasio Dosen : Program Studi</p>
+										<p>Rasio Program Studi : Dosen</p>
 										<h1 class="txt_color_yellow">1 : 18.7</h1>
 									</div>
 									<div class="col-xs-4">
@@ -340,7 +340,6 @@
 										<li><span class="dot d_red"></span>Dosen Tetap : <strong>106 Orang</strong> </li>
 										<li><span class="dot d_yellow"></span>Sertifiakat : <strong>80 Orang</strong> </li>
 									</ul>
-								
 							</div>
 						</div>
 					</div>
@@ -351,5 +350,60 @@
 	</div>
 </div>
 
+<div class="modal fade modal_chart" id="modal_chart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  	<div class="modal-dialog modal-lg">
+	    <div class="modal-content">
+	      	<div class="modal-header" style="border-bottom:none;">
+	        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	       	 	<br>
+       	 		<div class="col-xs-1">
+       	 			<div style="padding:5px;width:42px;height:42px;border-radius:50%;background:rgba(150, 150, 150, 0.2);text-align:center;">
+       	 				<img src="{{ asset("imgs/account_box.svg") }}" alt="icon" style="width:32px;height:32px;">
+       	 			</div>
+       	 		</div>
+       	 		<div class="col-xs-11">
+       	 			<h4 class="modal-title" style="color:#000;font-weight:900;" id="modal_chart_label">Program Studi Sistem Informasi</h4>
+       	 			<p class="txt_card_subtitle">2018/2019</p>
+       	 		</div>
+		       	<div style="clear:both;"></div>
+	      	</div>
+	      	<div class="modal-body">
+	        	<div class="row">
+	        		<div class="col-xs-12">
+	        			<div id="load_chart"></div>
+	        		</div>
+	        		<div class="col-xs-12">
+	        			<div class="keterangan_box">
+							<p><span class="dot d_red"></span> Sertifikasi</p>
+							<p><span class="dot d_yellow"></span> Guru Besar</p>
+							<p><span class="dot d_info"></span> Lektor Kepala</p>
+							<p><span class="dot d_purple"></span> Jumlah Dosen</p>
+						</div>
+	        		</div>
+	        	</div>
+	      	</div>
+	    </div>
+  	</div>
+</div>
 
+<script type="text/javascript">
+    $(document).ready(function(){
+    	//show_modal("Sistem Informasi");
+    	$('.modal_chart').on('hide.bs.modal', function () {
+		  	$("#load_chart").html("");
+		});
+    });
+    function show_modal(label){
+    	$("#modal_chart_label").html("Program Studi "+label);
+    	//console.log();
+		$(".modal_chart").modal('show');
+    	//$("#load_chart").load('{{url('sdm/detail_ajax')}}');
+    	$.ajax({
+    		url:"{{url('sdm/detail_ajax')}}", 
+    		success:function(result){
+	    		$("#load_chart").html(result);
+	  		}
+	  	});
+    }
+</script>
 @stop

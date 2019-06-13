@@ -151,6 +151,22 @@ class SdmController extends Controller
     }
 
     public function produktivitas(){
-    	return view('sdm_produktivitas');
+        return view('sdm_produktivitas');
+    }
+
+    public function detail_ajax(){
+        return view('sdm_detail');
+    }
+
+    public function dosen(){
+        return view('sdm_dosen');
+    }
+
+    public function dosen_document(){
+        return view('sdm_dosen_document');
+    }
+
+    public function dosen_detail(){
+        return view('sdm_dosen_detail');
     }
 }

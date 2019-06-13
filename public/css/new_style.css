@@ -536,6 +536,7 @@ a.active{
 .d_yellow{background-color: #FE9D28; }
 .d_green{background-color: #388E3C; }
 .d_info{background-color: #2386DE; }
+.d_purple{background-color: #C216CC; }
 
 .pg_success{background-color: #388E3C;}
 .pg_warning{background-color: #FE9D28;}
@@ -1050,4 +1051,32 @@ div:has(> .img-card){
     font-size: 0.6em;
     text-align: center;
     padding-right: 10px;
+}
+.tbl_sdm_dosen{
+    font-size: 0.8em;
+}
+.tbl_sdm_dosen>tbody>tr>td>a{
+    color: #333;
+}
+
+.button_icon_back{
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    background:#CCDAE3;
+    margin:0;
+    padding:2px 0 0 10px;
+}
+.tbl_detail_dosen>tbody>tr>th{
+    padding-bottom: 10px;
+}
+
+.btn-grey{
+    color: #fff;
+    background-color: #969696;
+    border-color: #969696;
+}
+.btn-det-dosen{
+    padding: 6px 40px;
+    border-radius: 40px;
 }
