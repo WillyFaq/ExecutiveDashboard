@@ -64,7 +64,7 @@ class Karyawan extends Model
     {
         return $query->whereisDosen()
         ->whereIsAktif()
-        ->where('kary_type', '!=', 'LB')
+        ->whereNotIn('kary_type', ['LB', 'DP'])
         ->where(\DB::Raw('length(v_karyawan.nik)'), 6);
     }
 
