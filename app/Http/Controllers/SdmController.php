@@ -80,6 +80,9 @@ class SdmController extends Controller
         })
         ->count();
         $rasio_dosen_mahasiswa = round($jml_mahasiswa / $jml_dosen, 2);
+        // RASIO PRODI:DOSEN
+        $jml_prodi = Prodi::whereIsAktif()->count();
+        $rasio_prodi_dosen = round($jml_dosen/$jml_prodi,2);
         // PRESENTASE DOSEN: TETAP TIDAK TETAP
         $jml_dosen_tetap = Karyawan::whereIsAktif()
         ->whereIsDosenTetap()
@@ -98,6 +101,8 @@ class SdmController extends Controller
             'dosen_guru_besar' => $dosen_guru_besar->toArray(),
             // RASIO DOSEN:MAHASISWA
             'rasio_dosen_mahasiswa' => $rasio_dosen_mahasiswa,
+            // RASIO PRODI:DOSEN
+            'rasio_prodi_dosen' => $rasio_prodi_dosen,
             // PRESENTASE DOSEN: TETAP
             'jml_dosen_tetap' => $jml_dosen_tetap,
             'jml_dosen_tidak_tetap' => $jml_dosen_tidak_tetap,
