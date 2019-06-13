@@ -16,9 +16,9 @@ class SdmController extends Controller
         // DATA DOSEN & SERTIFIKASINYA
         $prodi = Prodi::whereIsAktif()
         ->orderBy('id')
-        ->with(['prodi_ewmp'=>function($query){
+        ->with(['prodi_ewmp' => function ($query) {
             return $query
-            ->whereHas('karyawan', function($query){
+            ->whereHas('karyawan', function ($query) {
                 return $query
                 ->whereIsAktif()
                 ->whereIsDosenTetap();
@@ -28,26 +28,27 @@ class SdmController extends Controller
         ->get();
         $dosen_tetap = $prodi
         ->groupBy('alias')
-        ->map(function($prodi){
+        ->map(function ($prodi) {
             return $prodi->first()->prodi_ewmp->count();
         });
         $dosen_tetap_bersertifikasi = $prodi
-        ->map(function($prodi){
-            $prodi->prodi_ewmp = $prodi->prodi_ewmp->filter(function($prodi_ewmp){
+        ->map(function ($prodi) {
+            $prodi->prodi_ewmp = $prodi->prodi_ewmp->filter(function ($prodi_ewmp) {
                 return count($prodi_ewmp->karyawan->sertifikasi);
             });
+
             return $prodi;
         })
         ->groupBy('alias')
-        ->map(function($prodi){
+        ->map(function ($prodi) {
             return $prodi->first()->prodi_ewmp->count();
         });
         $prodi = Prodi::whereIsAktif()
         ->orderBy('id')
-        ->with(['prodi_ewmp' => function($query){
+        ->with(['prodi_ewmp' => function ($query) {
             return $query
             ->with('karyawan.jabatan_fungsional')
-            ->whereHas('karyawan', function($query) {
+            ->whereHas('karyawan', function ($query) {
                 return $query
                 ->whereIsDosen()
                 ->whereIsAktif()
@@ -57,32 +58,34 @@ class SdmController extends Controller
             });
         }])
         ->get();
-        $dosen_lektor_kepala = $prodi->map(function($prodi){
+        $dosen_lektor_kepala = $prodi->map(function ($prodi) {
             $prodi->prodi_ewmp = $prodi->prodi_ewmp->filter(function ($prodi_ewmp) {
                 return $prodi_ewmp->karyawan->jabatan_fungsional
                 ->filter(function ($jabatan_fungsional) {
-                    return $jabatan_fungsional->id_jfa == 4;
+                    return 4 == $jabatan_fungsional->id_jfa;
                 })
                 ->count();
             });
+
             return $prodi;
         })
         ->groupBy('alias')
-        ->map(function($prodi){
+        ->map(function ($prodi) {
             return $prodi->first()->prodi_ewmp->count();
         });
-        $dosen_guru_besar = $prodi->map(function($prodi){
+        $dosen_guru_besar = $prodi->map(function ($prodi) {
             $prodi->prodi_ewmp = $prodi->prodi_ewmp->filter(function ($prodi_ewmp) {
                 return $prodi_ewmp->karyawan->jabatan_fungsional
                 ->filter(function ($jabatan_fungsional) {
-                    return $jabatan_fungsional->id_jfa == 5;
+                    return 5 == $jabatan_fungsional->id_jfa;
                 })
                 ->count();
             });
+
             return $prodi;
         })
         ->groupBy('alias')
-        ->map(function($prodi){
+        ->map(function ($prodi) {
             return $prodi->first()->prodi_ewmp->count();
         });
         // RASIO DOSEN:MAHASISWA
@@ -98,7 +101,7 @@ class SdmController extends Controller
         $rasio_dosen_mahasiswa = round($jml_mahasiswa / $jml_dosen, 2);
         // RASIO PRODI:DOSEN
         $jml_prodi = Prodi::whereIsAktif()->count();
-        $rasio_prodi_dosen = round($jml_dosen/$jml_prodi,2);
+        $rasio_prodi_dosen = round($jml_dosen / $jml_prodi, 2);
         // PRESENTASE DOSEN: TETAP TIDAK TETAP
         $jml_dosen_tetap = Karyawan::whereIsAktif()
         ->whereIsDosenTetap()
