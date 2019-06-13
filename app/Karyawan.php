@@ -11,7 +11,7 @@ class Karyawan extends Model
     public $incrementing = false;
     protected $casts = [
         'nik' => 'string',
-        'nidn' => 'string',
+        'nip' => 'string',
         'nidk' => 'string',
         'nup' => 'string',
     ];
@@ -21,10 +21,13 @@ class Karyawan extends Model
         return parent::newQuery()
             ->addSelect([
                 'v_karyawan.nik',
-                \DB::Raw('nip nidn'),
+                'nip',
                 'nidk',
                 'nup',
-                \DB::Raw('nama_plus_gelar(v_karyawan.nik) AS NAMA'),
+                'nama',
+				'gelar_depan',
+				'gelar_belakang',
+				'kary_type',
             ])
             ->leftJoin('v_email_kar', 'v_karyawan.nik', 'v_email_kar.nik')
             ->addSelect([
@@ -33,6 +36,14 @@ class Karyawan extends Model
             ->leftJoin('v_prodiewmp', 'v_karyawan.nik', 'v_prodiewmp.nik')
             ->addSelect(['v_prodiewmp.prodi']);
     }
+	
+	public function pendidikan_formal() {
+		return $this->hasMany(PendidikanFormal::class,'nik');
+	}
+	
+	public function berkas_portofolio(){
+		return $this->hasMany(BerkasPortofolio::class,'nik');
+	}
 
     public function scopeWhereIsAktif($query)
     {

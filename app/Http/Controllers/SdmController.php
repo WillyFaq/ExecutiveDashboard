@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
 
 class SdmController extends Controller
 {
@@ -153,4 +154,42 @@ class SdmController extends Controller
     public function produktivitas(){
     	return view('sdm_produktivitas');
     }
+	
+	public function list_dosen(){
+		/*$result = DB::select("select nik, nama, sex, gelar_depan, gelar_belakang, kary_type, (select jenjang_studi from V_PEND_FORMAL_KAR a where nik = kar.nik and no = (select max(no) from v_pend_formal_kar where nik = a.nik and jenjang_studi is not null)) jenjang_studi 
+		from v_karyawan kar where status = 'A' and kary_type like '%D%' and kary_type <> 'AD'");
+		*/
+		$result = \App\Karyawan::with([
+			'pendidikan_formal'=> function($query){
+				return $query->latest('no');
+			},
+			'berkas_portofolio'
+		])
+		->whereHas('pendidikan_formal',function($query){
+			return $query->whereNotNull('jenjang_studi');
+		})
+		->whereIsAktif()
+		->whereIsDosenTetap()
+		->get();
+		
+		return view('list_dosen', ['result' => $result]);		
+		//return view('list_dosen');
+	}
+	
+	public function list_dosen_detail($id){
+		$result = DB::select("select nik, nip, nama, decode(sex, 1, 'Laki - Laki', 2, 'Perempuan') sex, decode(kary_type, 'DC', 'Dosen Percobaan', 'DH', 'Dosen Homebase', 'KD', 'Dosen Kontrak', 'TD', 'Dosen Tetap') kary_type, (select nama from v_fakultas where id = fakul_id) prodi,
+								(select jabatan_fungsional from v_jafung where id_jabatan = (select id_jfa from v_jafung_akademik a where id_jfa = 
+									(select max(id_jfa) from v_jafung_akademik where nik = a.nik) and nik = kar.nik
+								)) jafung,
+								decode((select jenjang_studi from V_PEND_FORMAL_KAR a where nik = kar.nik and no = 
+									(select max(no) from v_pend_formal_kar where nik = a.nik and jenjang_studi is not null)
+								),'S1', 'Strata 1', 'S2', 'Strata 2', 'S3', 'Strata 3') jenjang_studi
+							from v_karyawan kar where nik = '$id'");
+		$akademik = DB::select("select no, jenjang, nama_sekolah, jenjang_studi, substr(tahun_lulus, -4) tahun_lulus, jurusan from V_PEND_FORMAL_KAR where nik = '$id'
+										and lower(jenjang_studi) in ('s1','s2','s3') order by 1");										
+		$penelitian = DB::select("select mk, 'Institut Bisnis dan Informatika Stikom Surabaya' lembaga, substr(periode, -4) tahun from rekap_ewmp_lain_pc_prodi where bidang = 'B' and jenis = '1' and nik = '$id'");
+		
+		$riwayat = DB::select("select substr(smt,1,2) tahun, sum(b.sks) sks from jdwkul_mf_his a join kurlkl_mf b on a.klkl_id = b.id where a.prodi = b.fakul_id and kary_nik = '$id' group by substr(smt,1,2) order by 1");
+		return view('list_dosen_detail', ['result' => $result, 'akademik' => $akademik, 'penelitian' => $penelitian, 'line' => $riwayat]);
+	}
 }
