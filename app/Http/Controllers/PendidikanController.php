@@ -58,7 +58,7 @@ class PendidikanController extends Controller
                 'gdrive'=> 'https://drive.google.com/drive/folders/0B_81wNH_zonXNS11VzhFWmlQLWc?usp=sharing',
             ], [
                 'kode' => 51016,
-                'nama' => 'D4 Produksi Film & Television',
+                'nama' => 'D4 Produksi Film & Televisi',
                 'fakultas' => 'Fakultas Teknologi Informasi',
                 'profil' => [
                     'Broadcaster',
