@@ -69,7 +69,7 @@
                                                         <ol>
                                                             @foreach($mata_kuliah['prasyarat'] as $prasyarat)
                                                                 <li>
-                                                                    ({{ $mata_kuliah['id'] }}) {{ $mata_kuliah['nama'] }}
+                                                                    ({{ $prasyarat['id'] }}) {{ $prasyarat['nama'] }}
                                                                 </li>
                                                             @endforeach
                                                         </ol>

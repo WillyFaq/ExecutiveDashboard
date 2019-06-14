@@ -58,7 +58,7 @@ class PendidikanController extends Controller
                 'gdrive'=> 'https://drive.google.com/drive/folders/0B_81wNH_zonXNS11VzhFWmlQLWc?usp=sharing',
             ], [
                 'kode' => 51016,
-                'nama' => 'D4 Produksi Film & Television',
+                'nama' => 'D4 Produksi Film & Televisi',
                 'fakultas' => 'Fakultas Teknologi Informasi',
                 'profil' => [
                     'Broadcaster',
@@ -149,15 +149,31 @@ class PendidikanController extends Controller
         ->find($kode_prodi);
         $prodi->web =  $web[$kode_prodi];
         $prodi->gdrive = $gdrive[$kode_prodi];
+        switch(substr($prodi->id,0,1)){
+        case 3:
+            $prodi->nama = 'D3 '.$prodi->nama;
+            break;
+        case 4:
+            $prodi->nama = 'S1 '.$prodi->nama;
+            break;
+        case 5:
+            $prodi->nama = 'D4 '.$prodi->nama;
+            break;
+        }
         $mata_kuliah = $prodi->mata_kuliah
         ->map(function ($mata_kuliah) use ($kode_prodi) {
-            $mata_kuliah->prasyarat = MataKuliah::whereIn('id', str_split($mata_kuliah->prasyarat, 10))
-            ->where('fakul_id',$kode_prodi)
-            ->get();
+            $mata_kuliah->prasyarat = MataKuliah::whereIn('id', array_map(function($kode_mk){
+                return trim($kode_mk);
+            }, str_split($mata_kuliah->prasyarat, 10)))
+            ->where('fakul_id', $kode_prodi)
+            ->get()
+            ->unique();
+
             if (11 == substr($mata_kuliah->id, 0, 2)) {
                 $mata_kuliah->nama = 'Pendidikan Agama';
                 $mata_kuliah->id = substr($mata_kuliah->id, 0, 2).'XXX';
             }
+
             if (8 == $mata_kuliah->jenis) {
                 $mata_kuliah->nama = 'Mata Kuliah Pilihan';
                 $mata_kuliah->id = substr($mata_kuliah->id, 0, 1).'XXXX';
@@ -215,6 +231,29 @@ class PendidikanController extends Controller
             }
 
             return $mata_kuliah;
+        })
+        ->reject(function($mata_kuliah){
+            switch($mata_kuliah->fakul_id) {
+                case '51016':
+                    return in_array($mata_kuliah->id, [
+                        '36174', '36218', '36216',
+                        '32009', '36217', '32001',
+                    ]);
+                case '43020':
+                    return in_array(substr($mata_kuliah->id,-5), [
+                        '36020', '36037', '36032',
+                        '36053', '36062', '36067',
+                        '36030', '36039',
+                    ]);
+                case '43010':
+                    return in_array(substr($mata_kuliah->id,-5), [
+                        '36061', '36090', '36096',
+                        '36055', '36056', '36063',
+                        '36040', '36057', '36073',
+                        '36098', '36099', '36100',
+                    ]);
+            }
+            return false;
         })
         ->unique()
         ->sortBy('id')
