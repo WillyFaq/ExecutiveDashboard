@@ -15,8 +15,16 @@
 		$(document).ready(function() {
 			$('#example2').DataTable();
 		} );
+		
+		$(document).ready(function() {
+			$('#example3').DataTable();
+		} );
 	</script>
-
+	<script>
+		function test(){
+			document.getElementById("riwayat-default").style.display = "none";
+		}
+	</script>
 <div class="container container-main container-home" style="padding-top:10px;">
 <div class="card">
 	<p><b>Biodata Dosen S1 Sistem Informasi</b></p>
@@ -33,7 +41,7 @@
 				<p align="center"><img src="https://sicyca.stikom.edu/static/foto/{{$row->nik}}" class="img-circle" width="135" height="150"><br>
 				<b><?php echo $row->nama."</b><br>(".$row->nip.")"; ?></p>
 			</div>
-			<div class="col-6 col-md-5">
+			<div class="col-6 col-md-4">
 				<table style="margin-top:25px;">
 					<tr>
 						<td><b>Program Studi </b></td>
@@ -67,21 +75,50 @@
 	<?php			
 		}
 	?>
-			<div class="col-6 col-md-4">
-			  <canvas id="myChart"></canvas>
+			<div class="col-6 col-md-5">
+				<p><b>Riwayat Mengajar</b></p>
+				<canvas id="myChart"></canvas>
 			</div>
 		</div>
 	</div>
 	
 	<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">	  
-	  <li class="nav-item">
-		<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Riwayat Pendidikan</a>
+	  <li class="nav-item active">
+		<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" onclick="test();" role="tab" aria-controls="pills-profile" aria-selected="true">Riwayat Pendidikan</a>
 	  </li>
 	  <li class="nav-item">
-		<a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Penelitian</a>
+		<a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" onclick="test();" role="tab" aria-controls="pills-contact" aria-selected="false">Penelitian</a>
 	  </li>
 	</ul>
-	<div class="tab-content" id="pills-tabContent">
+	<div id="riwayat-default" style="padding-top:20px;">
+		<table id="example3" class="display" style="width:100%">
+			<thead>
+				<tr>
+					<th>No.</th>
+					<th>Perguruan Tinggi</th>
+					<th>Jurusan</th>
+					<th>Tanggal Ijazah</th>				
+					<th>Jenjang</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php
+			$no = 1;
+			foreach($akademik as $data){
+				echo "<tr>
+					<td>$no</td>
+					<td>".$data->nama_sekolah."</td>
+					<td>".$data->jurusan."</td>
+					<td>".$data->tahun_lulus."</td>
+					<td>".$data->jenjang_studi."</td>
+				</tr>";		
+			$no++;
+			}
+			?>		
+			</tbody>
+		</table>
+	</div>
+	<div class="tab-content" id="pills-tabContent" style="padding-top:20px;">
 	  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
 		<table id="example" class="display" style="width:100%">
 			<thead>
@@ -116,7 +153,7 @@
 				<tr>
 					<th>No.</th>
 					<th>Judul Penelitian</th>
-					<th>Bidang Ilmu</th>
+					<th>Jenis</th>
 					<th>Lembaga</th>				
 					<th>Tahun</th>
 				</tr>
@@ -127,10 +164,10 @@
 			foreach($penelitian as $data2){
 				echo "<tr>
 					<td>$no</td>
-					<td>".$data2->mk."</td>
-					<td></td>
+					<td>".$data2->judul."</td>					
+					<td>".$data2->jns."</td>
 					<td>".$data2->lembaga."</td>
-					<td>".$data2->tahun."</td>
+					<td>20".$data2->tahun."</td>
 				</tr>";		
 			$no++;
 			}

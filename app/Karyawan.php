@@ -25,9 +25,10 @@ class Karyawan extends Model
                 'nidk',
                 'nup',
                 'nama',
-                'gelar_depan',
-                'gelar_belakang',
-                'kary_type',
+				'gelar_depan',
+				'gelar_belakang',
+				'kary_type',
+				'sex',
             ])
             ->leftJoin('v_email_kar', 'v_karyawan.nik', 'v_email_kar.nik')
             ->addSelect([
