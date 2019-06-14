@@ -116,7 +116,6 @@
 				<tr>
 					<th>No.</th>
 					<th>Judul Penelitian</th>
-					<th>Bidang Ilmu</th>
 					<th>Lembaga</th>				
 					<th>Tahun</th>
 				</tr>
@@ -127,8 +126,7 @@
 			foreach($penelitian as $data2){
 				echo "<tr>
 					<td>$no</td>
-					<td>".$data2->mk."</td>
-					<td></td>
+					<td>".$data2->mk."</td>					
 					<td>".$data2->lembaga."</td>
 					<td>".$data2->tahun."</td>
 				</tr>";		

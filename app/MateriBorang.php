@@ -8,6 +8,7 @@ class MateriBorang extends Model
 {
     protected $table = 'materi_borang';
     protected $primaryKey = 'kd_std';
+    protected $connection = 'oracle_stikom_dev';
 
     public function scopeWhereLayer($query, $layer)
     {

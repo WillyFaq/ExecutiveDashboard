@@ -27,7 +27,7 @@
 						</div>
 						<div class="row" style="padding-top:20px;">
 							<div class="col-xs-12">
-                    			@include('widgets.charts.gauge_sdm', array('value' => 3.78))
+                    			@include('widgets.charts.gauge_sdm', array('value' => $skor_nilai_sdm))
 							</div>
 							<div class="col-xs-12">
 								<div class="keterangan_box">
@@ -55,16 +55,12 @@
 								</div>
 							</div>
 							<div class="col-xs-4 card-home-legend">
-								<ul>
-                                    <li><span class="dot d_red"></span>Guru Besar : <strong>{{ array_sum(array_values($dosen_lektor_kepala)) }} Orang</strong> </li>
-                                    <li><span class="dot d_yellow"></span>Lekor Kepala : <strong>{{ array_sum(array_values($dosen_guru_besar)) }} Orang</strong> </li>
-								</ul>
 							</div>
 							<div class="col-xs-1">
 							</div>
 								<div class="text-center card-sdm-right top-right pg_info">
 									<p class="txt_card_subtitle">Skor</p>
-									<h1>1.22</h1>
+                                    <h1>{{ $skor_jabatan_fungsional }}</h1>
 								</div>
 							<div class="col-xs-10 card-home-subtitle">
 							</div>
@@ -92,7 +88,7 @@
 										<h1 class="txt_color_info">1 : {{ $rasio_dosen_mahasiswa }}</h1>
 									</div>
 									<div class="col-xs-4">
-										@include('widgets.charts.gauge', array( 'value' => (3.15*100/4), 'skor'=> 3.15, 'type' => 2 ))
+                                        @include('widgets.charts.gauge', array( 'value' => (3.15*100/4), 'skor'=> $skor_rasio_dosen_mahasiswa, 'type' => 2 ))
 									</div>
 								</div>
 							</div>
@@ -105,7 +101,7 @@
 										<h1 class="txt_color_yellow">1 : {{ $rasio_prodi_dosen }}</h1>
 									</div>
 									<div class="col-xs-4">
-										@include('widgets.charts.gauge', array( 'value' => (2.89*100/4), 'skor'=> 2.89, 'type' => 2 ))
+                                        @include('widgets.charts.gauge', array( 'value' => (2.89*100/4), 'skor'=> $skor_rasio_prodi_dosen, 'type' => 2 ))
 									</div>
 								</div>
 							</div>
@@ -116,14 +112,17 @@
 									<div class="col-xs-8 sdm-small-card-tittle">
 										<p>Tenaga Kependidikan</p>
 										<div class="star-box">
-											<img src="{{ asset("imgs/star-on.svg") }}" alt="On">
-											<img src="{{ asset("imgs/star-on.svg") }}" alt="On">
-											<img src="{{ asset("imgs/star-on.svg") }}" alt="On">
-											<img src="{{ asset("imgs/star-off.svg") }}" alt="Off">
+                                            @for($i=1; $i <= 4; $i++)
+                                                @if($i <= $skor_tenaga_kependidikan)
+                                                    <img src="{{ asset("imgs/star-on.svg") }}" alt="On">
+                                                @else
+                                                    <img src="{{ asset("imgs/star-off.svg") }}" alt="Off">
+                                                @endif
+                                            @endfor
 										</div>
 									</div>
 									<div class="col-xs-4">
-										@include('widgets.charts.gauge', array( 'value' => (3*100/4), 'skor'=> 3.00, 'type' => 2 ))
+                                        @include('widgets.charts.gauge', array( 'value' => (3*100/4), 'skor'=> $skor_tenaga_kependidikan, 'type' => 2 ))
 									</div>
 								</div>
 							</div>
@@ -138,94 +137,35 @@
 			<div class="row main-dash">
 
 				<div class="col-xs-3">
-					<div class="row sdm-small-card">
-						<div class="col-xs-12">
-							<div class="card">
-								<div class="row">
-									<div class="col-xs-12 sdm-small-card-tittle">
-										<p>Rata-Rata Penelitian Dosen</p>
-									</div>
-									<div class="col-xs-6">
-									</div>
-									<div class="col-xs-6">
-										<table class="table-keterangan-sdm-card">
-											<thead>
-												<tr class="txt_color_info">
-													<th>35</th>
-													<th>0.05</th>
-													<th>1.46</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Total</td>
-													<td>Internasional</td>
-													<td>Skor</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-xs-12">
-							<div class="card">
-								<div class="row">
-									<div class="col-xs-12 sdm-small-card-tittle">
-										<p>Rata-Rata Penelitian Dosen</p>
-									</div>
-									<div class="col-xs-6">
-										
-									</div>
-									<div class="col-xs-6">
-										<table class="table-keterangan-sdm-card">
-											<thead>
-												<tr class="txt_color_yellow">
-													<th>20</th>
-													<th>0.39</th>
-													<th>1.51</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Total</td>
-													<td>Internasional</td>
-													<td>Skor</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-xs-12">
-							<div class="card">
-								<div class="row">
-									<div class="col-xs-12 sdm-small-card-tittle">
-										<p>Rata-Rata Penelitian Dosen</p>
-									</div>
-									<div class="col-xs-6">
-									</div>
-									<div class="col-xs-6">
-										<table class="table-keterangan-sdm-card">
-											<thead>
-												<tr class="txt_color_info">
-													<th>35</th>
-													<th>1.46</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Total</td>
-													<td>Skor</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+                    <div class="card"><div class="card-body"><div class="row">
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-12 card-home-title" style="margin-bottom:20px">
+                                    <h2>Jabatan Fungsional Dosen</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 card-home-legend">
+                            <ul>
+                                <li><span class="dot d_red"></span>Guru Besar : <strong>{{ array_sum(array_values($dosen_guru_besar)) }} Orang</strong> </li>
+                                <li><span class="dot d_yellow"></span>Lekor Kepala : <strong>{{ array_sum(array_values($dosen_lektor_kepala)) }} Orang</strong> </li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-12" style="margin-bottom:30px"></div>
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-12 card-home-title" style="margin-bottom:20px">
+                                    <h2>Persentase Sertifikat Pendidikan</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 card-home-legend">
+                            <ul>
+                                <li><span class="dot d_red"></span>Dosen Tetap : <strong>{{ array_sum(array_values($dosen_tetap)) }} Orang</strong> </li>
+                                <li><span class="dot d_yellow"></span>Sertifiakat : <strong>{{ array_sum(array_values($dosen_tetap_bersertifikasi)) }} Orang</strong> </li>
+                            </ul>
+                        </div>
+                    </div></div></div>
 				</div>
 
 				<div class="col-xs-6">
@@ -242,16 +182,12 @@
 								</div>
 							</div>
 							<div class="col-xs-4 card-home-legend">
-								<ul>
-									<li><span class="dot d_red"></span>Dosen Tetap : <strong>{{ array_sum(array_values($dosen_tetap)) }} Orang</strong> </li>
-									<li><span class="dot d_yellow"></span>Sertifiakat : <strong>{{ array_sum(array_values($dosen_tetap_bersertifikasi)) }} Orang</strong> </li>
-								</ul>
 							</div>
 							<div class="col-xs-1">
 							</div>
 								<div class="text-center card-sdm-right top-right pg_warning">
 									<p class="txt_card_subtitle">Skor</p>
-									<h1>1,46</h1>
+                                    <h1>{{ $skor_sertifikat_pendidikan }}</h1>
 								</div>
 							<div class="col-xs-10 card-home-subtitle">
 							</div>
@@ -277,7 +213,7 @@
 								<h2>Persentase Dosen Tidak Tetap</h2>
 							</div>
 							<div class="col-xs-2 text-center card-home-right">
-								<h1 class="txt_color_info">1,46</h1>
+                                <h1 class="txt_color_info">{{ $skor_presentase_dosen_tidak_tetap }}</h1>
 								<p class="txt_card_subtitle">Skor</p>
 							</div>
 						</div>
