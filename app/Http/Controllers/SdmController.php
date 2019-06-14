@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Karyawan;
 use App\Mahasiswa;
 use App\Prodi;
+use App\MateriBorang;
 use DB;
 
 class SdmController extends Controller
@@ -14,6 +15,15 @@ class SdmController extends Controller
     public function index(Request $request)
     {
         $tahun_now = $request->input('tahun', Carbon::now()->format('Y'));
+        // SKOR NILAI SDM
+        $materi_sdm = MateriBorang::with([
+            'nilai' => function ($query) use ($tahun_now) {
+                return $query->where('tahun', $tahun_now);
+            }
+        ])
+        ->find(1804);
+        $nilai_sdm = $materi_sdm->nilai->first();
+        $skor_nilai_sdm = round($nilai_sdm->nilai ? $nilai_sdm->nilai : 0,2);
         // DATA DOSEN & SERTIFIKASINYA
         $prodi = Prodi::whereIsAktif()
         ->orderBy('id')
@@ -90,8 +100,7 @@ class SdmController extends Controller
             return $prodi->first()->prodi_ewmp->count();
         });
         // RASIO DOSEN:MAHASISWA
-        $jml_dosen = Karyawan::whereIsAktif()
-        ->whereIsDosenTetap()
+        $jml_dosen = Karyawan::whereIsDosenTetap()
         ->count();
         $jml_mahasiswa = Mahasiswa::whereHas('histori_kuliah', function ($query) use ($tahun_now) {
             return $query
@@ -101,31 +110,37 @@ class SdmController extends Controller
         ->count();
         $rasio_dosen_mahasiswa = round($jml_mahasiswa / $jml_dosen, 2);
         // RASIO PRODI:DOSEN
-        $jml_prodi = Prodi::whereIsAktif()->count();
+        $jml_prodi = Prodi::whereIsAktif()
+        ->count();
         $rasio_prodi_dosen = round($jml_dosen / $jml_prodi, 2);
         // PRESENTASE DOSEN: TETAP TIDAK TETAP
-        $jml_dosen_tetap = Karyawan::whereIsAktif()
-        ->whereIsDosenTetap()
-        ->count();
-        $jml_dosen_tidak_tetap = Karyawan::whereIsAktif()
-        ->whereIsDosenTidakTetap()
+        $jml_dosen_tetap = Karyawan::whereIsDosenTetap()
         ->count();
 
         return view('sdm', [
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
+            // NILAI SDM
+            'skor_nilai_sdm' => $skor_nilai_sdm,
+            // TENAGA KEPENDIDIKAN
+            'skor_tenaga_kependidikan' => 3,
             // PRESENTASE SERTIFIKAT PENDIDIKAN
             'dosen_tetap' => $dosen_tetap->toArray(),
             'dosen_tetap_bersertifikasi' => $dosen_tetap_bersertifikasi->toArray(),
+            'skor_sertifikat_pendidikan' => 3.21,
             // JABATAN FUNGSIONAL DOSEN
             'dosen_lektor_kepala' => $dosen_lektor_kepala->toArray(),
             'dosen_guru_besar' => $dosen_guru_besar->toArray(),
+            'skor_jabatan_fungsional' => 2.00,
             // RASIO DOSEN:MAHASISWA
             'rasio_dosen_mahasiswa' => $rasio_dosen_mahasiswa,
+            'skor_rasio_dosen_mahasiswa' => 4.00,
             // RASIO PRODI:DOSEN
             'rasio_prodi_dosen' => $rasio_prodi_dosen,
+            'skor_rasio_prodi_dosen' => 3.26,
             // PRESENTASE DOSEN: TETAP
             'jml_dosen_tetap' => $jml_dosen_tetap,
-            'jml_dosen_tidak_tetap' => $jml_dosen_tidak_tetap,
+            'jml_dosen_tidak_tetap' => 0,
+            'skor_presentase_dosen_tidak_tetap' => 4,
         ]);
     }
 
@@ -262,24 +277,36 @@ class SdmController extends Controller
 		from v_karyawan kar where status = 'A' and kary_type like '%D%' and kary_type <> 'AD'");
 		*/
 		$result = \App\Karyawan::with([
-			'pendidikan_formal'=> function($query){
-				return $query->latest('no');
+			'pendidikan_formal' => function($query){
+				return $query->whereNotNull('jenjang_studi');
 			},
-			'berkas_portofolio'
+			'berkas_portofolio',
+			'jabatan_fungsional.jenis_jafung',
 		])
-		->whereHas('pendidikan_formal',function($query){
-			return $query->whereNotNull('jenjang_studi');
-		})
 		->whereIsAktif()
 		->whereIsDosenTetap()
 		->get();
+		$result = $result->map(function($dosen){
+			$dosen->pendidikan_formal = $dosen->pendidikan_formal
+			->sortByDesc('no')
+			->first();
+			
+			$dosen->jabatan_fungsional = $dosen->jabatan_fungsional
+			->sortByDesc('id_jfa')
+			->first();
+			return $dosen;			
+		});
 		
-		return view('list_dosen', ['result' => $result]);		
+		$prodi = Prodi::whereIsAktif()
+        ->orderBy('id')        
+        ->get();
+		
+		return view('list_dosen', ['result' => $result, 'prodi' => $prodi]);		
 		//return view('list_dosen');
 	}
 	
 	public function list_dosen_detail($id){
-		$result = DB::select("select nik, nip, nama, decode(sex, 1, 'Laki - Laki', 2, 'Perempuan') sex, decode(kary_type, 'DC', 'Dosen Percobaan', 'DH', 'Dosen Homebase', 'KD', 'Dosen Kontrak', 'TD', 'Dosen Tetap') kary_type, (select nama from v_fakultas where id = fakul_id) prodi,
+		$result = DB::connection('oracle_stikom_dev')->select("select nik, nip, nama, decode(sex, 1, 'Laki - Laki', 2, 'Perempuan') sex, decode(kary_type, 'DC', 'Dosen Percobaan', 'DH', 'Dosen Homebase', 'KD', 'Dosen Kontrak', 'TD', 'Dosen Tetap') kary_type, (select nama from v_fakultas where id = fakul_id) prodi,
 								(select jabatan_fungsional from v_jafung where id_jabatan = (select id_jfa from v_jafung_akademik a where id_jfa = 
 									(select max(id_jfa) from v_jafung_akademik where nik = a.nik) and nik = kar.nik
 								)) jafung,
@@ -287,11 +314,16 @@ class SdmController extends Controller
 									(select max(no) from v_pend_formal_kar where nik = a.nik and jenjang_studi is not null)
 								),'S1', 'Strata 1', 'S2', 'Strata 2', 'S3', 'Strata 3') jenjang_studi
 							from v_karyawan kar where nik = '$id'");
-		$akademik = DB::select("select no, jenjang, nama_sekolah, jenjang_studi, substr(tahun_lulus, -4) tahun_lulus, jurusan from V_PEND_FORMAL_KAR where nik = '$id'
+		$akademik = DB::connection('oracle_stikom_dev')->select("select no, jenjang, nama_sekolah, jenjang_studi, substr(tahun_lulus, -4) tahun_lulus, jurusan from V_PEND_FORMAL_KAR where nik = '$id'
 										and lower(jenjang_studi) in ('s1','s2','s3') order by 1");										
-		$penelitian = DB::select("select mk, 'Institut Bisnis dan Informatika Stikom Surabaya' lembaga, substr(periode, -4) tahun from rekap_ewmp_lain_pc_prodi where bidang = 'B' and jenis = '1' and nik = '$id'");
+		/*$penelitian = DB::connection('oracle_stikom_dev')->select("select mk, 'Institut Bisnis dan Informatika Stikom Surabaya' lembaga, substr(periode, -4) tahun from pantja.ewmp_b@get_ori where nik = '$id' and lower(mk) not like '%studi lanjut%'");*/
 		
-		$riwayat = DB::select("select substr(smt,1,2) tahun, sum(b.sks) sks from jdwkul_mf_his a join kurlkl_mf b on a.klkl_id = b.id where a.prodi = b.fakul_id and kary_nik = '$id' group by substr(smt,1,2) order by 1");
+		$penelitian = DB::connection('oracle_stikom_dev')->select("select judul, jns, substr(smt,1,2) tahun, 'Institut Bisnis dan Informatika Stikom Surabaya' lembaga from pantja.ewmp_b_dashboard@get_ori where nik = '$id'");
+		
+		/*$riwayat = DB::select("select substr(smt,1,2) tahun, sum(b.sks) sks from jdwkul_mf_his a join kurlkl_mf b on a.klkl_id = b.id where a.prodi = b.fakul_id and kary_nik = '$id' group by substr(smt,1,2) order by 1");*/
+		
+		$riwayat = DB::connection('oracle_stikom_dev')->select("select substr(a.semester,1,2) tahun, sum(b.sks) sks from rekap_mf a join kurlkl_mf b on a.jkul_klkl_id = b.id where a.prodi = b.fakul_id and jkul_kary_nik = '$id' and sts_dosen = '*' and substr(a.semester, 1,1) <> '9' group by substr(a.semester,1,2) order by 1");
+		
 		return view('list_dosen_detail', ['result' => $result, 'akademik' => $akademik, 'penelitian' => $penelitian, 'line' => $riwayat]);
 	}
 }
