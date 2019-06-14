@@ -149,13 +149,50 @@ class PendidikanController extends Controller
         $prodi->web =  $web[$kode_prodi];
         $prodi->gdrive = $gdrive[$kode_prodi];
         $mata_kuliah = $prodi->mata_kuliah
+        ->map(function ($mata_kuliah) {
+            if (11 == substr($mata_kuliah->id, 0, 2)) {
+                $mata_kuliah->nama = 'Pendidikan Agama';
+                $mata_kuliah->id = substr($mata_kuliah->id, 0, 2).'XXX';
+            }
+            if ($mata_kuliah->jenis == 8) {
+                $mata_kuliah->nama = 'Mata Kuliah Pilihan';
+                $mata_kuliah->id = substr($mata_kuliah->id, 0, 2).'XXX';
+                $mata_kuliah->sks = 6;
+            }
+
+            return $mata_kuliah;
+        })
+        ->unique()
         ->sortBy('id')
         ->sortBy('semester')
         ->groupBy('semester');
 
+        $data_rps = \DB::select("SELECT   k.fakul_id
+        ,k.jenis
+        --,COUNT(k.ID)
+        ,SUM(sks) sks
+    FROM kurlkl_mf k
+        ,fak_mf f
+   WHERE k.fakul_id = f.ID
+         AND f.sts_aktif = 'Y'
+         AND f.ID NOT IN('41011', '39090')
+         AND k.status <> '0'
+         AND k.jenis BETWEEN 1 AND 5
+         AND f.id = :id_prodi
+GROUP BY k.fakul_id
+        ,k.jenis
+ORDER BY k.fakul_id
+        ,k.jenis", [
+            'id_prodi' => $kode_prodi,
+        ]);
+        $data_rps = array_map(function ($rps) {
+            return $rps->sks;
+        }, $data_rps);
+
         return view('pendidikan_detail', [
             'prodi' => $prodi->toArray(),
             'mata_kuliah' => $mata_kuliah->toArray(),
+            'data_rps' => $data_rps,
         ]);
     }
 }
