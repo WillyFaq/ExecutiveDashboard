@@ -149,6 +149,17 @@ class PendidikanController extends Controller
         ->find($kode_prodi);
         $prodi->web =  $web[$kode_prodi];
         $prodi->gdrive = $gdrive[$kode_prodi];
+        switch(substr($prodi->id,0,1)){
+        case 3:
+            $prodi->nama = 'D3 '.$prodi->nama;
+            break;
+        case 4:
+            $prodi->nama = 'S1 '.$prodi->nama;
+            break;
+        case 5:
+            $prodi->nama = 'D4 '.$prodi->nama;
+            break;
+        }
         $mata_kuliah = $prodi->mata_kuliah
         ->map(function ($mata_kuliah) use ($kode_prodi) {
             $mata_kuliah->prasyarat = MataKuliah::whereIn('id', array_map(function($kode_mk){
