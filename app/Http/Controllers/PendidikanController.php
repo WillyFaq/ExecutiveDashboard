@@ -258,7 +258,68 @@ class PendidikanController extends Controller
         ->unique()
         ->sortBy('id')
         ->sortBy('semester')
-        ->groupBy('semester');
+        ->groupBy('semester')
+        ->map(function($mata_kuliah, $semester) use ($kode_prodi) {
+            $mata_kuliah_pilihan = $mata_kuliah->filter(function($mata_kuliah){
+                return $mata_kuliah->jenis == 8;
+            })->first();
+            if(count($mata_kuliah_pilihan) == 0) {
+                $mata_kuliah->push(new MataKuliah([
+                    'id' => '35XXX',
+                    'sks' => 0,
+                    'nama' => 'Mata Kuliah Pilihan',
+                    'prasyarat' => [],
+                    'jenis' => 8,
+                    'semester' => $semester,
+                    'fakul_id' => $kode_prodi,
+                ]));
+                $mata_kuliah_pilihan = $mata_kuliah->filter(function($mata_kuliah){
+                    return $mata_kuliah->jenis == 8;
+                })->first();
+            }
+
+            switch($mata_kuliah_pilihan->fakul_id){
+                case '41020':
+                    switch($mata_kuliah_pilihan->semester){
+                        case '7':
+                            $mata_kuliah_pilihan->sks = 3;
+                            break;
+                        case '8':
+                            $mata_kuliah_pilihan->sks = 3;
+                            break;
+                    }
+                    break;
+                case '42010':
+                    switch($mata_kuliah_pilihan->semester){
+                        case '4':
+                            $mata_kuliah_pilihan->sks = 3;
+                            break;
+                        case '6':
+                            $mata_kuliah_pilihan->sks = 3;
+                            break;
+                        case '7':
+                            $mata_kuliah_pilihan->sks = 3;
+                            break;
+                    }
+                    break;
+                case '42020':
+                    switch($mata_kuliah_pilihan->semester){
+                        case '4':
+                            $mata_kuliah_pilihan->sks = 6;
+                            break;
+                        case '5':
+                            $mata_kuliah_pilihan->sks = 3;
+                            break;
+                    }
+                    break;
+            }
+
+            return $mata_kuliah
+            ->filter(function($mata_kuliah) {
+                return $mata_kuliah->sks > 0;
+            })
+            ->sortBy('id');
+        });
 
         $data_domain = collect(\DB::select("
 SELECT domain
