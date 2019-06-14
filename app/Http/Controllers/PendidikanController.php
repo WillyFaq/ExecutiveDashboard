@@ -21,6 +21,7 @@ class PendidikanController extends Controller
                     'Programmer',
                     'Consultant Programmer',
                 ],
+                'gdrive'=> 'https://drive.google.com/drive/folders/0B_81wNH_zonXZE1VeElZSzNWTXM?usp=sharing',
             ], [
                 'kode' => 41020,
                 'nama' => 'S1 Teknik Komputer',
@@ -30,6 +31,7 @@ class PendidikanController extends Controller
                     'Network Engineer',
                     'Computer Control Engineer',
                 ],
+                'gdrive'=> 'https://drive.google.com/drive/folders/0B_81wNH_zonXMWF4UmNDdFVLWTQ?usp=sharing',
             ], [
                 'kode' => 42010,
                 'nama' => 'S1 Desain Komunikasi Visual',
@@ -40,6 +42,7 @@ class PendidikanController extends Controller
                     'Media Planner',
                     'Copywriter',
                 ],
+                'gdrive'=> 'https://drive.google.com/drive/folders/0B_81wNH_zonXQi00REo3V0tlLXc?usp=sharing',
             ], [
                 'kode' => 42020,
                 'nama' => 'S1 Desain Produk',
@@ -50,7 +53,8 @@ class PendidikanController extends Controller
                     'Media Planner',
                     'Copywriter',
                     'Product Design Consultant',
-                ],
+                ],    
+                'gdrive'=> 'https://drive.google.com/drive/folders/0B_81wNH_zonXNS11VzhFWmlQLWc?usp=sharing',
             ], [
                 'kode' => 51016,
                 'nama' => 'D4 Produksi Film & Television',
@@ -60,6 +64,7 @@ class PendidikanController extends Controller
                     'Animator',
                     'Ilustrator',
                 ],
+                'gdrive'=> 'https://drive.google.com/drive/folders/0B_81wNH_zonXQ0ZzM1hRQ0dJQ28?usp=sharing',
             ], [
                 'kode' => 39010,
                 'nama' => 'D3 Sistem Informasi',
@@ -70,6 +75,8 @@ class PendidikanController extends Controller
                     'Technopreneurship',
                     'System Analyst',
                 ],
+                'gdrive'=> 'https://drive.google.com/drive/folders/0B_81wNH_zonXMDhpaWoxZ0pZclk?usp=sharing',
+            
             ], [
                 'kode' => 43020,
                 'nama' => 'S1 Akutansi',
@@ -79,6 +86,8 @@ class PendidikanController extends Controller
                     'Management Accountant',
                     'Accounting Information System Consultant',
                 ],
+                'gdrive'=> 'https://drive.google.com/drive/folders/0B_81wNH_zonXSktmVEZUbHJ1STg?usp=sharing',
+            
             ], [
                 'kode' => 43010,
                 'nama' => 'S1 Manajemen',
@@ -88,6 +97,8 @@ class PendidikanController extends Controller
                     'Manage',
                     'Professioal Accountant',
                 ],
+                'gdrive'=> 'https://drive.google.com/drive/folders/0B_81wNH_zonXRVNjdXlKWXN1OUE?usp=sharing',
+            
             ], [
                 'kode' => 39015,
                 'nama' => 'D3 Administrasi Perkantoran',
@@ -98,6 +109,7 @@ class PendidikanController extends Controller
                     'Public Relation',
                     'Export Import & Business',
                 ],
+                'gdrive'=> 'https://drive.google.com/drive/folders/0B_81wNH_zonXQ1JERzhwcllKdXc?usp=sharing',
             ],
         ]);
 
@@ -108,6 +120,24 @@ class PendidikanController extends Controller
 
     public function detail(Request $request, $kode_prodi)
     {
+        $gdrive['41010']='https://drive.google.com/drive/folders/0B_81wNH_zonXZE1VeElZSzNWTXM?usp=sharing';
+        $web['41010']='si.stikom.edu';
+        $gdrive['41020']='https://drive.google.com/drive/folders/0B_81wNH_zonXMWF4UmNDdFVLWTQ?usp=sharing';
+        $web['41020']='sk.stikom.edu';
+        $gdrive['42010']='https://drive.google.com/drive/folders/0B_81wNH_zonXQi00REo3V0tlLXc?usp=sharing';
+        $web['42010']='dkv.stikom.edu';
+        $gdrive['42020']='https://drive.google.com/drive/folders/0B_81wNH_zonXNS11VzhFWmlQLWc?usp=sharing';
+        $web['42020']='dg.stikom.edu';
+        $gdrive['51016']='https://drive.google.com/drive/folders/0B_81wNH_zonXQ0ZzM1hRQ0dJQ28?usp=sharing';
+        $web['51016']='mm.stikom.edu';
+        $gdrive['39010']='https://drive.google.com/drive/folders/0B_81wNH_zonXMDhpaWoxZ0pZclk?usp=sharing';
+        $web['39010']='mi.stikom.edu';
+        $gdrive['43020']='https://drive.google.com/drive/folders/0B_81wNH_zonXSktmVEZUbHJ1STg?usp=sharing';
+        $web['43020']='akuntansi.stikom.edu';
+        $gdrive['43010']='https://drive.google.com/drive/folders/0B_81wNH_zonXRVNjdXlKWXN1OUE?usp=sharing';
+        $web['43010']='manajemen.stikom.edu';
+        $gdrive['39015']='https://drive.google.com/drive/folders/0B_81wNH_zonXQ1JERzhwcllKdXc?usp=sharing';
+        $web['39015']='kpk.stikom.edu';
         $prodi = Prodi::whereIsAktif()
         ->with([
             'fakultas',
@@ -116,8 +146,8 @@ class PendidikanController extends Controller
             },
         ])
         ->find($kode_prodi);
-        $prodi->web = 'si.stikom.edu';
-
+        $prodi->web =  $web[$kode_prodi];
+        $prodi->gdrive = $gdrive[$kode_prodi];
         $mata_kuliah = $prodi->mata_kuliah
         ->map(function ($mata_kuliah) {
             if (11 == substr($mata_kuliah->id, 0, 2)) {

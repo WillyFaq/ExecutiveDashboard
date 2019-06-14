@@ -40,7 +40,9 @@
                                         </ol>
                                     </div>
                                 @endif
+                                
                             </div>
+                            <a href="{{$prodi['gdrive']}}" target="_blank"><img src="assets/img/gdrive.jpg"  style="height:25px;object-fit:cover;"></a>
                         </div>
                     </div>
                 </div>
