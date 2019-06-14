@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Prodi;
+use App\MataKuliah;
 
 class PendidikanController extends Controller
 {
@@ -149,15 +150,68 @@ class PendidikanController extends Controller
         $prodi->web =  $web[$kode_prodi];
         $prodi->gdrive = $gdrive[$kode_prodi];
         $mata_kuliah = $prodi->mata_kuliah
-        ->map(function ($mata_kuliah) {
+        ->map(function ($mata_kuliah) use ($kode_prodi) {
+            $mata_kuliah->prasyarat = MataKuliah::whereIn('id', str_split($mata_kuliah->prasyarat, 10))
+            ->where('fakul_id',$kode_prodi)
+            ->get();
             if (11 == substr($mata_kuliah->id, 0, 2)) {
                 $mata_kuliah->nama = 'Pendidikan Agama';
                 $mata_kuliah->id = substr($mata_kuliah->id, 0, 2).'XXX';
             }
-            if ($mata_kuliah->jenis == 8) {
+            if (8 == $mata_kuliah->jenis) {
                 $mata_kuliah->nama = 'Mata Kuliah Pilihan';
-                $mata_kuliah->id = substr($mata_kuliah->id, 0, 2).'XXX';
-                $mata_kuliah->sks = 6;
+                $mata_kuliah->id = substr($mata_kuliah->id, 0, 1).'XXXX';
+                switch ($mata_kuliah->prodi) {
+                case '41010':
+                    switch ($mata_kuliah->semester) {
+                    case '6':
+                        $mata_kuliah->sks = 6;
+                        break;
+                    case '7':
+                        $mata_kuliah->sks = 6;
+                        break;
+                    }
+                    break;
+                case '41020':
+                    switch ($mata_kuliah->semester) {
+                    case '7':
+                        $mata_kuliah->sks = 6;
+                        break;
+                    case '8':
+                        $mata_kuliah->sks = 3;
+                        break;
+                    }
+                    break;
+                case '42020':
+                    switch ($mata_kuliah->semester) {
+                    case '4':
+                        $mata_kuliah->sks = 6;
+                        break;
+                    case '5':
+                        $mata_kuliah->sks = 3;
+                        break;
+                    case '6':
+                        $mata_kuliah->sks = 3;
+                        break;
+                    }
+                    break;
+                case '42010':
+                    switch ($mata_kuliah->semester) {
+                    case '4':
+                        $mata_kuliah->sks = 3;
+                        break;
+                    case '5':
+                        $mata_kuliah->sks = 3;
+                        break;
+                    case '6':
+                        $mata_kuliah->sks = 3;
+                        break;
+                    case '7':
+                        $mata_kuliah->sks = 3;
+                        break;
+                    }
+                    break;
+                }
             }
 
             return $mata_kuliah;

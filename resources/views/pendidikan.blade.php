@@ -33,7 +33,7 @@
                                 </div>
                                 @if(count($prodi['profil']) > 3)
                                     <div class="col-xs-6">
-                                        <ol style="padding-left:20px">
+                                        <ol style="padding-left:20px" start="3">
                                         @for($j; $j < count($prodi['profil']); $j++)
                                             <li>{{ $prodi['profil'][$j] }}</li>
                                         @endfor

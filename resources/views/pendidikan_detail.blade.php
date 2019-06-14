@@ -58,10 +58,6 @@
                                                 <th rowspan="2">SKS</th>
                                                 <th colspan="2">Prasyarat</th>
                                             </tr>
-                                            <tr>
-                                                <th>Kode MK</th>
-                                                <th>Nama</th>
-                                            </tr>
                                         </thead>
                                         <tbody>
                                             @foreach($list_mata_kuliah as $mata_kuliah)
@@ -69,8 +65,15 @@
                                                     <td>{{ $mata_kuliah['id'] }}</td>
                                                     <td>{{ $mata_kuliah['nama'] }}</td>
                                                     <td>{{ $mata_kuliah['sks'] }}</td>
-                                                    <td>{{ $mata_kuliah['prasyarat'] }}</td>
-                                                    <td></td>
+                                                    <td>
+                                                        <ol>
+                                                            @foreach($mata_kuliah['prasyarat'] as $prasyarat)
+                                                                <li>
+                                                                    ({{ $mata_kuliah['id'] }}) {{ $mata_kuliah['nama'] }}
+                                                                </li>
+                                                            @endforeach
+                                                        </ol>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
