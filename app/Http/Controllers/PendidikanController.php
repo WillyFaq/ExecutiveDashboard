@@ -232,6 +232,29 @@ class PendidikanController extends Controller
 
             return $mata_kuliah;
         })
+        ->reject(function($mata_kuliah){
+            switch($mata_kuliah->fakul_id) {
+                case '51016':
+                    return in_array($mata_kuliah->id, [
+                        '36174', '36218', '36216',
+                        '32009', '36217', '32001',
+                    ]);
+                case '43020':
+                    return in_array(substr($mata_kuliah->id,-5), [
+                        '36020', '36037', '36032',
+                        '36053', '36062', '36067',
+                        '36030', '36039',
+                    ]);
+                case '43010':
+                    return in_array(substr($mata_kuliah->id,-5), [
+                        '36061', '36090', '36096',
+                        '36055', '36056', '36063',
+                        '36040', '36057', '36073',
+                        '36098', '36099', '36100',
+                    ]);
+            }
+            return false;
+        })
         ->unique()
         ->sortBy('id')
         ->sortBy('semester')
