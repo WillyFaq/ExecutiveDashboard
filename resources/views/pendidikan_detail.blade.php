@@ -15,12 +15,10 @@
         <div class="col-xs-8">
             <div class="card" style="margin-bottom:10px">
                 <div class="row">
-                    <div class="col-xs-2">
-                    </div>
-                    <div class="col-xs-10">
+                    <div class="col-xs-12">
                         <h4>{{ $prodi['fakultas']['nama'] }}</h4>
                         <h3>{{ $prodi['nama'] }}</h3>
-                        <h6>{{ $prodi['web'] }}</h6>
+                        <h5>{{ $prodi['web'] }}</h5>
                         <a href="{{$prodi['gdrive']}}" target="_blank"><img src="../assets/img/gdrive.jpg"  style="height:25px;object-fit:cover;"></a>
                     </div>
                 </div>
