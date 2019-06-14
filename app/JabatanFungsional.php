@@ -12,4 +12,8 @@ class JabatanFungsional extends Model
     {
         return $this->belongsTo(Karyawan::class, 'nik');
     }
+	
+	public function jenis_jafung(){
+		return $this->belongsTo(JenisJabatanFungsional::class, 'id_jfa');
+	}
 }

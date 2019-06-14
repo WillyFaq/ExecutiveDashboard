@@ -9,9 +9,21 @@
 			$('#example').DataTable();
 		} );
 		
-		/*function getprodi(){
-
-		}*/
+		function getprodi(){
+			var prodi = document.getElementById("prodi").value;
+			//alert(prodi);
+			$.ajax({
+				url: '/xcommerce/public/purchastotal/'+$(this).val(),
+				type: 'GET',
+				success: function (response){                      
+					$("#purchase_total").replaceWith(response);
+				},
+				error: function (xhr) {
+					alert("Something went wrong, please try again");
+				}
+			});
+		}
+		
 	</script>
 	
 <div class="container container-main container-home" style="padding-top:10px;">
@@ -19,9 +31,9 @@
 	<p><b>Dosen Program Studi S1 Sistem Informasi</b></p><br>
 	<p>
 		Filter By : 
-		<select name="prodi" id="prodi">
+		<select name="prodi" id="prodi" onchange="getprodi();">
 		@foreach($prodi as $hasil)
-			<option value="{{$hasil->id}}">{{$hasil->nama}}</option>			  
+			<option value="{{$hasil->id}}">{{$hasil->alias}} ( {{$hasil->nama}} )</option>			  
 		@endforeach
 		</select>
 	</p>
@@ -33,7 +45,8 @@
 				<th>Gelar</th>
 				<th>Jenis Kelamin</th>
 				<th>Pendidikan</th>
-				<th>Status</th>
+				<!--<th>Status</th>-->
+				<th>Jabatan Fungsional</th>
 				<th>Action</th>
 			</tr>
 		</thead>
@@ -60,12 +73,23 @@
 						$status = '-';
 					}
 					
-					if($row->pendidikan_formal[0]->jenjang_studi == 'S1'){
-						$jenjang = 'Strata 1';
-					}elseif($row->pendidikan_formal[0]->jenjang_studi == 'S2'){
-						$jenjang = 'Strata 2';
-					}elseif($row->pendidikan_formal[0]->jenjang_studi == 'S3'){
-						$jenjang = 'Strata 3';
+					$jenjang = '';
+					if($row->pendidikan_formal){
+						if($row->pendidikan_formal->jenjang_studi == 'S1'){
+							$jenjang = 'Strata 1';
+						}elseif($row->pendidikan_formal->jenjang_studi == 'S2'){
+							$jenjang = 'Strata 2';
+						}elseif($row->pendidikan_formal->jenjang_studi == 'S3'){
+							$jenjang = 'Strata 3';
+						}else{
+							$jenjang = $row->pendidikan_formal->jenjang_studi;
+						}
+					}
+					
+					if(!isset($row->jabatan_fungsional['jenis_jafung']['jabatan_fungsional'])){
+						$jafung = 'Tenaga Pengajar';
+					}else{
+						$jafung = $row->jabatan_fungsional['jenis_jafung']['jabatan_fungsional'];
 					}
 					echo "<tr>
 						<td>$no</td>
@@ -73,7 +97,7 @@
 						<td>".$row->gelar_depan." ".$row->gelar_belakang."</td>
 						<td>".$jk."</td>
 						<td>".$jenjang."</td>
-						<td>".$status."</td>";
+						<td>".$jafung."</td>";
 			?>
 						<td>
 						<a href='' data-toggle="modal" data-target="#berkasModal<?php echo $no; ?>"><img src="{{ asset("imgs/document.png") }}" alt="Upload Berkas" width="24" height="24"></a>

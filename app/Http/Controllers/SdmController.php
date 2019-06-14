@@ -278,17 +278,25 @@ class SdmController extends Controller
 		from v_karyawan kar where status = 'A' and kary_type like '%D%' and kary_type <> 'AD'");
 		*/
 		$result = \App\Karyawan::with([
-			'pendidikan_formal'=> function($query){
-				return $query->latest('no');
+			'pendidikan_formal' => function($query){
+				return $query->whereNotNull('jenjang_studi');
 			},
-			'berkas_portofolio'
+			'berkas_portofolio',
+			'jabatan_fungsional.jenis_jafung',
 		])
-		->whereHas('pendidikan_formal',function($query){
-			return $query->whereNotNull('jenjang_studi');
-		})
 		->whereIsAktif()
 		->whereIsDosenTetap()
 		->get();
+		$result = $result->map(function($dosen){
+			$dosen->pendidikan_formal = $dosen->pendidikan_formal
+			->sortByDesc('no')
+			->first();
+			
+			$dosen->jabatan_fungsional = $dosen->jabatan_fungsional
+			->sortByDesc('id_jfa')
+			->first();
+			return $dosen;			
+		});
 		
 		$prodi = Prodi::whereIsAktif()
         ->orderBy('id')        
@@ -309,7 +317,7 @@ class SdmController extends Controller
 							from v_karyawan kar where nik = '$id'");
 		$akademik = DB::connection('oracle_stikom_dev')->select("select no, jenjang, nama_sekolah, jenjang_studi, substr(tahun_lulus, -4) tahun_lulus, jurusan from V_PEND_FORMAL_KAR where nik = '$id'
 										and lower(jenjang_studi) in ('s1','s2','s3') order by 1");										
-		$penelitian = DB::connection('oracle_stikom_dev')->select("select mk, 'Institut Bisnis dan Informatika Stikom Surabaya' lembaga, substr(periode, -4) tahun from pantja.ewmp_b@get_ori where nik = '$id'");
+		$penelitian = DB::connection('oracle_stikom_dev')->select("select mk, 'Institut Bisnis dan Informatika Stikom Surabaya' lembaga, substr(periode, -4) tahun from pantja.ewmp_b@get_ori where nik = '$id' and lower(mk) not like '%studi lanjut%'");
 		
 		/*$riwayat = DB::select("select substr(smt,1,2) tahun, sum(b.sks) sks from jdwkul_mf_his a join kurlkl_mf b on a.klkl_id = b.id where a.prodi = b.fakul_id and kary_nik = '$id' group by substr(smt,1,2) order by 1");*/
 		
