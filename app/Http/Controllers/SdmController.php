@@ -319,12 +319,47 @@ class SdmController extends Controller
 										and lower(jenjang_studi) in ('s1','s2','s3') order by 1");										
 		/*$penelitian = DB::connection('oracle_stikom_dev')->select("select mk, 'Institut Bisnis dan Informatika Stikom Surabaya' lembaga, substr(periode, -4) tahun from pantja.ewmp_b@get_ori where nik = '$id' and lower(mk) not like '%studi lanjut%'");*/
 		
-		$penelitian = DB::connection('oracle_stikom_dev')->select("select judul, jns, substr(smt,1,2) tahun, 'Institut Bisnis dan Informatika Stikom Surabaya' lembaga from pantja.ewmp_b_dashboard@get_ori where nik = '$id'");
+		$penelitian = DB::connection('oracle_stikom_dev')->select("select judul, jns, substr(smt,1,2) tahun, 'Institut Bisnis dan Informatika Stikom Surabaya' lembaga from pantja.ewmp_b_dashboard@get_ori where nik = '$id' order by tahun");
 		
 		/*$riwayat = DB::select("select substr(smt,1,2) tahun, sum(b.sks) sks from jdwkul_mf_his a join kurlkl_mf b on a.klkl_id = b.id where a.prodi = b.fakul_id and kary_nik = '$id' group by substr(smt,1,2) order by 1");*/
 		
 		$riwayat = DB::connection('oracle_stikom_dev')->select("select substr(a.semester,1,2) tahun, sum(b.sks) sks from rekap_mf a join kurlkl_mf b on a.jkul_klkl_id = b.id where a.prodi = b.fakul_id and jkul_kary_nik = '$id' and sts_dosen = '*' and substr(a.semester, 1,1) <> '9' group by substr(a.semester,1,2) order by 1");
 		
 		return view('list_dosen_detail', ['result' => $result, 'akademik' => $akademik, 'penelitian' => $penelitian, 'line' => $riwayat]);
+	}
+	
+	public function list_dosen_filter($id){
+		/*$result = DB::select("select nik, nama, sex, gelar_depan, gelar_belakang, kary_type, (select jenjang_studi from V_PEND_FORMAL_KAR a where nik = kar.nik and no = (select max(no) from v_pend_formal_kar where nik = a.nik and jenjang_studi is not null)) jenjang_studi 
+		from v_karyawan kar where status = 'A' and kary_type like '%D%' and kary_type <> 'AD'");
+		*/
+		
+		$result = \App\Karyawan::with([
+			'pendidikan_formal' => function($query){
+				return $query->whereNotNull('jenjang_studi');
+			},
+			'berkas_portofolio',
+			'jabatan_fungsional.jenis_jafung',
+		])
+		->whereIsAktif()
+		->whereIsDosenTetap()
+		->where('fakul_id',$id)
+		->get();
+		$result = $result->map(function($dosen){
+			$dosen->pendidikan_formal = $dosen->pendidikan_formal
+			->sortByDesc('no')
+			->first();
+			
+			$dosen->jabatan_fungsional = $dosen->jabatan_fungsional
+			->sortByDesc('id_jfa')
+			->first();
+			return $dosen;			
+		});
+		
+		$prodi = Prodi::whereIsAktif()
+        ->orderBy('id')        
+        ->get();
+		
+		return view('list_dosen_filter', ['result' => $result, 'prodi' => $prodi]);		
+		//return view('list_dosen_filter');
 	}
 }

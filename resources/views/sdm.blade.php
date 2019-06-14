@@ -63,6 +63,7 @@
                                     <h1>{{ $skor_jabatan_fungsional }}</h1>
 								</div>
 							<div class="col-xs-10 card-home-subtitle">
+                                <input class="btn btn-default btn-sm" type="button" onclick="window.location='{{url('/sdm/list_dosen')}}'" value="Detail"/>
 							</div>
 							<div class="col-xs-2 text-center card-home-right">
 							</div>
@@ -190,6 +191,7 @@
                                     <h1>{{ $skor_sertifikat_pendidikan }}</h1>
 								</div>
 							<div class="col-xs-10 card-home-subtitle">
+                                <input class="btn btn-default btn-sm" type="button" onclick="window.location='{{url('/sdm/list_dosen')}}'" value="Detail"/>
 							</div>
 							<div class="col-xs-2 text-center card-home-right">
 							</div>
