@@ -1,6 +1,15 @@
 @extends('layouts.dashboard')
 @section('page_heading','SDM')
 @section('section')
+
+<link rel="stylesheet" href="{{ asset("d3-chart/gauge.css") }}">
+<script src="{{ asset("js/popper.min.js") }}" type="text/javascript"></script>
+<script src="{{ asset("d3-chart/d3.v5.min.js") }}" type="text/javascript"></script>
+
+<script src="{{ asset("js/Chart.js") }}" type="text/javascript"></script>
+<script src="{{ asset("js/utils.js") }}" type="text/javascript"></script>
+<script src="{{ asset("js/apexcharts.js") }}" type="text/javascript"></script>
+
 <div class="container container-main container-home" style="padding-top:10px;">
     <div class="row">
         <div class="col-xs-8">
@@ -76,9 +85,37 @@
         <div class="col-xs-4">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Bahan Kajian</h4>
+                    <h4 class="card-title">Presentase Domain</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="margin-top:40px">
+                    @php
+                    $label_rps = [
+                        'Mata Kuliah Pengembangan Kepribadian',
+                        'Mata Kuliah Keilmuan Dan Ketrampilan',
+                        'Mata Kuliah Keahlian Berkarya',
+                        'Mata Kuliah Perilaku Berkarya',
+                        'Mata Kuliah Berkehidupan Bermasyarakat',
+                    ];
+                    $color = [
+                        '#6200EA',
+                        '#D50000',
+                        '#AA00FF',
+                        '#FFAB00',
+                        '#80DEEA',
+                        '#6200EA',
+                    ];
+                    @endphp
+                    @include('widgets.charts.cpiechart_sdm_rps', [
+                        'data' => $data_rps,
+                        'label' => $label_rps,
+                        'color' => $color,
+                    ])
+                </div>
+                <div class="card-body" style="margin-top:40px">
+                    @foreach($data_rps as $i => $sks)
+                        <p><span class="dot" style="background-color:{!! $color[$i] !!}"></span>{{$label_rps[$i]}} : {{$sks}} SKS</p>
+                    @endforeach
+                    <p>Total SKS : {{array_sum($data_rps)}}</p>
                 </div>
             </div>
         </div>
