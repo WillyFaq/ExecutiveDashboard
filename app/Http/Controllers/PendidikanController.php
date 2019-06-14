@@ -151,13 +151,18 @@ class PendidikanController extends Controller
         $prodi->gdrive = $gdrive[$kode_prodi];
         $mata_kuliah = $prodi->mata_kuliah
         ->map(function ($mata_kuliah) use ($kode_prodi) {
-            $mata_kuliah->prasyarat = MataKuliah::whereIn('id', str_split($mata_kuliah->prasyarat, 10))
-            ->where('fakul_id',$kode_prodi)
-            ->get();
+            $mata_kuliah->prasyarat = MataKuliah::whereIn('id', array_map(function($kode_mk){
+                return trim($kode_mk);
+            }, str_split($mata_kuliah->prasyarat, 10)))
+            ->where('fakul_id', $kode_prodi)
+            ->get()
+            ->unique();
+
             if (11 == substr($mata_kuliah->id, 0, 2)) {
                 $mata_kuliah->nama = 'Pendidikan Agama';
                 $mata_kuliah->id = substr($mata_kuliah->id, 0, 2).'XXX';
             }
+
             if (8 == $mata_kuliah->jenis) {
                 $mata_kuliah->nama = 'Mata Kuliah Pilihan';
                 $mata_kuliah->id = substr($mata_kuliah->id, 0, 1).'XXXX';
