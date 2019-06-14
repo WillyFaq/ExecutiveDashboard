@@ -25,7 +25,7 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle prof-box" data-toggle="dropdown" href="#">
                         <span style="color:#6B779E;">Pantjawati S.</span>  <i class="fa fa-angle-down"></i> 
-                        <img src="{{ asset("imgs/b.png") }}" alt="Profile Pic" class="img-profil-pic">
+                        <img src="{{ asset("imgs/890026.jpg") }}" alt="Profile Pic" class="img-profil-pic">
                     </a>
                     
                     <ul class="dropdown-menu dropdown-user">
