@@ -119,6 +119,20 @@ class PendidikanController extends Controller
         $prodi->web = 'si.stikom.edu';
 
         $mata_kuliah = $prodi->mata_kuliah
+        ->map(function ($mata_kuliah) {
+            if (11 == substr($mata_kuliah->id, 0, 2)) {
+                $mata_kuliah->nama = 'Pendidikan Agama';
+                $mata_kuliah->id = substr($mata_kuliah->id, 0, 2).'XXX';
+            }
+            if ($mata_kuliah->jenis == 8) {
+                $mata_kuliah->nama = 'Mata Kuliah Pilihan';
+                $mata_kuliah->id = substr($mata_kuliah->id, 0, 2).'XXX';
+                $mata_kuliah->sks = 6;
+            }
+
+            return $mata_kuliah;
+        })
+        ->unique()
         ->sortBy('id')
         ->sortBy('semester')
         ->groupBy('semester');

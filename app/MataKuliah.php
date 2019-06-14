@@ -8,6 +8,7 @@ class MataKuliah extends Model
 {
     protected $table = 'kurlkl_mf';
     protected $primaryKey = 'id';
+    public $casts = ['id' => 'string'];
 
     public function scopeWhereIsAktif($query)
     {
