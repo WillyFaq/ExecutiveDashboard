@@ -89,13 +89,6 @@
                 </div>
                 <div class="card-body" style="margin-top:40px">
                     @php
-                    $label_rps = [
-                        'Mata Kuliah Pengembangan Kepribadian',
-                        'Mata Kuliah Keilmuan Dan Ketrampilan',
-                        'Mata Kuliah Keahlian Berkarya',
-                        'Mata Kuliah Perilaku Berkarya',
-                        'Mata Kuliah Berkehidupan Bermasyarakat',
-                    ];
                     $color = [
                         '#6200EA',
                         '#D50000',
@@ -105,17 +98,15 @@
                         '#6200EA',
                     ];
                     @endphp
-                    @include('widgets.charts.cpiechart_sdm_rps', [
-                        'data' => $data_rps,
-                        'label' => $label_rps,
+                    @include('widgets.charts.cpiechart_sdm_domain', [
+                        'data' => $data_domain,
                         'color' => $color,
                     ])
                 </div>
                 <div class="card-body" style="margin-top:40px">
-                    @foreach($data_rps as $i => $sks)
-                        <p><span class="dot" style="background-color:{!! $color[$i] !!}"></span>{{$label_rps[$i]}} : {{$sks}} SKS</p>
+                    @foreach($data_domain as $i => $domain)
+                        <p><span class="dot" style="background-color:{!! $color[$i] !!}"></span>{{$domain['domain']}} : {{$domain['persen']}}%</p>
                     @endforeach
-                    <p>Total SKS : {{array_sum($data_rps)}}</p>
                 </div>
             </div>
         </div>

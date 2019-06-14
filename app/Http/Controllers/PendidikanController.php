@@ -137,32 +137,22 @@ class PendidikanController extends Controller
         ->sortBy('semester')
         ->groupBy('semester');
 
-        $data_rps = \DB::select("SELECT   k.fakul_id
-        ,k.jenis
-        --,COUNT(k.ID)
-        ,SUM(sks) sks
-    FROM kurlkl_mf k
-        ,fak_mf f
-   WHERE k.fakul_id = f.ID
-         AND f.sts_aktif = 'Y'
-         AND f.ID NOT IN('41011', '39090')
-         AND k.status <> '0'
-         AND k.jenis BETWEEN 1 AND 5
-         AND f.id = :id_prodi
-GROUP BY k.fakul_id
-        ,k.jenis
-ORDER BY k.fakul_id
-        ,k.jenis", [
-            'id_prodi' => $kode_prodi,
-        ]);
-        $data_rps = array_map(function ($rps) {
-            return $rps->sks;
-        }, $data_rps);
+        $data_domain = collect(\DB::select("
+SELECT domain
+      ,persen
+  FROM domain_kurkl
+ WHERE prodi = :prodi
+", [
+            'prodi' => $kode_prodi,
+        ]))
+        ->map(function($domain){
+            return (array) $domain;
+        });
 
         return view('pendidikan_detail', [
             'prodi' => $prodi->toArray(),
             'mata_kuliah' => $mata_kuliah->toArray(),
-            'data_rps' => $data_rps,
+            'data_domain' => $data_domain->toArray(),
         ]);
     }
 }

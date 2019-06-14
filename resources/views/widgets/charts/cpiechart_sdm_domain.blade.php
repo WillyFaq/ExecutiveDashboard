@@ -7,12 +7,14 @@
         type: 'pie',
         data: {
             datasets: [{
-                data: {!! json_encode(array_values(array_map(function($sks) use ($data) {
-                    return round($sks/array_sum($data)*100,2);
-                },$data))) !!},
+                data: {!! json_encode(array_map(function($domain){
+                    return $domain['persen'];
+                },$data)) !!},
                 backgroundColor: {!! json_encode(array_values($color)) !!},
             }],
-            labels: {!! json_encode($label) !!},
+            labels: {!! json_encode(array_map(function($domain){
+                return $domain['domain'];
+            },$data)) !!},
         },
         options: {
             responsive: false,
