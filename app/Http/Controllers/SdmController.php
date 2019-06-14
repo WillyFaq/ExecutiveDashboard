@@ -111,7 +111,6 @@ class SdmController extends Controller
         $rasio_dosen_mahasiswa = round($jml_mahasiswa / $jml_dosen, 2);
         // RASIO PRODI:DOSEN
         $jml_prodi = Prodi::whereIsAktif()
-        ->whereNotIn('id',['41011','39090'])
         ->count();
         $rasio_prodi_dosen = round($jml_dosen / $jml_prodi, 2);
         // PRESENTASE DOSEN: TETAP TIDAK TETAP
