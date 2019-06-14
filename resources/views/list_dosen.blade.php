@@ -122,25 +122,22 @@
 							  <div class="col-6 col-md-3">Nama Berkas</div>
 							  <div class="col-6 col-md-3">Action</div>
 							</div>
-							@foreach($row->berkas_portofolio as $berkas_portofolio)
-								<div class="row">
-								  <div class="col-6 col-md-1">No.</div>
-								  <div class="col-6 col-md-3">{{$berkas_portofolio->nama_jenis}}</div>
-								  <div class="col-6 col-md-3"><a href='' data-toggle="modal" data-target="#Modalfile{{$berkas_portofolio->file_path}}">{{$berkas_portofolio->file_path}}</a></div>
-								</div>								
+							@foreach($row->berkas_portofolio as $i => $berkas_portofolio)
+                                <div class="row">
+                                    <div class="col-6 col-md-1">{{$i+1}}</div>
+                                    <div class="col-6 col-md-3">{{$berkas_portofolio->nama_jenis}}</div>
+                                    <div class="col-6 col-md-3"><a href='' data-toggle="modal" data-target="#modal_berkas_{{$berkas_portofolio->id_berkas}}">
+                                        Lihat Detail
+                                    </a></div>
+                                </div>
 							@endforeach
-							<!--	</tbody>
-							</table>
-							Tes Modal 
-							<img src="<?//=asset('imgs/berkas/'.$row->berkas)?>">
-							-->
 						  </div>
 						</div>
 					  </div>
 					</div>
 					
 					@foreach($row->berkas_portofolio as $berkas_portofolio)
-					<div class="modal fade" id="Modalfile{{$berkas_portofolio->file_path}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal fade" id="modal_berkas_{{$berkas_portofolio->id_berkas}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					  <div class="modal-dialog" role="document">
 						<div class="modal-content">
 						  <div class="modal-header">
@@ -150,13 +147,9 @@
 							</button>
 						  </div>
 						  <div class="modal-body">
-													
-							
-							<!--	</tbody>
-							</table>
-							Tes Modal 
-							<img src="<?//=asset('imgs/berkas/'.$row->berkas)?>">
-							-->
+                                <a href="#" class="thumbnail">
+                                    <img src="<?=asset('imgs/berkas/'.$berkas_portofolio->file_path)?>">
+                                </a>
 						  </div>
 						</div>
 					  </div>
