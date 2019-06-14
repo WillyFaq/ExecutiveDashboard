@@ -292,7 +292,7 @@ class SdmController extends Controller
 			->first();
 			
 			$dosen->jabatan_fungsional = $dosen->jabatan_fungsional
-			->sortByDesc('id_jfa')
+			->sortByDesc('mulai_tetap_tmt')
 			->first();
 			return $dosen;			
 		});
