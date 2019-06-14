@@ -128,6 +128,9 @@
 				<div class="col-xs-7" id="kpt">
 					<div class="card">
 						<div class="row">
+							<div class="radar-home" style="margin-top:20px">
+	                    		@include('widgets.charts.radarchart', array('class'=>'pg_info'))
+							</div>
 							<div class="col-xs-1 card-home-icon">
 								<img src="{{ asset("imgs/copy.svg") }}" alt="chart">
 							</div>
@@ -138,11 +141,15 @@
 							<div class=" col-xs-11 card-home-subtitle">
 								<p class="txt_card_subtitle">{{$periode}}</p>
 							</div>
-						</div>
-						<div class="row" style="padding-top:0;">
-							<div class="radar-home">
-	                    		@include('widgets.charts.radarchart', array('class'=>'pg_info'))
-							</div>
+                            <div class=" col-xs-4 card-home-subtitle">
+                                <div class="form-group form-group-sm">
+                                    <select id="navigator" class="form-control" onchange="window.location.href=$('#navigator').val().replace(' ','_').toLowerCase()">
+                                        <option hidden selected disabled value="">--Pilih Detail--</option>
+                                        <option value="pendidikan">Pendidikan</option>
+                                        <option value="sdm">SDM</option>
+                                    </select>
+                                </div>
+                            </div>
 							<div class="profil_institusi">
 								<div class="sub_card">
 									<h4>{{$data_profil_0['profil_institusi']['nama']}}</h4>
