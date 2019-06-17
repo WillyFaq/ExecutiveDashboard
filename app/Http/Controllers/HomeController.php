@@ -130,20 +130,35 @@ class HomeController extends Controller
             ->where(\DB::Raw('SUBSTR(no_online,5,2)'), '<=', Carbon::now()->format('m'))
             ->whereSudahBayarForm()
             ->get()
-            ->sortBy('no_online')
-            ->groupBy(function ($pendaftar) {
-                $bulan = (int) substr($pendaftar->no_online, 4, 2);
-                // `day` harus disertakan dalam prosedur, kalau tidak 30 februari -> maret
-                $nama_bulan = Carbon::createFromFormat('d-m', '01-'.$bulan)->format('M');
+            ->sortBy('no_online');
+        };
+        $get_mhs_daftar_kumulatif_bulan = function ($list_bulan, $mhs_daftar) {
+            $jml_mhs_daftar = $list_bulan->map(function ($bulan) use ($mhs_daftar) {
+                return $mhs_daftar->filter(function ($pendaftaran) use ($bulan) {
+                    return $pendaftaran->tgl_daftar <= $bulan;
+                })->count();
+            });
 
-                return $nama_bulan;
-            })
-            ->map(function ($pendaftar) {
-                return $pendaftar->count();
+            return collect(array_combine($list_bulan->map(function ($bulan) {
+                return $bulan->format('M');
+            })->toArray(), $jml_mhs_daftar->toArray()));
+        };
+        $get_list_bulan = function ($tahun) {
+            return collect(range(1, Carbon::now()->format('m')))
+            ->map(function ($bulan) use ($tahun) {
+                return Carbon::now()->month($bulan)->year($tahun)->endOfMonth();
             });
         };
-        $mhs_daftar_lalu = $get_mhs_daftar($tahun_now - 1);
+
+        $jml_mhs_daftar_lalu = $get_mhs_daftar_kumulatif_bulan(
+            $get_list_bulan($tahun_now - 1),
+            $get_mhs_daftar($tahun_now - 1)
+        );
         $mhs_daftar_sekarang = $get_mhs_daftar($tahun_now);
+        $jml_mhs_daftar_sekarang = $get_mhs_daftar_kumulatif_bulan(
+            $get_list_bulan($tahun_now),
+            $mhs_daftar_sekarang
+        );
 
         return view('home', [
             'skor' => [
@@ -158,13 +173,13 @@ class HomeController extends Controller
             'daftar' => [
                 'lalu' => [
                     $tahun_now - 1,
-                    $mhs_daftar_lalu->toArray(),
+                    $jml_mhs_daftar_lalu->toArray(),
                 ],
                 'sekarang' => [
                     $tahun_now,
-                    $mhs_daftar_sekarang->toArray(),
+                    $jml_mhs_daftar_sekarang->toArray(),
                 ],
-                'total' => $mhs_daftar_sekarang->flatten()->sum(),
+                'total' => $mhs_daftar_sekarang->count(),
             ],
             'regis' => [
                 'lalu' => [
