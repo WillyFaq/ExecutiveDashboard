@@ -8,6 +8,7 @@ use App\Mahasiswa;
 use App\MateriBorang;
 use App\PendaftaranOnline;
 use Carbon\Carbon;
+use App\Prodi;
 
 class HomeController extends Controller
 {
@@ -110,17 +111,28 @@ class HomeController extends Controller
             });
         // MHS REGISTRASI
         $get_mhs_registrasi = function ($tahun) {
-            return Mahasiswa::where(\DB::raw("TO_CHAR(TO_DATE(SUBSTR(nim, 0, 2),'RR'),'YYYY')"), $tahun)
-            ->with('prodi')
-            ->select(['nim', \DB::raw("TO_CHAR(TO_DATE(SUBSTR(nim, 0, 2),'RR'),'YYYY') AS tahun")])
+            $prodi = Prodi::whereIsAktif()
+            ->orderBy('id_fakultas')
+            ->orderBy(\DB::Raw('DECODE(SUBSTR(id, 1, 1), 4, 1, 5, 2, 3, 3)'))
+            ->orderBy('id')
             ->get()
-            ->groupBy(function ($mahasiswa) {
-                return $mahasiswa->prodi->alias;
-            })
-            ->map(function ($prodi) {
-                return $prodi->count();
-            })
-            ->sort();
+            ->map(function ($prodi) use ($tahun) {
+                $prodi->jml_mahasiswa = Mahasiswa::where(\DB::Raw('SUBSTR(nim, 3, 5)'), $prodi->id)
+                ->where(\DB::Raw("TO_CHAR(TO_DATE(SUBSTR(nim, 1, 2), 'RR'), 'YYYY')"), $tahun)
+                ->where(\DB::Raw('SUBSTR(nim, 3, 5)'), $prodi->id)
+                ->count();
+
+                return $prodi;
+            });
+
+            return collect(array_combine(
+                $prodi->map(function ($prodi) {
+                    return $prodi->alias;
+                })->toArray(),
+                $prodi->map(function ($prodi) {
+                    return $prodi->jml_mahasiswa;
+                })->toArray()
+            ));
         };
         $mhs_registrasi_lalu = $get_mhs_registrasi($tahun_now - 1);
         $mhs_registrasi_sekarang = $get_mhs_registrasi($tahun_now);
