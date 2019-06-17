@@ -53,9 +53,16 @@
 				}
 			}
 		};
-		window.onload = function() {
-			window.myRadar = new Chart(document.getElementById('radarchart'), config);
-		};
+        window.onload = function() {
+            let chartElement = document.getElementById('radarchart');
+            let chartContext = chartElement.getContext('2d');
+            window.myRadar = new Chart(chartContext, config);
+            chartElement.onclick = function(e){
+                let dot = window.myRadar.getElementAtEvent(e);
+                if(!dot.length) return;
+                window.location.href = label[dot[0]._index][0].replace(' ','_').toLowerCase();
+            }
+        };
 		
 
 		/*

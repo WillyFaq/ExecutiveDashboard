@@ -141,15 +141,6 @@
 							<div class=" col-xs-11 card-home-subtitle">
 								<p class="txt_card_subtitle">{{$periode}}</p>
 							</div>
-                            <div class=" col-xs-4 card-home-subtitle">
-                                <div class="form-group form-group-sm">
-                                    <select id="navigator" class="form-control" onchange="window.location.href=$('#navigator').val().replace(' ','_').toLowerCase()">
-                                        <option hidden selected disabled value="">--Pilih Detail--</option>
-                                        <option value="pendidikan">Pendidikan</option>
-                                        <option value="sdm">SDM</option>
-                                    </select>
-                                </div>
-                            </div>
 							<div class="profil_institusi">
 								<div class="sub_card">
 									<h4>{{$data_profil_0['profil_institusi']['nama']}}</h4>
