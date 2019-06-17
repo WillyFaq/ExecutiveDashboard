@@ -1,17 +1,25 @@
 @extends('layouts.dashboard')
 @section('page_heading','SDM')
 @section('section')
+
+<link rel="stylesheet" href="{{ asset("d3-chart/gauge.css") }}">
+<script src="{{ asset("js/popper.min.js") }}" type="text/javascript"></script>
+<script src="{{ asset("d3-chart/d3.v5.min.js") }}" type="text/javascript"></script>
+
+<script src="{{ asset("js/Chart.js") }}" type="text/javascript"></script>
+<script src="{{ asset("js/utils.js") }}" type="text/javascript"></script>
+<script src="{{ asset("js/apexcharts.js") }}" type="text/javascript"></script>
+
 <div class="container container-main container-home" style="padding-top:10px;">
     <div class="row">
         <div class="col-xs-8">
             <div class="card" style="margin-bottom:10px">
                 <div class="row">
-                    <div class="col-xs-2">
-                    </div>
-                    <div class="col-xs-10">
+                    <div class="col-xs-12">
                         <h4>{{ $prodi['fakultas']['nama'] }}</h4>
                         <h3>{{ $prodi['nama'] }}</h3>
-                        <h6>{{ $prodi['web'] }}</h6>
+                        <h5>{{ $prodi['web'] }}</h5>
+                        <a href="{{$prodi['gdrive']}}" target="_blank"><img src="../assets/img/gdrive.jpg"  style="height:25px;object-fit:cover;"></a>
                     </div>
                 </div>
             </div>
@@ -48,19 +56,22 @@
                                                 <th rowspan="2">SKS</th>
                                                 <th colspan="2">Prasyarat</th>
                                             </tr>
-                                            <tr>
-                                                <th>Kode MK</th>
-                                                <th>Nama</th>
-                                            </tr>
                                         </thead>
                                         <tbody>
                                             @foreach($list_mata_kuliah as $mata_kuliah)
                                                 <tr>
                                                     <td>{{ $mata_kuliah['id'] }}</td>
-                                                    <td>{{ $mata_kuliah['nama'] }}</td>
+                                                    <td>{{ $mata_kuliah['nama'] }} @if (array_key_exists($mata_kuliah['id'], MATAKULIAH)==1) <a href="{{MATAKULIAH[$mata_kuliah['id']]}}" target=_blank> <img src="../assets/img/glogo.jpg"></a> @endif</td>
                                                     <td>{{ $mata_kuliah['sks'] }}</td>
-                                                    <td>{{ $mata_kuliah['prasyarat'] }}</td>
-                                                    <td></td>
+                                                    <td>
+                                                        <ol>
+                                                            @foreach($mata_kuliah['prasyarat'] as $prasyarat)
+                                                                <li>
+                                                                    ({{ $prasyarat['id'] }}) {{ $prasyarat['nama'] }}
+                                                                </li>
+                                                            @endforeach
+                                                        </ol>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -76,9 +87,28 @@
         <div class="col-xs-4">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Bahan Kajian</h4>
+                    <h4 class="card-title">Presentase Domain</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="margin-top:40px">
+                    @php
+                    $color = [
+                        '#6200EA',
+                        '#D50000',
+                        '#AA00FF',
+                        '#FFAB00',
+                        '#80DEEA',
+                        '#6200EA',
+                    ];
+                    @endphp
+                    @include('widgets.charts.cpiechart_sdm_domain', [
+                        'data' => $data_domain,
+                        'color' => $color,
+                    ])
+                </div>
+                <div class="card-body" style="margin-top:40px">
+                    @foreach($data_domain as $i => $domain)
+                        <p><span class="dot" style="background-color:{!! $color[$i] !!}"></span>{{$domain['domain']}} : {{$domain['persen']}}%</p>
+                    @endforeach
                 </div>
             </div>
         </div>
