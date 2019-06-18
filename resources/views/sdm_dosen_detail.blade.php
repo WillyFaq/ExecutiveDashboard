@@ -1,13 +1,19 @@
 @extends('layouts.dashboard')
 @section('page_heading','SDM')
 @section('section')
+
+<link rel="stylesheet" href="{{ asset("d3-chart/gauge.css") }}">
+<script src="{{ asset("js/popper.min.js") }}" type="text/javascript"></script>
+<script src="{{ asset("d3-chart/d3.v5.min.js") }}" type="text/javascript"></script>
+
+<script src="{{ asset("js/apexcharts.js") }}" type="text/javascript"></script>
 <div class="container container-main container-home" style="padding-top:10px;">
-	<div class="card" style="padding:5px 20px; margin:20px 5px;">
+	<div class="card" style="padding:10px 20px; margin:20px 5px;">
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="row">
 					<div class="col-xs-1" style="width:5.33333333%;">
-						<a href="{{url('sdm')}}">
+						<a href="#" onclick="window.history.back();">
 							<div class="button_icon_back">
 								<i class="fa fa-angle-left" style="color:#fff;font-size:1.8em;"></i>
 							</div>
@@ -25,7 +31,9 @@
 	<div class="card">	
 		<div class="row" style="border-bottom:1px solid #707070;padding-bottom:5px;">
 			<div class="col-xs-2" >
-				<img src="{{asset("imgs/foto.png")}}" alt="Foto" class="img-circle" style="width:146px;height:146px;">
+				<div class="box-circle">
+					<img src="{{asset("imgs/foto.png")}}" alt="Foto" class="img-responsive">
+				</div>
 				<div class="text-center card-home-title" style="width:146px;margin-top:20px;">
 					<h2>MJ Dewiyani Sunarto</h2><br>
 					<p class="txt_card_subtitle">(0725076301)</p>		
@@ -60,14 +68,81 @@
 					</tr>
 				</table>
 			</div>
-			<div class="col-xs-5" style="border-left:1px solid #707070;">
+			<div class="col-xs-6" style="border-left:1px solid #707070;">
+				<div class="card-home-title" style="padding-left:50px">
+					<h2>Riwayat Mengajar</h2>
+				</div>
 				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
+				<div class="char_container text-right" style="width:80%;padding-left:100px;">
+					<div id="chart"></div>
+				</div>
+				<script type="text/javascript">
+					var options = {
+			            chart: {
+			                height: 180,
+			                width: 490,
+			                type: 'area',
+			                zoom: {
+			                    enabled: false
+			                },
+			                toolbar: {
+    			            	show: false,
+    			            }
+			            },
+			            dataLabels: {
+			                enabled: false
+			            },
+			            stroke: {
+			                curve: 'smooth'
+			            },
+			            series: [{
+			                name: "Riwayat Mengajar",
+			                data: [100, 50, 300, 400, 200, 600]
+			            }],
+			            labels: ['2014', '2015', '2016', '2017', '2018', '2019'],
+			            fill: {
+					    type: 'gradient',
+					        gradient: {
+					          shadeIntensity: 1,
+					          opacityFrom: 0.7,
+					          opacityTo: 0.9,
+					          stops: [0, 90, 100]
+					        }
+					  	},
+					  	markers: {
+						    size: 3,
+						    colors: '#BE1E2D',
+						    strokeColor: '#BE1E2D',
+						    strokeWidth: 2,
+						    strokeOpacity: 0.9,
+						    fillOpacity: 1,
+						    discrete: [],
+						    shape: "circle"
+						},
+					  	grid: {
+    						show: false
+						},
+			            xaxis: {
+			                type: 'text',
+			                axisBorder: {
+					            show: false,
+					        },
+			            },
+			            yaxis: {
+			                show: false
+			            },
+			            tooltip: {
+			            	enabled: true
+			            }
+			        }
+
+			        var chart = new ApexCharts(
+			            document.querySelector("#chart"),
+			            options
+			        );
+
+			        chart.render();
+				</script>
 			</div>
 		</div>
 		<div class="row">
@@ -143,7 +218,6 @@
 <script type="text/javascript">
     $(document).ready(function(){
 		$(".tbl_penelitian").hide();
-
 		$(".btn-det-dosen").click(function(){
 			if($(this).hasClass("btn-grey")){
 				$(".btn-info").addClass("btn-grey");

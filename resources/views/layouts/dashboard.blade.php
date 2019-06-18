@@ -19,13 +19,17 @@
             </div>
             <!-- /.navbar-header -->
 
-            <ul class="nav navbar-top-links navbar-right">
+            <ul class="nav navbar-top-links navbar-right" style="margin-right: 0;">
                 <!-- /.dropdown -->
-                
                 <li class="dropdown">
-                    <a class="dropdown-toggle prof-box" data-toggle="dropdown" href="#">
-                        <span style="color:#6B779E;">Pantjawati S.</span>  <i class="fa fa-angle-down"></i> 
-                        <img src="{{ asset("imgs/b.png") }}" alt="Profile Pic" class="img-profil-pic">
+                    <a class="#" data-toggle="dropdown" href="#">
+                        <p>
+                            Pantjawati S.  
+                            <i class="fa fa-angle-down"></i> 
+                        </p>
+                        <div class="img-profil-pic">
+                            <img src="{{ asset("imgs/b.png") }}" alt="Profile Pic" class="img-responsive">
+                        </div>
                     </a>
                     
                     <ul class="dropdown-menu dropdown-user">

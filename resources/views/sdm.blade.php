@@ -164,6 +164,44 @@
 
 				<div class="col-xs-3">
 					<div class="row sdm-small-card">
+						@php
+						$tampilan1=false;
+						if($tampilan1):
+						@endphp
+						<div class="col-xs-12">
+							<div class="card" style="padding:20px 40px;">
+								<div class="row">
+									<div class="col-xs-12 card-home-title">
+										<h2>Jabatan Fungsional Doden</h2>
+									</div>
+									<br>
+									<div class="legend_add_box">
+										<div class="card-home-legend">
+											<ul>
+												<li><span class="dot d_red"></span>Guru Besar : <strong>50 Orang</strong> </li>
+												<li><span class="dot d_yellow"></span>Lektor Kepala : <strong>48 Orang</strong> </li>
+											</ul>
+										</div>
+									</div>
+									<br>
+									<div class="col-xs-12 card-home-title">
+										<h2>Jabatan Fungsional Doden</h2>
+									</div>
+									<br>
+									<div class="legend_add_box">
+										<div class="card-home-legend">
+											<ul>
+												<li><span class="dot d_red"></span>Dosen Tetap : <strong>106 Orang</strong> </li>
+												<li><span class="dot d_yellow"></span>Sertifiakat : <strong>80 Orang</strong> </li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						@php
+						else:
+						@endphp
 						<div class="col-xs-12">
 							<div class="card">
 								<div class="row">
@@ -171,6 +209,13 @@
 										<p>Rata-Rata Penelitian Dosen</p>
 									</div>
 									<div class="col-xs-6">
+										<div class="sdm-area-grad">
+
+											@php
+												$data_area = [500, 50, 300, 400, 200, 600];
+											@endphp
+											@include('widgets.charts.areachart_gradient', array('color' => "default", 'data' => $data_area))
+										</div>
 									</div>
 									<div class="col-xs-6">
 										<table class="table-keterangan-sdm-card">
@@ -200,7 +245,12 @@
 										<p>Rata-Rata Penelitian Dosen</p>
 									</div>
 									<div class="col-xs-6">
-										
+										<div class="sdm-area-grad">
+											@php
+												$data_area = [500, 950, 300, 400, 200, 600];
+											@endphp
+											@include('widgets.charts.areachart_gradient', array('color' => "warning", 'data' => $data_area))
+										</div>
 									</div>
 									<div class="col-xs-6">
 										<table class="table-keterangan-sdm-card">
@@ -230,6 +280,12 @@
 										<p>Rata-Rata Penelitian Dosen</p>
 									</div>
 									<div class="col-xs-6">
+										<div class="sdm-area-grad">
+											@php
+												$data_area = [500, 50, 30, 800, 200, 100];
+											@endphp
+											@include('widgets.charts.areachart_gradient', array('color' => "default", 'data' => $data_area))
+										</div>
 									</div>
 									<div class="col-xs-6">
 										<table class="table-keterangan-sdm-card">
@@ -250,6 +306,9 @@
 								</div>
 							</div>
 						</div>
+						@php
+						endif;
+						@endphp
 					</div>
 				</div>
 
@@ -286,10 +345,10 @@
 						<div class="row">
 							<div class="col-xs-12" style="padding-top:10px;">
 								@php
-								
+									
 									$mix = array(
 												'bar' => ['Lektor Kepala',array(
-																	'SI' => 200,
+																	'SI' => 500,
 																	'SK' => 250,
 																	'DKV' => 300,
 																	'D3 SI' => 350,
@@ -302,11 +361,11 @@
 												'line'		=> ['Guru Besar', array(
 																	'SI' => 300,
 																	'SK' => 350,
-																	'DKV' => 200,
+																	'DKV' => 500,
 																	'D3 SI' => 450,
 																	'Profiti' => 480,
 																	'Desgraf' => 200,
-																	'Manajemen' => 200,
+																	'Manajemen' => 300,
 																	'Akuntansi' => 500,
 																	'KPK' => 400,
 																	) ]

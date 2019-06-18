@@ -4,7 +4,7 @@
 <canvas height="105px" id="mixchart_{{$_idbx}}"></canvas >
 
 <script>
-		var mixChartData = {
+		var mixChartData_{{$_idbx}} = {
 			labels: [
 				@php
 				foreach($data['bar'][1] as $k => $v){
@@ -50,11 +50,10 @@
 		};
 
 		$(document).ready(function(){
-			var ctxa = document.getElementById('mixchart_{{$_idbx}}').getContext('2d');
-			
-			var mixchart = new Chart(ctxa, {
+			var ctxa_{{$_idbx}} = document.getElementById('mixchart_{{$_idbx}}').getContext('2d');
+			var mixchart_{{$_idbx}} = new Chart(ctxa_{{$_idbx}}, {
     			type: 'bar',
-				data: mixChartData,
+				data: mixChartData_{{$_idbx}},
 				options: {
 					responsive: true,
 					hoverMode: 'index',
@@ -97,16 +96,20 @@
 			            position: 'bottom'
 			        },
 			        onClick: function(c,i) {
+    					console.log(c.y);
     					e = i[0];
 					    //console.log(e._index)
 					    var x_value = this.data.labels[e._index];
 					    var y_value = this.data.datasets[0].data[e._index];
-					    console.log(x_value);
+					    //console.log(x_value);
 					    /*
 					    console.log(y_value);
 					    var label = "";*/
-					    
-					    show_modal(x_value);
+					    if(c.y>316){
+					    	document.location="{{url('sdm/dosen')}}";
+					    }else{
+					    	show_modal(x_value);
+					    }
 						//$("#modal_chart").modal('show');
 					}
 				}
