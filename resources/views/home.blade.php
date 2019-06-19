@@ -180,7 +180,32 @@
 									<p class="txt_card_subtitle">{{$periode}}</p>
 								</div>
 							</div>
-							<div class="col-xs-6">
+							<div class="col-xs-3" style="padding-right:5px;padding-left:25px">
+								@php
+									$persen_daftar = ($daftar['total']-$daftar['total_lalu'])/100;
+								@endphp
+								<div class="text-right card-home-right">
+									<h1>
+									@if($persen_daftar >=0 )
+										<i class="fa fa-arrow-up" style="color:#2386DE"></i>
+									@else
+										<i class="fa fa-arrow-down" style="color:#BE1E2D"></i>
+									@endif
+									</h1>
+									<div class="text-right card-home-right">
+									@if($persen_daftar >=0 )
+										<p class="txt_card_subtitle" style="color:#2386DE">
+											{{ $persen_daftar }}%
+										</p>
+									@else
+										<p class="txt_card_subtitle" style="color:#BE1E2D">
+											{{ abs($persen_daftar) }}%
+										</p>
+									@endif
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-3" style="padding-right:25px;padding-left:5px">
 								<div class="text-right card-home-right">
 									<h1>{{$daftar['total']}}</h1>
 								</div>
@@ -211,8 +236,32 @@
 								<div class="">
 									<p class="txt_card_subtitle">{{$periode}}</p>
 								</div>
+							</div>							<div class="col-xs-3" style="padding-right:5px;padding-left:25px">
+								@php
+									$persen_regis = ($regis['total']-$regis['total_lalu'])/100;
+								@endphp
+								<div class="text-right card-home-right">
+									<h1>
+									@if($persen_regis >=0 )
+										<i class="fa fa-arrow-up" style="color:#2386DE"></i>
+									@else
+										<i class="fa fa-arrow-down" style="color:#BE1E2D"></i>
+									@endif
+									</h1>
+									<div class="text-right card-home-right">
+									@if($persen_regis >=0 )
+										<p class="txt_card_subtitle" style="color:#2386DE">
+											{{ $persen_regis }}%
+										</p>
+									@else
+										<p class="txt_card_subtitle" style="color:#BE1E2D">
+											{{ abs($persen_regis) }}%
+										</p>
+									@endif
+									</div>
+								</div>
 							</div>
-							<div class="col-xs-6">
+							<div class="col-xs-3" style="padding-right:25px;padding-left:5px">
 								<div class="text-right card-home-right">
 									<h1>{{$regis['total']}}</h1>
 								</div>
