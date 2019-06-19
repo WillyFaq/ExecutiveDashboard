@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use App\NilaiBorang;
 use App\Mahasiswa;
 use App\MateriBorang;
-use App\PendaftaranOnline;
 use Carbon\Carbon;
 use App\Prodi;
+use App\CalonMahasiswa;
 
 class HomeController extends Controller
 {
@@ -138,11 +138,10 @@ class HomeController extends Controller
         $mhs_registrasi_sekarang = $get_mhs_registrasi($tahun_now);
         // MHS DAFTAR
         $get_mhs_daftar = function ($tahun) {
-            return PendaftaranOnline::where('no_online', 'LIKE', $tahun.'%')
-            ->where(\DB::Raw('SUBSTR(no_online,5,2)'), '<=', Carbon::now()->format('m'))
-            ->whereSudahBayarForm()
+            return CalonMahasiswa::where(\DB::Raw("TO_CHAR(tgl_daftar,'YYYY')"),$tahun)
+            ->where(\DB::Raw("TO_CHAR(tgl_daftar,'MM')"),'<=',Carbon::now()->format('m'))
             ->get()
-            ->sortBy('no_online');
+            ->sortBy('no_test');
         };
         $get_mhs_daftar_kumulatif_bulan = function ($list_bulan, $mhs_daftar) {
             $jml_mhs_daftar = $list_bulan->map(function ($bulan) use ($mhs_daftar) {
