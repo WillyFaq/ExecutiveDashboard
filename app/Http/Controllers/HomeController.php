@@ -175,9 +175,10 @@ class HomeController extends Controller
             });
         };
 
+        $mhs_daftar_lalu = $get_mhs_daftar($tahun_now - 1);
         $jml_mhs_daftar_lalu = $get_mhs_daftar_kumulatif_bulan(
             $get_list_bulan($tahun_now - 1),
-            $get_mhs_daftar($tahun_now - 1)
+            $mhs_daftar_lalu
         );
         $mhs_daftar_sekarang = $get_mhs_daftar($tahun_now);
         $jml_mhs_daftar_sekarang = $get_mhs_daftar_kumulatif_bulan(
@@ -205,6 +206,7 @@ class HomeController extends Controller
                     $jml_mhs_daftar_sekarang->toArray(),
                 ],
                 'total' => $mhs_daftar_sekarang->count(),
+                'total_lalu' => $mhs_daftar_lalu->count(),
             ],
             'regis' => [
                 'lalu' => [
@@ -216,6 +218,7 @@ class HomeController extends Controller
                     $mhs_registrasi_sekarang->toArray(),
                 ],
                 'total' => $mhs_registrasi_sekarang->flatten()->sum(),
+                'total_lalu' => $mhs_registrasi_lalu->flatten()->sum(),
             ],
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
         ]);
