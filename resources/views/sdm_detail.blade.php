@@ -1,54 +1,101 @@
-@extends('sdm')
-@section('sub_section')
-	<style>
-		.keterangan_box{
-			padding: 0 30px;
-			color: #A6A4BF;
-		}
-		.keterangan_box p{
-		  display: flex;
-		  flex-flow: row nowrap;
-		}
-	
-		canvas {
-			-moz-user-select: none;
-			-webkit-user-select: none;
-			-ms-user-select: none;
-		}
+<script type="text/javascript">
+	//var _jquery = "{{ asset("js/jquery.js") }}";
+	var _chart = "{{ asset("js/chart.js") }}";
+	var _utils = "{{ asset("js/Utils.js") }}";
+	//$.getScript(_jquery);
+	$.getScript(_chart);
+	$.getScript(_utils);
+</script>
+@php
+	$_idd = rand(0, 999); 
+@endphp
+<canvas height="105px" id="mixchart_ajax"></canvas >
+<script>
+		var mixChartData = {
+			labels: ['Strata 1', 'Strata 2', 'Strata 3'],
+			datasets: [
 
-		.flex-wrapper{
-			padding:0 60px !important;
-		}
-	</style>
+				{
+					label: 'Jumlah Dosen',
+					borderColor: '#C216CC',
+					backgroundColor: '#C216CC',
+					borderWidth: 4,
+					fill:false,
+					data: [450,300,250],
+					type: 'line',lineTension: 0
+				},
 
-	<script src="{{ asset("js/chart.js") }}" type="text/javascript"></script>
-	<script src="{{ asset("js/Utils.js") }}" type="text/javascript"></script>
-	<div class="row">
-		<div class="col-xs-5">
-			@include('widgets.charts.gauge', array('tittle' => $judul, 'skor'=> $nilai, 'type' => 1, 'subtittle' => 'skor' ))
-		</div>
-		<div class="col-xs-7">
-			<div class="panel panel-main">
-                <div class="panel-heading">
-                     {{$judul}} Per-tahun
-                </div>
-                <!-- /.panel-heading -->
-                <div class="panel-body">
-                    @include('widgets.charts.linechart', array('data' => $line))
-                </div>
-                <!-- /.panel-body -->
-            </div>
+				{
+					label: 'Sertifikasi',
+					borderColor: '#BE1E2D',
+					backgroundColor: '#BE1E2D',
+					data: [400,400,400]
+				},
 
-            <div class="panel panel-main">
-                <div class="panel-heading">
-                     {{$judul}} Per-prodi
-                </div>
-                <!-- /.panel-heading -->
-                <div class="panel-body">
-                    @include('widgets.charts.cbarchart', array('data' => $bar))
-                </div>
-                <!-- /.panel-body -->
-            </div>
-		</div>
-	</div>
-@stop
+				{
+					label: 'Guru Besar',
+					borderColor: '#FE9D28',
+					backgroundColor: '#FE9D28',
+					data: [300,300,300]
+				},
+
+				{
+					label: 'Lektor Kepala',
+					borderColor: '#4FACFE',
+					backgroundColor: '#4FACFE',
+					data: [150,150,150]
+				},
+
+			]
+		};
+
+		$(document).ready(function(){
+			var ctxa = document.getElementById('mixchart_ajax').getContext('2d');
+			
+			var mixchart = new Chart(ctxa, {
+    			type: 'bar',
+				data: mixChartData,
+				options: {
+					responsive: true,
+					hoverMode: 'index',
+					stacked: false,
+					title: {
+						display: false,
+						text: 'Chart.js Line Chart - Multi Axis'
+					},
+					scales: {
+						xAxes: [{
+							gridLines:  {
+								display: false
+							},
+							ticks: {
+								fontSize: 10
+							},
+
+						}],
+						yAxes: [{
+							gridLines:  {
+								display: true,
+							},
+							type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+							display: true,
+							id: 'y-axis-1',
+					        ticks: {
+								min: 0,
+								max: 500,
+								stepSize: 50,
+								suggestedMin: 0,
+								suggestedMax: 400,
+								fontSize: 10
+							}
+						}],
+					},
+					legend: {
+			            display: false,
+			            position: 'bottom'
+			        }
+				}
+			});
+
+		});
+	</script>
