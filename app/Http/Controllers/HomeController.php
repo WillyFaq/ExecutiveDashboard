@@ -9,6 +9,7 @@ use App\MateriBorang;
 use Carbon\Carbon;
 use App\Prodi;
 use App\CalonMahasiswa;
+use Carbon\CarbonPeriod;
 
 class HomeController extends Controller
 {
@@ -138,8 +139,16 @@ class HomeController extends Controller
         $mhs_registrasi_sekarang = $get_mhs_registrasi($tahun_now);
         // MHS DAFTAR
         $get_mhs_daftar = function ($tahun) {
-            return CalonMahasiswa::where(\DB::Raw("TO_CHAR(tgl_daftar,'YYYY')"),$tahun)
-            ->where(\DB::Raw("TO_CHAR(tgl_daftar,'MM')"),'<=',Carbon::now()->format('m'))
+            return CalonMahasiswa::where(
+                \DB::Raw("SUBSTR(no_test,1,2)"),
+                Carbon::createFromFormat('Y',$tahun)->format('y')
+            )
+            ->where(
+                \DB::Raw("TO_CHAR(tgl_daftar,'YYYYMM')"),
+                '<=',
+                Carbon::now()->year($tahun)->format('Ym')
+            )
+            ->whereIsSiapOnline()
             ->get()
             ->sortBy('no_test');
         };
@@ -155,9 +164,14 @@ class HomeController extends Controller
             })->toArray(), $jml_mhs_daftar->toArray()));
         };
         $get_list_bulan = function ($tahun) {
-            return collect(range(1, Carbon::now()->format('m')))
-            ->map(function ($bulan) use ($tahun) {
-                return Carbon::now()->month($bulan)->year($tahun)->endOfMonth();
+            $date = Carbon::now()->year($tahun);
+            return collect(CarbonPeriod::create(
+                $date->copy()->subMonth(6), 
+                '1 month',
+                $date->copy()
+            )->toArray())
+            ->map(function($bulan) {
+                return $bulan->endOfMonth();
             });
         };
 
