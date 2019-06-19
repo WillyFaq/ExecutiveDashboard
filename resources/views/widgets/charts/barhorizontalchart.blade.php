@@ -2,21 +2,21 @@
 	$_idbx = rand(0, 999); 
 @endphp
 <style>
-	#chart-legends{
+	#chart-legends_{{$_idbx}}{
   		position: absolute;
   		bottom: 30px;
   		right: -25px;
 	}
-	.regis-legend{
+	#chart-legends_{{$_idbx}} .regis-legend{
 		padding: 0;
 		margin: 0;
 		list-style: none;
 	}
-	.regis-legend>li{
+	#chart-legends_{{$_idbx}} .regis-legend>li{
 		padding: 0;
 		margin: 0;
 	}
-	.regis-legend>li>div{
+	#chart-legends_{{$_idbx}} .regis-legend>li>div{
 		width: 8px;
 		height: 8px;
 		float: left;
@@ -25,8 +25,8 @@
 	}
 </style>
 <div class="col-xs-11" style="padding:0;">
-	<canvas height="299px" id="hormixchart"></canvas >
-	<div id="chart-legends"></div>
+	<canvas height="299px" id="hormixchart_{{$_idbx}}"></canvas >
+	<div id="chart-legends_{{$_idbx}}"></div>
 </div>
 
 <script>
@@ -75,7 +75,7 @@
 		};
 
 		$(document).ready(function(){
-			var ctx = document.getElementById('hormixchart').getContext('2d');
+			var ctx = document.getElementById('hormixchart_{{$_idbx}}').getContext('2d');
 			
 			var hormixchart = new Chart(ctx, {
     			type: 'horizontalBar',
@@ -138,7 +138,7 @@
 					}
 				}
 			});
-			document.getElementById('chart-legends').innerHTML = hormixchart.generateLegend();
+			document.getElementById('chart-legends_{{$_idbx}}').innerHTML = hormixchart.generateLegend();
 
 		});
 
