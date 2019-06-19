@@ -165,60 +165,71 @@
 			</div>
 		</div>
 		<div class="col-xs-3" >
-			<div class="row main-dash penmaru-box">
-				<div class="col-xs-12">
-					<div class="card" style="">
-						<div class="row" style="">
-							<div class="col-xs-1 card-home-icon">
-								<img src="{{ asset("imgs/person.svg") }}" alt="chart">
+			<div class="-main-dash penmaru-box">
+					<div class="card" style="margin-bottom:10px; margin-top:5px">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-xs-2">
+								<img src="{{ asset("imgs/person.svg") }}" class="card-home-icon">
 							</div>
-							<div class="col-xs-8 card-home-title">
-								<h2>Pendaftar</h2>
+							<div class="col-xs-4">
+								<div class="card-home-title">
+									<h2>Pendaftar</h2>
+								</div>
+								<div class="">
+									<p class="txt_card_subtitle">{{$periode}}</p>
+								</div>
 							</div>
-							<div class="col-xs-2 text-center card-home-right">
-								<h1>{{$daftar['total']}}</h1>
-							</div>
-							<div class="col-xs-9 card-home-subtitle">
-								<p class="txt_card_subtitle">{{$periode}}</p>
-							</div>
-							<div class="col-xs-1 text-center card-home-right">
-								<p class="txt_card_subtitle">Pendafar</p>
+							<div class="col-xs-6">
+								<div class="text-right card-home-right">
+									<h1>{{$daftar['total']}}</h1>
+								</div>
+								<div class="text-right card-home-right">
+									<p class="txt_card_subtitle">Pendafar</p>
+								</div>
 							</div>
 						</div>
-						<div class="row" style="padding-top:0;">
+					</div>
+					<div class="card-body">
+						<div class="row">
 							<div class="col-xs-12">
 								@include('widgets.charts.mixchart', array('data' => $daftar))
 							</div>
 						</div>
 					</div>
-				</div>
-
-				<div class="col-xs-12">
-					<div class="card" style="margin-bottom">
-						<div class="row" style="padding:10px 10px 0 10px;">
-							<div class="col-xs-1 card-home-icon">
-								<img src="{{ asset("imgs/group.svg") }}" alt="chart">
+					</div>
+					<div class="card" style="height:340px; margin-bottom:5px">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-xs-2">
+								<img src="{{ asset("imgs/group.svg") }}" class="card-home-icon">
 							</div>
-							<div class="col-xs-8 card-home-title">
-								<h2>Registrasi</h2>
+							<div class="col-xs-4">
+								<div class="card-home-title">
+									<h2>Registrasi</h2>
+								</div>
+								<div class="">
+									<p class="txt_card_subtitle">{{$periode}}</p>
+								</div>
 							</div>
-							<div class="col-xs-1 card-home-right">
-								<h1>{{$regis['total']}}</h1>
+							<div class="col-xs-6">
+								<div class="text-right card-home-right">
+									<h1>{{$regis['total']}}</h1>
+								</div>
+								<div class="text-right card-home-right">
+									<p class="txt_card_subtitle">Register</p>
+								</div>
 							</div>
-							<div class="col-xs-9 card-home-subtitle">
-								<p class="txt_card_subtitle">{{$periode}}</p>
-							</div>
-							<div class="col-xs-1 text-center card-home-right">
-								<p class="txt_card_subtitle">Register</p>
-							</div>
-						</div>
-						<div class="row" style="padding-top:0;">
-							
-								@include('widgets.charts.barhorizontalchart', array('data' => $regis))
-							
 						</div>
 					</div>
-				</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-xs-12">
+								@include('widgets.charts.barhorizontalchart', array('data' => $regis))
+							</div>
+						</div>
+					</div>
+					</div>
 			</div>
 		</div>
 	</div>
