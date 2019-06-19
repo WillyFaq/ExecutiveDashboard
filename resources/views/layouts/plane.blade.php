@@ -27,12 +27,12 @@
 
     <!-- Custom Fonts -->
     <link href="{{ asset("css/font-awesome.css") }}" rel="stylesheet" type="text/css">
-	<script src="{{ asset("js/jquery.js") }}" type="text/javascript"></script>
+	<script src="{{ asset("js/jquery.min.js") }}" type="text/javascript"></script>
+	<script src="{{ asset("js/bootstrap.js") }}" type="text/javascript"></script>
 </head>
 <body>
 	@yield('body')
 	
-	<script src="{{ asset("js/bootstrap.js") }}" type="text/javascript"></script>
 	<script src="{{ asset("js/metisMenu.js") }}" type="text/javascript"></script>
 	
 	<script src="{{ asset("js/sb-admin-2.js") }}" type="text/javascript"></script>

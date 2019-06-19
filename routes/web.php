@@ -23,8 +23,14 @@ Route::get('/sdm/list_dosen', 'SdmController@list_dosen');
 Route::get('/sdm/list_dosen_detail/{id}', 'SdmController@list_dosen_detail');
 Route::get('/sdm/list_dosen_filter/{id}', 'SdmController@list_dosen_filter');
 
+Route::get('/sdm/dosen', 'SdmController@dosen');
+Route::get('/sdm/detail_ajax', 'SdmController@detail_ajax')->name('sdm.detail_ajax');;
+Route::get('/sdm/dosen_document', 'SdmController@dosen_document')->name('sdm.dosen_document');;
+Route::get('/sdm/dosen_detail', 'SdmController@dosen_detail');
+
 Route::get('/pendidikan', 'PendidikanController@index');
 Route::get('/pendidikan/{kode_prodi}', 'PendidikanController@detail');
 /*Route::get('/', function () {
     return view('home');
 });*/
+

@@ -62,12 +62,18 @@
 	    .attr('class', 'nhuruf');*/
 
 	var gicon = svg.append('g')
-	    .attr('transform', 'translate(' + size + ',' + (size * 0.55) + ')')
+	    .attr('transform', 'translate(' + size + ',' + (size * 0.49) + ')')
 	    .append('circle')
 	    .attr("cx", 0)
 	    .attr("cy", 0)
-	    .attr("r", 25)
+	    .attr("r", 12)
 	    .style("fill", "#E8F3FC");
+
+	var gaicon = svg.append('g')
+	    .attr('transform', 'translate(' + (size * 0.9) + ',' + (size * 0.40) + ')')
+	    .append('path')
+	    .attr("d", "M8,7H20a1,1,0,0,0,0-2H8A1,1,0,0,0,8,7ZM20,17H8a1,1,0,0,0,0,2H20a1,1,0,0,0,0-2Zm0-6H8a1,1,0,0,0,0,2H20a1,1,0,0,0,0-2ZM4.5,16h-2a.5.5,0,0,0,0,1H4v.5H3.5a.5.5,0,0,0,0,1H4V19H2.5a.5.5,0,0,0,0,1h2a.5.5,0,0,0,.5-.5v-3A.5.5,0,0,0,4.5,16ZM2.5,5H3V7.5a.5.5,0,0,0,1,0v-3A.5.5,0,0,0,3.5,4h-1a.5.5,0,0,0,0,1Zm2,5h-2a.5.5,0,0,0,0,1H3.8L2.12,12.96a.49.49,0,0,0-.12.32v.22a.5.5,0,0,0,.5.5h2a.5.5,0,0,0,0-1H3.2l1.68-1.96A.49.49,0,0,0,5,10.72V10.5A.5.5,0,0,0,4.5,10Z")
+	    .style("fill", "#2386de");
 
 
 	var scale = svg.append('g')

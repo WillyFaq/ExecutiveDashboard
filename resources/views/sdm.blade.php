@@ -138,35 +138,153 @@
 			<div class="row main-dash">
 
 				<div class="col-xs-3">
-                    <div class="card"><div class="card-body"><div class="row">
-                        <div class="col-xs-12">
-                            <div class="row">
-                                <div class="col-xs-12 card-home-title" style="margin-bottom:20px">
-                                    <h2>Jabatan Fungsional Dosen</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 card-home-legend">
-                            <ul>
+					<div class="row sdm-small-card">
+						@php
+						$tampilan1=false;
+						if($tampilan1):
+						@endphp
+						<div class="col-xs-12">
+							<div class="card" style="padding:20px 40px;">
+								<div class="row">
+									<div class="col-xs-12 card-home-title">
+										<h2>Jabatan Fungsional Doden</h2>
+									</div>
+									<br>
+									<div class="legend_add_box">
+										<div class="card-home-legend">
+											<ul>
                                 <li><span class="dot d_red"></span>Guru Besar : <strong>{{ array_sum(array_values($dosen_guru_besar)) }} Orang</strong> </li>
-                                <li><span class="dot d_yellow"></span>Lekor Kepala : <strong>{{ array_sum(array_values($dosen_lektor_kepala)) }} Orang</strong> </li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-12" style="margin-bottom:30px"></div>
-                        <div class="col-xs-12">
-                            <div class="row">
-                                <div class="col-xs-12 card-home-title" style="margin-bottom:20px">
-                                    <h2>Persentase Sertifikat Pendidikan</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 card-home-legend">
-                            <ul>
+                                <li><span class="dot d_yellow"></span>Lektor Kepala : <strong>{{ array_sum(array_values($dosen_lektor_kepala)) }} Orang</strong> </li>
+											</ul>
+										</div>
+									</div>
+									<br>
+									<div class="col-xs-12 card-home-title">
+										<h2>Jabatan Fungsional Doden</h2>
+									</div>
+									<br>
+									<div class="legend_add_box">
+										<div class="card-home-legend">
+											<ul>
                                 <li><span class="dot d_red"></span>Dosen Tetap : <strong>{{ array_sum(array_values($dosen_tetap)) }} Orang</strong> </li>
                                 <li><span class="dot d_yellow"></span>Sertifiakat : <strong>{{ array_sum(array_values($dosen_tetap_bersertifikasi)) }} Orang</strong> </li>
-                            </ul>
-                        </div>
-                    </div></div></div>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						@php
+						else:
+						@endphp
+						<div class="col-xs-12">
+							<div class="card">
+								<div class="row">
+									<div class="col-xs-12 sdm-small-card-tittle">
+										<p>Rata-Rata Penelitian Dosen</p>
+									</div>
+									<div class="col-xs-6">
+										<div class="sdm-area-grad">
+
+											@php
+												$data_area = [500, 50, 300, 400, 200, 600];
+											@endphp
+											@include('widgets.charts.areachart_gradient', array('color' => "default", 'data' => $data_area))
+										</div>
+									</div>
+									<div class="col-xs-6">
+										<table class="table-keterangan-sdm-card">
+											<thead>
+												<tr class="txt_color_info">
+													<th>35</th>
+													<th>0.05</th>
+													<th>1.46</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Total</td>
+													<td>Internasional</td>
+													<td>Skor</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12">
+							<div class="card">
+								<div class="row">
+									<div class="col-xs-12 sdm-small-card-tittle">
+										<p>Rata-Rata Penelitian Dosen</p>
+									</div>
+									<div class="col-xs-6">
+										<div class="sdm-area-grad">
+											@php
+												$data_area = [500, 950, 300, 400, 200, 600];
+											@endphp
+											@include('widgets.charts.areachart_gradient', array('color' => "warning", 'data' => $data_area))
+										</div>
+									</div>
+									<div class="col-xs-6">
+										<table class="table-keterangan-sdm-card">
+											<thead>
+												<tr class="txt_color_yellow">
+													<th>20</th>
+													<th>0.39</th>
+													<th>1.51</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Total</td>
+													<td>Internasional</td>
+													<td>Skor</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12">
+							<div class="card">
+								<div class="row">
+									<div class="col-xs-12 sdm-small-card-tittle">
+										<p>Rata-Rata Penelitian Dosen</p>
+									</div>
+									<div class="col-xs-6">
+										<div class="sdm-area-grad">
+											@php
+												$data_area = [500, 50, 30, 800, 200, 100];
+											@endphp
+											@include('widgets.charts.areachart_gradient', array('color' => "default", 'data' => $data_area))
+										</div>
+									</div>
+									<div class="col-xs-6">
+										<table class="table-keterangan-sdm-card">
+											<thead>
+												<tr class="txt_color_info">
+													<th>35</th>
+													<th>1.46</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Total</td>
+													<td>Skor</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						@php
+						endif;
+						@endphp
+					</div>
 				</div>
 
 				<div class="col-xs-6">
@@ -231,7 +349,6 @@
 										<li><span class="dot d_red"></span>Dosen Tetap : <strong>{{ $jml_dosen_tetap }} Orang</strong> </li>
 										<li><span class="dot d_yellow"></span>Dosen Tidak Tetap : <strong>{{ $jml_dosen_tidak_tetap }} Orang</strong> </li>
 									</ul>
-								
 							</div>
 						</div>
 					</div>
@@ -242,5 +359,60 @@
 	</div>
 </div>
 
+<div class="modal fade modal_chart" id="modal_chart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  	<div class="modal-dialog modal-lg">
+	    <div class="modal-content">
+	      	<div class="modal-header" style="border-bottom:none;">
+	        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	       	 	<br>
+       	 		<div class="col-xs-1">
+       	 			<div style="padding:5px;width:42px;height:42px;border-radius:50%;background:rgba(150, 150, 150, 0.2);text-align:center;">
+       	 				<img src="{{ asset("imgs/account_box.svg") }}" alt="icon" style="width:32px;height:32px;">
+       	 			</div>
+       	 		</div>
+       	 		<div class="col-xs-11">
+       	 			<h4 class="modal-title" style="color:#000;font-weight:900;" id="modal_chart_label">Program Studi Sistem Informasi</h4>
+       	 			<p class="txt_card_subtitle">2018/2019</p>
+       	 		</div>
+		       	<div style="clear:both;"></div>
+	      	</div>
+	      	<div class="modal-body">
+	        	<div class="row">
+	        		<div class="col-xs-12">
+	        			<div id="load_chart"></div>
+	        		</div>
+	        		<div class="col-xs-12">
+	        			<div class="keterangan_box">
+							<p><span class="dot d_red"></span> Sertifikasi</p>
+							<p><span class="dot d_yellow"></span> Guru Besar</p>
+							<p><span class="dot d_info"></span> Lektor Kepala</p>
+							<p><span class="dot d_purple"></span> Jumlah Dosen</p>
+						</div>
+	        		</div>
+	        	</div>
+	      	</div>
+	    </div>
+  	</div>
+</div>
 
+<script type="text/javascript">
+    $(document).ready(function(){
+    	//show_modal("Sistem Informasi");
+    	$('.modal_chart').on('hide.bs.modal', function () {
+		  	$("#load_chart").html("");
+		});
+    });
+    function show_modal(label){
+    	$("#modal_chart_label").html("Program Studi "+label);
+    	//console.log();
+		$(".modal_chart").modal('show');
+    	//$("#load_chart").load('{{url('sdm/detail_ajax')}}');
+    	$.ajax({
+    		url:"{{url('sdm/detail_ajax')}}", 
+    		success:function(result){
+	    		$("#load_chart").html(result);
+	  		}
+	  	});
+    }
+</script>
 @stop
