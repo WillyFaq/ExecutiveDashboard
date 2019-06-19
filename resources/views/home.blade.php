@@ -141,15 +141,6 @@
 							<div class=" col-xs-11 card-home-subtitle">
 								<p class="txt_card_subtitle">{{$periode}}</p>
 							</div>
-                            <div class=" col-xs-4 card-home-subtitle">
-                                <div class="form-group form-group-sm">
-                                    <select id="navigator" class="form-control" onchange="window.location.href=$('#navigator').val().replace(' ','_').toLowerCase()">
-                                        <option hidden selected disabled value="">--Pilih Detail--</option>
-                                        <option value="pendidikan">Pendidikan</option>
-                                        <option value="sdm">SDM</option>
-                                    </select>
-                                </div>
-                            </div>
 							<div class="profil_institusi">
 								<div class="sub_card">
 									<h4>{{$data_profil_0['profil_institusi']['nama']}}</h4>
@@ -174,60 +165,120 @@
 			</div>
 		</div>
 		<div class="col-xs-3" >
-			<div class="row main-dash penmaru-box">
-				<div class="col-xs-12">
-					<div class="card" style="">
-						<div class="row" style="">
-							<div class="col-xs-1 card-home-icon">
-								<img src="{{ asset("imgs/person.svg") }}" alt="chart">
+			<div class="-main-dash penmaru-box">
+					<div class="card" style="margin-bottom:10px; margin-top:5px">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-xs-2">
+								<img src="{{ asset("imgs/person.svg") }}" class="card-home-icon">
 							</div>
-							<div class="col-xs-8 card-home-title">
-								<h2>Pendaftar</h2>
+							<div class="col-xs-4">
+								<div class="card-home-title">
+									<h2>Pendaftar</h2>
+								</div>
+								<div class="">
+									<p class="txt_card_subtitle">{{$periode}}</p>
+								</div>
 							</div>
-							<div class="col-xs-2 text-center card-home-right">
-								<h1>{{$daftar['total']}}</h1>
+							<div class="col-xs-3" style="padding-right:5px;padding-left:25px">
+								@php
+									$persen_daftar = ($daftar['total']-$daftar['total_lalu'])/100;
+								@endphp
+								<div class="text-right card-home-right">
+									<h1>
+									@if($persen_daftar >=0 )
+										<i class="fa fa-arrow-up" style="color:#2386DE"></i>
+									@else
+										<i class="fa fa-arrow-down" style="color:#BE1E2D"></i>
+									@endif
+									</h1>
+									<div class="text-right card-home-right">
+									@if($persen_daftar >=0 )
+										<p class="txt_card_subtitle" style="color:#2386DE">
+											{{ $persen_daftar }}%
+										</p>
+									@else
+										<p class="txt_card_subtitle" style="color:#BE1E2D">
+											{{ abs($persen_daftar) }}%
+										</p>
+									@endif
+									</div>
+								</div>
 							</div>
-							<div class="col-xs-9 card-home-subtitle">
-								<p class="txt_card_subtitle">{{$periode}}</p>
-							</div>
-							<div class="col-xs-1 text-center card-home-right">
-								<p class="txt_card_subtitle">Pendafar</p>
+							<div class="col-xs-3" style="padding-right:25px;padding-left:5px">
+								<div class="text-right card-home-right">
+									<h1>{{$daftar['total']}}</h1>
+								</div>
+								<div class="text-right card-home-right">
+									<p class="txt_card_subtitle">Pendafar</p>
+								</div>
 							</div>
 						</div>
-						<div class="row" style="padding-top:0;">
+					</div>
+					<div class="card-body">
+						<div class="row">
 							<div class="col-xs-12">
 								@include('widgets.charts.mixchart', array('data' => $daftar))
 							</div>
 						</div>
 					</div>
-				</div>
-
-				<div class="col-xs-12">
-					<div class="card" style="margin-bottom">
-						<div class="row" style="padding:10px 10px 0 10px;">
-							<div class="col-xs-1 card-home-icon">
-								<img src="{{ asset("imgs/group.svg") }}" alt="chart">
+					</div>
+					<div class="card" style="height:340px; margin-bottom:5px">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-xs-2">
+								<img src="{{ asset("imgs/group.svg") }}" class="card-home-icon">
 							</div>
-							<div class="col-xs-8 card-home-title">
-								<h2>Registrasi</h2>
+							<div class="col-xs-4">
+								<div class="card-home-title">
+									<h2>Registrasi</h2>
+								</div>
+								<div class="">
+									<p class="txt_card_subtitle">{{$periode}}</p>
+								</div>
+							</div>							<div class="col-xs-3" style="padding-right:5px;padding-left:25px">
+								@php
+									$persen_regis = ($regis['total']-$regis['total_lalu'])/100;
+								@endphp
+								<div class="text-right card-home-right">
+									<h1>
+									@if($persen_regis >=0 )
+										<i class="fa fa-arrow-up" style="color:#2386DE"></i>
+									@else
+										<i class="fa fa-arrow-down" style="color:#BE1E2D"></i>
+									@endif
+									</h1>
+									<div class="text-right card-home-right">
+									@if($persen_regis >=0 )
+										<p class="txt_card_subtitle" style="color:#2386DE">
+											{{ $persen_regis }}%
+										</p>
+									@else
+										<p class="txt_card_subtitle" style="color:#BE1E2D">
+											{{ abs($persen_regis) }}%
+										</p>
+									@endif
+									</div>
+								</div>
 							</div>
-							<div class="col-xs-1 card-home-right">
-								<h1>{{$regis['total']}}</h1>
+							<div class="col-xs-3" style="padding-right:25px;padding-left:5px">
+								<div class="text-right card-home-right">
+									<h1>{{$regis['total']}}</h1>
+								</div>
+								<div class="text-right card-home-right">
+									<p class="txt_card_subtitle">Register</p>
+								</div>
 							</div>
-							<div class="col-xs-9 card-home-subtitle">
-								<p class="txt_card_subtitle">{{$periode}}</p>
-							</div>
-							<div class="col-xs-1 text-center card-home-right">
-								<p class="txt_card_subtitle">Register</p>
-							</div>
-						</div>
-						<div class="row" style="padding-top:0;">
-							
-								@include('widgets.charts.barhorizontalchart', array('data' => $regis))
-							
 						</div>
 					</div>
-				</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-xs-12">
+								@include('widgets.charts.barhorizontalchart', array('data' => $regis))
+							</div>
+						</div>
+					</div>
+					</div>
 			</div>
 		</div>
 	</div>

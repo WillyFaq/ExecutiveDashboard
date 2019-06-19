@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\NilaiBorang;
 use App\Mahasiswa;
 use App\MateriBorang;
-use App\PendaftaranOnline;
 use Carbon\Carbon;
+use App\Prodi;
+use App\CalonMahasiswa;
+use Carbon\CarbonPeriod;
 
 class HomeController extends Controller
 {
@@ -110,40 +112,79 @@ class HomeController extends Controller
             });
         // MHS REGISTRASI
         $get_mhs_registrasi = function ($tahun) {
-            return Mahasiswa::where(\DB::raw("TO_CHAR(TO_DATE(SUBSTR(nim, 0, 2),'RR'),'YYYY')"), $tahun)
-            ->with('prodi')
-            ->select(['nim', \DB::raw("TO_CHAR(TO_DATE(SUBSTR(nim, 0, 2),'RR'),'YYYY') AS tahun")])
+            $prodi = Prodi::whereIsAktif()
+            ->orderBy('id_fakultas')
+            ->orderBy(\DB::Raw('DECODE(SUBSTR(id, 1, 1), 4, 1, 5, 2, 3, 3)'))
+            ->orderBy('id')
             ->get()
-            ->groupBy(function ($mahasiswa) {
-                return $mahasiswa->prodi->alias;
-            })
-            ->map(function ($prodi) {
-                return $prodi->count();
-            })
-            ->sort();
+            ->map(function ($prodi) use ($tahun) {
+                $prodi->jml_mahasiswa = Mahasiswa::where(\DB::Raw('SUBSTR(nim, 3, 5)'), $prodi->id)
+                ->where(\DB::Raw("TO_CHAR(TO_DATE(SUBSTR(nim, 1, 2), 'RR'), 'YYYY')"), $tahun)
+                ->where(\DB::Raw('SUBSTR(nim, 3, 5)'), $prodi->id)
+                ->count();
+
+                return $prodi;
+            });
+
+            return collect(array_combine(
+                $prodi->map(function ($prodi) {
+                    return $prodi->alias;
+                })->toArray(),
+                $prodi->map(function ($prodi) {
+                    return $prodi->jml_mahasiswa;
+                })->toArray()
+            ));
         };
         $mhs_registrasi_lalu = $get_mhs_registrasi($tahun_now - 1);
         $mhs_registrasi_sekarang = $get_mhs_registrasi($tahun_now);
         // MHS DAFTAR
         $get_mhs_daftar = function ($tahun) {
-            return PendaftaranOnline::where('no_online', 'LIKE', $tahun.'%')
-            ->where(\DB::Raw('SUBSTR(no_online,5,2)'), '<=', Carbon::now()->format('m'))
-            ->whereSudahBayarForm()
+            return CalonMahasiswa::where(
+                \DB::Raw("SUBSTR(no_test,1,2)"),
+                Carbon::createFromFormat('Y',$tahun)->format('y')
+            )
+            ->where(
+                \DB::Raw("TO_CHAR(tgl_daftar,'YYYYMM')"),
+                '<=',
+                Carbon::now()->year($tahun)->format('Ym')
+            )
+            ->whereIsSiapOnline()
             ->get()
-            ->sortBy('no_online')
-            ->groupBy(function ($pendaftar) {
-                $bulan = (int) substr($pendaftar->no_online, 4, 2);
-                // `day` harus disertakan dalam prosedur, kalau tidak 30 februari -> maret
-                $nama_bulan = Carbon::createFromFormat('d-m', '01-'.$bulan)->format('M');
+            ->sortBy('no_test');
+        };
+        $get_mhs_daftar_kumulatif_bulan = function ($list_bulan, $mhs_daftar) {
+            $jml_mhs_daftar = $list_bulan->map(function ($bulan) use ($mhs_daftar) {
+                return $mhs_daftar->filter(function ($pendaftaran) use ($bulan) {
+                    return $pendaftaran->tgl_daftar <= $bulan;
+                })->count();
+            });
 
-                return $nama_bulan;
-            })
-            ->map(function ($pendaftar) {
-                return $pendaftar->count();
+            return collect(array_combine($list_bulan->map(function ($bulan) {
+                return $bulan->format('M');
+            })->toArray(), $jml_mhs_daftar->toArray()));
+        };
+        $get_list_bulan = function ($tahun) {
+            $date = Carbon::now()->year($tahun);
+            return collect(CarbonPeriod::create(
+                $date->copy()->subMonth(6), 
+                '1 month',
+                $date->copy()
+            )->toArray())
+            ->map(function($bulan) {
+                return $bulan->endOfMonth();
             });
         };
+
         $mhs_daftar_lalu = $get_mhs_daftar($tahun_now - 1);
+        $jml_mhs_daftar_lalu = $get_mhs_daftar_kumulatif_bulan(
+            $get_list_bulan($tahun_now - 1),
+            $mhs_daftar_lalu
+        );
         $mhs_daftar_sekarang = $get_mhs_daftar($tahun_now);
+        $jml_mhs_daftar_sekarang = $get_mhs_daftar_kumulatif_bulan(
+            $get_list_bulan($tahun_now),
+            $mhs_daftar_sekarang
+        );
 
         return view('home', [
             'skor' => [
@@ -158,13 +199,14 @@ class HomeController extends Controller
             'daftar' => [
                 'lalu' => [
                     $tahun_now - 1,
-                    $mhs_daftar_lalu->toArray(),
+                    $jml_mhs_daftar_lalu->toArray(),
                 ],
                 'sekarang' => [
                     $tahun_now,
-                    $mhs_daftar_sekarang->toArray(),
+                    $jml_mhs_daftar_sekarang->toArray(),
                 ],
-                'total' => $mhs_daftar_sekarang->flatten()->sum(),
+                'total' => $mhs_daftar_sekarang->count(),
+                'total_lalu' => $mhs_daftar_lalu->count(),
             ],
             'regis' => [
                 'lalu' => [
@@ -176,6 +218,7 @@ class HomeController extends Controller
                     $mhs_registrasi_sekarang->toArray(),
                 ],
                 'total' => $mhs_registrasi_sekarang->flatten()->sum(),
+                'total_lalu' => $mhs_registrasi_lalu->flatten()->sum(),
             ],
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
         ]);

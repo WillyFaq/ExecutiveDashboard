@@ -1,7 +1,31 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<canvas height="245px" id="mixchart_{{$_idbx}}"></canvas >
+<style>
+	#chart-legends_{{$_idbx}} .regis-legend{
+		padding: 0;
+		margin: 0;
+		list-style: none;
+		text-align: center;
+	}
+	#chart-legends_{{$_idbx}} .regis-legend>.legend-item{
+		/* padding: 0;
+		margin: 0; */
+		padding-right:10px;
+		float: left;
+	}
+	#chart-legends_{{$_idbx}} .regis-legend>.legend-item>.color{
+		width: 40px;
+		height: 8px;
+		float: left;
+		margin-top: 6px;
+		margin-right: 5px;
+	}
+</style>
+<div class="col-xs-11" style="padding:0;">
+	<canvas height="245px" id="mixchart_{{$_idbx}}"></canvas >
+	<div id="chart-legends_{{$_idbx}}"></div>
+</div>
 
 <script>
 		var mixChartData = {
@@ -83,7 +107,7 @@
 					        ticks: {
 								// min: 150,
 								// max: 400,
-								// stepSize: 50,
+								stepSize: 80,
 								// suggestedMin: 0,
 								// suggestedMax: 400,
 								// fontSize: 10
@@ -91,11 +115,26 @@
 						}],
 					},
 					legend: {
-			            display: true,
+			            display: false,
 			            position: 'bottom'
-			        }
+			        },
+					legendCallback: function(chart) {
+			            var text = []; 
+					    text.push('<div class="regis-legend ' + chart.id + '-legend">'); 
+					    for (var i = 0; i < chart.data.datasets.length; i++) { 
+					        text.push('<div class="legend-item"><div class="color" style="background-color:' + chart.data.datasets[i].backgroundColor + '"></div>'); 
+					        if (chart.data.datasets[i].label) { 
+					            text.push(chart.data.datasets[i].label); 
+					        } 
+					        text.push('</div>'); 
+					    } 
+					    text.push('</div>'); 
+					    //console.log(text);
+					    return text.join(''); 
+			        },
 				}
 			});
+			document.getElementById('chart-legends_{{$_idbx}}').innerHTML = mixchart.generateLegend();
 
 		});
 	</script>
