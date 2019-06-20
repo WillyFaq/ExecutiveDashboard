@@ -124,7 +124,7 @@
 							ticks: {
 								// min: 150,
 								// max: 500,
-								// stepSize: 125,
+								stepSize: 30,
 							},
 							gridLines:  {
 								display: true,
