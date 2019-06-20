@@ -649,6 +649,12 @@ div:has(> .img-card){
     background: linear-gradient(117deg, #FF527A 0%, #FF9575 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff527a', endColorstr='#26cffe', GradientType=1 );
 }
+.fa-arrow-up:before{
+    content: url('../imgs/baseline-arrow_upward-24px.svg')!important;
+}
+.fa-arrow-down:before{
+    content: url('../imgs/baseline-arrow_downward-24px.svg')!important;
+}
 .card_gradient>.row>div{
     padding: 0;
 }
