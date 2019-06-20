@@ -34,4 +34,9 @@ class Prodi extends Model
     {
         return $this->hasMany(MataKuliah::class, 'fakul_id');
     }
+
+    public function getAliasAttribute()
+    {
+        return substr($this->attributes['alias'], 3);
+    }
 }
