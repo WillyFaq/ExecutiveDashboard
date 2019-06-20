@@ -75,26 +75,32 @@
 								<img src="{{ asset("imgs/chart.svg") }}" alt="chart">
 							</div>
 							<div class="col-xs-8 card-home-title">
-								<h2>Nilai Perguruan Tinggi</h2> 
-								<form class="form-inline">
+								<h2 style="margin-right:5px">Nilai Perguruan Tinggi</h2> 
+								<form class="form-inline" id="tahun_selector">
 									<div class="form-group select-home">
-										<select class="form-control" >
-											<option value="">2010</option>
-											<option value="">2011</option>
-											<option value="">2012</option>
+										<select class="form-control" name="tahun[]" onchange="reloadData()">
+											@foreach($list_tahun as $tahun)
+												<option value="{{$tahun}}" {{($tahun_start == $tahun)?'selected':''}}>{{$tahun}}</option>
+											@endforeach
 										</select>
 									</div>
 									<div class="form-group">
 										<label> - </label>
 									</div>
 									<div class="form-group select-home">
-										<select class="form-control" >
-											<option value="">2010</option>
-											<option value="">2011</option>
-											<option value="">2012</option>
+										<select class="form-control" name="tahun[]" onchange="reloadData()">
+											@foreach($list_tahun as $tahun)
+												<option value="{{$tahun}}" {{($tahun_end == $tahun)?'selected':''}}>{{$tahun}}</option>
+											@endforeach
 										</select>
 									</div>
 								</form>
+								<script>
+									function reloadData(){
+										console.log('test');
+										return $('#tahun_selector').submit();
+									}
+								</script>
 							</div>
 							<div class="col-xs-3" style="padding-right:0;">
 								<table class="tbl-legend-home" cellpadding="0" cellspacing="0">
