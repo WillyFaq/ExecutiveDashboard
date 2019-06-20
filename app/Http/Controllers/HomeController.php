@@ -15,10 +15,17 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        $tahun_now = $request->input('tahun', Carbon::now()->format('Y'));
+        $tahun_now = Carbon::now()->format('Y');
         // DEFAULT RANGE : TAHUN LALU - 5 s/d TAHUN LALU
-        $tahun_end = $request->input('tahun_end', $tahun_now);
-        $tahun_start = $request->input('tahun_start', $tahun_end - 5);
+        $tahun_param = collect($request->input('tahun', [$tahun_now, $tahun_now - 5]))->sort();
+        $tahun_start = $tahun_param->first();
+        $tahun_end = $tahun_param->last();
+        $list_tahun = collect(CarbonPeriod::create(
+            Carbon::now()->year('2015'),
+            '1 year',
+            Carbon::now()->year($tahun_now)
+        )->toArray())
+        ->map(function($tahun){ return $tahun->format('Y'); });
         // DATA NILAI PER TAHUN
         $nilai_tahun_lalu = NilaiBorang::with('materi')
             ->whereBetween('tahun', [$tahun_start, $tahun_end])
@@ -34,13 +41,23 @@ class HomeController extends Controller
                             });
                     });
             })
-            ->get()
-            ->groupBy('tahun')
-            ->map(function ($tahun) {
-                return $tahun->sum(function ($nilai) {
-                    return round($nilai->nilai * ($nilai->materi->persen * 100), 2);
-                });
+            ->get();
+        $range_tahun_lalu = $list_tahun
+        ->filter(function($tahun) use ($tahun_start, $tahun_end) {
+            return $tahun >= $tahun_start && $tahun <= $tahun_end;
+        });
+        $nilai_tahun_lalu = $range_tahun_lalu->map(function($tahun) use ($nilai_tahun_lalu) {
+            return $nilai_tahun_lalu->filter(function($nilai) use ($tahun) {
+                return $nilai->tahun == $tahun;
+            })
+            ->sum(function($nilai){
+                return round($nilai->nilai * ($nilai->materi->persen * 100), 2);
             });
+        });
+        $nilai_tahun_lalu = collect(array_combine(
+            $range_tahun_lalu->toArray(),
+            $nilai_tahun_lalu->toArray()
+        ));
         $nilai_tahun_ini = MateriBorang::where('kd_jns', 1)
         ->whereLayer(1)
         ->where('kd_std', '!=', '1810')
@@ -192,6 +209,9 @@ class HomeController extends Controller
                 'status' => 'Baik',
                 'nilai' => $skor,
             ],
+            'list_tahun' => $list_tahun->toArray(),
+            'tahun_start' => $tahun_start,
+            'tahun_end' => $tahun_end,
             'line' => $nilai_tahun_lalu->toArray(),
             'data_profil' => $nilai_tahun_ini->toArray(),
             'data_profil_0' => $nilai_tahun_ini_layer_0->toArray(),

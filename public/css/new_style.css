@@ -608,14 +608,52 @@ div:has(> .img-card){
 .card_gradient{
     margin-top: 20px;
     border-radius: 10px;
-    background: rgba(255,82,122,1);
-    background: -moz-linear-gradient(117deg, rgba(255,82,122,1) 0%, rgba(38,207,254,1) 100%);
-    background: -webkit-gradient(117deg, right bottom, color-stop(0%, rgba(255,82,122,1)), color-stop(100%, rgba(38,207,254,1)));
-    background: -webkit-linear-gradient(117deg, rgba(255,82,122,1) 0%, rgba(38,207,254,1) 100%);
-    background: -o-linear-gradient(117deg, rgba(255,82,122,1) 0%, rgba(38,207,254,1) 100%);
-    background: -ms-linear-gradient(117deg, rgba(255,82,122,1) 0%, rgba(38,207,254,1) 100%);
-    background: linear-gradient(117deg, rgba(255,82,122,1) 0%, rgba(38,207,254,1) 100%);
+}
+.card_gradient.unggul{
+    background: #00F2FE;
+    background: -moz-linear-gradient(117deg, #00F2FE 0%, #4FACFE 100%);
+    background: -webkit-gradient(117deg, right bottom, color-stop(0%, #00F2FE), color-stop(100%, #4FACFE));
+    background: -webkit-linear-gradient(117deg, #00F2FE 0%, #4FACFE 100%);
+    background: -o-linear-gradient(117deg, #00F2FE 0%, #4FACFE 100%);
+    background: -ms-linear-gradient(117deg, #00F2FE 0%, #4FACFE 100%);
+    background: linear-gradient(117deg, #00F2FE 0%, #4FACFE 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff527a', endColorstr='#26cffe', GradientType=1 );
+}
+.card_gradient.baik_sekali{
+    background: #FF527A;
+    background: -moz-linear-gradient(117deg, #FF527A 0%, #26D1FE 100%);
+    background: -webkit-gradient(117deg, right bottom, color-stop(0%, #FF527A), color-stop(100%, #26D1FE));
+    background: -webkit-linear-gradient(117deg, #FF527A 0%, #26D1FE 100%);
+    background: -o-linear-gradient(117deg, #FF527A 0%, #26D1FE 100%);
+    background: -ms-linear-gradient(117deg, #FF527A 0%, #26D1FE 100%);
+    background: linear-gradient(117deg, #FF527A 0%, #26D1FE 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff527a', endColorstr='#26cffe', GradientType=1 );
+}
+.card_gradient.baik{
+    background: #FF9575;
+    background: -moz-linear-gradient(117deg, #FF9575 0%, #FE8C00 100%);
+    background: -webkit-gradient(117deg, right bottom, color-stop(0%, #FF9575), color-stop(100%, #FE8C00));
+    background: -webkit-linear-gradient(117deg, #FF9575 0%, #FE8C00 100%);
+    background: -o-linear-gradient(117deg, #FF9575 0%, #FE8C00 100%);
+    background: -ms-linear-gradient(117deg, #FF9575 0%, #FE8C00 100%);
+    background: linear-gradient(117deg, #FF9575 0%, #FE8C00 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff527a', endColorstr='#26cffe', GradientType=1 );
+}
+.card_gradient.tidak_terakreditasi{
+    background: #FF527A;
+    background: -moz-linear-gradient(117deg, #FF527A 0%, #FF9575 100%);
+    background: -webkit-gradient(117deg, right bottom, color-stop(0%, #FF527A), color-stop(100%, #FF9575));
+    background: -webkit-linear-gradient(117deg, #FF527A 0%, #FF9575 100%);
+    background: -o-linear-gradient(117deg, #FF527A 0%, #FF9575 100%);
+    background: -ms-linear-gradient(117deg, #FF527A 0%, #FF9575 100%);
+    background: linear-gradient(117deg, #FF527A 0%, #FF9575 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff527a', endColorstr='#26cffe', GradientType=1 );
+}
+.fa-arrow-up:before{
+    content: url('../imgs/baseline-arrow_upward-24px.svg')!important;
+}
+.fa-arrow-down:before{
+    content: url('../imgs/baseline-arrow_downward-24px.svg')!important;
 }
 .card_gradient>.row>div{
     padding: 0;
@@ -1088,15 +1126,3 @@ div:has(> .img-card){
 .sdm-area-grad>div{
     margin-top: -25px;
 }
-
-
-
-
-
-
-
-
-
-
-
-

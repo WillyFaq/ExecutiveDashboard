@@ -26,14 +26,38 @@
 							</div>
 						</div>
 						<div class="row" style="padding:0; margin:0 -5px;">
-							<div class="col-xs-12 card_gradient">
+						@php
+						if($skor['nilai'] < 200){
+							$status = 'tidak_terakreditasi';
+						}elseif($skor['nilai'] < 300){
+							$status = 'baik';
+						}elseif($skor['nilai'] < 360){
+							$status = 'baik_sekali';
+						}else{
+							$status = 'unggul';
+						}
+						@endphp
+							<div class="col-xs-12 card_gradient {{$status}}">
 								<div class="row">
 									<div class="col-xs-6">
+										@php
+											$skor['chart']['status'] = $status
+										@endphp
 										@include('widgets.charts.gauge_home', $skor['chart'])
 									</div>
 									<div class="col-xs-6 rangking-ket">
 										<p>Status</p>
-										<h3>{{$skor['status']}}</h3>
+										<h3>
+											@if($skor['nilai'] < 200)
+												Tidak Terakreditasi
+											@elseif($skor['nilai'] < 300)
+												Baik
+											@elseif($skor['nilai'] < 360)
+												Baik Sekali
+											@else
+												Unggul
+											@endif
+										</h3>
 										<p>Nilai Saat ini</p>
 										<h3>{{$skor['nilai']}}</h3>
 									</div>
@@ -51,26 +75,32 @@
 								<img src="{{ asset("imgs/chart.svg") }}" alt="chart">
 							</div>
 							<div class="col-xs-8 card-home-title">
-								<h2>Nilai Perguruan Tinggi</h2> 
-								<form class="form-inline">
+								<h2 style="margin-right:5px">Nilai Perguruan Tinggi</h2> 
+								<form class="form-inline" id="tahun_selector">
 									<div class="form-group select-home">
-										<select class="form-control" >
-											<option value="">2010</option>
-											<option value="">2011</option>
-											<option value="">2012</option>
+										<select class="form-control" name="tahun[]" onchange="reloadData()">
+											@foreach($list_tahun as $tahun)
+												<option value="{{$tahun}}" {{($tahun_start == $tahun)?'selected':''}}>{{$tahun}}</option>
+											@endforeach
 										</select>
 									</div>
 									<div class="form-group">
 										<label> - </label>
 									</div>
 									<div class="form-group select-home">
-										<select class="form-control" >
-											<option value="">2010</option>
-											<option value="">2011</option>
-											<option value="">2012</option>
+										<select class="form-control" name="tahun[]" onchange="reloadData()">
+											@foreach($list_tahun as $tahun)
+												<option value="{{$tahun}}" {{($tahun_end == $tahun)?'selected':''}}>{{$tahun}}</option>
+											@endforeach
 										</select>
 									</div>
 								</form>
+								<script>
+									function reloadData(){
+										console.log('test');
+										return $('#tahun_selector').submit();
+									}
+								</script>
 							</div>
 							<div class="col-xs-3" style="padding-right:0;">
 								<table class="tbl-legend-home" cellpadding="0" cellspacing="0">
@@ -141,22 +171,22 @@
 							<div class=" col-xs-11 card-home-subtitle">
 								<p class="txt_card_subtitle">{{$periode}}</p>
 							</div>
-							<div class="profil_institusi">
-								<div class="sub_card">
-									<h4>{{$data_profil_0['profil_institusi']['nama']}}</h4>
-									<h1 class="c-counter" data-value="2.45" data-before="up"><i class="fa fa-arrow-up"></i>{{$data_profil_0['profil_institusi']['nilai']}}</h1>
-								</div>
-							</div>
 							<div class="kondisi_ekternal">
 								<div class="sub_card">
+									<h4>{{$data_profil_0['profil_institusi']['nama']}}</h4>
+									<h1 class="text-right"><i class="fa fa-arrow-up"></i>{{$data_profil_0['profil_institusi']['nilai']}}</h1>
+								</div>
+							</div>
+							<div class="profil_institusi">
+								<div class="sub_card">
 									<h4>{{$data_profil_0['kondisi_ekternal']['nama']}}</h4>
-									<h1><i class="fa fa-arrow-up"></i>{{$data_profil_0['kondisi_ekternal']['nilai']}}</h1>
+									<h1 class="text-left"><i class="fa fa-arrow-up"></i>{{$data_profil_0['kondisi_ekternal']['nilai']}}</h1>
 								</div>
 							</div>
 							<div class="pengembangan">
 								<div class="sub_card">
 									<h4>{{$data_profil_0['pengembangan']['nama']}}</h4>
-									<h1><i class="fa fa-arrow-up"></i>{{$data_profil_0['pengembangan']['nilai']}}</h1>
+									<h1 class="text-right"><i class="fa fa-arrow-up"></i>{{$data_profil_0['pengembangan']['nilai']}}</h1>
 								</div>
 							</div>
 						</div>
@@ -182,7 +212,7 @@
 							</div>
 							<div class="col-xs-3" style="padding-right:5px;padding-left:25px">
 								@php
-									$persen_daftar = ($daftar['total']-$daftar['total_lalu'])/100;
+									$persen_daftar = round((($daftar['total']/$daftar['total_lalu'])-1)*100,2);
 								@endphp
 								<div class="text-right card-home-right">
 									<h1>
@@ -238,7 +268,7 @@
 								</div>
 							</div>							<div class="col-xs-3" style="padding-right:5px;padding-left:25px">
 								@php
-									$persen_regis = ($regis['total']-$regis['total_lalu'])/100;
+									$persen_regis = round((($regis['total']/$regis['total_lalu'])-1)*100,2);
 								@endphp
 								<div class="text-right card-home-right">
 									<h1>

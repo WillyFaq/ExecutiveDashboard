@@ -12,7 +12,7 @@
 			@php
 				if(isset($line)){
 					echo "{";
-						echo "label: 'Peringkat',";
+						echo "label: 'Nilai PT',";
 						echo "borderColor: '#BE1E2D',";
 						echo "backgroundColor: '#BE1E2D',";
 						echo "borderWidth: 1.5,";
