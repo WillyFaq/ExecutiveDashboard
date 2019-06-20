@@ -182,7 +182,7 @@
 							</div>
 							<div class="col-xs-3" style="padding-right:5px;padding-left:25px">
 								@php
-									$persen_daftar = ($daftar['total']-$daftar['total_lalu'])/100;
+									$persen_daftar = round((($daftar['total']/$daftar['total_lalu'])-1)*100,2);
 								@endphp
 								<div class="text-right card-home-right">
 									<h1>
@@ -238,7 +238,7 @@
 								</div>
 							</div>							<div class="col-xs-3" style="padding-right:5px;padding-left:25px">
 								@php
-									$persen_regis = ($regis['total']-$regis['total_lalu'])/100;
+									$persen_regis = round((($regis['total']/$regis['total_lalu'])-1)*100,2);
 								@endphp
 								<div class="text-right card-home-right">
 									<h1>
