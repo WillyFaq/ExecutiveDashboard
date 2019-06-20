@@ -267,7 +267,8 @@
 								<div class="">
 									<p class="txt_card_subtitle">{{$periode}}</p>
 								</div>
-							</div>							<div class="col-xs-3" style="padding-right:5px;padding-left:25px">
+							</div>
+							<div class="col-xs-3" style="padding-right:5px;padding-left:25px">
 								@php
 									$persen_regis = round((($regis['total']/$regis['total_lalu'])-1)*100,2);
 								@endphp

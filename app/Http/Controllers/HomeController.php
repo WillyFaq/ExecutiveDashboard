@@ -21,7 +21,7 @@ class HomeController extends Controller
             '1 year',
             Carbon::now()->year($tahun_now)
         )->toArray())
-        ->map(function($tahun){ return $tahun->format('Y'); });
+        ->map(function ($tahun) { return $tahun->format('Y'); });
         // NILAI TAHUN INI
         $nilai_tahun_ini = MateriBorang::where('kd_jns', 1)
         ->whereLayer(1)
@@ -30,7 +30,7 @@ class HomeController extends Controller
             return $query->where('tahun', $tahun_now);
         }])
         ->get()
-        ->groupBy(function($materi){
+        ->groupBy(function ($materi) {
             return $materi->kd_std;
         })
         ->map(function ($materi) {
@@ -122,8 +122,8 @@ class HomeController extends Controller
         // MHS DAFTAR
         $get_mhs_daftar = function ($tahun) {
             return CalonMahasiswa::where(
-                \DB::Raw("SUBSTR(no_test,1,2)"),
-                Carbon::createFromFormat('Y',$tahun)->format('y')
+                \DB::Raw('SUBSTR(no_test,1,2)'),
+                Carbon::createFromFormat('Y', $tahun)->format('y')
             )
             ->where(
                 \DB::Raw("TO_CHAR(tgl_daftar,'YYYYMM')"),
@@ -147,12 +147,13 @@ class HomeController extends Controller
         };
         $get_list_bulan = function ($tahun) {
             $date = Carbon::now()->year($tahun);
+
             return collect(CarbonPeriod::create(
-                $date->copy()->subMonth(6), 
+                $date->copy()->subMonth(6),
                 '1 month',
                 $date->copy()
             )->toArray())
-            ->map(function($bulan) {
+            ->map(function ($bulan) {
                 return $bulan->endOfMonth();
             });
         };
