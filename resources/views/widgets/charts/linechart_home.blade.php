@@ -1,90 +1,14 @@
-<canvas height="115px" id="linechart"></canvas >
+@php
+	$_idbx = rand(0, 999); 
+@endphp
+<canvas height="115px" id="linechart_{{$_idbx}}"></canvas >
 <script>
-		var lineChartData = {
-			labels: [
-				@php
-				foreach($line as $k => $v){
-					echo "'$k',";
-				}
-				@endphp
-			],
-			datasets: [
-			@php
-				if(isset($line)){
-					echo "{";
-						echo "label: 'Nilai PT',";
-						echo "borderColor: '#BE1E2D',";
-						echo "backgroundColor: '#BE1E2D',";
-						echo "borderWidth: 1.5,";
-						echo "fill: false,";
-						echo "data: [";
-						foreach($line as $k => $v){
-							echo "$v,";
-						}
-						echo "],";
-						echo "yAxisID: 'y-axis-1',";
-						echo "pointRadius: 5,";
-						echo "pointHoverRadius: 6,";
-						echo "},";
-				}
-			@endphp
-				
-				{
-					label: 'Dashed',
-					fill: false,
-					borderColor: '#FE8C00',
-					borderWidth: 1,
-					borderDash: [5, 5, 5],
-					data: [
-						@php
-						foreach($line as $k => $v){
-							echo "200,";
-						}
-						@endphp
-					],
-					pointRadius: 0,
-					pointHoverRadius: 0,
-				},
-				{
-					label: 'Dashed',
-					fill: false,
-					borderColor: '#FE8C00',
-					borderWidth: 1,
-					borderDash: [5, 5, 5],
-					data: [
-						@php
-						foreach($line as $k => $v){
-							echo "300,";
-						}
-						@endphp
-					],
-					pointRadius: 0,
-					pointHoverRadius: 0,
-				},
-				{
-					label: 'Dashed',
-					fill: false,
-					borderColor: '#FE8C00',
-					borderWidth: 1,
-					borderDash: [5, 5, 5],
-					data: [
-						@php
-						foreach($line as $k => $v){
-							echo "360,";
-						}
-						@endphp
-					],
-					pointRadius: 0,
-					pointHoverRadius: 0,
-				},
-			]
-		};
-
-		$(document).ready(function(){
-			var ctx = document.getElementById('linechart').getContext('2d');
+		function renderLineChart_{{$_idbx}}(data){
+			
+			var ctx = document.getElementById('linechart_{{$_idbx}}').getContext('2d');
 			
 			var myLine = Chart.Line(ctx, {
-				data: lineChartData,
+				data: data,
 				options: {
 					responsive: true,
 					hoverMode: 'index',
@@ -125,6 +49,89 @@
 			        }
 				}
 			});
+		}
+		
+		function reloadData_{{$_idbx}}(){
+			$.ajax({
+				url: "{{url('/api/nilai_pt_historik')}}",
+				dataType: 'json',
+				data: {
+					'tahun': [
+						$('#{{$id_tahun_mulai}}').val(),
+						$('#{{$id_tahun_selesai}}').val(),
+					]
+				}
+			}).done(function(response) {
+				renderLineChart_{{$_idbx}}({
+					labels: Object.keys(response),
+					datasets: [
+						{
+							label: 'Nilai PT',
+							borderColor: '#BE1E2D',
+							backgroundColor: '#BE1E2D',
+							borderWidth: 1.5,
+							fill: false,
+							data: Object.values(response),
+							yAxisID: 'y-axis-1',
+							pointRadius: 5,
+							pointHoverRadius: 6,
+						},
+						{
+							label: 'Dashed',
+							fill: false,
+							borderColor: '#FE8C00',
+							borderWidth: 1,
+							borderDash: [5, 5, 5],
+							data: Object.values(response).map(function(){
+								return 200;
+							}),
+							pointRadius: 0,
+							pointHoverRadius: 0,
+						},
+						{
+							label: 'Dashed',
+							fill: false,
+							borderColor: '#FE8C00',
+							borderWidth: 1,
+							borderDash: [5, 5, 5],
+							data: Object.values(response).map(function(){
+								return 300;
+							}),
+							pointRadius: 0,
+							pointHoverRadius: 0,
+						},
+						{
+							label: 'Dashed',
+							fill: false,
+							borderColor: '#FE8C00',
+							borderWidth: 1,
+							borderDash: [5, 5, 5],
+							data: Object.values(response).map(function(){
+								return 360;
+							}),
+							pointRadius: 0,
+							pointHoverRadius: 0,
+						},
+					]
+				})
+			});
+		}
 
-		});
+		function handleInputChange_{{$_idbx}}() {
+			let tahun_mulai = element_tahun_mulai.val();
+			let tahun_selesai = element_tahun_selesai.val();
+			if(tahun_mulai > tahun_selesai){
+				element_tahun_mulai.val(tahun_selesai);
+				element_tahun_selesai.val(tahun_mulai);
+			}
+			reloadData_{{$_idbx}}();
+		}
+		let element_tahun_mulai = $('#{{$id_tahun_mulai}}');
+		let element_tahun_selesai = $('#{{$id_tahun_selesai}}');
+		element_tahun_mulai.on('change', handleInputChange_{{$_idbx}});
+		element_tahun_selesai.on('change', handleInputChange_{{$_idbx}});
+
+		$(document).ready(function(){
+			reloadData_{{$_idbx}}();
+		})
 	</script>
