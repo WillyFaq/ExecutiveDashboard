@@ -165,22 +165,22 @@
 							<div class=" col-xs-11 card-home-subtitle">
 								<p class="txt_card_subtitle">{{$periode}}</p>
 							</div>
-							<div class="profil_institusi">
-								<div class="sub_card">
-									<h4>{{$data_profil_0['profil_institusi']['nama']}}</h4>
-									<h1 class="c-counter" data-value="2.45" data-before="up"><i class="fa fa-arrow-up"></i>{{$data_profil_0['profil_institusi']['nilai']}}</h1>
-								</div>
-							</div>
 							<div class="kondisi_ekternal">
 								<div class="sub_card">
+									<h4>{{$data_profil_0['profil_institusi']['nama']}}</h4>
+									<h1 class="text-right"><i class="fa fa-arrow-up"></i>{{$data_profil_0['profil_institusi']['nilai']}}</h1>
+								</div>
+							</div>
+							<div class="profil_institusi">
+								<div class="sub_card">
 									<h4>{{$data_profil_0['kondisi_ekternal']['nama']}}</h4>
-									<h1><i class="fa fa-arrow-up"></i>{{$data_profil_0['kondisi_ekternal']['nilai']}}</h1>
+									<h1 class="text-left"><i class="fa fa-arrow-up"></i>{{$data_profil_0['kondisi_ekternal']['nilai']}}</h1>
 								</div>
 							</div>
 							<div class="pengembangan">
 								<div class="sub_card">
 									<h4>{{$data_profil_0['pengembangan']['nama']}}</h4>
-									<h1><i class="fa fa-arrow-up"></i>{{$data_profil_0['pengembangan']['nilai']}}</h1>
+									<h1 class="text-right"><i class="fa fa-arrow-up"></i>{{$data_profil_0['pengembangan']['nilai']}}</h1>
 								</div>
 							</div>
 						</div>
