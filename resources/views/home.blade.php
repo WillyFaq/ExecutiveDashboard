@@ -26,14 +26,38 @@
 							</div>
 						</div>
 						<div class="row" style="padding:0; margin:0 -5px;">
-							<div class="col-xs-12 card_gradient">
+						@php
+						if($skor['nilai'] < 200){
+							$status = 'tidak_terakreditasi';
+						}elseif($skor['nilai'] < 300){
+							$status = 'baik';
+						}elseif($skor['nilai'] < 360){
+							$status = 'baik_sekali';
+						}else{
+							$status = 'unggul';
+						}
+						@endphp
+							<div class="col-xs-12 card_gradient {{$status}}">
 								<div class="row">
 									<div class="col-xs-6">
+										@php
+											$skor['chart']['status'] = $status
+										@endphp
 										@include('widgets.charts.gauge_home', $skor['chart'])
 									</div>
 									<div class="col-xs-6 rangking-ket">
 										<p>Status</p>
-										<h3>{{$skor['status']}}</h3>
+										<h3>
+											@if($skor['nilai'] < 200)
+												Tidak Terakreditasi
+											@elseif($skor['nilai'] < 300)
+												Baik
+											@elseif($skor['nilai'] < 360)
+												Baik Sekali
+											@else
+												Unggul
+											@endif
+										</h3>
 										<p>Nilai Saat ini</p>
 										<h3>{{$skor['nilai']}}</h3>
 									</div>
