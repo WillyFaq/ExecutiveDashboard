@@ -215,7 +215,7 @@
 									$persen_daftar = round((($daftar['total']/$daftar['total_lalu'])-1)*100,2);
 								@endphp
 								<div class="text-right card-home-right">
-									<h1>
+									<h1 style="height:23px">
 									@if($persen_daftar >=0 )
 										<i class="fa fa-arrow-up" style="color:#2386DE"></i>
 									@else
@@ -271,7 +271,7 @@
 									$persen_regis = round((($regis['total']/$regis['total_lalu'])-1)*100,2);
 								@endphp
 								<div class="text-right card-home-right">
-									<h1>
+									<h1 style="height:23px">
 									@if($persen_regis >=0 )
 										<i class="fa fa-arrow-up" style="color:#2386DE"></i>
 									@else
