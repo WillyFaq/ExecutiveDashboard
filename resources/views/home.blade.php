@@ -76,11 +76,11 @@
 							</div>
 							<div class="col-xs-8 card-home-title">
 								<h2 style="margin-right:5px">Nilai Perguruan Tinggi</h2> 
-								<form class="form-inline" id="tahun_selector">
+								<form class="form-inline">
 									<div class="form-group select-home">
-										<select class="form-control" name="tahun[]" onchange="reloadData()">
-											@foreach($list_tahun as $tahun)
-												<option value="{{$tahun}}" {{($tahun_start == $tahun)?'selected':''}}>{{$tahun}}</option>
+										<select class="form-control" id="tahun_mulai">
+											@foreach($list_tahun as $i=>$tahun)
+												<option value="{{$tahun}}" {{$i==0?'selected':''}}>{{$tahun}}</option>
 											@endforeach
 										</select>
 									</div>
@@ -88,19 +88,13 @@
 										<label> - </label>
 									</div>
 									<div class="form-group select-home">
-										<select class="form-control" name="tahun[]" onchange="reloadData()">
-											@foreach($list_tahun as $tahun)
-												<option value="{{$tahun}}" {{($tahun_end == $tahun)?'selected':''}}>{{$tahun}}</option>
+										<select class="form-control" id="tahun_selesai">
+											@foreach($list_tahun as $i=>$tahun)
+												<option value="{{$tahun}}" {{$i==count($list_tahun)-1?'selected':''}}>{{$tahun}}</option>
 											@endforeach
 										</select>
 									</div>
 								</form>
-								<script>
-									function reloadData(){
-										console.log('test');
-										return $('#tahun_selector').submit();
-									}
-								</script>
 							</div>
 							<div class="col-xs-3" style="padding-right:0;">
 								<table class="tbl-legend-home" cellpadding="0" cellspacing="0">
@@ -117,7 +111,10 @@
 						</div>
 						<div class="row" style="padding-top:15px;">
 							<div class="col-xs-12">
-								@include('widgets.charts.linechart_home', array('data' => $line))
+								@include('widgets.charts.linechart_home',[
+									'id_tahun_mulai' => 'tahun_mulai',
+									'id_tahun_selesai' => 'tahun_selesai',
+								])
 							</div>
 						</div>
 					</div>
@@ -248,12 +245,16 @@
 					<div class="card-body">
 						<div class="row">
 							<div class="col-xs-12">
-								@include('widgets.charts.mixchart', array('data' => $daftar))
+								@include('widgets.charts.mixchart', array(
+									'data' => $daftar,
+									'id_legend' => 'legend-pendaftar',
+								))
 							</div>
 						</div>
 					</div>
+					<div class="card-footer" id="legend-pendaftar"></div>
 					</div>
-					<div class="card" style="height:340px; margin-bottom:5px">
+					<div class="card" style="height:320px; margin-bottom:5px">
 					<div class="card-body">
 						<div class="row">
 							<div class="col-xs-2">

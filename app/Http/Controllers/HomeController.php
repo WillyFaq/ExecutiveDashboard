@@ -16,48 +16,13 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $tahun_now = Carbon::now()->format('Y');
-        // DEFAULT RANGE : TAHUN LALU - 5 s/d TAHUN LALU
-        $tahun_param = collect($request->input('tahun', [$tahun_now, $tahun_now - 5]))->sort();
-        $tahun_start = $tahun_param->first();
-        $tahun_end = $tahun_param->last();
         $list_tahun = collect(CarbonPeriod::create(
             Carbon::now()->year('2015'),
             '1 year',
             Carbon::now()->year($tahun_now)
         )->toArray())
         ->map(function($tahun){ return $tahun->format('Y'); });
-        // DATA NILAI PER TAHUN
-        $nilai_tahun_lalu = NilaiBorang::with('materi')
-            ->whereBetween('tahun', [$tahun_start, $tahun_end])
-            ->whereHas('materi', function ($query) {
-                return $query
-                    ->where('kd_jns', 1)
-                    ->where('kd_std', '!=', '1810')
-                    ->where(function ($query_) {
-                        return $query_
-                            ->whereLayer(1)
-                            ->orWhere(function ($query__) {
-                                return $query__->whereLayer(0);
-                            });
-                    });
-            })
-            ->get();
-        $range_tahun_lalu = $list_tahun
-        ->filter(function($tahun) use ($tahun_start, $tahun_end) {
-            return $tahun >= $tahun_start && $tahun <= $tahun_end;
-        });
-        $nilai_tahun_lalu = $range_tahun_lalu->map(function($tahun) use ($nilai_tahun_lalu) {
-            return $nilai_tahun_lalu->filter(function($nilai) use ($tahun) {
-                return $nilai->tahun == $tahun;
-            })
-            ->sum(function($nilai){
-                return round($nilai->nilai * ($nilai->materi->persen * 100), 2);
-            });
-        });
-        $nilai_tahun_lalu = collect(array_combine(
-            $range_tahun_lalu->toArray(),
-            $nilai_tahun_lalu->toArray()
-        ));
+        // NILAI TAHUN INI
         $nilai_tahun_ini = MateriBorang::where('kd_jns', 1)
         ->whereLayer(1)
         ->where('kd_std', '!=', '1810')
@@ -210,9 +175,7 @@ class HomeController extends Controller
                 'nilai' => $skor,
             ],
             'list_tahun' => $list_tahun->toArray(),
-            'tahun_start' => $tahun_start,
-            'tahun_end' => $tahun_end,
-            'line' => $nilai_tahun_lalu->toArray(),
+            'tahun_periode' => ($tahun_now - 1).'/'.$tahun_now,
             'data_profil' => $nilai_tahun_ini->toArray(),
             'data_profil_0' => $nilai_tahun_ini_layer_0->toArray(),
             'kriteria_khusus' => $nilai_kriteria_khusus->toArray(),
@@ -242,5 +205,54 @@ class HomeController extends Controller
             ],
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
         ]);
+    }
+
+    public function getNilaiPerguruanTinggi(Request $request)
+    {
+        $tahun_now = Carbon::now()->format('Y');
+        // DEFAULT RANGE : TAHUN LALU - 5 s/d TAHUN LALU
+        $tahun_param = collect($request->input('tahun', [$tahun_now, $tahun_now - 5]))->sort();
+        $tahun_start = $tahun_param->first();
+        $tahun_end = $tahun_param->last();
+        $list_tahun = collect(CarbonPeriod::create(
+            Carbon::now()->year('2015'),
+            '1 year',
+            Carbon::now()->year($tahun_now)
+        )->toArray())
+        ->map(function ($tahun) { return $tahun->format('Y'); });
+        // DATA NILAI PER TAHUN
+        $nilai_tahun_lalu = NilaiBorang::with('materi')
+            ->whereBetween('tahun', [$tahun_start, $tahun_end])
+            ->whereHas('materi', function ($query) {
+                return $query
+                    ->where('kd_jns', 1)
+                    ->where('kd_std', '!=', '1810')
+                    ->where(function ($query_) {
+                        return $query_
+                            ->whereLayer(1)
+                            ->orWhere(function ($query__) {
+                                return $query__->whereLayer(0);
+                            });
+                    });
+            })
+            ->get();
+        $range_tahun_lalu = $list_tahun
+        ->filter(function ($tahun) use ($tahun_start, $tahun_end) {
+            return $tahun >= $tahun_start && $tahun <= $tahun_end;
+        });
+        $nilai_tahun_lalu = $range_tahun_lalu->map(function ($tahun) use ($nilai_tahun_lalu) {
+            return $nilai_tahun_lalu->filter(function ($nilai) use ($tahun) {
+                return $nilai->tahun == $tahun;
+            })
+            ->sum(function ($nilai) {
+                return round($nilai->nilai * ($nilai->materi->persen * 100), 2);
+            });
+        });
+        $nilai_tahun_lalu = collect(array_combine(
+            $range_tahun_lalu->toArray(),
+            $nilai_tahun_lalu->toArray()
+        ));
+
+        return $nilai_tahun_lalu;
     }
 }
