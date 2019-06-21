@@ -22,10 +22,7 @@
 		margin-right: 5px;
 	}
 </style>
-<div class="col-xs-11" style="padding:0;">
-	<canvas height="245px" id="mixchart_{{$_idbx}}"></canvas >
-	<div id="chart-legends_{{$_idbx}}"></div>
-</div>
+<canvas height="245px" id="mixchart_{{$_idbx}}"></canvas >
 
 <script>
 		var mixChartData = {
@@ -119,22 +116,43 @@
 			            position: 'bottom'
 			        },
 					legendCallback: function(chart) {
+						
 			            var text = []; 
-					    text.push('<div class="regis-legend ' + chart.id + '-legend">'); 
+						text.push('<div class="row">');
+						text.push('<div class="col-xs-1"></div>');
 					    for (var i = 0; i < chart.data.datasets.length; i++) { 
-					        text.push('<div class="legend-item"><div class="color" style="background-color:' + chart.data.datasets[i].backgroundColor + '"></div>'); 
+							text.push('<div class="col-xs-3">');
+							text.push('<div class="line-txt" style="border: 1px solid ' + chart.data.datasets[i].backgroundColor + '; margin-top:8px;"></div>'); 
+							text.push('</div>');
+							text.push('<div class="col-xs-2">');
 					        if (chart.data.datasets[i].label) { 
+								text.push('<p class="txt_card_subtitle text-left">');
 					            text.push(chart.data.datasets[i].label); 
+								text.push('</p>');
 					        } 
-					        text.push('</div>'); 
+							text.push('</div>');
 					    } 
-					    text.push('</div>'); 
-					    //console.log(text);
+						text.push('</div>');
+					    // text.push('<table class="tbl-legend-home ' + chart.id + '-legend">'); 
+						// text.push('<tr>');
+					    // for (var i = 0; i < chart.data.datasets.length; i++) { 
+					    //     text.push('<td>');
+						// 	text.push('<div class="line-txt" style="border: 1px solid ' + chart.data.datasets[i].backgroundColor + '"></div>'); 
+					    //     text.push('</td>'); 
+					    //     text.push('<td>');
+					    //     if (chart.data.datasets[i].label) { 
+					    //         text.push(chart.data.datasets[i].label); 
+					    //     } 
+					    //     text.push('</td>'); 
+					    // } 
+						// text.push('</tr>');
+					    // text.push('</table>'); 
+					    // //console.log(text);
 					    return text.join(''); 
 			        },
 				}
 			});
-			document.getElementById('chart-legends_{{$_idbx}}').innerHTML = mixchart.generateLegend();
+			document.getElementById('{{$id_legend}}').innerHTML = mixchart.generateLegend();
 
 		});
 	</script>
