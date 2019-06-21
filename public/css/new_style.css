@@ -595,6 +595,10 @@ a.active{
     margin: 0;
     line-height: 18px;
 }
+.txt_card_subtitle.thin{
+    font-weight:normal;
+    font-size: 0.7em;
+}
 div:has(> .img-card){
     padding: 0;
 }

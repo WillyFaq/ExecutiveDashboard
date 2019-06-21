@@ -201,10 +201,10 @@
 							</div>
 							<div class="col-xs-4">
 								<div class="card-home-title">
-									<h2>Pendaftar</h2>
+									<h2 style="margin-top:0px">Pendaftar</h2>
 								</div>
 								<div class="">
-									<p class="txt_card_subtitle">{{$periode}}</p>
+									<p class="txt_card_subtitle thin">{{$periode}}</p>
 								</div>
 							</div>
 							<div class="col-xs-3" style="padding-right:5px;padding-left:25px">
@@ -212,20 +212,20 @@
 									$persen_daftar = round((($daftar['total']/$daftar['total_lalu'])-1)*100,2);
 								@endphp
 								<div class="text-right card-home-right">
-									<h1 style="height:23px">
+									<h2 style="margin:-5px 0 0 0; height:28px">
 									@if($persen_daftar >=0 )
 										<i class="fa fa-arrow-up" style="color:#2386DE"></i>
 									@else
 										<i class="fa fa-arrow-down" style="color:#BE1E2D"></i>
 									@endif
-									</h1>
+									</h2>
 									<div class="text-right card-home-right">
 									@if($persen_daftar >=0 )
-										<p class="txt_card_subtitle" style="color:#2386DE">
+										<p class="txt_card_subtitle thin" style="color:#2386DE">
 											{{ $persen_daftar }}%
 										</p>
 									@else
-										<p class="txt_card_subtitle" style="color:#BE1E2D">
+										<p class="txt_card_subtitle thin" style="color:#BE1E2D">
 											{{ abs($persen_daftar) }}%
 										</p>
 									@endif
@@ -237,7 +237,7 @@
 									<h1>{{$daftar['total']}}</h1>
 								</div>
 								<div class="text-right card-home-right">
-									<p class="txt_card_subtitle">Pendafar</p>
+									<p class="txt_card_subtitle thin">Pendafar</p>
 								</div>
 							</div>
 						</div>
@@ -262,10 +262,10 @@
 							</div>
 							<div class="col-xs-4">
 								<div class="card-home-title">
-									<h2>Registrasi</h2>
+									<h2 style="margin-top:0px">Registrasi</h2>
 								</div>
 								<div class="">
-									<p class="txt_card_subtitle">{{$periode}}</p>
+									<p class="txt_card_subtitle thin">{{$periode}}</p>
 								</div>
 							</div>
 							<div class="col-xs-3" style="padding-right:5px;padding-left:25px">
@@ -273,20 +273,20 @@
 									$persen_regis = round((($regis['total']/$regis['total_lalu'])-1)*100,2);
 								@endphp
 								<div class="text-right card-home-right">
-									<h1 style="height:23px">
+									<h2 style="margin:-5px 0 0 0; height:28px">
 									@if($persen_regis >=0 )
 										<i class="fa fa-arrow-up" style="color:#2386DE"></i>
 									@else
 										<i class="fa fa-arrow-down" style="color:#BE1E2D"></i>
 									@endif
-									</h1>
+									</h2>
 									<div class="text-right card-home-right">
 									@if($persen_regis >=0 )
-										<p class="txt_card_subtitle" style="color:#2386DE">
+										<p class="txt_card_subtitle thin" style="color:#2386DE">
 											{{ $persen_regis }}%
 										</p>
 									@else
-										<p class="txt_card_subtitle" style="color:#BE1E2D">
+										<p class="txt_card_subtitle thin" style="color:#BE1E2D">
 											{{ abs($persen_regis) }}%
 										</p>
 									@endif
@@ -298,7 +298,7 @@
 									<h1>{{$regis['total']}}</h1>
 								</div>
 								<div class="text-right card-home-right">
-									<p class="txt_card_subtitle">Register</p>
+									<p class="txt_card_subtitle thin">Register</p>
 								</div>
 							</div>
 						</div>
