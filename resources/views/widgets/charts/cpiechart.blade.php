@@ -4,21 +4,18 @@
 <canvas height="155px" id="pie_{{$_idpie}}"></canvas >
 <script>
 
-		var config = {
+		let config = {
 			type: 'pie',
 			data: {
 				datasets: [{
-					data: [
-						80,
-						15
-					],
+					data: {!! json_encode(array_values($data)) !!},
 					backgroundColor: [
 						"#BE1E2D",
 						"#FE8C00"
 					],
 					label: 'Dosen'
 				}],
-				labels: ["Dosen Tetap", "Dosen Tidak Tetap"],
+				labels: {!! json_encode(array_keys($data)) !!},
 			},
 			options: {
 				responsive: false,

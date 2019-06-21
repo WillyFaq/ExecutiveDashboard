@@ -1,7 +1,7 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<canvas height="245px" id="mixchart_{{$_idbx}}"></canvas >
+<canvas height="230px" id="mixchart_{{$_idbx}}"></canvas >
 
 <script>
 		var mixChartData = {
@@ -83,7 +83,7 @@
 					        ticks: {
 								// min: 150,
 								// max: 400,
-								// stepSize: 50,
+								stepSize: 80,
 								// suggestedMin: 0,
 								// suggestedMax: 400,
 								// fontSize: 10
@@ -91,11 +91,35 @@
 						}],
 					},
 					legend: {
-			            display: true,
+			            display: false,
 			            position: 'bottom'
-			        }
+			        },
+					legendCallback: function(chart) {
+			            var text = []; 
+						text.push('<div class="row">');
+					    for (var i = 0; i < chart.data.datasets.length; i++) { 
+							text.push('<div class="col-xs-6">');
+					        if (chart.data.datasets[i].label) { 
+								if(i%2==0){
+									text.push('<div class="txt_card_subtitle text-right">');
+								}else{
+									text.push('<div class="txt_card_subtitle text-left">');
+								}
+								text.push('<span>');
+								text.push('<div style="background-color:' + chart.data.datasets[i].backgroundColor + '; height:8px; width:8px; display:inline-block; margin-right:5px;"></div>'); 
+					            text.push(chart.data.datasets[i].label); 
+								text.push('</span>');
+								text.push('</div>');
+					        } 
+							text.push('</div>');
+					    } 
+						text.push('</div>');
+
+					    return text.join(''); 
+			        },
 				}
 			});
+			document.getElementById('{{$id_legend}}').innerHTML = mixchart.generateLegend();
 
 		});
 	</script>

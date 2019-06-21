@@ -4,9 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class JenisBorang extends Model
+class SertifikasiDosen extends Model
 {
-    protected $table = 'jenis_borang';
-    protected $primaryKey = 'kd_jns';
+    protected $table = 'sertifikasi_dosen';
     protected $connection = 'oracle_stikom_dev';
 }

@@ -28,7 +28,7 @@
                             <i class="fa fa-angle-down"></i> 
                         </p>
                         <div class="img-profil-pic">
-                            <img src="{{ asset("imgs/b.png") }}" alt="Profile Pic" class="img-responsive">
+                        <img src="{{ asset("imgs/890026.jpg") }}" alt="Profile Pic" class="img-profil-pic" style="margin-left:0px">
                         </div>
                     </a>
                     
@@ -57,4 +57,3 @@
         </div>
     </div>
 @stop
-

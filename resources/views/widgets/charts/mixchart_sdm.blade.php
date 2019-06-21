@@ -82,11 +82,11 @@
 							display: true,
 							id: 'y-axis-1',
 					        ticks: {
-								min: 150,
-								max: 500,
-								stepSize: 50,
-								suggestedMin: 0,
-								suggestedMax: 400,
+								// min: 150,
+								// max: 500,
+								// stepSize: 1,
+								// suggestedMin: 0,
+								// suggestedMax: 400,
 								fontSize: 10
 							}
 						}],

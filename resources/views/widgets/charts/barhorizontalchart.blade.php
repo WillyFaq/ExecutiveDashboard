@@ -1,33 +1,7 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<style>
-	#chart-legends{
-  		position: absolute;
-  		bottom: 30px;
-  		right: -25px;
-	}
-	.regis-legend{
-		padding: 0;
-		margin: 0;
-		list-style: none;
-	}
-	.regis-legend>li{
-		padding: 0;
-		margin: 0;
-	}
-	.regis-legend>li>div{
-		width: 8px;
-		height: 8px;
-		float: left;
-		margin-top: 6px;
-		margin-right: 5px;
-	}
-</style>
-<div class="col-xs-11" style="padding:0;">
-	<canvas height="299px" id="hormixchart"></canvas >
-	<div id="chart-legends"></div>
-</div>
+<canvas height="255px" id="hormixchart_{{$_idbx}}"></canvas >
 
 <script>
 		var hormixChartData = {
@@ -36,7 +10,6 @@
 				foreach($data['sekarang'][1] as $k => $v){
 					echo "'$k', ";
 				}
-				echo "' '";
 				@endphp
 			],
 			datasets: [
@@ -51,7 +24,6 @@
 						foreach($data['sekarang'][1] as $k => $v){
 							echo "$v,";
 						}
-						echo '0';
 						echo "],";
 					echo "},\n";
 					echo "{";
@@ -61,11 +33,9 @@
 						echo "borderWidth: 3,";
 						echo "data: [";
 						foreach($data['lalu'][1] as $k => $v){
-							echo "{y:'$k', x:$v},";
+							echo "$v,";
 						}
-						echo "{y:' ', x:0},";
 						echo "],";
-						echo "type: 'line',";
 						echo "fill: 'end',";
 					echo "},";
 				}
@@ -75,7 +45,7 @@
 		};
 
 		$(document).ready(function(){
-			var ctx = document.getElementById('hormixchart').getContext('2d');
+			var ctx = document.getElementById('hormixchart_{{$_idbx}}').getContext('2d');
 			
 			var hormixchart = new Chart(ctx, {
     			type: 'horizontalBar',
@@ -95,16 +65,25 @@
 					},
 					legendCallback: function(chart) {
 			            var text = []; 
-					    text.push('<ul class="regis-legend ' + chart.id + '-legend">'); 
+						text.push('<div class="row">');
 					    for (var i = 0; i < chart.data.datasets.length; i++) { 
-					        text.push('<li><div style="background-color:' + chart.data.datasets[i].backgroundColor + '"></div>'); 
+							text.push('<div class="col-xs-6">');
 					        if (chart.data.datasets[i].label) { 
+								if(i%2==0){
+									text.push('<div class="txt_card_subtitle text-right">');
+								}else{
+									text.push('<div class="txt_card_subtitle text-left">');
+								}
+								text.push('<span>');
+								text.push('<div style="background-color:' + chart.data.datasets[i].backgroundColor + '; height:8px; width:8px; display:inline-block; margin-right:5px;"></div>'); 
 					            text.push(chart.data.datasets[i].label); 
+								text.push('</span>');
+								text.push('</div>');
 					        } 
-					        text.push('</li>'); 
+							text.push('</div>');
 					    } 
-					    text.push('</ul>'); 
-					    //console.log(text);
+						text.push('</div>');
+
 					    return text.join(''); 
 			        },
 					scales: {
@@ -124,7 +103,7 @@
 							ticks: {
 								// min: 150,
 								// max: 500,
-								// stepSize: 125,
+								stepSize: 80,
 							},
 							gridLines:  {
 								display: true,
@@ -138,7 +117,7 @@
 					}
 				}
 			});
-			document.getElementById('chart-legends').innerHTML = hormixchart.generateLegend();
+			document.getElementById('{{$id_legend}}').innerHTML = hormixchart.generateLegend();
 
 		});
 
