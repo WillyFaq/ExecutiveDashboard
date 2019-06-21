@@ -58,8 +58,8 @@ class HomeController extends Controller
                 'nilai' => round($nilai ? $nilai->nilai : 0, 2),
             ];
         }, [
-            'profil_institusi' => 181,
-            'kondisi_ekternal' => 182,
+            'kondisi_ekternal' => 181,
+            'profil_institusi' => 182,
             'pengembangan' => 183,
         ]));
         // DATA NILAI KRITERIA KHUSUS

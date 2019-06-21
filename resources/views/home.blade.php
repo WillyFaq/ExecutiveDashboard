@@ -170,14 +170,14 @@
 							</div>
 							<div class="kondisi_ekternal">
 								<div class="sub_card">
-									<h4>{{$data_profil_0['profil_institusi']['nama']}}</h4>
-									<h1 class="text-right"><i class="fa fa-arrow-up"></i>{{$data_profil_0['profil_institusi']['nilai']}}</h1>
+									<h4>{{$data_profil_0['kondisi_ekternal']['nama']}}</h4>
+									<h1 class="text-right"><i class="fa fa-arrow-up"></i>{{$data_profil_0['kondisi_ekternal']['nilai']}}</h1>
 								</div>
 							</div>
 							<div class="profil_institusi">
 								<div class="sub_card">
-									<h4>{{$data_profil_0['kondisi_ekternal']['nama']}}</h4>
-									<h1 class="text-left"><i class="fa fa-arrow-up"></i>{{$data_profil_0['kondisi_ekternal']['nilai']}}</h1>
+									<h4>{{$data_profil_0['profil_institusi']['nama']}}</h4>
+									<h1 class="text-left"><i class="fa fa-arrow-up"></i>{{$data_profil_0['profil_institusi']['nilai']}}</h1>
 								</div>
 							</div>
 							<div class="pengembangan">
