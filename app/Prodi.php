@@ -37,6 +37,6 @@ class Prodi extends Model
 
     public function getAliasAttribute()
     {
-        return substr($this->attributes['alias'], 3);
+        return 'D3' == substr($this->attributes['alias'], 0, 2) ? $this->attributes['alias'] : substr($this->attributes['alias'], 3);
     }
 }
