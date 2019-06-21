@@ -234,7 +234,11 @@
 							</div>
 							<div class="col-xs-3" style="padding-right:25px;padding-left:5px">
 								<div class="text-right card-home-right">
-									<h1>{{$daftar['total']}}</h1>
+									@if($persen_daftar >=0 )
+										<h1 style="font-weight:bold; color:#2386DE">{{$daftar['total']}}</h1>
+									@else
+										<h1 style="font-weight:bold">{{$daftar['total']}}</h1>
+									@endif
 								</div>
 								<div class="text-right card-home-right">
 									<p class="txt_card_subtitle thin">Pendafar</p>
@@ -242,7 +246,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="card-body">
+					<div class="card-body" style="padding:10px 0">
 						<div class="row">
 							<div class="col-xs-12">
 								@include('widgets.charts.mixchart', array(
@@ -254,7 +258,7 @@
 					</div>
 					<div class="card-footer" id="legend-pendaftar"></div>
 					</div>
-					<div class="card" style="height:320px; margin-bottom:5px">
+					<div class="card" style="margin-bottom:5px">
 					<div class="card-body">
 						<div class="row">
 							<div class="col-xs-2">
@@ -295,7 +299,11 @@
 							</div>
 							<div class="col-xs-3" style="padding-right:25px;padding-left:5px">
 								<div class="text-right card-home-right">
-									<h1>{{$regis['total']}}</h1>
+									@if($persen_regis >=0 )
+										<h1 style="font-weight:bold; color:#2386DE">{{$regis['total']}}</h1>
+									@else
+										<h1 style="font-weight:bold">{{$regis['total']}}</h1>
+									@endif
 								</div>
 								<div class="text-right card-home-right">
 									<p class="txt_card_subtitle thin">Register</p>
@@ -303,13 +311,17 @@
 							</div>
 						</div>
 					</div>
-					<div class="card-body">
+					<div class="card-body" style="padding:10px 0">
 						<div class="row">
 							<div class="col-xs-12">
-								@include('widgets.charts.barhorizontalchart', array('data' => $regis))
+								@include('widgets.charts.barhorizontalchart', array(
+									'data' => $regis,
+									'id_legend' => 'legend-register',
+								))
 							</div>
 						</div>
 					</div>
+					<div class="card-footer" id="legend-register"></div>
 					</div>
 			</div>
 		</div>

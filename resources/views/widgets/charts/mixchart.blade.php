@@ -1,28 +1,7 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<style>
-	#chart-legends_{{$_idbx}} .regis-legend{
-		padding: 0;
-		margin: 0;
-		list-style: none;
-		text-align: center;
-	}
-	#chart-legends_{{$_idbx}} .regis-legend>.legend-item{
-		/* padding: 0;
-		margin: 0; */
-		padding-right:10px;
-		float: left;
-	}
-	#chart-legends_{{$_idbx}} .regis-legend>.legend-item>.color{
-		width: 40px;
-		height: 8px;
-		float: left;
-		margin-top: 6px;
-		margin-right: 5px;
-	}
-</style>
-<canvas height="245px" id="mixchart_{{$_idbx}}"></canvas >
+<canvas height="229px" id="mixchart_{{$_idbx}}"></canvas >
 
 <script>
 		var mixChartData = {
@@ -116,38 +95,26 @@
 			            position: 'bottom'
 			        },
 					legendCallback: function(chart) {
-						
 			            var text = []; 
 						text.push('<div class="row">');
-						text.push('<div class="col-xs-1"></div>');
 					    for (var i = 0; i < chart.data.datasets.length; i++) { 
-							text.push('<div class="col-xs-3">');
-							text.push('<div class="line-txt" style="border: 1px solid ' + chart.data.datasets[i].backgroundColor + '; margin-top:8px;"></div>'); 
-							text.push('</div>');
-							text.push('<div class="col-xs-2">');
+							text.push('<div class="col-xs-6">');
 					        if (chart.data.datasets[i].label) { 
-								text.push('<p class="txt_card_subtitle text-left">');
+								if(i%2==0){
+									text.push('<div class="txt_card_subtitle text-right">');
+								}else{
+									text.push('<div class="txt_card_subtitle text-left">');
+								}
+								text.push('<span>');
+								text.push('<div style="background-color:' + chart.data.datasets[i].backgroundColor + '; height:8px; width:8px; display:inline-block; margin-right:5px;"></div>'); 
 					            text.push(chart.data.datasets[i].label); 
-								text.push('</p>');
+								text.push('</span>');
+								text.push('</div>');
 					        } 
 							text.push('</div>');
 					    } 
 						text.push('</div>');
-					    // text.push('<table class="tbl-legend-home ' + chart.id + '-legend">'); 
-						// text.push('<tr>');
-					    // for (var i = 0; i < chart.data.datasets.length; i++) { 
-					    //     text.push('<td>');
-						// 	text.push('<div class="line-txt" style="border: 1px solid ' + chart.data.datasets[i].backgroundColor + '"></div>'); 
-					    //     text.push('</td>'); 
-					    //     text.push('<td>');
-					    //     if (chart.data.datasets[i].label) { 
-					    //         text.push(chart.data.datasets[i].label); 
-					    //     } 
-					    //     text.push('</td>'); 
-					    // } 
-						// text.push('</tr>');
-					    // text.push('</table>'); 
-					    // //console.log(text);
+
 					    return text.join(''); 
 			        },
 				}
