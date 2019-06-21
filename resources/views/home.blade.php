@@ -22,7 +22,7 @@
 							</div>
 							<div class="col-xs-9" >
 								<h3 class="txt_card_title" style="font-weight:bold; margin-bottom:5px;">Institut Bisnis dan Informatika Stikom Surabaya</h3>
-								<p class="txt_card_subtitle" style="font-weight:normal">Jl. Raya Kedung Baruk No.98 <br>(031) 8721731</p>
+								<p class="txt_card_subtitle" style="font-weight:normal">Jl. Raya Kedung Baruk Nomor 98 <br>(031) 8721731</p>
 							</div>
 						</div>
 						<div class="row" style="padding:0; margin:0 -5px;">
