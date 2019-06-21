@@ -595,13 +595,14 @@ a.active{
     margin: 0;
     line-height: 18px;
 }
-div:has(> .img-card){
-    padding: 0;
+.txt_card_subtitle.thin{
+    font-weight:normal;
+    font-size: 0.7em;
 }
 .img-card{
     margin: 0 auto 0 20px;
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
 }
 

@@ -1,31 +1,7 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<style>
-	#chart-legends_{{$_idbx}} .regis-legend{
-		padding: 0;
-		margin: 0;
-		list-style: none;
-		text-align: center;
-	}
-	#chart-legends_{{$_idbx}} .regis-legend>.legend-item{
-		/* padding: 0;
-		margin: 0; */
-		padding-right:10px;
-		float: left;
-	}
-	#chart-legends_{{$_idbx}} .regis-legend>.legend-item>.color{
-		width: 40px;
-		height: 8px;
-		float: left;
-		margin-top: 6px;
-		margin-right: 5px;
-	}
-</style>
-<div class="col-xs-11" style="padding:0;">
-	<canvas height="245px" id="mixchart_{{$_idbx}}"></canvas >
-	<div id="chart-legends_{{$_idbx}}"></div>
-</div>
+<canvas height="220px" id="mixchart_{{$_idbx}}"></canvas >
 
 <script>
 		var mixChartData = {
@@ -120,21 +96,30 @@
 			        },
 					legendCallback: function(chart) {
 			            var text = []; 
-					    text.push('<div class="regis-legend ' + chart.id + '-legend">'); 
+						text.push('<div class="row">');
 					    for (var i = 0; i < chart.data.datasets.length; i++) { 
-					        text.push('<div class="legend-item"><div class="color" style="background-color:' + chart.data.datasets[i].backgroundColor + '"></div>'); 
+							text.push('<div class="col-xs-6">');
 					        if (chart.data.datasets[i].label) { 
+								if(i%2==0){
+									text.push('<div class="txt_card_subtitle text-right">');
+								}else{
+									text.push('<div class="txt_card_subtitle text-left">');
+								}
+								text.push('<span>');
+								text.push('<div style="background-color:' + chart.data.datasets[i].backgroundColor + '; height:8px; width:8px; display:inline-block; margin-right:5px;"></div>'); 
 					            text.push(chart.data.datasets[i].label); 
+								text.push('</span>');
+								text.push('</div>');
 					        } 
-					        text.push('</div>'); 
+							text.push('</div>');
 					    } 
-					    text.push('</div>'); 
-					    //console.log(text);
+						text.push('</div>');
+
 					    return text.join(''); 
 			        },
 				}
 			});
-			document.getElementById('chart-legends_{{$_idbx}}').innerHTML = mixchart.generateLegend();
+			document.getElementById('{{$id_legend}}').innerHTML = mixchart.generateLegend();
 
 		});
 	</script>
