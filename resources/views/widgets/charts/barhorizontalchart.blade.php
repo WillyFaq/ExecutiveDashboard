@@ -36,7 +36,6 @@
 				foreach($data['sekarang'][1] as $k => $v){
 					echo "'$k', ";
 				}
-				echo "' '";
 				@endphp
 			],
 			datasets: [
@@ -51,7 +50,6 @@
 						foreach($data['sekarang'][1] as $k => $v){
 							echo "$v,";
 						}
-						echo '0';
 						echo "],";
 					echo "},\n";
 					echo "{";
@@ -63,9 +61,7 @@
 						foreach($data['lalu'][1] as $k => $v){
 							echo "{y:'$k', x:$v},";
 						}
-						echo "{y:' ', x:0},";
 						echo "],";
-						echo "type: 'line',";
 						echo "fill: 'end',";
 					echo "},";
 				}
