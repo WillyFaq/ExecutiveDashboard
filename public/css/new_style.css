@@ -599,13 +599,10 @@ a.active{
     font-weight:normal;
     font-size: 0.7em;
 }
-div:has(> .img-card){
-    padding: 0;
-}
 .img-card{
     margin: 0 auto 0 20px;
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
 }
 

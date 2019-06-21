@@ -17,12 +17,12 @@
 				<div class="col-xs-5">
 					<div class="card">
 						<div class="row" >
-							<div class="col-xs-3">
+							<div class="col-xs-3" style="padding:0; margin:0 5px 0 -25px">
 								<img src="{{ asset("imgs/stikom.jpg") }}" alt="Stikom" class="img-responsive img-card">
 							</div>
 							<div class="col-xs-9" >
-								<h3 class="txt_card_title">Institut Bisnis dan Informatika Stikom Surabaya</h3>
-								<p class="txt_card_subtitle">Jl. Raya Kedung Baruk No.98 <br>(031) 8721731</p>
+								<h3 class="txt_card_title" style="font-weight:bold; margin-bottom:5px;">Institut Bisnis dan Informatika Stikom Surabaya</h3>
+								<p class="txt_card_subtitle" style="font-weight:normal">Jl. Raya Kedung Baruk No.98 <br>(031) 8721731</p>
 							</div>
 						</div>
 						<div class="row" style="padding:0; margin:0 -5px;">
@@ -171,19 +171,19 @@
 							<div class="kondisi_ekternal">
 								<div class="sub_card">
 									<h4>{{$data_profil_0['kondisi_ekternal']['nama']}}</h4>
-									<h1 class="text-right"><i class="fa fa-arrow-up"></i>{{$data_profil_0['kondisi_ekternal']['nilai']}}</h1>
+									<h1 class="text-right" style="margin-top:-4px"><i class="fa fa-arrow-up"></i>{{$data_profil_0['kondisi_ekternal']['nilai']}}</h1>
 								</div>
 							</div>
 							<div class="profil_institusi">
 								<div class="sub_card">
 									<h4>{{$data_profil_0['profil_institusi']['nama']}}</h4>
-									<h1 class="text-left"><i class="fa fa-arrow-up"></i>{{$data_profil_0['profil_institusi']['nilai']}}</h1>
+									<h1 class="text-left" style="margin-top:-4px"><i class="fa fa-arrow-up"></i>{{$data_profil_0['profil_institusi']['nilai']}}</h1>
 								</div>
 							</div>
 							<div class="pengembangan">
 								<div class="sub_card">
 									<h4>{{$data_profil_0['pengembangan']['nama']}}</h4>
-									<h1 class="text-right"><i class="fa fa-arrow-up"></i>{{$data_profil_0['pengembangan']['nilai']}}</h1>
+									<h1 class="text-right" style="margin-top:-4px"><i class="fa fa-arrow-up"></i>{{$data_profil_0['pengembangan']['nilai']}}</h1>
 								</div>
 							</div>
 						</div>
