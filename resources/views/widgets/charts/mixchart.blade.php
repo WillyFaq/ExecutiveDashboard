@@ -1,7 +1,7 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<canvas height="220px" id="mixchart_{{$_idbx}}"></canvas >
+<canvas height="230px" id="mixchart_{{$_idbx}}"></canvas >
 
 <script>
 		var mixChartData = {

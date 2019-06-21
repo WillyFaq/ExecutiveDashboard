@@ -14,7 +14,7 @@
 	<div class="row">
 		<div class="col-xs-9">
 			<div class="row main-dash">
-				<div class="col-xs-5">
+				<div class="col-xs-5" id="skor">
 					<div class="card">
 						<div class="row" >
 							<div class="col-xs-3" style="padding:0; margin:0 5px 0 -25px">
@@ -68,13 +68,14 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-7">
+				<div class="col-xs-7" id="npt">
 					<div class="card">
+					<div class="card-body">
 						<div class="row">
-							<div class="col-xs-1 card-home-icon">
-								<img src="{{ asset("imgs/chart.svg") }}" alt="chart">
+							<div class="col-xs-1">
+								<img src="{{ asset("imgs/chart.svg") }}" class="card-home-icon">
 							</div>
-							<div class="col-xs-8 card-home-title">
+							<div class="col-xs-7 card-home-title">
 								<h2 style="margin-right:5px">Nilai Perguruan Tinggi</h2> 
 								<form class="form-inline">
 									<div class="form-group select-home">
@@ -96,7 +97,7 @@
 									</div>
 								</form>
 							</div>
-							<div class="col-xs-3" style="padding-right:0;">
+							<div class="col-xs-4" style="padding-right:0;">
 								<table class="tbl-legend-home" cellpadding="0" cellspacing="0">
 									<tr>
 										<td><div class="line-txt sts-apt-line"></div></td>
@@ -109,14 +110,13 @@
 								</table>
 							</div>
 						</div>
-						<div class="row" style="padding-top:15px;">
-							<div class="col-xs-12">
-								@include('widgets.charts.linechart_home',[
-									'id_tahun_mulai' => 'tahun_mulai',
-									'id_tahun_selesai' => 'tahun_selesai',
-								])
-							</div>
-						</div>
+					</div>
+					<div class="card-body" style="padding:10px 0">
+						@include('widgets.charts.linechart_home',[
+							'id_tahun_mulai' => 'tahun_mulai',
+							'id_tahun_selesai' => 'tahun_selesai',
+						])
+					</div>
 					</div>
 				</div>
 			</div>
@@ -192,7 +192,7 @@
 			</div>
 		</div>
 		<div class="col-xs-3" >
-			<div class="-main-dash penmaru-box">
+			<div class="-main-dash penmaru-box" style="height:664px">
 					<div class="card" style="margin-bottom:10px; margin-top:5px">
 					<div class="card-body">
 						<div class="row">
@@ -335,8 +335,18 @@
 	<script type="text/javascript">
 	    $(document).ready(function(){
 			$("#kpt>.card").css("height", $("#kku").height());
-	    	//start_count();
+			sync_height();
 	    });
+
+		function sync_height(){
+			let npt = $("#npt");
+			let skor = $("#skor");
+			if(npt.height() <= skor.height()){
+				npt.find('.card').css('height', skor.height());
+			}else{
+				skor.find('.card').css('height', npt.height());
+			}
+		}
 
 	    function start_count() {
 	    	$(".c-counter").each(function(){

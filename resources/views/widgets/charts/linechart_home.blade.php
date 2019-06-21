@@ -125,6 +125,7 @@
 				element_tahun_selesai.val(tahun_mulai);
 			}
 			reloadData_{{$_idbx}}();
+			sync_height();
 		}
 		let element_tahun_mulai = $('#{{$id_tahun_mulai}}');
 		let element_tahun_selesai = $('#{{$id_tahun_selesai}}');
