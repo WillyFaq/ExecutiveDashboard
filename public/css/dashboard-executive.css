@@ -103,6 +103,10 @@ body {
     padding-left: 10px;
 }
 
+.mb-20px {
+    margin-bottom: 20px !important;
+}
+
 .row {
     margin-left: -10px;
     margin-right: -10px;

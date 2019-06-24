@@ -1,7 +1,6 @@
 @extends('layouts.refactored.plane')
 @section('body')
-<div id="wrapper">
-    <nav class="navbar navbar-expand navbar-light bg-white topbar">
+    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-15px">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{url('')}}">
                 <img src="{{asset('imgs/logo_stikom_warna.PNG')}}" height="43" alt="">
@@ -27,8 +26,7 @@
             </ul>
         </div>
     </nav>
-</div>
-<div class="container-fluid pt-3">
-    @yield('section')
-</div>
+    <div class="container-fluid pb-0">
+        @yield('section')
+    </div>
 @stop

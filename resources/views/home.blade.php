@@ -3,10 +3,10 @@
 @section('section')
 <style>
     #home-section .top-row > * > .card{
-        height: 328px;
+        min-height: 328px;
     }
     #home-section .bottom-row > * > .card{
-        height: 325px;
+        min-height: 325px;
     }
     #home-section .right-col > .card{
         background-color: #BDC3C7;
@@ -16,31 +16,31 @@
         padding: 10px;
     }
     #home-section .right-col .top-row .card {
-        height: 318px;
+        min-height: 318px;
     }
     #home-section .right-col .bottom-row .card {
-        height: 318px;
+        min-height: 318px;
     }
 </style>
 <div class="row" id="home-section">
     <div class="col-lg-9 left-col">
         <div class="row top-row">
-            <div class="col-md-5 mb-3">
+            <div class="col-md-5 mb-20px">
                 @include('component_home.skor')
             </div>
-            <div class="col">
+            <div class="col-md-7 mb-20px">
                 <div class="card">
                     <div class="card-body"></div>
                 </div>
             </div>
         </div>
         <div class="row bottom-row">
-            <div class="col-md-5">
+            <div class="col-md-5 mb-20px">
                 <div class="card">
                     <div class="card-body"></div>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-md-7 mb-20px">
                 <div class="card">
                     <div class="card-body"></div>
                 </div>
