@@ -15,7 +15,7 @@
 }
 </style>
 <div class="card">
-    <div class="card-body pt-3 pl-3 pr-3 pb-0">
+    <div class="card-header flushed pt-3 pl-3 pr-3 pb-0">
         <form class="form-inline">
             <div class="form-group mr-2">
                 <span class="chart-title">

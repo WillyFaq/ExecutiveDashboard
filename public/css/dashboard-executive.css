@@ -126,9 +126,18 @@ body {
     margin-bottom: 20px !important;
 }
 
+.mb-15px {
+    margin-bottom: 15px !important;
+}
+
 .row {
     margin-left: -10px;
     margin-right: -10px;
+}
+
+.card-header.flushed {
+    background-color: inherit;
+    border-bottom: inherit;
 }
 
 .progress-bar {

@@ -69,7 +69,7 @@
     }
 </style>
 <div id="panel-skor" class="card">
-    <div class="card-body pb-0">
+    <div class="card-header flushed pb-0">
         <div class="row">
             <div class="col-md-3">
                 <img class="rounded-circle" src="{{asset('imgs/stikom.jpg')}}" alt="Stikom" style="height:80px;width:80px;">
