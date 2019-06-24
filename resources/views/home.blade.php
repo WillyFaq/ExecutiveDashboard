@@ -34,9 +34,7 @@
         </div>
         <div class="row bottom-row">
             <div class="col-md-5 mb-20px">
-                <div class="card">
-                    <div class="card-body"></div>
-                </div>
+                @include('component_home.kriteria_khusus_unggul')
             </div>
             <div class="col-md-7 mb-20px">
                 <div class="card">

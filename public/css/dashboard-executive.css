@@ -130,3 +130,15 @@ body {
     margin-left: -10px;
     margin-right: -10px;
 }
+
+.progress-bar {
+    background-color: #2386DE !important;
+}
+
+.bg-warning {
+    background-color: #FE8C00 !important;
+}
+
+.progress {
+    height: 10px;
+}
