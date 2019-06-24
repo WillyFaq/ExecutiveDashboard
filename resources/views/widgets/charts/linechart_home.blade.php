@@ -34,7 +34,7 @@
 							display: true,
 							id: 'y-axis-1',
 					        ticks: {
-								min: 150,
+								// min: 150,
 								max: 400,
 								stepSize: 50,
 								suggestedMin: 0,
