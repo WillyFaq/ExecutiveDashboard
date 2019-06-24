@@ -35,6 +35,11 @@ body {
     color: black;
 }
 
+.chart-subtitle {
+    font-size: 10px;
+    color: #969696;
+}
+
 .form-inline select {
     -webkit-appearance: none;
     -moz-appearance: none;

@@ -10,13 +10,11 @@
 </style>
 <div class="card" id="kriteria-khusus">
     <div class="card-header flushed pb-0">
-        <form class="form-inline">
-            <div class="form-group mr-2">
-                <span class="chart-title">
-                    <img src="{{asset('imgs/check.svg')}}" class="card-icon mr-1"> Kriteria Khusus Unggul
-                </span>
-            </div>
-        </form>
+        <img src="{{asset('imgs/check.svg')}}" class="card-icon pull-left mr-2">
+        <div class="pull-left">
+            <p class="chart-title mb-0">Kriteria Khusus Unggul</p>
+            <p class="chart-subtitle mb-0">{{$periode}}</p>
+        </div>
     </div>
     <div class="list-group list-group-flush mt-3">
         @foreach($kriteria_khusus as $kk => $row)
