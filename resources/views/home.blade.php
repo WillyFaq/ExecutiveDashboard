@@ -29,9 +29,7 @@
                 @include('component_home.skor')
             </div>
             <div class="col-md-7 mb-20px">
-                <div class="card">
-                    <div class="card-body"></div>
-                </div>
+                @include('component_home.nilai_pt')
             </div>
         </div>
         <div class="row bottom-row">

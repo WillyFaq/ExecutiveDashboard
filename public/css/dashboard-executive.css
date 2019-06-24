@@ -29,6 +29,25 @@ body {
     padding: .5rem 30px;
 }
 
+.chart-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: black;
+}
+
+.form-inline select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.card-icon {
+    width: 32px;
+    height: 32px;
+    background: rgba(150, 150, 150, 0.2);
+    padding: 0 5px;
+    border-radius: 50%;
+}
+
 .col,
 .col-1,
 .col-10,
