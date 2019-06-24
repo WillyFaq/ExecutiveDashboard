@@ -1,4 +1,4 @@
-<canvas style="width:100%; height:280px"  id="radarchart"></canvas >
+<canvas style="max-height:225px; width:225px" id="radarchart"></canvas >
 
 <script>
     @php

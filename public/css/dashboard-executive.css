@@ -153,6 +153,22 @@ body {
     background-color: #FE8C00 !important;
 }
 
+.text-warning {
+    color: #FE8C00 !important;
+}
+
+.text-primary {
+    color: #2386DE !important;
+}
+
 .progress {
     height: 10px;
+}
+
+.fa-arrow-up:before {
+    content: url('../imgs/baseline-arrow_upward-24px.svg') !important;
+}
+
+.fa-arrow-down:before {
+    content: url('../imgs/baseline-arrow_downward-24px.svg') !important;
 }
