@@ -1,9 +1,9 @@
 <style>
-	.flex-wrapper {
+	/* .flex-wrapper {
 	  display: flex;
 	  flex-flow: row nowrap;
 		padding: 20px 20px 20px 50px;
-	}
+	} */
 
 	.single-chart {
 	  width: 90%;
