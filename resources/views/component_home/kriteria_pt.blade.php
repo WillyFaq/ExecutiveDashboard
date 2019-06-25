@@ -48,6 +48,7 @@
         </div>
     </div>
     <div class="card-body pt-0">
+        @include('widgets.charts.radarchart', ['class'=>'pg_info'])
         <div class="sub-card kondisi_ekternal top right">
             <p class="data-label">{{$data_profil_0['kondisi_ekternal']['nama']}}</p>
             <p class="data-value {{$data_profil_0['kondisi_ekternal']['nilai']<2.7?'text-danger':'text-primary'}}">
@@ -69,6 +70,5 @@
                 <i class="fa fa-arrow-up mt-1"></i>
             </p>
         </div>
-        @include('widgets.charts.radarchart', ['class'=>'pg_info'])
     </div>
 </div>
