@@ -1,7 +1,7 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<div class="m-auto" style="position:relative; width:272px; height:207px;">
+<div class="m-auto" style="position:relative; width:272px; height:216px;">
 	<canvas id="hormixchart_{{$_idbx}}"></canvas >
 </div>
 
@@ -72,9 +72,9 @@
 							text.push('<div class="col">');
 					        if (chart.data.datasets[i].label) { 
 								if(i%2==0){
-									text.push('<div class="txt_card_subtitle text-right">');
+									text.push('<div class="chart-subtitle text-right">');
 								}else{
-									text.push('<div class="txt_card_subtitle text-left">');
+									text.push('<div class="chart-subtitle text-left">');
 								}
 								text.push('<span>');
 								text.push('<div style="background-color:' + chart.data.datasets[i].backgroundColor + '; height:8px; width:8px; display:inline-block; margin-right:5px;"></div>'); 
