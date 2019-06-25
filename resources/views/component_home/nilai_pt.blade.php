@@ -21,7 +21,7 @@
         <form class="form-inline">
             <div class="form-group mr-2">
                 <div class="input-group input-group-sm">
-                    <select class="form-control">
+                    <select id="tahun_mulai" class="form-control">
                         @foreach($list_tahun as $i=>$tahun)
                             <option value="{{$tahun}}" {{$i==0?'selected':''}}>{{$tahun}}</option>
                         @endforeach
@@ -29,7 +29,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text border-left-0">s/d</span>
                     </div>
-                    <select class="form-control">
+                    <select id="tahun_selesai" class="form-control">
                         @foreach($list_tahun as $i=>$tahun)
                             <option value="{{$tahun}}" {{$i==count($list_tahun)-1?'selected':''}}>{{$tahun}}</option>
                         @endforeach
