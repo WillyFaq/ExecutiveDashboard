@@ -1,4 +1,6 @@
-<canvas style="width:100%; height:280px"  id="radarchart"></canvas >
+<div class="m-auto" style="position:relative; height:256px;">
+	<canvas id="radarchart"></canvas>
+</div>
 
 <script>
     @php

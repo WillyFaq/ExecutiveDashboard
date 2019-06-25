@@ -1,7 +1,7 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<canvas height="115px" id="linechart_{{$_idbx}}"></canvas >
+<canvas height="139px" id="linechart_{{$_idbx}}"></canvas >
 <script>
 		function renderLineChart_{{$_idbx}}(data){
 			
@@ -34,7 +34,7 @@
 							display: true,
 							id: 'y-axis-1',
 					        ticks: {
-								min: 150,
+								// min: 150,
 								max: 400,
 								stepSize: 50,
 								suggestedMin: 0,
