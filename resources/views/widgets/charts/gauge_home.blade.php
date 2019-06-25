@@ -48,7 +48,7 @@
 
 	.percentage {
 	  font-family: arial;
-	  font-size: 0.35em;
+	  font-size: 7px;
 	  text-anchor: middle;
 	  font-weight: bold;
 	  fill: #FFF;
@@ -57,9 +57,8 @@
 
 	.percentage_ket{
 	  font-family: sans-serif;
-	  font-size: 0.2em;
+	  font-size: 3px;
 	  text-anchor: middle;
-	  font-weight: bold;
 	  fill: #FFF;
 			
 	}
@@ -125,8 +124,8 @@
 	            	<circle {{ $clus_position[$clus][0] }} r="3" stroke="#EEE" stroke-width="0.7" class="cluster-circle {{ $status }}"/> 
 	            	<text {{$clus_position[$clus][1]}} text-anchor="middle" class="cluster" >{{$clus}}</text>
           		</g>
-			    <text x="18" y="15.35" class="percentage_ket">Peringkat</text> 
-			    <text x="18" y="23.25" class="percentage" style="font-size:0.6em;">{{{ isset($skor) ? $skor : '' }}}</text>
+			    <text x="18" y="14.35" class="percentage_ket">Peringkat</text> 
+			    <text x="18" y="23.25" class="percentage">{{{ isset($skor) ? $skor : '' }}}</text>
 		    </svg>
 		</div>
 	</div>

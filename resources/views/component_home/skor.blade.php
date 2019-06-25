@@ -9,16 +9,16 @@
         font-size: 13px;
     }
     #panel-skor .color-panel{
-        min-height: 175px;
+        min-height: 189px;
     }
     #panel-skor .skor-desc p {
         color: white;
-        font-size: 13pt;
+        font-size: 13px;
         margin-bottom: 0;
     }
     #panel-skor .skor-desc p.value {
         font-weight: bold;
-        font-size: 18pt;
+        font-size: 18px;
     }
     #home-panel-skor.unggul {
         background: #00F2FE;
@@ -95,16 +95,16 @@
     <div class="card-body pt-0">
         <div class="card {{$status}} color-panel">
             <div class="card-body">
-                <div class="row">
+                <div class="row pt-2">
                     <div class="col">
                         @php
                             $skor['chart']['status'] = $status
                         @endphp
                         @include('widgets.charts.gauge_home', $skor['chart'])
                     </div>
-                    <div class="col skor-desc">
+                    <div class="col skor-desc align-middle pt-2">
                         <p>Status</p>
-                        <p class="value">
+                        <p class="value pb-2">
                             @if($skor['nilai'] < 200)
                                 Tidak Terakreditasi
                             @elseif($skor['nilai'] < 300)
