@@ -69,8 +69,6 @@
                 <i class="fa fa-arrow-up mt-1"></i>
             </p>
         </div>
-        <div class="radar-home" style="margin-top:20px">
-            @include('widgets.charts.radarchart', ['class'=>'pg_info'])
-        </div>
+        @include('widgets.charts.radarchart', ['class'=>'pg_info'])
     </div>
 </div>
