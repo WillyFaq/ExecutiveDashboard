@@ -1,6 +1,8 @@
 <style>
 #kriteria-khusus .data-value {
-    font-size: inherit;
+    font-size: 14px;
+}
+#kriteria-khusus .data-value .current {
     font-weight: bold;
     color: black;
 }
@@ -22,8 +24,8 @@
             <div class="list-group-item border-0 pb-2 pt-0">
                 <div class="mb-0">
                     <span class="data-label">{{$row[0]}}</span>
-                    <span class="pull-right">
-                        <span class="data-value">{{number_format($row[1], 2)}}</span>/4.00
+                    <span class="pull-right data-value">
+                        <span class="current">{{number_format($row[1], 2)}}</span>/4.00
                     </span>
                 </div>
                 @include('widgets.progress', [
