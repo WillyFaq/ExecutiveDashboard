@@ -44,12 +44,10 @@
     <div class="col right-col">
         <div class="card">
             <div class="card-body">
-                <div class="row top-row">
+                <div class="row">
                     <div class="col mb-20px">
                         @include('component_home.penmaru_pendaftar')
                     </div>
-                </div>
-                <div class="row bottom-row">
                     <div class="col">
                         @include('component_home.penmaru_registrasi')
                     </div>
