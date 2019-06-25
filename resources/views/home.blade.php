@@ -45,17 +45,13 @@
         <div class="card">
             <div class="card-body">
                 <div class="row top-row">
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body"></div>
-                        </div>
+                    <div class="col mb-20px">
+                        @include('component_home.penmaru_pendaftar')
                     </div>
                 </div>
                 <div class="row bottom-row">
                     <div class="col">
-                        <div class="card mt-3">
-                            <div class="card-body"></div>
-                        </div>
+                        @include('component_home.penmaru_registrasi')
                     </div>
                 </div>
             </div>

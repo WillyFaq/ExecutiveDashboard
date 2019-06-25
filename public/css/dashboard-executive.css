@@ -140,9 +140,15 @@ body {
     margin-right: -10px;
 }
 
-.card-header.flushed {
+.card-header.flushed,
+.card-footer.flushed {
     background-color: inherit;
     border-bottom: inherit;
+    border-top: inherit;
+}
+
+.data-value {
+    font-size: 24px;
 }
 
 .progress-bar {
@@ -161,8 +167,20 @@ body {
     color: #2386DE !important;
 }
 
+.text-danger {
+    color: #BE1E2D !important;
+}
+
 .progress {
     height: 10px;
+}
+
+.fa-arrow-down,
+.fa-arrow-down:before,
+.fa-arrow-up,
+.fa-arrow-up:before {
+    height: 24px;
+    width: 24px;
 }
 
 .fa-arrow-up:before {

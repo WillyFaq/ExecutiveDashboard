@@ -1,7 +1,9 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<canvas height="230px" id="mixchart_{{$_idbx}}"></canvas >
+<div class="m-auto" style="position:relative; width:272px; height:207px;">
+	<canvas id="mixchart_{{$_idbx}}"></canvas >
+</div>
 
 <script>
 		var mixChartData = {
@@ -54,7 +56,7 @@
     			type: 'bar',
 				data: mixChartData,
 				options: {
-					responsive: true,
+  					maintainAspectRatio: false,
 					hoverMode: 'index',
 					stacked: false,
 					title: {
@@ -98,7 +100,7 @@
 			            var text = []; 
 						text.push('<div class="row">');
 					    for (var i = 0; i < chart.data.datasets.length; i++) { 
-							text.push('<div class="col-xs-6">');
+							text.push('<div class="col">');
 					        if (chart.data.datasets[i].label) { 
 								if(i%2==0){
 									text.push('<div class="txt_card_subtitle text-right">');

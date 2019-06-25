@@ -1,5 +1,6 @@
 <style>
 #kriteria-khusus .data-value {
+    font-size: inherit;
     font-weight: bold;
     color: black;
 }
