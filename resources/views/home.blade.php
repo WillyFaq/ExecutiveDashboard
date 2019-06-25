@@ -25,18 +25,18 @@
 <div class="row" id="home-section">
     <div class="col-lg-9 left-col">
         <div class="row top-row">
-            <div class="col-md-5 mb-20px">
+            <div class="col-md-5 mb-3">
                 @include('component_home.skor')
             </div>
-            <div class="col-md-7 mb-20px">
+            <div class="col-md-7 mb-3">
                 @include('component_home.nilai_pt')
             </div>
         </div>
         <div class="row bottom-row">
-            <div class="col-md-5 mb-20px">
+            <div class="col-md-5 mb-3">
                 @include('component_home.kriteria_khusus_unggul')
             </div>
-            <div class="col-md-7 mb-20px">
+            <div class="col-md-7 mb-3">
                 @include('component_home.kriteria_pt')
             </div>
         </div>
@@ -45,7 +45,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col mb-20px">
+                    <div class="col mb-3">
                         @include('component_home.penmaru_pendaftar')
                     </div>
                     <div class="col">

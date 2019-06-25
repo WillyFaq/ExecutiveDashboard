@@ -76,7 +76,7 @@
             </div>
             <div class="col">
                 <p class="d-block d-md-none"><!-- LOWER VIEWPOINT SPACE --></p>
-                <p class="nama-pt mb-2">Institut Bisnis dan Informatika Stikom Surabaya</p>
+                <p class="nama-pt mb-1">Institut Bisnis dan Informatika Stikom Surabaya</p>
                 <p class="detail-pt">Jl. Raya Kedung Baruk No.<br/>(031) 8721731</p>
             </div>
         </div>

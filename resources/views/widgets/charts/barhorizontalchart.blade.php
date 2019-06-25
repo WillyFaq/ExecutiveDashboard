@@ -1,7 +1,7 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<div class="m-auto" style="position:relative; width:272px; height:216px;">
+<div class="m-auto" style="position:relative; width:258px; height:216px;">
 	<canvas id="hormixchart_{{$_idbx}}"></canvas >
 </div>
 
