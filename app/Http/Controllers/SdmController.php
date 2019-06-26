@@ -184,7 +184,7 @@ class SdmController extends Controller
                     })->count();
                 }),
             ]
-        ])->push([
+        ])->prepend([
             'label' => 'Jumlah Dosen',
             'data' => $jenjang_studi->map(function($jenjang_studi) use ($karyawan) {
                 return $karyawan->filter(function($karyawan) use ($jenjang_studi){
@@ -241,7 +241,7 @@ class SdmController extends Controller
                     })->count();
                 }),
             ];
-        })->push([
+        })->prepend([
             'label' => 'Jumlah Dosen',
             'data' => $jenjang_studi->map(function($jenjang_studi) use ($karyawan) {
                 return $karyawan->filter(function($karyawan) use ($jenjang_studi){
