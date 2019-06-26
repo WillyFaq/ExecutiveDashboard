@@ -15,9 +15,9 @@
 }
 </style>
 <div class="card">
-    <div class="card-header flushed pt-3 pl-3 pr-3 pb-0">
-        <img src="{{asset('imgs/chart.svg')}}" class="card-icon pull-left mr-2">
-        <span class="chart-title pull-left mt-1 mr-2">Nilai Perguruan Tinggi</span>
+    <div class="card-header flushed pb-0">
+        <img src="{{asset('imgs/chart.svg')}}" class="card-icon pull-left mr-1">
+        <span class="chart-title pull-left mr-2">Nilai Perguruan Tinggi</span>
         <form class="form-inline">
             <div class="form-group mr-2">
                 <div class="input-group input-group-sm">
@@ -52,7 +52,7 @@
             </div>
         </form>
     </div>
-    <div class="card-body">
+    <div class="card-body px-2">
         @include('widgets.charts.linechart_home',[
             'id_tahun_mulai' => 'tahun_mulai',
             'id_tahun_selesai' => 'tahun_selesai',

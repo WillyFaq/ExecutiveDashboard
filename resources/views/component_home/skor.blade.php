@@ -8,17 +8,14 @@
     #panel-skor .detail-pt {
         font-size: 13px;
     }
-    #panel-skor .color-panel{
-        min-height: 175px;
-    }
     #panel-skor .skor-desc p {
         color: white;
-        font-size: 13pt;
+        font-size: 13px;
         margin-bottom: 0;
     }
     #panel-skor .skor-desc p.value {
         font-weight: bold;
-        font-size: 18pt;
+        font-size: 18px;
     }
     #home-panel-skor.unggul {
         background: #00F2FE;
@@ -30,7 +27,7 @@
         background: linear-gradient(117deg, #00F2FE 0%, #4FACFE 100%);
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff527a', endColorstr='#26cffe', GradientType=1 );
     }
-    #panel-skor .card.baik_sekali {
+    #panel-skor .baik_sekali {
         background: #FF527A;
         background: -moz-linear-gradient(117deg, #FF527A 0%, #26D1FE 100%);
         background: -webkit-gradient(117deg, right bottom, color-stop(0%, #FF527A), color-stop(100%, #26D1FE));
@@ -40,7 +37,7 @@
         background: linear-gradient(117deg, #FF527A 0%, #26D1FE 100%);
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff527a', endColorstr='#26cffe', GradientType=1 );
     }
-    #panel-skor .card.baik {
+    #panel-skor .baik {
         background: #FF9575;
         background: -moz-linear-gradient(117deg, #FF9575 0%, #FE8C00 100%);
         background: -webkit-gradient(117deg, right bottom, color-stop(0%, #FF9575), color-stop(100%, #FE8C00));
@@ -50,7 +47,7 @@
         background: linear-gradient(117deg, #FF9575 0%, #FE8C00 100%);
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff527a', endColorstr='#26cffe', GradientType=1 );
     }
-    #panel-skor .card.tidak_terakreditasi {
+    #panel-skor .tidak_terakreditasi {
         background: #FF527A;
         background: -moz-linear-gradient(117deg, #FF527A 0%, #FF9575 100%);
         background: -webkit-gradient(117deg, right bottom, color-stop(0%, #FF527A), color-stop(100%, #FF9575));
@@ -70,14 +67,11 @@
 </style>
 <div id="panel-skor" class="card">
     <div class="card-header flushed pb-0">
-        <div class="row">
-            <div class="col-md-3">
-                <img class="rounded-circle" src="{{asset('imgs/stikom.jpg')}}" alt="Stikom" style="height:80px;width:80px;">
-            </div>
-            <div class="col">
-                <p class="d-block d-md-none"><!-- LOWER VIEWPOINT SPACE --></p>
-                <p class="nama-pt mb-2">Institut Bisnis dan Informatika Stikom Surabaya</p>
-                <p class="detail-pt">Jl. Raya Kedung Baruk No.<br/>(031) 8721731</p>
+        <div class="d-flex">
+            <img class="rounded-circle" src="{{asset('imgs/stikom.jpg')}}" alt="Stikom" style="height:80px;width:80px;">
+            <div class="align-top ml-2">
+                <h3 class="nama-pt mb-1">Institut Bisnis dan Informatika Stikom Surabaya</h3>
+                <h5 class="detail-pt">Jl. Raya Kedung Baruk Nomor 98<br/>(031) 8721731</h5>
             </div>
         </div>
     </div>
@@ -92,32 +86,30 @@
         $status = 'unggul';
     }
     @endphp
-    <div class="card-body pt-0">
-        <div class="card {{$status}} color-panel">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col">
-                        @php
-                            $skor['chart']['status'] = $status
-                        @endphp
-                        @include('widgets.charts.gauge_home', $skor['chart'])
-                    </div>
-                    <div class="col skor-desc">
-                        <p>Status</p>
-                        <p class="value">
-                            @if($skor['nilai'] < 200)
-                                Tidak Terakreditasi
-                            @elseif($skor['nilai'] < 300)
-                                Baik
-                            @elseif($skor['nilai'] < 360)
-                                Baik Sekali
-                            @else
-                                Unggul
-                            @endif
-                        </p>
-                        <p>Nilai Saat ini</p>
-                        <p class="value">{{$skor['nilai']}}</p>
-                    </div>
+    <div class="card-body pt-2">
+        <div class="alert {{$status}}" style="height:100%">
+            <div class="row pt-2">
+                <div class="col">
+                    @php
+                        $skor['chart']['status'] = $status
+                    @endphp
+                    @include('widgets.charts.gauge_home', $skor['chart'])
+                </div>
+                <div class="col skor-desc align-middle">
+                    <p>Status</p>
+                    <p class="value pb-2">
+                        @if($skor['nilai'] < 200)
+                            Tidak Terakreditasi
+                        @elseif($skor['nilai'] < 300)
+                            Baik
+                        @elseif($skor['nilai'] < 360)
+                            Baik Sekali
+                        @else
+                            Unggul
+                        @endif
+                    </p>
+                    <p>Nilai Saat ini</p>
+                    <p class="value">{{$skor['nilai']}}</p>
                 </div>
             </div>
         </div>

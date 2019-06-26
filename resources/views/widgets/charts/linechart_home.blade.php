@@ -1,7 +1,9 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<canvas height="139px" id="linechart_{{$_idbx}}"></canvas >
+<div class="m-auto" style="position:relative; width:515px; height:240px;">
+	<canvas id="linechart_{{$_idbx}}"></canvas >
+</div>
 <script>
 		function renderLineChart_{{$_idbx}}(data){
 			
@@ -10,7 +12,6 @@
 			var myLine = Chart.Line(ctx, {
 				data: data,
 				options: {
-					responsive: true,
 					hoverMode: 'index',
 					stacked: false,
 					title: {

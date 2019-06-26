@@ -3,10 +3,10 @@
 @section('section')
 <style>
     #home-section .top-row > * > .card{
-        min-height: 328px;
+        height: 328px;
     }
     #home-section .bottom-row > * > .card{
-        min-height: 325px;
+        height: 325px;
     }
     #home-section .right-col > .card{
         background-color: #BDC3C7;
@@ -16,36 +16,36 @@
         padding: 10px;
     }
     #home-section .right-col .top-row .card {
-        min-height: 318px;
+        height: 318px;
     }
     #home-section .right-col .bottom-row .card {
-        min-height: 318px;
+        height: 318px;
     }
 </style>
 <div class="row" id="home-section">
-    <div class="col-lg-9 left-col">
+    <div class="col-lg-9 col-md-12 left-col">
         <div class="row top-row">
-            <div class="col-md-5 mb-20px">
+            <div class="col-md-5 mb-3">
                 @include('component_home.skor')
             </div>
-            <div class="col-md-7 mb-20px">
+            <div class="col-md-7 mb-3">
                 @include('component_home.nilai_pt')
             </div>
         </div>
         <div class="row bottom-row">
-            <div class="col-md-5 mb-20px">
+            <div class="col-md-5 mb-3">
                 @include('component_home.kriteria_khusus_unggul')
             </div>
-            <div class="col-md-7 mb-20px">
+            <div class="col-md-7 mb-3">
                 @include('component_home.kriteria_pt')
             </div>
         </div>
     </div>
-    <div class="col right-col">
+    <div class="col-lg-3 right-col">
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col mb-20px">
+                    <div class="col mb-sm-3 mb-lg-3">
                         @include('component_home.penmaru_pendaftar')
                     </div>
                     <div class="col">
