@@ -95,23 +95,9 @@
 			            display: false,
 			            position: 'bottom'
 			        },
-			        onClick: function(c,i) {
-    					console.log(c.y);
-    					e = i[0];
-					    //console.log(e._index)
-					    var x_value = this.data.labels[e._index];
-					    var y_value = this.data.datasets[0].data[e._index];
-					    //console.log(x_value);
-					    /*
-					    console.log(y_value);
-					    var label = "";*/
-					    if(c.y>316){
-					    	document.location="{{url('sdm/dosen')}}";
-					    }else{
-					    	show_modal(x_value);
-					    }
-						//$("#modal_chart").modal('show');
-					}
+                    onClick: function(mouseEvent, clickedChart) {
+						return {{$onClickFn}}(mouseEvent, clickedChart, mixchart_{{$_idbx}});
+					},
 				}
 			});
 

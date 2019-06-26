@@ -9,6 +9,7 @@ use App\Mahasiswa;
 use App\Prodi;
 use App\MateriBorang;
 use DB;
+use App\JenisJabatanFungsional;
 
 class SdmController extends Controller
 {
@@ -145,52 +146,116 @@ class SdmController extends Controller
         ]);
     }
 
-    public function detail($judul="", $nilai=""){
-    		$line = array(
-    					'2011' => 1.4,
-						'2012' => 1.2,
-						'2013' => 2.6,
-						'2014' => 3.7,
-						'2015' => 2.8,
-						'2016' => 3.2,
-						'2017' => 3.6,
-						'2018' => 3.1);
-    		$bar = array(
-    					'SI' => 3.4,
-    					'SK' => 3.2,
-    					'DKV' => 3.3,
-    					'D3 SI' => 2.7,
-    					'Profiti' => 3.0,
-    					'Desgraf' => 1.7,
-    					'Manajemen' => 2.4,
-    					'Akuntansi' => 2.6,
-    					'KPK' => 2.7
-    					);
-    		if($judul=="Lektor & Guru besar"){
-    			$line = array(
-    					'2011' => array("Lektor" => 2.0, "Guru Besar" => 2.3),
-    					'2012' => array("Lektor" => 2.1, "Guru Besar" => 2.4),
-    					'2013' => array("Lektor" => 2.2, "Guru Besar" => 2.5),
-    					'2014' => array("Lektor" => 2.3, "Guru Besar" => 2.7),
-    					'2015' => array("Lektor" => 2.7, "Guru Besar" => 2.6),
-    					'2016' => array("Lektor" => 2.1, "Guru Besar" => 2.8),
-    					'2017' => array("Lektor" => 3.6, "Guru Besar" => 3.7),
-    					'2018' => array("Lektor" => 3.7, "Guru Besar" => 3.8),
-    					);
-    			$bar = array(
-    					'SI' => array("Lektor" => 2.0, "Guru Besar" => 2.3),
-    					'SK' => array("Lektor" => 2.1, "Guru Besar" => 2.4),
-    					'DKV' => array("Lektor" => 2.2, "Guru Besar" => 2.5),
-    					'D3 SI' => array("Lektor" => 2.3, "Guru Besar" => 2.7),
-    					'Profiti' => array("Lektor" => 2.7, "Guru Besar" => 2.6),
-    					'Desgraf' => array("Lektor" => 2.1, "Guru Besar" => 2.8),
-    					'Manajemen' => array("Lektor" => 3.6, "Guru Besar" => 3.7),
-    					'Akuntansi' => array("Lektor" => 3.7, "Guru Besar" => 3.8),
-    					'KPK' => array("Lektor" => 2.0, "Guru Besar" => 2.3)
-    				);
-    		}
-    		return view('sdm_detail', ['judul' => $judul, 'nilai' => $nilai, 'line' => $line, 'bar' => $bar]);
-		}
+    public function getDosenProdiSertifikasi(Request $request, $kode_prodi)
+    {
+        $prodi = Prodi::with(['prodi_ewmp' => function ($query) {
+            return $query
+            ->with([
+                'karyawan.sertifikasi',
+                'karyawan.pendidikan_formal_last',
+            ])
+            ->whereHas('karyawan', function ($query) {
+                return $query
+                ->whereIsAktif()
+                ->whereIsDosenTetap();
+            });
+        }])
+        ->find($kode_prodi);
+
+        $karyawan = $prodi->prodi_ewmp
+        ->map(function ($prodi_ewmp) {
+            $karyawan = $prodi_ewmp->karyawan;
+
+            return $karyawan;
+        });
+
+        $karyawan_tersertifikasi = $karyawan->filter(function($karyawan){
+            return count($karyawan->sertifikasi);
+        });
+
+        $jenjang_studi = collect(['S1', 'S2', 'S3']);
+
+        $data = collect([
+            [
+                'label' => 'Tersertifikasi',
+                'data' => $jenjang_studi->map(function($jenjang_studi) use ($karyawan_tersertifikasi) {
+                    return $karyawan_tersertifikasi->filter(function($karyawan_tersertifikasi) use ($jenjang_studi){
+                        return $karyawan_tersertifikasi->pendidikan_formal_last->jenjang_studi == $jenjang_studi;
+                    })->count();
+                }),
+            ]
+        ])->push([
+            'label' => 'Jumlah Dosen',
+            'data' => $jenjang_studi->map(function($jenjang_studi) use ($karyawan) {
+                return $karyawan->filter(function($karyawan) use ($jenjang_studi){
+                    return $karyawan->pendidikan_formal_last->jenjang_studi == $jenjang_studi;
+                })->count();
+            }),
+        ]);
+
+        return [
+            'nama' => $prodi->nama,
+            'labels' => $jenjang_studi->toArray(),
+            'datasets' => $data,
+        ];
+    }
+
+    public function getDosenProdiJafung(Request $request, $kode_prodi)
+    {
+        $prodi = Prodi::with(['prodi_ewmp' => function ($query) {
+            return $query
+            ->with([
+                'karyawan.jabatan_fungsional_last.jenis_jafung',
+                'karyawan.pendidikan_formal_last',
+            ])
+            ->whereHas('karyawan', function ($query) {
+                return $query
+                ->whereIsDosen()
+                ->whereIsAktif()
+                ->wherehas('jabatan_fungsional', function ($query) {
+                    return $query->whereIn('id_jfa', [4, 5]);
+                });
+            });
+        }])
+        ->find($kode_prodi);
+        $karyawan = $prodi->prodi_ewmp
+        ->map(function ($prodi_ewmp) {
+            $karyawan = $prodi_ewmp->karyawan;
+
+            return $karyawan;
+        });
+        $jabatan_fungsional = JenisJabatanFungsional::whereIn('id_jabatan', [4, 5])
+        ->get();
+
+        $jenjang_studi = collect(['S1', 'S2', 'S3']);
+
+        $data = $jabatan_fungsional->map(function($jabatan_fungsional) use ($jenjang_studi, $karyawan) {
+            $karyawan = $karyawan->filter(function($karyawan) use ($jabatan_fungsional){
+                return $karyawan->jabatan_fungsional_last->id_jfa == $jabatan_fungsional->id_jabatan;
+            });
+            return [
+                'label' => $jabatan_fungsional->jabatan_fungsional,
+                'data' => $jenjang_studi->map(function($jenjang_studi) use ($karyawan) {
+                    return $karyawan->filter(function($karyawan) use ($jenjang_studi){
+                        return $karyawan->pendidikan_formal_last->jenjang_studi == $jenjang_studi;
+                    })->count();
+                }),
+            ];
+        })->push([
+            'label' => 'Jumlah Dosen',
+            'data' => $jenjang_studi->map(function($jenjang_studi) use ($karyawan) {
+                return $karyawan->filter(function($karyawan) use ($jenjang_studi){
+                    return $karyawan->pendidikan_formal_last->jenjang_studi == $jenjang_studi;
+                })->count();
+            }),
+        ]);
+
+        return [
+            'nama' => $prodi->nama,
+            'labels' => $jenjang_studi->toArray(),
+            'datasets' => $data,
+        ];
+    }
 
 		public function profil(){
     		$data_profil = [];

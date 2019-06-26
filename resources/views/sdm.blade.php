@@ -62,18 +62,16 @@
 									<p class="txt_card_subtitle">Skor</p>
                                     <h1>{{ $skor_jabatan_fungsional }}</h1>
 								</div>
-							<div class="col-xs-10 card-home-subtitle">
-                                <input class="btn btn-default btn-sm" type="button" onclick="window.location='{{url('/sdm/list_dosen')}}'" value="Detail"/>
-							</div>
-							<div class="col-xs-2 text-center card-home-right">
-							</div>
 						</div>
 						<div class="row">
 							<div class="col-xs-12" style="padding-top:10px;">
-                                @include('widgets.charts.mixchart_sdm', array('data' => [
-                                    'bar' => ['Lektor Kepala', $dosen_lektor_kepala],
-                                    'line'	=> ['Guru Besar', $dosen_guru_besar ],
-                                ]))
+                                @include('widgets.charts.mixchart_sdm', [
+                                    'data' => [
+                                        'bar' => ['Lektor Kepala', $dosen_lektor_kepala],
+                                        'line'	=> ['Guru Besar', $dosen_guru_besar ],
+                                    ],
+                                    'onClickFn' => 'show_modal_jafung',
+                                ])
 							</div>
 						</div>
 					</div>
@@ -267,18 +265,16 @@
 									<p class="txt_card_subtitle">Skor</p>
                                     <h1>{{ $skor_sertifikat_pendidikan }}</h1>
 								</div>
-							<div class="col-xs-10 card-home-subtitle">
-                                <input class="btn btn-default btn-sm" type="button" onclick="window.location='{{url('/sdm/list_dosen')}}'" value="Detail"/>
-							</div>
-							<div class="col-xs-2 text-center card-home-right">
-							</div>
 						</div>
 						<div class="row">
 							<div class="col-xs-12" style="padding-top:10px;">
-                                @include('widgets.charts.mixchart_sdm', array('data' => [
-                                    'bar' => ['Sertifikasi', $dosen_tetap_bersertifikasi],
-                                    'line'	=> ['Dosen Tetap', $dosen_tetap ],
-                                ]))
+                                @include('widgets.charts.mixchart_sdm', [
+                                    'data' => [
+                                        'bar' => ['Sertifikasi', $dosen_tetap_bersertifikasi],
+                                        'line'	=> ['Dosen Tetap', $dosen_tetap ],
+                                    ],
+                                    'onClickFn' => 'show_modal_sertifikasi',
+                                ])
 							</div>
 						</div>
 					</div>
@@ -318,7 +314,7 @@
 	</div>
 </div>
 
-<div class="modal fade modal_chart" id="modal_chart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_chart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   	<div class="modal-dialog modal-lg">
 	    <div class="modal-content">
 	      	<div class="modal-header" style="border-bottom:none;">
@@ -330,15 +326,17 @@
        	 			</div>
        	 		</div>
        	 		<div class="col-xs-11">
-       	 			<h4 class="modal-title" style="color:#000;font-weight:900;" id="modal_chart_label">Program Studi Sistem Informasi</h4>
-       	 			<p class="txt_card_subtitle">2018/2019</p>
+       	 			<h4 class="modal-title" style="color:#000;font-weight:900;" id="modal_chart_label"></h4>
+       	 			<p class="txt_card_subtitle">{{$periode}}</p>
        	 		</div>
 		       	<div style="clear:both;"></div>
 	      	</div>
 	      	<div class="modal-body">
 	        	<div class="row">
 	        		<div class="col-xs-12">
-	        			<div id="load_chart"></div>
+                        <div id="load_chart">
+							<canvas height="105px" id="mixchart_ajax"></canvas>
+                        </div>
 	        		</div>
 	        		<div class="col-xs-12">
 	        			<div class="keterangan_box">
@@ -355,23 +353,112 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function(){
-    	//show_modal("Sistem Informasi");
-    	$('.modal_chart').on('hide.bs.modal', function () {
-		  	$("#load_chart").html("");
-		});
-    });
-    function show_modal(label){
-    	$("#modal_chart_label").html("Program Studi "+label);
-    	//console.log();
-		$(".modal_chart").modal('show');
-    	//$("#load_chart").load('{{url('sdm/detail_ajax')}}');
-    	$.ajax({
-    		url:"{{url('sdm/detail_ajax')}}", 
-    		success:function(result){
-	    		$("#load_chart").html(result);
-	  		}
-	  	});
+    function renderChart(mixChartData) {
+        let ctxa = document.getElementById('mixchart_ajax').getContext('2d');
+        if(window.chart_modal != undefined) window.chart_modal.destroy();
+        window.chart_modal = new Chart(ctxa, {
+            type: 'bar',
+            data: mixChartData,
+            options: {
+                responsive: true,
+                hoverMode: 'index',
+                stacked: false,
+                title: {
+                    display: false,
+                    text: 'Chart.js Line Chart - Multi Axis'
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines:  {
+                            display: false
+                        },
+                        ticks: {
+                            fontSize: 10
+                        },
+
+                    }],
+                    yAxes: [{
+                        gridLines:  {
+                            display: true,
+                        },
+                        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                        display: true,
+                        // id: 'y-axis-1',
+                        ticks: {
+                            min: 0,
+                            // max: 500,
+                            // stepSize: 1,
+                            // suggestedMin: 0,
+                            // suggestedMax: 400,
+                            // fontSize: 10
+                        }
+                    }],
+                },
+                legend: {
+                    display: false,
+                    position: 'bottom'
+                }
+            }
+        });
+    }
+    const data_prodi = {!! json_encode($prodi) !!};
+    function show_modal_sertifikasi(mouseEvent, clickedChart) {
+        if(clickedChart.length == 0) return;
+        let prodi = data_prodi[clickedChart[0]._index];
+        $.ajax({
+            url: '{{url("api/sdm/dosen")}}/'+prodi+'/sertifikasi',
+            success: function(result) {
+                result.datasets = result.datasets.map(function(datasets){
+                    if(datasets.label == 'Jumlah Dosen'){
+                        datasets.borderColor = '#C216CC';
+                        datasets.backgroundColor = '#C216CC';
+                        datasets.borderWidth = 4;
+                        datasets.fill = false;
+                        datasets.type = 'line';
+                        datasets.lineTension = 0;
+                    }else if(datasets.label == 'Tersertifikasi'){
+                        datasets.borderColor = '#BE1E2D';
+                        datasets.backgroundColor = '#BE1E2D';
+                    }else if(datasets.label == 'Tidak Tersertifikasi'){
+                        datasets.borderColor = '#BE1E2D';
+                        datasets.backgroundColor = '#BE1E2D';
+                    }
+                    return datasets;
+                });
+                renderChart(result);
+                $("#modal_chart_label").html("Program Studi "+result.nama);
+                $("#modal_chart").modal('show');
+            }
+        });
+    }
+    function show_modal_jafung(mouseEvent, clickedChart) {
+        if(clickedChart.length == 0) return;
+        let prodi = data_prodi[clickedChart[0]._index];
+        $.ajax({
+            url: '{{url("api/sdm/dosen")}}/'+prodi+'/jafung',
+            success: function(result) {
+                result.datasets = result.datasets.map(function(datasets){
+                    if(datasets.label == 'Jumlah Dosen'){
+                        datasets.borderColor = '#C216CC';
+                        datasets.backgroundColor = '#C216CC';
+                        datasets.borderWidth = 4;
+                        datasets.fill = false;
+                        datasets.type = 'line';
+                        datasets.lineTension = 0;
+                    }else if(datasets.label == 'Guru Besar'){
+                        datasets.borderColor = '#FE9D28';
+                        datasets.backgroundColor = '#FE9D28';
+                    }else if(datasets.label == 'Lektor Kepala'){
+                        datasets.borderColor = '#4FACFE';
+                        datasets.backgroundColor = '#4FACFE';
+                    }
+                    return datasets;
+                });
+                renderChart(result);
+                $("#modal_chart_label").html("Program Studi "+result.nama);
+                $("#modal_chart").modal('show');
+            }
+        });
     }
 </script>
 @stop
