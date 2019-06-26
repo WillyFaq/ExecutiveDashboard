@@ -58,23 +58,16 @@ class SdmController extends Controller
                 return $query
                 ->whereIsDosen()
                 ->whereIsAktif()
-                ->whereHas('jabatan_fungsional_last');
+                ->whereHas('jabatan_fungsional_last', function($query){
+                    return $query->where('id_jfa', 5);
+                });
             })
             ->with('karyawan.jabatan_fungsional_last');
         }]);
-        $dosen_lektor_kepala = $prodi_w_dosen_jafung
-        ->groupBy('alias')
-        ->map(function ($prodi) {
-            return $prodi->first()->prodi_ewmp->filter(function($prodi_ewmp) {
-                return $prodi_ewmp->karyawan->jabatan_fungsional_last->id_jfa == 4;
-            })->count();
-        });
         $dosen_guru_besar = $prodi_w_dosen_jafung
         ->groupBy('alias')
         ->map(function ($prodi) {
-            return $prodi->first()->prodi_ewmp->filter(function($prodi_ewmp) {
-                return $prodi_ewmp->karyawan->jabatan_fungsional_last->id_jfa == 5;
-            })->count();
+            return $prodi->first()->prodi_ewmp->count();
         });
         // RASIO DOSEN:MAHASISWA
         $jml_dosen = Karyawan::whereIsDosenTetap()
@@ -108,7 +101,6 @@ class SdmController extends Controller
             'dosen_tetap_bersertifikasi' => $dosen_tetap_bersertifikasi->toArray(),
             'skor_sertifikat_pendidikan' => 3.21,
             // JABATAN FUNGSIONAL DOSEN
-            'dosen_lektor_kepala' => $dosen_lektor_kepala->toArray(),
             'dosen_guru_besar' => $dosen_guru_besar->toArray(),
             'skor_jabatan_fungsional' => 2.00,
             // RASIO DOSEN:MAHASISWA

@@ -67,8 +67,8 @@
 							<div class="col-xs-12" style="padding-top:10px;">
                                 @include('widgets.charts.mixchart_sdm', [
                                     'data' => [
-                                        'bar' => ['Lektor Kepala', $dosen_lektor_kepala],
                                         'line'	=> ['Guru Besar', $dosen_guru_besar ],
+                                        'bar'	=> ['Dosen Tetap', $dosen_tetap ],
                                     ],
                                     'onClickFn' => 'show_modal_jafung',
                                 ])
@@ -270,8 +270,8 @@
 							<div class="col-xs-12" style="padding-top:10px;">
                                 @include('widgets.charts.mixchart_sdm', [
                                     'data' => [
-                                        'bar' => ['Sertifikasi', $dosen_tetap_bersertifikasi],
-                                        'line'	=> ['Dosen Tetap', $dosen_tetap ],
+                                        'line' => ['Sertifikasi', $dosen_tetap_bersertifikasi],
+                                        'bar'	=> ['Dosen Tetap', $dosen_tetap ],
                                     ],
                                     'onClickFn' => 'show_modal_sertifikasi',
                                 ])
