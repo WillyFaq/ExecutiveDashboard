@@ -24,10 +24,12 @@ class SdmController extends Controller
         ->find(1804);
         $nilai_sdm = $materi_sdm->nilai->first();
         $skor_nilai_sdm = round($nilai_sdm->nilai ? $nilai_sdm->nilai : 0,2);
-        // DATA DOSEN & SERTIFIKASINYA
+        // DATA PRODI
         $prodi = Prodi::whereIsAktif()
-        ->orderBy('id')
-        ->with(['prodi_ewmp' => function ($query) {
+        ->orderByDefault()
+        ->get();
+        // DATA DOSEN & SERTIFIKASINYA
+        $prodi_w_dosen_sertifikasi = $prodi->load(['prodi_ewmp' => function ($query) {
             return $query
             ->whereHas('karyawan', function ($query) {
                 return $query
@@ -35,14 +37,13 @@ class SdmController extends Controller
                 ->whereIsDosenTetap();
             })
             ->with('karyawan.sertifikasi');
-        }])
-        ->get();
-        $dosen_tetap = $prodi
+        }]);
+        $dosen_tetap = $prodi_w_dosen_sertifikasi
         ->groupBy('alias')
         ->map(function ($prodi) {
             return $prodi->first()->prodi_ewmp->count();
         });
-        $dosen_tetap_bersertifikasi = $prodi
+        $dosen_tetap_bersertifikasi = $prodi_w_dosen_sertifikasi
         ->map(function ($prodi) {
             $prodi->prodi_ewmp = $prodi->prodi_ewmp->filter(function ($prodi_ewmp) {
                 return count($prodi_ewmp->karyawan->sertifikasi);
@@ -54,9 +55,7 @@ class SdmController extends Controller
         ->map(function ($prodi) {
             return $prodi->first()->prodi_ewmp->count();
         });
-        $prodi = Prodi::whereIsAktif()
-        ->orderBy('id')
-        ->with(['prodi_ewmp' => function ($query) {
+        $prodi_w_dosen_jafung = $prodi->load(['prodi_ewmp' => function ($query) {
             return $query
             ->with('karyawan.jabatan_fungsional')
             ->whereHas('karyawan', function ($query) {
@@ -67,9 +66,8 @@ class SdmController extends Controller
                     return $query->whereIn('id_jfa', [4, 5]);
                 });
             });
-        }])
-        ->get();
-        $dosen_lektor_kepala = $prodi->map(function ($prodi) {
+        }]);
+        $dosen_lektor_kepala = $prodi_w_dosen_jafung->map(function ($prodi) {
             $prodi->prodi_ewmp = $prodi->prodi_ewmp->filter(function ($prodi_ewmp) {
                 return $prodi_ewmp->karyawan->jabatan_fungsional
                 ->filter(function ($jabatan_fungsional) {
@@ -84,7 +82,7 @@ class SdmController extends Controller
         ->map(function ($prodi) {
             return $prodi->first()->prodi_ewmp->count();
         });
-        $dosen_guru_besar = $prodi->map(function ($prodi) {
+        $dosen_guru_besar = $prodi_w_dosen_jafung->map(function ($prodi) {
             $prodi->prodi_ewmp = $prodi->prodi_ewmp->filter(function ($prodi_ewmp) {
                 return $prodi_ewmp->karyawan->jabatan_fungsional
                 ->filter(function ($jabatan_fungsional) {
@@ -119,6 +117,9 @@ class SdmController extends Controller
 
         return view('sdm', [
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
+            'prodi' => $prodi->map(function($prodi){
+                return $prodi->id;
+            })->toArray(),
             // NILAI SDM
             'skor_nilai_sdm' => $skor_nilai_sdm,
             // TENAGA KEPENDIDIKAN
