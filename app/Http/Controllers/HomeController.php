@@ -95,9 +95,7 @@ class HomeController extends Controller
         // MHS REGISTRASI
         $get_mhs_registrasi = function ($tahun) {
             $prodi = Prodi::whereIsAktif()
-            ->orderBy('id_fakultas')
-            ->orderBy(\DB::Raw('DECODE(SUBSTR(id, 1, 1), 4, 1, 5, 2, 3, 3)'))
-            ->orderBy('id')
+            ->orderByDefault()
             ->get()
             ->map(function ($prodi) use ($tahun) {
                 $prodi->jml_mahasiswa = Mahasiswa::where(\DB::Raw('SUBSTR(nim, 3, 5)'), $prodi->id)

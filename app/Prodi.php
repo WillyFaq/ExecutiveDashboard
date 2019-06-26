@@ -20,6 +20,14 @@ class Prodi extends Model
         return $query->where('sts_aktif', 'Y');
     }
 
+    public function scopeOrderByDefault($query)
+    {
+        return $query
+        ->orderBy('id_fakultas')
+        ->orderBy(\DB::Raw('DECODE(SUBSTR(id, 1, 1), 4, 1, 5, 2, 3, 3)'))
+        ->orderBy('id');
+    }
+
     public function prodi_ewmp()
     {
         return $this->hasMany(ProdiEwmp::class, 'prodi');
