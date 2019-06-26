@@ -20,11 +20,11 @@ class SdmController extends Controller
         $materi_sdm = MateriBorang::with([
             'nilai' => function ($query) use ($tahun_now) {
                 return $query->where('tahun', $tahun_now);
-            }
+            },
         ])
         ->find(1804);
         $nilai_sdm = $materi_sdm->nilai->first();
-        $skor_nilai_sdm = round($nilai_sdm->nilai ? $nilai_sdm->nilai : 0,2);
+        $skor_nilai_sdm = round($nilai_sdm->nilai ? $nilai_sdm->nilai : 0, 2);
         // DATA PRODI
         $prodi = Prodi::whereIsAktif()
         ->orderByDefault()
@@ -54,11 +54,11 @@ class SdmController extends Controller
         // DATA DOSEN & JABATAN FUNGSIONALNYA
         $prodi_w_dosen_jafung = $prodi->load(['prodi_ewmp' => function ($query) {
             return $query
-            ->whereHas('karyawan', function($query) {
+            ->whereHas('karyawan', function ($query) {
                 return $query
                 ->whereIsDosen()
                 ->whereIsAktif()
-                ->whereHas('jabatan_fungsional_last', function($query){
+                ->whereHas('jabatan_fungsional_last', function ($query) {
                     return $query->where('id_jfa', 5);
                 });
             })
@@ -89,7 +89,7 @@ class SdmController extends Controller
 
         return view('sdm', [
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
-            'prodi' => $prodi->map(function($prodi){
+            'prodi' => $prodi->map(function ($prodi) {
                 return $prodi->id;
             })->toArray(),
             // NILAI SDM
@@ -139,7 +139,7 @@ class SdmController extends Controller
             return $karyawan;
         });
 
-        $karyawan_tersertifikasi = $karyawan->filter(function($karyawan){
+        $karyawan_tersertifikasi = $karyawan->filter(function ($karyawan) {
             return count($karyawan->sertifikasi);
         });
 
@@ -148,16 +148,16 @@ class SdmController extends Controller
         $data = collect([
             [
                 'label' => 'Tersertifikasi',
-                'data' => $jenjang_studi->map(function($jenjang_studi) use ($karyawan_tersertifikasi) {
-                    return $karyawan_tersertifikasi->filter(function($karyawan_tersertifikasi) use ($jenjang_studi){
+                'data' => $jenjang_studi->map(function ($jenjang_studi) use ($karyawan_tersertifikasi) {
+                    return $karyawan_tersertifikasi->filter(function ($karyawan_tersertifikasi) use ($jenjang_studi) {
                         return $karyawan_tersertifikasi->pendidikan_formal_last->jenjang_studi == $jenjang_studi;
                     })->count();
                 }),
-            ]
+            ],
         ])->prepend([
             'label' => 'Jumlah Dosen',
-            'data' => $jenjang_studi->map(function($jenjang_studi) use ($karyawan) {
-                return $karyawan->filter(function($karyawan) use ($jenjang_studi){
+            'data' => $jenjang_studi->map(function ($jenjang_studi) use ($karyawan) {
+                return $karyawan->filter(function ($karyawan) use ($jenjang_studi) {
                     return $karyawan->pendidikan_formal_last->jenjang_studi == $jenjang_studi;
                 })->count();
             }),
@@ -195,25 +195,26 @@ class SdmController extends Controller
 
         $jenjang_studi = collect(['S1', 'S2', 'S3']);
 
-        $data = $jabatan_fungsional->map(function($jabatan_fungsional) use ($jenjang_studi, $karyawan) {
-            $karyawan = $karyawan->filter(function($karyawan){
+        $data = $jabatan_fungsional->map(function ($jabatan_fungsional) use ($jenjang_studi, $karyawan) {
+            $karyawan = $karyawan->filter(function ($karyawan) {
                 return $karyawan->jabatan_fungsional_last;
             })
-            ->filter(function($karyawan) use ($jabatan_fungsional){
+            ->filter(function ($karyawan) use ($jabatan_fungsional) {
                 return $karyawan->jabatan_fungsional_last->id_jfa == $jabatan_fungsional->id_jabatan;
             });
+
             return [
                 'label' => $jabatan_fungsional->jabatan_fungsional,
-                'data' => $jenjang_studi->map(function($jenjang_studi) use ($karyawan) {
-                    return $karyawan->filter(function($karyawan) use ($jenjang_studi){
+                'data' => $jenjang_studi->map(function ($jenjang_studi) use ($karyawan) {
+                    return $karyawan->filter(function ($karyawan) use ($jenjang_studi) {
                         return $karyawan->pendidikan_formal_last->jenjang_studi == $jenjang_studi;
                     })->count();
                 }),
             ];
         })->prepend([
             'label' => 'Jumlah Dosen',
-            'data' => $jenjang_studi->map(function($jenjang_studi) use ($karyawan) {
-                return $karyawan->filter(function($karyawan) use ($jenjang_studi){
+            'data' => $jenjang_studi->map(function ($jenjang_studi) use ($karyawan) {
+                return $karyawan->filter(function ($karyawan) use ($jenjang_studi) {
                     return $karyawan->pendidikan_formal_last->jenjang_studi == $jenjang_studi;
                 })->count();
             }),
