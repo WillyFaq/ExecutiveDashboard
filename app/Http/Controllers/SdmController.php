@@ -45,58 +45,36 @@ class SdmController extends Controller
             return $prodi->first()->prodi_ewmp->count();
         });
         $dosen_tetap_bersertifikasi = $prodi_w_dosen_sertifikasi
-        ->map(function ($prodi) {
-            $prodi->prodi_ewmp = $prodi->prodi_ewmp->filter(function ($prodi_ewmp) {
-                return count($prodi_ewmp->karyawan->sertifikasi);
-            });
-
-            return $prodi;
-        })
         ->groupBy('alias')
         ->map(function ($prodi) {
-            return $prodi->first()->prodi_ewmp->count();
+            return $prodi->first()->prodi_ewmp->filter(function ($prodi_ewmp) {
+                return count($prodi_ewmp->karyawan->sertifikasi);
+            })->count();
         });
+        // DATA DOSEN & JABATAN FUNGSIONALNYA
         $prodi_w_dosen_jafung = $prodi->load(['prodi_ewmp' => function ($query) {
             return $query
-            ->with('karyawan.jabatan_fungsional')
-            ->whereHas('karyawan', function ($query) {
+            ->whereHas('karyawan', function($query) {
                 return $query
                 ->whereIsDosen()
                 ->whereIsAktif()
-                ->wherehas('jabatan_fungsional', function ($query) {
-                    return $query->whereIn('id_jfa', [4, 5]);
-                });
-            });
+                ->whereHas('jabatan_fungsional_last');
+            })
+            ->with('karyawan.jabatan_fungsional_last');
         }]);
-        $dosen_lektor_kepala = $prodi_w_dosen_jafung->map(function ($prodi) {
-            $prodi->prodi_ewmp = $prodi->prodi_ewmp->filter(function ($prodi_ewmp) {
-                return $prodi_ewmp->karyawan->jabatan_fungsional
-                ->filter(function ($jabatan_fungsional) {
-                    return 4 == $jabatan_fungsional->id_jfa;
-                })
-                ->count();
-            });
-
-            return $prodi;
-        })
+        $dosen_lektor_kepala = $prodi_w_dosen_jafung
         ->groupBy('alias')
         ->map(function ($prodi) {
-            return $prodi->first()->prodi_ewmp->count();
+            return $prodi->first()->prodi_ewmp->filter(function($prodi_ewmp) {
+                return $prodi_ewmp->karyawan->jabatan_fungsional_last->id_jfa == 4;
+            })->count();
         });
-        $dosen_guru_besar = $prodi_w_dosen_jafung->map(function ($prodi) {
-            $prodi->prodi_ewmp = $prodi->prodi_ewmp->filter(function ($prodi_ewmp) {
-                return $prodi_ewmp->karyawan->jabatan_fungsional
-                ->filter(function ($jabatan_fungsional) {
-                    return 5 == $jabatan_fungsional->id_jfa;
-                })
-                ->count();
-            });
-
-            return $prodi;
-        })
+        $dosen_guru_besar = $prodi_w_dosen_jafung
         ->groupBy('alias')
         ->map(function ($prodi) {
-            return $prodi->first()->prodi_ewmp->count();
+            return $prodi->first()->prodi_ewmp->filter(function($prodi_ewmp) {
+                return $prodi_ewmp->karyawan->jabatan_fungsional_last->id_jfa == 5;
+            })->count();
         });
         // RASIO DOSEN:MAHASISWA
         $jml_dosen = Karyawan::whereIsDosenTetap()
