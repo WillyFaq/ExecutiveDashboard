@@ -181,10 +181,7 @@ class SdmController extends Controller
             ->whereHas('karyawan', function ($query) {
                 return $query
                 ->whereIsDosen()
-                ->whereIsAktif()
-                ->wherehas('jabatan_fungsional', function ($query) {
-                    return $query->whereIn('id_jfa', [4, 5]);
-                });
+                ->whereIsAktif();
             });
         }])
         ->find($kode_prodi);
@@ -194,13 +191,15 @@ class SdmController extends Controller
 
             return $karyawan;
         });
-        $jabatan_fungsional = JenisJabatanFungsional::whereIn('id_jabatan', [4, 5])
-        ->get();
+        $jabatan_fungsional = JenisJabatanFungsional::get();
 
         $jenjang_studi = collect(['S1', 'S2', 'S3']);
 
         $data = $jabatan_fungsional->map(function($jabatan_fungsional) use ($jenjang_studi, $karyawan) {
-            $karyawan = $karyawan->filter(function($karyawan) use ($jabatan_fungsional){
+            $karyawan = $karyawan->filter(function($karyawan){
+                return $karyawan->jabatan_fungsional_last;
+            })
+            ->filter(function($karyawan) use ($jabatan_fungsional){
                 return $karyawan->jabatan_fungsional_last->id_jfa == $jabatan_fungsional->id_jabatan;
             });
             return [
