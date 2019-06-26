@@ -139,44 +139,6 @@
 
 				<div class="col-xs-3">
 					<div class="row sdm-small-card">
-						@php
-						$tampilan1=false;
-						if($tampilan1):
-						@endphp
-						<div class="col-xs-12">
-							<div class="card" style="padding:20px 40px;">
-								<div class="row">
-									<div class="col-xs-12 card-home-title">
-										<h2>Jabatan Fungsional Doden</h2>
-									</div>
-									<br>
-									<div class="legend_add_box">
-										<div class="card-home-legend">
-											<ul>
-                                <li><span class="dot d_red"></span>Guru Besar : <strong>{{ array_sum(array_values($dosen_guru_besar)) }} Orang</strong> </li>
-                                <li><span class="dot d_yellow"></span>Lektor Kepala : <strong>{{ array_sum(array_values($dosen_lektor_kepala)) }} Orang</strong> </li>
-											</ul>
-										</div>
-									</div>
-									<br>
-									<div class="col-xs-12 card-home-title">
-										<h2>Jabatan Fungsional Doden</h2>
-									</div>
-									<br>
-									<div class="legend_add_box">
-										<div class="card-home-legend">
-											<ul>
-                                <li><span class="dot d_red"></span>Dosen Tetap : <strong>{{ array_sum(array_values($dosen_tetap)) }} Orang</strong> </li>
-                                <li><span class="dot d_yellow"></span>Sertifiakat : <strong>{{ array_sum(array_values($dosen_tetap_bersertifikasi)) }} Orang</strong> </li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						@php
-						else:
-						@endphp
 						<div class="col-xs-12">
 							<div class="card">
 								<div class="row">
@@ -281,9 +243,6 @@
 								</div>
 							</div>
 						</div>
-						@php
-						endif;
-						@endphp
 					</div>
 				</div>
 
