@@ -114,9 +114,9 @@
 		        d="M18 4.5845
 		          a 13.4155 13.4155 0 0 1 0 26.831
 		          a 13.4155 13.4155 0 0 1 0 -26.831"
-		      />
+			  />
 		      <path class="circle"
-		        stroke-dasharray="{{{ isset($value) ? $value : 0 }}}, 100"
+		        stroke-dasharray="{{{ isset($value) ? ($value >= 0 ? $value : 0) : 0 }}}, 100"
 		        d="M18 4.5845
 		          a 13.4155 13.4155 0 0 1 0 26.831
 		          a 13.4155 13.4155 0 0 1 0 -26.831"
