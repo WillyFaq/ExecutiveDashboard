@@ -180,7 +180,6 @@ class SdmController extends Controller
             ])
             ->whereHas('karyawan', function ($query) {
                 return $query
-                ->whereHas('jabatan_fungsional_last')
                 ->whereIsDosen()
                 ->whereIsAktif();
             });
@@ -206,6 +205,9 @@ class SdmController extends Controller
                 'label' => $jenjang_studi,
                 'data' => $jabatan_fungsional->map(function($jabatan_fungsional) use ($karyawan) {
                     return $karyawan->filter(function($karyawan) use ($jabatan_fungsional) {
+                        if($karyawan->jabatan_fungsional_last == null) {
+                            return $jabatan_fungsional->id_jabatan == 1;
+                        }
                         return $karyawan->jabatan_fungsional_last->id_jfa == $jabatan_fungsional->id_jabatan;
                     })->count();
                 }),
@@ -215,6 +217,9 @@ class SdmController extends Controller
             'label' => 'Jumlah Dosen',
             'data' => $jabatan_fungsional->map(function ($jabatan_fungsional) use ($karyawan) {
                 return $karyawan->filter(function ($karyawan) use ($jabatan_fungsional) {
+                    if($karyawan->jabatan_fungsional_last == null) {
+                        return $jabatan_fungsional->id_jabatan == 1;
+                    }
                     return $karyawan->jabatan_fungsional_last->id_jfa == $jabatan_fungsional->id_jabatan;
                 })->count();
             }),
