@@ -354,6 +354,26 @@
 
 <script type="text/javascript">
     function renderChart(mixChartData) {
+        mixChartData.datasets = mixChartData.datasets.map(function(datasets){
+            if(datasets.label == 'Jumlah Dosen'){
+                datasets.borderColor = '#C91865';
+                datasets.backgroundColor = '#C91865';
+                datasets.borderWidth = 4;
+                datasets.fill = false;
+                datasets.type = 'line';
+                datasets.lineTension = 0;
+            }else if(datasets.label == 'S1'){
+                datasets.borderColor = '#A358BF';
+                datasets.backgroundColor = '#A358BF';
+            }else if(datasets.label == 'S2'){
+                datasets.borderColor = '#9E7CD7';
+                datasets.backgroundColor = '#9E7CD7';
+            }else if(datasets.label == 'S3'){
+                datasets.borderColor = '#C2B4E2';
+                datasets.backgroundColor = '#C2B4E2';
+            }
+            return datasets;
+        });
         let ctxa = document.getElementById('mixchart_ajax').getContext('2d');
         if(window.chart_modal != undefined) window.chart_modal.destroy();
         window.chart_modal = new Chart(ctxa, {
@@ -408,23 +428,6 @@
         $.ajax({
             url: '{{url("api/sdm/dosen")}}/'+prodi+'/sertifikasi',
             success: function(result) {
-                result.datasets = result.datasets.map(function(datasets){
-                    if(datasets.label == 'Jumlah Dosen'){
-                        datasets.borderColor = '#C216CC';
-                        datasets.backgroundColor = '#C216CC';
-                        datasets.borderWidth = 4;
-                        datasets.fill = false;
-                        datasets.type = 'line';
-                        datasets.lineTension = 0;
-                    }else if(datasets.label == 'Tersertifikasi'){
-                        datasets.borderColor = '#BE1E2D';
-                        datasets.backgroundColor = '#BE1E2D';
-                    }else if(datasets.label == 'Tidak Tersertifikasi'){
-                        datasets.borderColor = '#BE1E2D';
-                        datasets.backgroundColor = '#BE1E2D';
-                    }
-                    return datasets;
-                });
                 renderChart(result);
                 $("#modal_chart_label").html("Program Studi "+result.nama);
                 $("#modal_chart").modal('show');
@@ -437,23 +440,6 @@
         $.ajax({
             url: '{{url("api/sdm/dosen")}}/'+prodi+'/jafung',
             success: function(result) {
-                result.datasets = result.datasets.map(function(datasets){
-                    if(datasets.label == 'Jumlah Dosen'){
-                        datasets.borderColor = '#C216CC';
-                        datasets.backgroundColor = '#C216CC';
-                        datasets.borderWidth = 4;
-                        datasets.fill = false;
-                        datasets.type = 'line';
-                        datasets.lineTension = 0;
-                    }else if(datasets.label == 'Guru Besar'){
-                        datasets.borderColor = '#FE9D28';
-                        datasets.backgroundColor = '#FE9D28';
-                    }else if(datasets.label == 'Lektor Kepala'){
-                        datasets.borderColor = '#4FACFE';
-                        datasets.backgroundColor = '#4FACFE';
-                    }
-                    return datasets;
-                });
                 renderChart(result);
                 $("#modal_chart_label").html("Program Studi "+result.nama);
                 $("#modal_chart").modal('show');
