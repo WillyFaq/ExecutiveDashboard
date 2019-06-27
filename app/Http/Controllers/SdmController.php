@@ -56,7 +56,7 @@ class SdmController extends Controller
             return $query
             ->whereHas('karyawan', function ($query) {
                 return $query
-                ->whereIsDosen()
+                ->whereIsDosenTetap()
                 ->whereIsAktif()
                 ->whereHas('jabatan_fungsional_last', function ($query) {
                     return $query->where('id_jfa', 5);
@@ -195,7 +195,7 @@ class SdmController extends Controller
             ])
             ->whereHas('karyawan', function ($query) {
                 return $query
-                ->whereIsDosen()
+                ->whereIsDosenTetap()
                 ->whereIsAktif();
             });
         }])
