@@ -191,7 +191,9 @@ class SdmController extends Controller
 
             return $karyawan;
         });
-        $jabatan_fungsional = JenisJabatanFungsional::get();
+        $jabatan_fungsional = JenisJabatanFungsional::whereIn('id_jabatan', [1,2,3,4,5])
+        ->orderBy('bobot_jabatan')
+        ->get();
 
         $jenjang_studi = collect(['S1', 'S2', 'S3']);
 
