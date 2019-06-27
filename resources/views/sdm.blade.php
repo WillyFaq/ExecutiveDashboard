@@ -121,7 +121,11 @@
 										</div>
 									</div>
 									<div class="col-xs-4">
-                                        @include('widgets.charts.gauge', array( 'value' => (3*100/4), 'skor'=> $skor_tenaga_kependidikan, 'type' => 2 ))
+                                        @include('widgets.charts.gauge', [
+                                            'value' => (3*100/4), 
+                                            'skor'=> $skor_tenaga_kependidikan, 
+                                            'type' => 2,
+                                        ])
 									</div>
 								</div>
 							</div>

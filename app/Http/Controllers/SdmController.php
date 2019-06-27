@@ -131,7 +131,7 @@ class SdmController extends Controller
             }
         ])
         ->find(180409);
-        $skor_nilai_kependidikan = round($materi_kependidikan->nilai_latest ? $materi_kependidikan->nilai_latest->nilai : 0, 2);
+        $skor_tenaga_kependidikan = round($materi_kependidikan->nilai_latest ? $materi_kependidikan->nilai_latest->nilai : 0, 2);
 
         return view('sdm', [
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
@@ -140,8 +140,6 @@ class SdmController extends Controller
             })->toArray(),
             // NILAI SDM
             'skor_nilai_sdm' => $skor_nilai_sdm,
-            // TENAGA KEPENDIDIKAN
-            'skor_tenaga_kependidikan' => 3,
             // PRESENTASE SERTIFIKAT PENDIDIKAN
             'dosen_tetap' => $dosen_tetap->toArray(),
             'dosen_tetap_bersertifikasi' => $dosen_tetap_bersertifikasi->toArray(),
@@ -166,7 +164,7 @@ class SdmController extends Controller
             'skor_penelitian' => $skor_penelitian,
             'skor_pkm' => $skor_pkm,
             'skor_rekognisi' => $skor_rekognisi,
-            'skor_nilai_kependidikan' => $skor_nilai_kependidikan,
+            'skor_tenaga_kependidikan' => $skor_tenaga_kependidikan,
         ]);
     }
 
