@@ -25,10 +25,10 @@ class Karyawan extends Model
                 'nidk',
                 'nup',
                 'nama',
-				'gelar_depan',
-				'gelar_belakang',
-				'kary_type',
-				'sex',
+                'gelar_depan',
+                'gelar_belakang',
+                'kary_type',
+                'sex',
             ])
             ->leftJoin('v_email_kar', 'v_karyawan.nik', 'v_email_kar.nik')
             ->addSelect([
@@ -39,6 +39,12 @@ class Karyawan extends Model
     public function pendidikan_formal()
     {
         return $this->hasMany(PendidikanFormal::class, 'nik');
+    }
+
+    public function pendidikan_formal_last()
+    {
+        return $this->hasOne(PendidikanFormal::class, 'nik')
+        ->latest(\DB::Raw("CASE jenjang_studi WHEN 'S1' THEN 1 WHEN 'S2' THEN 2 WHEN 'S3' THEN 3 ELSE 0 END"));
     }
 
     public function berkas_portofolio()
@@ -89,6 +95,12 @@ class Karyawan extends Model
     public function jabatan_fungsional()
     {
         return $this->hasMany(JabatanFungsional::class, 'nik');
+    }
+
+    public function jabatan_fungsional_last()
+    {
+        return $this->hasOne(JabatanFungsional::class, 'nik')
+        ->latest('mulai_tetap_tmt');
     }
 
     public function histori_ajar()

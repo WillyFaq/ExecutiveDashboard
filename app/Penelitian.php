@@ -2,11 +2,15 @@
 
 namespace App;
 
-class Penelitian extends RekapEwmp
+use Illuminate\Database\Eloquent\Model;
+
+class Penelitian extends Model
 {
+    protected $table = 'pantja.ewmp_b';
+
     public function newQuery()
     {
         return parent::newQuery()
-            ->whereIsPenelitian();
+        ->where('mk', '<>', 'Studi Lanjut');
     }
 }

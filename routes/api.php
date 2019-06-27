@@ -17,3 +17,7 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // })->middleware('auth:api');
 Route::get('/nilai_pt_historik', 'HomeController@getNilaiPerguruanTinggi');
+Route::group(['prefix' => '/sdm/dosen/{prodi}'], function(){
+    Route::get('sertifikasi', 'SdmController@getDosenProdiSertifikasi');
+    Route::get('jafung', 'SdmController@getDosenProdiJafung');
+});
