@@ -139,33 +139,48 @@ class SdmController extends Controller
             return $karyawan;
         });
 
-        $karyawan_tersertifikasi = $karyawan->filter(function ($karyawan) {
-            return count($karyawan->sertifikasi);
-        });
+        $jenis_sertifikasi = collect([
+            [
+                'nama' => 'Tidak Tersertifikasi',
+                'filter' => function($karyawan) {
+                    return !count($karyawan->sertifikasi);
+                }
+            ],
+            [
+                'nama' => 'Tersertifikasi',
+                'filter' => function($karyawan) {
+                    return count($karyawan->sertifikasi);
+                }
+            ],
+        ]);
 
         $jenjang_studi = collect(['S1', 'S2', 'S3']);
 
-        $data = collect([
-            [
-                'label' => 'Tersertifikasi',
-                'data' => $jenjang_studi->map(function ($jenjang_studi) use ($karyawan_tersertifikasi) {
-                    return $karyawan_tersertifikasi->filter(function ($karyawan_tersertifikasi) use ($jenjang_studi) {
-                        return $karyawan_tersertifikasi->pendidikan_formal_last->jenjang_studi == $jenjang_studi;
+        $data = $jenjang_studi->map(function($jenjang_studi) use ($jenis_sertifikasi, $karyawan) {
+            $karyawan = $karyawan->filter(function($karyawan) use ($jenjang_studi) {
+                return $karyawan->pendidikan_formal_last->jenjang_studi == $jenjang_studi;
+            });
+            return [
+                'label' => $jenjang_studi,
+                'data' => $jenis_sertifikasi->map(function($jenis_sertifikasi) use ($karyawan) {
+                    return $karyawan->filter(function($karyawan) use ($jenis_sertifikasi) {
+                        return $jenis_sertifikasi['filter']($karyawan);
                     })->count();
                 }),
-            ],
-        ])->prepend([
+            ];
+        })
+        ->prepend([
             'label' => 'Jumlah Dosen',
-            'data' => $jenjang_studi->map(function ($jenjang_studi) use ($karyawan) {
-                return $karyawan->filter(function ($karyawan) use ($jenjang_studi) {
-                    return $karyawan->pendidikan_formal_last->jenjang_studi == $jenjang_studi;
+            'data' => $jenis_sertifikasi->map(function($jenis_sertifikasi) use ($karyawan) {
+                return $karyawan->filter(function($karyawan) use ($jenis_sertifikasi) {
+                    return $jenis_sertifikasi['filter']($karyawan);
                 })->count();
             }),
         ]);
 
         return [
             'nama' => $prodi->nama,
-            'labels' => $jenjang_studi->toArray(),
+            'labels' => $jenis_sertifikasi->pluck('nama')->toArray(),
             'datasets' => $data,
         ];
     }
