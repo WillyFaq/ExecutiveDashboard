@@ -177,7 +177,7 @@
 							<div class="card">
 								<div class="row">
 									<div class="col-xs-12 sdm-small-card-tittle">
-										<p>Rata-Rata Penelitian Dosen</p>
+										<p>Rata-Rata PKM Dosen</p>
 									</div>
 									<div class="col-xs-6">
 										<div class="sdm-area-grad">
@@ -212,7 +212,7 @@
 							<div class="card">
 								<div class="row">
 									<div class="col-xs-12 sdm-small-card-tittle">
-										<p>Rata-Rata Penelitian Dosen</p>
+										<p>Rata-Rata Rekognisi Dosen</p>
 									</div>
 									<div class="col-xs-6">
 										<div class="sdm-area-grad">
