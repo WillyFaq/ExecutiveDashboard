@@ -132,7 +132,31 @@ class SdmController extends Controller
         ])
         ->find(180409);
         $skor_tenaga_kependidikan = round($materi_kependidikan->nilai_latest ? $materi_kependidikan->nilai_latest->nilai : 0, 2);
-
+        // Skor Sertifikat Pendidikan
+        $materi_sertifikat_pendidikan = MateriBorang::with([
+            'nilai_latest' => function($query) use ($tahun_now) {
+                return $query->where('tahun','<=',$tahun_now);
+            }
+        ])->find(180403);
+        $skor_sertifikat_pendidikan = round($materi_sertifikat_pendidikan->nilai_latest ? $materi_sertifikat_pendidikan->nilai_latest->nilai : 0, 2);
+        // Skor Jabatan Fungsional
+        $materi_jabatan_fungsional = MateriBorang::with([
+            'nilai_latest' => function($query) use ($tahun_now) {
+                return $query->where('tahun','<=',$tahun_now);
+            }
+        ])->find(180402);
+        $skor_jabatan_fungsional = round($materi_jabatan_fungsional->nilai_latest ? $materi_jabatan_fungsional->nilai_latest->nilai : 0, 2);
+        // Skor Rasio Dosen Mahasiswa
+        $skor_rasio_dosen_mahasiswa = 0;
+        // Skor Rasio Prodi Dosen
+        $skor_rasio_prodi_dosen = 0;
+        // Skor Presentase Dosen Tidak Tetap
+        $materi_presentase_dosen_tidak_tetap = MateriBorang::with([
+            'nilai_latest' => function($query) use ($tahun_now) {
+                return $query->where('tahun','<=',$tahun_now);
+            }
+        ])->find(180404);
+        $skor_presentase_dosen_tidak_tetap = round($materi_presentase_dosen_tidak_tetap->nilai_latest ? $materi_presentase_dosen_tidak_tetap->nilai_latest->nilai : 0, 2);
         return view('sdm', [
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
             'prodi' => $prodi->map(function ($prodi) {
@@ -143,20 +167,20 @@ class SdmController extends Controller
             // PRESENTASE SERTIFIKAT PENDIDIKAN
             'dosen_tetap' => $dosen_tetap->toArray(),
             'dosen_tetap_bersertifikasi' => $dosen_tetap_bersertifikasi->toArray(),
-            'skor_sertifikat_pendidikan' => 3.21,
+            'skor_sertifikat_pendidikan' => $skor_sertifikat_pendidikan,
             // JABATAN FUNGSIONAL DOSEN
             'dosen_guru_besar' => $dosen_guru_besar->toArray(),
-            'skor_jabatan_fungsional' => 2.00,
+            'skor_jabatan_fungsional' => $skor_jabatan_fungsional,
             // RASIO DOSEN:MAHASISWA
             'rasio_dosen_mahasiswa' => $rasio_dosen_mahasiswa,
-            'skor_rasio_dosen_mahasiswa' => 4.00,
+            'skor_rasio_dosen_mahasiswa' => $skor_rasio_dosen_mahasiswa,
             // RASIO PRODI:DOSEN
             'rasio_prodi_dosen' => $rasio_prodi_dosen,
-            'skor_rasio_prodi_dosen' => 3.26,
+            'skor_rasio_prodi_dosen' => $skor_rasio_prodi_dosen,
             // PRESENTASE DOSEN: TETAP
             'jml_dosen_tetap' => $jml_dosen_tetap,
             'jml_dosen_tidak_tetap' => 0,
-            'skor_presentase_dosen_tidak_tetap' => 4,
+            'skor_presentase_dosen_tidak_tetap' => $skor_presentase_dosen_tidak_tetap,
             // EWMP
             'jml_penelitian_dosen' => $jml_penelitian_dosen->toArray(),
             'jml_pkm_dosen' => $jml_pkm_dosen->toArray(),
