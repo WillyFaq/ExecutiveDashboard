@@ -399,6 +399,7 @@
                 },
                 scales: {
                     xAxes: [{
+                        stacked:true,
                         gridLines:  {
                             display: false
                         },
@@ -408,6 +409,7 @@
 
                     }],
                     yAxes: [{
+                        stacked:true,
                         gridLines:  {
                             display: true,
                         },
