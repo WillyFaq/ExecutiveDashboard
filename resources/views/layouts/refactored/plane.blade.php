@@ -29,7 +29,12 @@
     <script src="{{ asset("js/bootstrap.bundle.v4.3.1.min.js") }}" type="text/javascript"></script>
     <script src="{{ asset("js/metisMenu.js") }}" type="text/javascript"></script>
     <script src="{{ asset("js/sb-admin-2.v4.0.6.min.js") }}" type="text/javascript"></script>
-	<script src="{{ asset("js/Chart.js") }}" type="text/javascript"></script>
+	<script src="{{ asset("js/Chart.bundle.min.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("js/chartjs-plugin-datalabels.min.js") }}" type="text/javascript"></script>
+    <script>
+        // Chart.defaults.global.plugins.datalabels.display = false
+        Chart.plugins.unregister(ChartDataLabels);
+    </script>
     @yield('body')
 </body>
 </html>
