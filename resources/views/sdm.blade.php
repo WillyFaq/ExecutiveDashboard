@@ -87,7 +87,10 @@
 										<h1 class="txt_color_info">1 : {{ $rasio_dosen_mahasiswa }}</h1>
 									</div>
 									<div class="col-xs-4">
-                                        @include('widgets.charts.gauge', array( 'value' => (3.15*100/4), 'skor'=> $skor_rasio_dosen_mahasiswa, 'type' => 2 ))
+                                        @include('widgets.charts.gauge', [
+                                            'skor'=> $skor_rasio_dosen_mahasiswa, 
+                                            'type' => 2 ,
+                                        ])
 									</div>
 								</div>
 							</div>
@@ -100,7 +103,10 @@
 										<h1 class="txt_color_yellow">1 : {{ $rasio_prodi_dosen }}</h1>
 									</div>
 									<div class="col-xs-4">
-                                        @include('widgets.charts.gauge', array( 'value' => (2.89*100/4), 'skor'=> $skor_rasio_prodi_dosen, 'type' => 2 ))
+                                        @include('widgets.charts.gauge', [
+                                            'skor'=> $skor_rasio_prodi_dosen, 
+                                            'type' => 2 ,
+                                        ])
 									</div>
 								</div>
 							</div>
@@ -122,7 +128,6 @@
 									</div>
 									<div class="col-xs-4">
                                         @include('widgets.charts.gauge', [
-                                            'value' => (3*100/4), 
                                             'skor'=> $skor_tenaga_kependidikan, 
                                             'type' => 2,
                                         ])
