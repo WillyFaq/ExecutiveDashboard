@@ -180,6 +180,7 @@ class SdmController extends Controller
             ])
             ->whereHas('karyawan', function ($query) {
                 return $query
+                ->whereHas('jabatan_fungsional_last')
                 ->whereIsDosen()
                 ->whereIsAktif();
             });
@@ -197,34 +198,31 @@ class SdmController extends Controller
 
         $jenjang_studi = collect(['S1', 'S2', 'S3']);
 
-        $data = $jabatan_fungsional->map(function ($jabatan_fungsional) use ($jenjang_studi, $karyawan) {
-            $karyawan = $karyawan->filter(function ($karyawan) {
-                return $karyawan->jabatan_fungsional_last;
-            })
-            ->filter(function ($karyawan) use ($jabatan_fungsional) {
-                return $karyawan->jabatan_fungsional_last->id_jfa == $jabatan_fungsional->id_jabatan;
+        $data = $jenjang_studi->map(function($jenjang_studi) use ($jabatan_fungsional, $karyawan) {
+            $karyawan = $karyawan->filter(function($karyawan) use ($jenjang_studi) {
+                return $karyawan->pendidikan_formal_last->jenjang_studi == $jenjang_studi;
             });
-
             return [
-                'label' => $jabatan_fungsional->jabatan_fungsional,
-                'data' => $jenjang_studi->map(function ($jenjang_studi) use ($karyawan) {
-                    return $karyawan->filter(function ($karyawan) use ($jenjang_studi) {
-                        return $karyawan->pendidikan_formal_last->jenjang_studi == $jenjang_studi;
+                'label' => $jenjang_studi,
+                'data' => $jabatan_fungsional->map(function($jabatan_fungsional) use ($karyawan) {
+                    return $karyawan->filter(function($karyawan) use ($jabatan_fungsional) {
+                        return $karyawan->jabatan_fungsional_last->id_jfa == $jabatan_fungsional->id_jabatan;
                     })->count();
                 }),
             ];
-        })->prepend([
+        })
+        ->prepend([
             'label' => 'Jumlah Dosen',
-            'data' => $jenjang_studi->map(function ($jenjang_studi) use ($karyawan) {
-                return $karyawan->filter(function ($karyawan) use ($jenjang_studi) {
-                    return $karyawan->pendidikan_formal_last->jenjang_studi == $jenjang_studi;
+            'data' => $jabatan_fungsional->map(function ($jabatan_fungsional) use ($karyawan) {
+                return $karyawan->filter(function ($karyawan) use ($jabatan_fungsional) {
+                    return $karyawan->jabatan_fungsional_last->id_jfa == $jabatan_fungsional->id_jabatan;
                 })->count();
             }),
         ]);
 
         return [
             'nama' => $prodi->nama,
-            'labels' => $jenjang_studi->toArray(),
+            'labels' => $jabatan_fungsional->pluck('jabatan_fungsional')->toArray(),
             'datasets' => $data,
         ];
     }
