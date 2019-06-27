@@ -145,25 +145,24 @@
 									</div>
 									<div class="col-xs-6">
 										<div class="sdm-area-grad">
-
-											@php
-												$data_area = [500, 50, 300, 400, 200, 600];
-											@endphp
-											@include('widgets.charts.areachart_gradient', array('color' => "default", 'data' => $data_area))
+											@include('widgets.charts.areachart_gradient', [
+												'color' => "default", 
+												'data' => $jml_penelitian_dosen,
+											])
 										</div>
 									</div>
 									<div class="col-xs-6">
 										<table class="table-keterangan-sdm-card">
 											<thead>
 												<tr class="txt_color_info">
-													<th>35</th>
-													<th>0.05</th>
-													<th>1.46</th>
+													<th>{{array_sum(array_values($jml_penelitian_dosen))}}</th>
+													<th>{{0}}</th>
+													<th>{{$skor_penelitian}}</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr>
-													<td>Total</td>
+													<td>Nasional</td>
 													<td>Internasional</td>
 													<td>Skor</td>
 												</tr>
@@ -181,24 +180,24 @@
 									</div>
 									<div class="col-xs-6">
 										<div class="sdm-area-grad">
-											@php
-												$data_area = [500, 950, 300, 400, 200, 600];
-											@endphp
-											@include('widgets.charts.areachart_gradient', array('color' => "warning", 'data' => $data_area))
+											@include('widgets.charts.areachart_gradient', [
+												'color' => "default", 
+												'data' => $jml_pkm_dosen,
+											])
 										</div>
 									</div>
 									<div class="col-xs-6">
 										<table class="table-keterangan-sdm-card">
 											<thead>
 												<tr class="txt_color_yellow">
-													<th>20</th>
-													<th>0.39</th>
-													<th>1.51</th>
+													<th>{{array_sum(array_values($jml_pkm_dosen))}}</th>
+													<th>{{0}}</th>
+													<th>{{$skor_pkm}}</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr>
-													<td>Total</td>
+													<td>Nasional</td>
 													<td>Internasional</td>
 													<td>Skor</td>
 												</tr>
@@ -216,23 +215,25 @@
 									</div>
 									<div class="col-xs-6">
 										<div class="sdm-area-grad">
-											@php
-												$data_area = [500, 50, 30, 800, 200, 100];
-											@endphp
-											@include('widgets.charts.areachart_gradient', array('color' => "default", 'data' => $data_area))
+											@include('widgets.charts.areachart_gradient', [
+												'color' => "default", 
+												'data' => $jml_rekognisi_dosen,
+											])
 										</div>
 									</div>
 									<div class="col-xs-6">
 										<table class="table-keterangan-sdm-card">
 											<thead>
 												<tr class="txt_color_info">
-													<th>35</th>
-													<th>1.46</th>
+													<th>{{array_sum(array_values($jml_rekognisi_dosen))}}</th>
+													<th>{{0}}</th>
+													<th>{{$skor_rekognisi}}</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr>
-													<td>Total</td>
+													<td>Nasional</td>
+													<td>Internasional</td>
 													<td>Skor</td>
 												</tr>
 											</tbody>

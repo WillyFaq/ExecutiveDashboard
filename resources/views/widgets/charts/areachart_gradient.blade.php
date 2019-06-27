@@ -25,9 +25,9 @@
             width: 1,
         },
         series: [{
-            data: [{{join($data_area, ',')}}]
+            data: {!! json_encode(array_values($data)) !!}
         }],
-        labels: ['2014', '2015', '2016', '2017', '2018', '2019'],
+        labels: {!! json_encode(array_keys($data)) !!},
         fill: {
 	   		type: 'gradient',
 	        gradient: {

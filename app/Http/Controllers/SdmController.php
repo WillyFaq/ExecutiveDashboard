@@ -10,6 +10,7 @@ use App\Prodi;
 use App\MateriBorang;
 use DB;
 use App\JenisJabatanFungsional;
+use App\Penelitian;
 
 class SdmController extends Controller
 {
@@ -18,13 +19,12 @@ class SdmController extends Controller
         $tahun_now = $request->input('tahun', Carbon::now()->format('Y'));
         // SKOR NILAI SDM
         $materi_sdm = MateriBorang::with([
-            'nilai' => function ($query) use ($tahun_now) {
-                return $query->where('tahun', $tahun_now);
+            'nilai_latest' => function($query) use ($tahun_now) {
+                return $query->where('tahun', '<=', $tahun_now);
             },
         ])
         ->find(1804);
-        $nilai_sdm = $materi_sdm->nilai->first();
-        $skor_nilai_sdm = round($nilai_sdm->nilai ? $nilai_sdm->nilai : 0, 2);
+        $skor_nilai_sdm = round($materi_sdm->nilai_latest ? $materi_sdm->nilai_latest->nilai : 0, 2);
         // DATA PRODI
         $prodi = Prodi::whereIsAktif()
         ->orderByDefault()
@@ -86,6 +86,52 @@ class SdmController extends Controller
         // PRESENTASE DOSEN: TETAP TIDAK TETAP
         $jml_dosen_tetap = Karyawan::whereIsDosenTetap()
         ->count();
+        // JUMLAH PENELITIAN DOSEN
+        $periode_ewmp = collect(range($tahun_now-3, $tahun_now));
+        $penelitian_dosen = Penelitian::whereBetween(\DB::Raw("SUBSTR(periode, -4)"), [$tahun_now-3, $tahun_now])
+        ->get();
+        $jml_penelitian_dosen = $periode_ewmp->map(function($tahun) use ($penelitian_dosen){
+            return $penelitian_dosen->filter(function($penelitian_dosen) use ($tahun) {
+                return substr($penelitian_dosen->periode, -4) == $tahun;
+            })
+            ->count();
+        });
+        // JUMLAH PKM DOSEN
+        $jml_pkm_dosen = collect([]);
+        // JUMLAH REKOGNISI DOSEN
+        $jml_rekognisi_dosen = collect([]);
+        // SKOR PENELITIAN
+        $materi_penelitian = MateriBorang::with([
+            'nilai_latest' => function($query) use ($tahun_now) {
+                return $query->where('tahun', '<=', $tahun_now);
+            }
+        ])
+        ->find(180406);
+        $skor_penelitian = round($materi_penelitian->nilai_latest ? $materi_penelitian->nilai_latest->nilai : 0, 2);
+        // SKOR PKM
+        $materi_pkm = MateriBorang::with([
+            'nilai_latest' => function($query) use ($tahun_now) {
+                return $query->where('tahun', '<=', $tahun_now);
+            }
+        ])
+        ->find(180407);
+        $skor_pkm = round($materi_pkm->nilai_latest ? $materi_pkm->nilai_latest->nilai : 0, 2);
+        // SKOR REKOGNISI
+        $materi_rekognisi = MateriBorang::with([
+            'nilai_latest' => function($query) use ($tahun_now) {
+                return $query->where('tahun', '<=', $tahun_now);
+            }
+        ])
+        ->find(180408);
+        $skor_rekognisi = round($materi_rekognisi->nilai_latest ? $materi_rekognisi->nilai_latest->nilai : 0, 2);
+        // SKOR TENAGA KEPENDIDIKAN
+        $materi_kependidikan = MateriBorang::with([
+            'nilai_latest' => function($query) use ($tahun_now) {
+                return $query->where('tahun', '<=', $tahun_now);
+            }
+        ])
+        ->find(180409);
+        $skor_nilai_kependidikan = round($materi_kependidikan->nilai_latest ? $materi_kependidikan->nilai_latest->nilai : 0, 2);
 
         return view('sdm', [
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
@@ -113,6 +159,14 @@ class SdmController extends Controller
             'jml_dosen_tetap' => $jml_dosen_tetap,
             'jml_dosen_tidak_tetap' => 0,
             'skor_presentase_dosen_tidak_tetap' => 4,
+            // EWMP
+            'jml_penelitian_dosen' => $jml_penelitian_dosen->toArray(),
+            'jml_pkm_dosen' => $jml_pkm_dosen->toArray(),
+            'jml_rekognisi_dosen' => $jml_rekognisi_dosen->toArray(),
+            'skor_penelitian' => $skor_penelitian,
+            'skor_pkm' => $skor_pkm,
+            'skor_rekognisi' => $skor_rekognisi,
+            'skor_nilai_kependidikan' => $skor_nilai_kependidikan,
         ]);
     }
 
