@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class BerkasPortofolio extends Model
 {
     protected $table = 'berkas_portofolio_dosen';
+    protected $primaryKey = 'id_berkas';
     protected $connection = 'oracle_stikom_dev';
 
     public function newQuery()

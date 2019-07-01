@@ -441,6 +441,21 @@
             url: '{{url("api/sdm/dosen")}}/'+prodi+'/sertifikasi',
             success: function(result) {
                 renderChart(result);
+                document.getElementById('mixchart_ajax').onclick = function(e) {
+                    let bar = window.chart_modal.getElementAtEvent(e);
+                    if(!bar.length) return false;
+                    bar = bar[0];
+                    let sertifikasi = result.labels[bar._index];
+                    let pendidikan = result.datasets[bar._datasetIndex].label;
+                    let param = {
+                        pendidikan: pendidikan,
+                        kode_prodi: prodi,
+                    }
+                    if(sertifikasi != 'Jumlah Dosen') {
+                        param.sertifikasi = sertifikasi;
+                    }
+                    window.location.href = '{{route("sdm.dosen")}}?'+$.param(param);
+                }
                 $("#modal_chart_label").html("Program Studi "+result.nama);
                 $("#modal_chart").modal('show');
             }
@@ -453,6 +468,21 @@
             url: '{{url("api/sdm/dosen")}}/'+prodi+'/jafung',
             success: function(result) {
                 renderChart(result);
+                document.getElementById('mixchart_ajax').onclick = function(e) {
+                    let bar = window.chart_modal.getElementAtEvent(e);
+                    if(!bar.length) return false;
+                    bar = bar[0];
+                    let jabatan_fungsional = result.labels[bar._index];
+                    let pendidikan = result.datasets[bar._datasetIndex].label;
+                    let param = {
+                        pendidikan: pendidikan,
+                        kode_prodi: prodi,
+                    }
+                    if(jabatan_fungsional != 'Jumlah Dosen') {
+                        param.jabatan_fungsional = jabatan_fungsional;
+                    }
+                    window.location.href = '{{route("sdm.dosen")}}?'+$.param(param);
+                }
                 $("#modal_chart_label").html("Program Studi "+result.nama);
                 $("#modal_chart").modal('show');
             }
