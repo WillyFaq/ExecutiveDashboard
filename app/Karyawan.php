@@ -100,7 +100,10 @@ class Karyawan extends Model
     public function jabatan_fungsional_last()
     {
         return $this->hasOne(JabatanFungsional::class, 'nik')
-        ->latest('mulai_tetap_tmt');
+        ->latest('mulai_tetap_tmt')
+        ->withDefault([
+            'jenis_jafung' => JenisJabatanFungsional::find(1),
+        ]);
     }
 
     public function histori_ajar()
