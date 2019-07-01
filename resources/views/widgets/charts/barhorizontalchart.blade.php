@@ -1,7 +1,7 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<div class="m-auto" style="position:relative; width:272px; height:216px;">
+<div class="m-auto" style="position:relative; width:258px; height:216px;">
 	<canvas id="hormixchart_{{$_idbx}}"></canvas >
 </div>
 
@@ -19,19 +19,24 @@
 				if(isset($data)){
 					echo "{";
 						echo "label: '".$data['sekarang'][0]."',";
-						echo "borderColor: '#BE1E2D',";
-						echo "backgroundColor: '#BE1E2D',";
+						echo "borderColor: '#1ABC9C',";
+						echo "backgroundColor: '#1ABC9C',";
 						echo "borderWidth: 1,";
 						echo "data: [";
 						foreach($data['sekarang'][1] as $k => $v){
 							echo "$v,";
 						}
 						echo "],";
+						echo 'datalabels: '.json_encode([
+							'display' => true,
+							'anchor' => 'end',
+							'align' => 'end',
+						]);
 					echo "},\n";
 					echo "{";
 						echo "label: '".$data['lalu'][0]."',";
-						echo "borderColor: 'rgba(35, 134, 222, 0.3)',";
-						echo "backgroundColor: 'rgba(35, 134, 222, 0.3)',";
+						echo "borderColor: '#2C3E50',";
+						echo "backgroundColor: '#2C3E50',";
 						echo "borderWidth: 3,";
 						echo "data: [";
 						foreach($data['lalu'][1] as $k => $v){
@@ -39,6 +44,9 @@
 						}
 						echo "],";
 						echo "fill: 'end',";
+						echo 'datalabels: '.json_encode([
+							'display' => false,
+						]);
 					echo "},";
 				}
 			@endphp
@@ -50,9 +58,16 @@
 			var ctx = document.getElementById('hormixchart_{{$_idbx}}').getContext('2d');
 			
 			var hormixchart = new Chart(ctx, {
+				plugins: [ChartDataLabels],
     			type: 'horizontalBar',
 				data: hormixChartData,
 				options: {
+					plugins: {
+						datalabels: {
+							// hide datalabels for all datasets
+							display: false
+						}
+					},
 					// Elements options apply to all of the options unless overridden in a dataset
 					// In this case, we are setting the border of each horizontal bar to be 2px wide
 					elements: {

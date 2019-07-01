@@ -17,7 +17,7 @@ class HomeController extends Controller
     {
         $tahun_now = Carbon::now()->format('Y');
         $list_tahun = collect(CarbonPeriod::create(
-            Carbon::now()->year('2014'),
+            Carbon::now()->year('2015'),
             '1 year',
             Carbon::now()->year($tahun_now)
         )->toArray())

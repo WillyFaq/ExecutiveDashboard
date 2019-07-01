@@ -18,18 +18,23 @@
     <link href="{{ asset("css/metisMenu.css") }}" rel="stylesheet">
     <!-- Nunito sans Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="{{ asset("css/font-awesome.css") }}" rel="stylesheet" type="text/css">
     <!-- Custom CSS -->
     <link href="{{ asset("css/sb-admin-2.v4.0.6.min.css") }}" rel="stylesheet">
     <link href="{{ asset("css/dashboard-executive.css") }}" rel="stylesheet">
-    <!-- Custom Fonts -->
-    <link href="{{ asset("css/font-awesome.css") }}" rel="stylesheet" type="text/css">
 </head>
 <body>
     <script src="{{ asset("js/jquery.min.js") }}" type="text/javascript"></script>
     <script src="{{ asset("js/bootstrap.bundle.v4.3.1.min.js") }}" type="text/javascript"></script>
     <script src="{{ asset("js/metisMenu.js") }}" type="text/javascript"></script>
     <script src="{{ asset("js/sb-admin-2.v4.0.6.min.js") }}" type="text/javascript"></script>
-	<script src="{{ asset("js/Chart.js") }}" type="text/javascript"></script>
+	<script src="{{ asset("js/Chart.bundle.min.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("js/chartjs-plugin-datalabels.min.js") }}" type="text/javascript"></script>
+    <script>
+        // Chart.defaults.global.plugins.datalabels.display = false
+        Chart.plugins.unregister(ChartDataLabels);
+    </script>
     @yield('body')
 </body>
 </html>

@@ -1,7 +1,7 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<div class="m-auto" style="position:relative; width:272px; height:216px;">
+<div class="m-auto" style="position:relative; width:258px; height:216px;">
 	<canvas id="mixchart_{{$_idbx}}"></canvas >
 </div>
 
@@ -19,8 +19,8 @@
 				if(isset($data)){
 					echo "{";
 						echo "label: '".$data['sekarang'][0]."',";
-						echo "borderColor: '#BE1E2D',";
-						echo "backgroundColor: '#BE1E2D',";
+						echo "borderColor: '#1ABC9C',";
+						echo "backgroundColor: '#1ABC9C',";
 						echo "borderWidth: 1,";
 						echo "fill: false,";
 						echo "data: [";
@@ -32,8 +32,8 @@
 					echo "},\n";
 					echo "{";
 						echo "label: '".$data['lalu'][0]."',";
-						echo "borderColor: 'rgba(35, 134, 222, 0.3)',";
-						echo "backgroundColor: 'rgba(35, 134, 222, 0.3)',";
+						echo "borderColor: 'rgba(241, 196, 15, 0.3)',";
+						echo "backgroundColor: 'rgba(241, 196, 15, 0.3)',";
 						echo "borderWidth: 3,";
 						echo "fill: true,";
 						echo "data: [";
