@@ -11,6 +11,7 @@ use App\MateriBorang;
 use DB;
 use App\JenisJabatanFungsional;
 use App\Penelitian;
+use App\BerkasPortofolio;
 
 class SdmController extends Controller
 {
@@ -441,6 +442,10 @@ class SdmController extends Controller
             'prodi' => $prodi
         ]);
 	}
+	
+    public function getBerkasPortofolio($id_berkas){
+        return BerkasPortofolio::find($id_berkas);
+    }
 	
 	public function list_dosen_detail($id){
 		$result = DB::connection('oracle_stikom_dev')->select("select nik, nip, nama, decode(sex, 1, 'Laki - Laki', 2, 'Perempuan') sex, decode(kary_type, 'DC', 'Dosen Percobaan', 'DH', 'Dosen Homebase', 'KD', 'Dosen Kontrak', 'TD', 'Dosen Tetap') kary_type, (select nama from v_fakultas@get_ori where id = fakul_id) prodi,
