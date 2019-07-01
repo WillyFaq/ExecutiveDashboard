@@ -27,6 +27,11 @@
 							echo "$v,";
 						}
 						echo "],";
+						echo 'datalabels: '.json_encode([
+							'display' => true,
+							'anchor' => 'end',
+							'align' => 'end',
+						]);
 					echo "},\n";
 					echo "{";
 						echo "label: '".$data['lalu'][0]."',";
@@ -39,6 +44,9 @@
 						}
 						echo "],";
 						echo "fill: 'end',";
+						echo 'datalabels: '.json_encode([
+							'display' => false,
+						]);
 					echo "},";
 				}
 			@endphp
@@ -48,19 +56,18 @@
 
 		$(document).ready(function(){
 			var ctx = document.getElementById('hormixchart_{{$_idbx}}').getContext('2d');
-			hormixChartData.datasets = hormixChartData.datasets.map(function(data) {
-				data.datalabels = {
-					anchor: 'end',
-					align: 'end',
-				};
-				return data;
-			});
 			
 			var hormixchart = new Chart(ctx, {
 				plugins: [ChartDataLabels],
     			type: 'horizontalBar',
 				data: hormixChartData,
 				options: {
+					plugins: {
+						datalabels: {
+							// hide datalabels for all datasets
+							display: false
+						}
+					},
 					// Elements options apply to all of the options unless overridden in a dataset
 					// In this case, we are setting the border of each horizontal bar to be 2px wide
 					elements: {
