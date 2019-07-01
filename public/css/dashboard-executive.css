@@ -294,23 +294,39 @@ body {
 }
 
 .progress-bar {
+    background-color: #2386DE;
+}
+
+.bg-primary {
     background-color: #2386DE !important;
+}
+
+.bg-success {
+    background-color: #D16D96 !important;
 }
 
 .bg-warning {
     background-color: #FE8C00 !important;
 }
 
-.text-warning {
-    color: #FE8C00 !important;
+.bg-danger {
+    background-color: #E53935 !important;
 }
 
 .text-primary {
     color: #2386DE !important;
 }
 
+.text-success {
+    color: #D16D96 !important;
+}
+
+.text-warning {
+    color: #FE8C00 !important;
+}
+
 .text-danger {
-    color: #BE1E2D !important;
+    color: #E53935 !important;
 }
 
 .progress {
