@@ -48,8 +48,16 @@
 
 		$(document).ready(function(){
 			var ctx = document.getElementById('hormixchart_{{$_idbx}}').getContext('2d');
+			hormixChartData.datasets = hormixChartData.datasets.map(function(data) {
+				data.datalabels = {
+					anchor: 'end',
+					align: 'end',
+				};
+				return data;
+			});
 			
 			var hormixchart = new Chart(ctx, {
+				plugins: [ChartDataLabels],
     			type: 'horizontalBar',
 				data: hormixChartData,
 				options: {
