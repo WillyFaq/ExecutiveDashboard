@@ -112,4 +112,43 @@ class Karyawan extends Model
     {
         return $this->histori_ajar->sum('sks');
     }
+
+    public function getJenisKelaminAttribute()
+    {
+        if (1 == $this->attributes['sex']) {
+            return 'Laki-laki';
+        }
+
+        return   'Perempuan';
+    }
+
+    public function getJabatanFungsionalLastAttribute()
+    {
+        if (null == $this->relations['jabatan_fungsional_last']) {
+            return 'Tenaga Pengajar';
+        }
+
+        return $this->relations['jabatan_fungsional_last']->jenis_jafung->jabatan_fungsional;
+    }
+
+    public function getJenjangStudiLastAttribute()
+    {
+        switch ($this->relations['pendidikan_formal_last']->jenjang_studi) {
+            case 'S1': return 'Strata 1';
+            case 'S2': return 'Strata 2';
+            case 'S3': return 'Strata 3';
+            default: return $this->relations['pendidikan_formal_last']->jenjang_studi;
+        }
+    }
+
+    public function getJenisDosenAttribute()
+    {
+        switch ($this->attribute['kary_type']) {
+            case 'DC': return 'Dosen Percobaan';
+            case 'DH': return 'Dosen Homebase';
+            case 'KD': return 'Dosen Kontrak';
+            case 'TD': return 'Dosen Tetap';
+            default: return  '-';
+        }
+    }
 }
