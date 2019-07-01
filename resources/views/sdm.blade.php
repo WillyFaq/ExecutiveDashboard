@@ -454,7 +454,7 @@
                     if(sertifikasi != 'Jumlah Dosen') {
                         param.sertifikasi = sertifikasi;
                     }
-                    window.location.href = '{{url("/sdm/list_dosen")}}?'+$.param(param);
+                    window.location.href = '{{route("sdm.dosen")}}?'+$.param(param);
                 }
                 $("#modal_chart_label").html("Program Studi "+result.nama);
                 $("#modal_chart").modal('show');
@@ -481,7 +481,7 @@
                     if(jabatan_fungsional != 'Jumlah Dosen') {
                         param.jabatan_fungsional = jabatan_fungsional;
                     }
-                    window.location.href = '{{url("/sdm/list_dosen")}}?'+$.param(param);
+                    window.location.href = '{{route("sdm.dosen")}}?'+$.param(param);
                 }
                 $("#modal_chart_label").html("Program Studi "+result.nama);
                 $("#modal_chart").modal('show');
