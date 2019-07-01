@@ -421,36 +421,25 @@ class SdmController extends Controller
     }
 	
 	public function list_dosen(){
-		/*$result = DB::select("select nik, nama, sex, gelar_depan, gelar_belakang, kary_type, (select jenjang_studi from V_PEND_FORMAL_KAR a where nik = kar.nik and no = (select max(no) from v_pend_formal_kar where nik = a.nik and jenjang_studi is not null)) jenjang_studi 
-		from v_karyawan kar where status = 'A' and kary_type like '%D%' and kary_type <> 'AD'");
-		*/
-		$result = \App\Karyawan::with([
-			'pendidikan_formal' => function($query){
-				return $query->whereNotNull('jenjang_studi');
-			},
-			'berkas_portofolio',
-			'jabatan_fungsional.jenis_jafung',
-		])
-		->whereIsAktif()
-		->whereIsDosenTetap()
-		->get();
-		$result = $result->map(function($dosen){
-			$dosen->pendidikan_formal = $dosen->pendidikan_formal
-			->sortByDesc('no')
-			->first();
-			
-			$dosen->jabatan_fungsional = $dosen->jabatan_fungsional
-			->sortByDesc('mulai_tetap_tmt')
-			->first();
-			return $dosen;			
-		});
-		
-		$prodi = Prodi::whereIsAktif()
-        ->orderBy('id')        
+        $dosen = \App\Karyawan::with([
+            'pendidikan_formal_last' => function($query){
+                return $query->whereNotNull('jenjang_studi');
+            },
+            'berkas_portofolio',
+            'jabatan_fungsional_last.jenis_jafung',
+        ])
+        ->whereIsAktif()
+        ->whereIsDosenTetap()
         ->get();
-		
-		return view('list_dosen', ['result' => $result, 'prodi' => $prodi]);		
-		//return view('list_dosen');
+        
+        $prodi = Prodi::whereIsAktif()
+        ->orderBy('id')
+        ->get();
+
+        return view('list_dosen', [
+            'list_dosen' => $dosen, 
+            'prodi' => $prodi
+        ]);
 	}
 	
 	public function list_dosen_detail($id){
