@@ -441,6 +441,18 @@
             url: '{{url("api/sdm/dosen")}}/'+prodi+'/sertifikasi',
             success: function(result) {
                 renderChart(result);
+                document.getElementById('mixchart_ajax').onclick = function(e) {
+                    let bar = window.chart_modal.getElementAtEvent(e);
+                    if(!bar.length) return false;
+                    bar = bar[0];
+                    let sertifikasi = result.datasets[bar._datasetIndex].label;
+                    let pendidikan = result.labels[bar._index];
+                    window.location.href = '{{url("/sdm/list_dosen")}}?'+$.param({
+                        sertifikasi: sertifikasi,
+                        pendidikan: pendidikan,
+                        kode_prodi: prodi,
+                    });
+                }
                 $("#modal_chart_label").html("Program Studi "+result.nama);
                 $("#modal_chart").modal('show');
             }
@@ -453,6 +465,18 @@
             url: '{{url("api/sdm/dosen")}}/'+prodi+'/jafung',
             success: function(result) {
                 renderChart(result);
+                document.getElementById('mixchart_ajax').onclick = function(e) {
+                    let bar = window.chart_modal.getElementAtEvent(e);
+                    if(!bar.length) return false;
+                    bar = bar[0];
+                    let jabatan_fungsional = result.datasets[bar._datasetIndex].label;
+                    let pendidikan = result.labels[bar._index];
+                    window.location.href = '{{url("/sdm/list_dosen")}}?'+$.param({
+                        jabatan_fungsional: jabatan_fungsional,
+                        pendidikan: pendidikan,
+                        kode_prodi: prodi,
+                    });
+                }
                 $("#modal_chart_label").html("Program Studi "+result.nama);
                 $("#modal_chart").modal('show');
             }
