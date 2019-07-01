@@ -61,10 +61,9 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php
-					$no = 1;
-					foreach ($result as $row) {
-						//echo $row->nik."-".$row->nama;
+				@foreach($result as $i => $row)
+					@php
+						$no = $i + 1;
 						if($row->sex == '1'){
 							$jk = 'Laki - Laki';
 						}else{
@@ -101,23 +100,19 @@
 						}else{
 							$jafung = $row->jabatan_fungsional['jenis_jafung']['jabatan_fungsional'];
 						}
-						echo "<tr>
-							<td>$no</td>
-							<td><a href='list_dosen_detail/".$row->nik."'>".$row->nama."</a></td>
-							<td>".$row->gelar_depan." ".$row->gelar_belakang."</td>
-							<td>".$jk."</td>
-							<td>".$jenjang."</td>
-							<td>".$jafung."</td>";
-				?>
+					@endphp
+						<tr>
+							<td>{{$no}}</td>
+							<td><a href='list_dosen_detail/{{$row->nik}}'>{{$row->nama}}</a></td>
+							<td>{{$row->gelar_depan}} {{$row->gelar_belakang}}</td>
+							<td>{{$jk}}</td>
+							<td>{{$jenjang}}</td>
+							<td>{{$jafung}}</td>
 							<td>
-							<a href='' data-toggle="modal" data-target="#berkasModal<?php echo $no; ?>"><img src="{{ asset("imgs/document.png") }}" alt="Upload Berkas" width="24" height="24"></a>
+							<a href='' data-toggle="modal" data-target="#berkasModal{{$no}}"><img src="{{ asset("imgs/document.png") }}" alt="Upload Berkas" width="24" height="24"></a>
 							</td>
-							
-							
-							
-							
 						</tr>
-						<div class="modal fade" id="berkasModal<?php echo $no; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal fade" id="berkasModal{{$no}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						  <div class="modal-dialog" role="document">
 							<div class="modal-content">
 							  <div class="modal-header">
@@ -158,7 +153,7 @@
 							  </div>
 							  <div class="modal-body">
 									<a href="#" class="thumbnail">
-										<img src="<?=asset('imgs/berkas/'.$berkas_portofolio->file_path)?>">
+										<img src="{{asset('imgs/berkas/'.$berkas_portofolio->file_path)}}">
 									</a>
 							  </div>
 							</div>
@@ -187,10 +182,7 @@
 							</div>
 						  </div>
 						</div>
-				<?php
-						$no++;
-					}
-				?>			
+				@endforeach
 			</tbody>
 		</table>
 	</div>
