@@ -46,7 +46,7 @@
         <div class="sub-card kondisi_ekternal top right mt-3 mr-3">
             <p class="data-label">{{$data_profil_0['kondisi_ekternal']['nama']}}</p>
             <p class="data-value {{$data_profil_0['kondisi_ekternal']['nilai']<2.7?'text-danger':'text-primary'}}">
-                <span>{{$data_profil_0['kondisi_ekternal']['nilai']}}</span>
+                <span>{{number_format($data_profil_0['kondisi_ekternal']['nilai'], 2)}}</span>
                 <i class="fa fa-arrow-up"></i>
             </p>
         </div>
@@ -54,13 +54,13 @@
             <p class="data-label">{{$data_profil_0['profil_institusi']['nama']}}</p>
             <p class="data-value {{$data_profil_0['profil_institusi']['nilai']<2.7?'text-danger':'text-primary'}}">
                 <i class="fa fa-arrow-up"></i>
-                <span>{{$data_profil_0['profil_institusi']['nilai']}}</span>
+                <span>{{number_format($data_profil_0['profil_institusi']['nilai'], 2)}}</span>
             </p>
         </div>
         <div class="sub-card pengembangan bottom right mb-3 mr-3">
             <p class="data-label">{{$data_profil_0['pengembangan']['nama']}}</p>
             <p class="data-value {{$data_profil_0['pengembangan']['nilai']<2.7?'text-danger':'text-primary'}}">
-                <span>{{$data_profil_0['pengembangan']['nilai']}}</span>
+                <span>{{number_format($data_profil_0['pengembangan']['nilai'], 2)}}</span>
                 <i class="fa fa-arrow-up"></i>
             </p>
         </div>
