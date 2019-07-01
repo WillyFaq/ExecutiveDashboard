@@ -447,11 +447,14 @@
                     bar = bar[0];
                     let sertifikasi = result.datasets[bar._datasetIndex].label;
                     let pendidikan = result.labels[bar._index];
-                    window.location.href = '{{url("/sdm/list_dosen")}}?'+$.param({
-                        sertifikasi: sertifikasi,
+                    let param = {
                         pendidikan: pendidikan,
                         kode_prodi: prodi,
-                    });
+                    }
+                    if(sertifikasi != 'Jumlah Dosen') {
+                        param.sertifikasi = sertifikasi;
+                    }
+                    window.location.href = '{{url("/sdm/list_dosen")}}?'+$.param(param);
                 }
                 $("#modal_chart_label").html("Program Studi "+result.nama);
                 $("#modal_chart").modal('show');
@@ -471,11 +474,14 @@
                     bar = bar[0];
                     let jabatan_fungsional = result.datasets[bar._datasetIndex].label;
                     let pendidikan = result.labels[bar._index];
-                    window.location.href = '{{url("/sdm/list_dosen")}}?'+$.param({
-                        jabatan_fungsional: jabatan_fungsional,
+                    let param = {
                         pendidikan: pendidikan,
                         kode_prodi: prodi,
-                    });
+                    }
+                    if(jabatan_fungsional != 'Jumlah Dosen') {
+                        param.jabatan_fungsional = jabatan_fungsional;
+                    }
+                    window.location.href = '{{url("/sdm/list_dosen")}}?'+$.param(param);
                 }
                 $("#modal_chart_label").html("Program Studi "+result.nama);
                 $("#modal_chart").modal('show');
