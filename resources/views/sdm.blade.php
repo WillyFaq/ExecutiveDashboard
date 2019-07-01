@@ -445,8 +445,8 @@
                     let bar = window.chart_modal.getElementAtEvent(e);
                     if(!bar.length) return false;
                     bar = bar[0];
-                    let sertifikasi = result.datasets[bar._datasetIndex].label;
-                    let pendidikan = result.labels[bar._index];
+                    let sertifikasi = result.labels[bar._index];
+                    let pendidikan = result.datasets[bar._datasetIndex].label;
                     let param = {
                         pendidikan: pendidikan,
                         kode_prodi: prodi,
@@ -472,8 +472,8 @@
                     let bar = window.chart_modal.getElementAtEvent(e);
                     if(!bar.length) return false;
                     bar = bar[0];
-                    let jabatan_fungsional = result.datasets[bar._datasetIndex].label;
-                    let pendidikan = result.labels[bar._index];
+                    let jabatan_fungsional = result.labels[bar._index];
+                    let pendidikan = result.datasets[bar._datasetIndex].label;
                     let param = {
                         pendidikan: pendidikan,
                         kode_prodi: prodi,
