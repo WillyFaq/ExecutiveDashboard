@@ -122,7 +122,7 @@ class Karyawan extends Model
         return   'Perempuan';
     }
 
-    public function getJabatanFungsionalLastAttribute()
+    public function getNamaJabatanFungsionalLastAttribute()
     {
         if (null == $this->relations['jabatan_fungsional_last']) {
             return 'Tenaga Pengajar';

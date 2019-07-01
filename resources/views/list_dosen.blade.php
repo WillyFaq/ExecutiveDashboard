@@ -70,7 +70,7 @@
 							<td>{{$dosen->gelar_depan}} {{$dosen->gelar_belakang}}</td>
 							<td>{{$dosen->jenis_kelamin}}</td>
 							<td>{{$dosen->jenjang_studi_last}}</td>
-							<td>{{$dosen->jabatan_fungsional_last}}</td>
+							<td>{{$dosen->nama_jabatan_fungsional_last}}</td>
 							<td>
 							<a href='' data-toggle="modal" data-target="#berkasModal{{$no}}"><img src="{{ asset("imgs/document.png") }}" alt="Upload Berkas" width="24" height="24"></a>
 							</td>
