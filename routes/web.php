@@ -18,10 +18,8 @@ Route::get('/sdm/profil', 'SdmController@profil');
 Route::get('/sdm/profil/{judul}/{nilai}', 'SdmController@detail');
 Route::get('/sdm/beban_kerja', 'SdmController@beban_kerja');
 Route::get('/sdm/produktivitas', 'SdmController@produktivitas');
-Route::get('/sdm/list_dosen', 'SdmController@list_dosen')->name('sdm.dosen');
-//Route::get('/sdm/list_dosen_detail', 'SdmController@list_dosen_detail');
-Route::get('/sdm/list_dosen_detail/{id}', 'SdmController@list_dosen_detail')->name('sdm.dosen.detail');
-Route::get('/sdm/list_dosen_filter/{id}', 'SdmController@list_dosen_filter');
+Route::get('/sdm/dosen/{kode_prodi}', 'SdmController@list_dosen')->name('sdm.dosen');
+Route::get('/sdm/dosen/{kode_prodi}/{nik}', 'SdmController@list_dosen_detail')->name('sdm.dosen.detail');
 
 Route::get('/sdm/dosen', 'SdmController@dosen');
 Route::get('/sdm/dosen_document', 'SdmController@dosen_document')->name('sdm.dosen_document');;
