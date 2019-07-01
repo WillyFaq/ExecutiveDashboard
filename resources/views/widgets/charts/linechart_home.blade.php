@@ -68,8 +68,8 @@
 					datasets: [
 						{
 							label: 'Nilai PT',
-							borderColor: '#BE1E2D',
-							backgroundColor: '#BE1E2D',
+							borderColor: '#1ABC9C',
+							backgroundColor: '#1ABC9C',
 							borderWidth: 1.5,
 							fill: false,
 							data: Object.values(response),
@@ -80,7 +80,7 @@
 						{
 							label: 'Dashed',
 							fill: false,
-							borderColor: '#FE8C00',
+							borderColor: '#F1C40F',
 							borderWidth: 1,
 							borderDash: [5, 5, 5],
 							data: Object.values(response).map(function(){
@@ -92,7 +92,7 @@
 						{
 							label: 'Dashed',
 							fill: false,
-							borderColor: '#FE8C00',
+							borderColor: '#F1C40F',
 							borderWidth: 1,
 							borderDash: [5, 5, 5],
 							data: Object.values(response).map(function(){
@@ -104,7 +104,7 @@
 						{
 							label: 'Dashed',
 							fill: false,
-							borderColor: '#FE8C00',
+							borderColor: '#F1C40F',
 							borderWidth: 1,
 							borderDash: [5, 5, 5],
 							data: Object.values(response).map(function(){

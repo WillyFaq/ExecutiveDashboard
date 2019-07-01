@@ -25,7 +25,7 @@
         background: -o-linear-gradient(117deg, #00F2FE 0%, #4FACFE 100%);
         background: -ms-linear-gradient(117deg, #00F2FE 0%, #4FACFE 100%);
         background: linear-gradient(117deg, #00F2FE 0%, #4FACFE 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff527a', endColorstr='#26cffe', GradientType=1 );
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00F2FE', endColorstr='#4FACFE', GradientType=1 );
     }
     #panel-skor .baik_sekali {
         background: #FF527A;

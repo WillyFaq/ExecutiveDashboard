@@ -28,8 +28,19 @@
                         <span class="current">{{number_format($row[1], 2)}}</span>/4.00
                     </span>
                 </div>
+                @php
+                    if($row[1] <= 1){
+                        $class_name = "bg-danger";
+                    }elseif($row[1] <= 2){
+                        $class_name = "bg-warning";
+                    }elseif($row[1] <= 3){
+                        $class_name = "bg-success";
+                    }else{
+                        $class_name = "bg-primary";
+                    }
+                @endphp
                 @include('widgets.progress', [
-                    'class' => $row[1] < 2.7 ? "bg-warning" : null, 
+                    'class' => $class_name, 
                     'value' => $row[1]*100/4, 
                 ])
             </div>

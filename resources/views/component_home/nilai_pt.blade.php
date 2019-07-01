@@ -1,9 +1,9 @@
 <style>
 .sts-apt-line {
-    border: 1px dashed #FE8C00;
+    border: 1px dashed #F1C40F;
 }
 .nil-pt-line {
-    border: 1px solid #BE1E2D;
+    border: 1px solid #1ABC9C;
 }
 .line-txt {
     width: 50px;

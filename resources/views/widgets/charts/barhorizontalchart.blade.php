@@ -19,8 +19,8 @@
 				if(isset($data)){
 					echo "{";
 						echo "label: '".$data['sekarang'][0]."',";
-						echo "borderColor: '#BE1E2D',";
-						echo "backgroundColor: '#BE1E2D',";
+						echo "borderColor: '#1ABC9C',";
+						echo "backgroundColor: '#1ABC9C',";
 						echo "borderWidth: 1,";
 						echo "data: [";
 						foreach($data['sekarang'][1] as $k => $v){
@@ -35,8 +35,8 @@
 					echo "},\n";
 					echo "{";
 						echo "label: '".$data['lalu'][0]."',";
-						echo "borderColor: 'rgba(35, 134, 222, 0.3)',";
-						echo "backgroundColor: 'rgba(35, 134, 222, 0.3)',";
+						echo "borderColor: '#2C3E50',";
+						echo "backgroundColor: '#2C3E50',";
 						echo "borderWidth: 3,";
 						echo "data: [";
 						foreach($data['lalu'][1] as $k => $v){
