@@ -17,7 +17,7 @@
             </div>
             <div>
                 <h4 class="m-0 data-value {{$persen_regis>=0?'text-parimary':'text-danger'}}">
-                    {{$daftar['total']}}
+                    {{$regis['total']}}
                 </h4>
                 <p class="m-0 chart-subtitle">Register</p>
             </div>
