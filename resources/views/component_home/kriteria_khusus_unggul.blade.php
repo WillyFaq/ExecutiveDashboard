@@ -1,10 +1,11 @@
 <style>
 #kriteria-khusus .data-value {
     font-size: 14px;
+    font-weight: normal;
 }
 #kriteria-khusus .data-value .current {
-    font-weight: bold;
     color: black;
+    font-weight: bold;
 }
 #kriteria-khusus .data-label {
     font-size: 14px;
