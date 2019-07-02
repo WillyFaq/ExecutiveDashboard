@@ -17,8 +17,8 @@
 				if(isset($data)){
 					echo "{";
 						echo "label: '".$data['line'][0]."',";
-						echo "borderColor: '#BE1E2D',";
-						echo "backgroundColor: '#BE1E2D',";
+						echo "borderColor: '#2C3E50',";
+						echo "backgroundColor: '#2C3E50',";
 						echo "borderWidth: 4,";
 						echo "fill: false,";
 						echo "data: [";
@@ -31,8 +31,8 @@
 					echo "},\n";
 					echo "{";
 						echo "label: '".$data['bar'][0]."',";
-						echo "borderColor: '#FE9D28',";
-						echo "backgroundColor: '#FE9D28',";
+						echo "borderColor: '#1ABC9C',";
+						echo "backgroundColor: '#1ABC9C',";
 						echo "borderWidth: 1,";
 						echo "fill: false,";
 						echo "data: [";
@@ -96,20 +96,37 @@
 			            position: 'bottom'
 			        },
 			        onClick: function(c,i) {
-    					console.log(c.y);
-    					e = i[0];
-					    //console.log(e._index)
-					    var x_value = this.data.labels[e._index];
-					    var y_value = this.data.datasets[0].data[e._index];
-					    //console.log(x_value);
-					    /*
-					    console.log(y_value);
-					    var label = "";*/
-					    if(c.y>316){
-					    	document.location="{{url('sdm/dosen')}}";
-					    }else{
-					    	show_modal(x_value);
-					    }
+    					if(i.length != 0){
+    					
+	    					e = i[0];
+						   
+						    var x_value = this.data.labels[e._index];
+						    var y_value = this.data.datasets[0].data[e._index];
+						    
+						  	if($(document).height()<=768){ /*--- resolusi standar  ---*/
+							    if(c.y>170 && c.y<342){ /*--- tampil modal chat atas  ---*/
+							    	show_modal_jafung(x_value);
+							    }else if(c.y>342 && c.y<364){ /*--- redirect chat atas  ---*/
+							    	document.location="{{url('sdm/dosen')}}";
+							    }else if(c.y>617 && c.y<671){ /*--- tampil modal chat bawah  ---*/
+							    	show_modal_sertifikasi(x_value);
+							    }else if(c.y>671 && c.y<695){ /*--- redirect chat bawah  ---*/
+							    	document.location="{{url('sdm/dosen')}}";
+							    }
+						  	}else if($(document).height()>=1080){ /*--- resolusi standar  ---*/
+						  		if(c.y>170 && c.y<450){
+							    	show_modal_jafung(x_value);
+						  		}else if(c.y>450 && c.y<475){
+							    	document.location="{{url('sdm/dosen')}}";
+						  		}else if(c.y>620 && c.y<897){
+							    	show_modal_sertifikasi(x_value);
+						  		}else if(c.y>897 && c.y<922){
+							    	document.location="{{url('sdm/dosen')}}";
+		
+						    	}
+						  	}
+					    
+    					}
 						//$("#modal_chart").modal('show');
 					}
 				}

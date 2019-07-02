@@ -4,10 +4,16 @@
 @endphp
 <div id="chart_{{$_idbx}}"></div>
 <script type="text/javascript">
+    var h = 100;
+    var w = 150;
+    if($(document).width()>1900){
+        h = 140;
+        w = 200;
+    }
 	var options_{{$_idbx}} = {
         chart: {
-            height: 100,
-            width: 150,
+            height: h,
+            width: w,
             type: 'area',
             zoom: {
                 enabled: false

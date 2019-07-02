@@ -1,7 +1,7 @@
 @php
 	$_idpie = rand(0, 999); 
 @endphp
-<canvas height="155px" id="pie_{{$_idpie}}"></canvas >
+<canvas class="canvas_cpiechart"  id="pie_{{$_idpie}}"></canvas >
 <script>
 
 		let config = {
@@ -10,8 +10,8 @@
 				datasets: [{
 					data: {!! json_encode(array_values($data)) !!},
 					backgroundColor: [
-						"#BE1E2D",
-						"#FE8C00"
+						"#1ABC9C",
+						"#2C3E50"
 					],
 					label: 'Dosen'
 				}],
