@@ -24,7 +24,8 @@
 				datasets: [{
 					label: 'Kriteria Perguruan Tinggi',
 					backgroundColor: 'rgba(26, 188, 156, 0.5)',//color(window.chartColors.red).alpha(0.2).rgbString(),
-					borderColor: '#1ABC9C',//window.chartColors.red,
+					// borderColor: '#1ABC9C',//window.chartColors.red,
+					borderWidth: 0,
 					pointBackgroundColor: '#1ABC9C',//window.chartColors.red,
 					data: data
 				}]
