@@ -31,6 +31,7 @@
 				}]
 			},
 			options: {
+				maintainAspectRatio: false,
 				legend: {
 					display: false,
 					position: 'top',

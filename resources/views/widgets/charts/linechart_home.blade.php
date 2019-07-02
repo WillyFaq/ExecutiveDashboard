@@ -12,6 +12,7 @@
 			var myLine = Chart.Line(ctx, {
 				data: data,
 				options: {
+  					maintainAspectRatio: false,
 					hoverMode: 'index',
 					stacked: false,
 					title: {
