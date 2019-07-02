@@ -106,7 +106,7 @@
 					scales: {
 						yAxes: [{
 							barPercentage: 0.5,
-				            barThickness: 6,
+				            barThickness: 8,
 				            ticks:{
 				            	beginAtZero: true,
 	                            reverse: true,
@@ -115,6 +115,9 @@
 							gridLines:  {
 								display: false,
 							},
+							afterFit: function(scaleInstance) {
+								scaleInstance.width = 70; // sets the width to 100px
+							}
 						}],
 						xAxes: [{
 							ticks: {
