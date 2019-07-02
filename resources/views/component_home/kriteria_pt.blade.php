@@ -35,8 +35,8 @@
 </style>
 <div class="card" id="kriteria-pt">
     <div class="card-header flushed pb-0">
-        <img src="{{asset('imgs/copy.svg')}}" class="card-icon pull-left mr-1"> 
-        <div class="pull-left">
+        <img src="{{asset('imgs/copy.svg')}}" class="card-icon float-left mr-1"> 
+        <div class="float-left">
             <p class="chart-title mb-0">Kriteria Perguruan Tinggi</p>
             <p class="chart-subtitle mb-0">{{$periode}}</p>
         </div>

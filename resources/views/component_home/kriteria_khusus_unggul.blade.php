@@ -13,8 +13,8 @@
 </style>
 <div class="card" id="kriteria-khusus">
     <div class="card-header flushed pb-2">
-        <img src="{{asset('imgs/check.svg')}}" class="card-icon pull-left mr-1">
-        <div class="pull-left">
+        <img src="{{asset('imgs/check.svg')}}" class="card-icon float-left mr-1">
+        <div class="float-left">
             <p class="chart-title mb-0">Kriteria Khusus Unggul</p>
             <p class="chart-subtitle mb-0">{{$periode}}</p>
         </div>
@@ -24,7 +24,7 @@
             <div class="list-group-item border-0 pb-2 pt-0">
                 <div class="mb-0">
                     <span class="data-label">{{$row[0]}}</span>
-                    <span class="pull-right data-value">
+                    <span class="float-right data-value">
                         <span class="current">{{number_format($row[1], 2)}}</span>/4.00
                     </span>
                 </div>

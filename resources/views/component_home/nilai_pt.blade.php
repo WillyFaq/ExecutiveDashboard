@@ -16,8 +16,8 @@
 </style>
 <div class="card">
     <div class="card-header flushed pb-0">
-        <img src="{{asset('imgs/chart.svg')}}" class="card-icon pull-left mr-1">
-        <span class="chart-title pull-left mr-2">Nilai Perguruan Tinggi</span>
+        <img src="{{asset('imgs/chart.svg')}}" class="card-icon float-left mr-1">
+        <span class="chart-title float-left mr-2">Nilai Perguruan Tinggi</span>
         <form class="form-inline">
             <div class="form-group mr-2">
                 <div class="input-group input-group-sm">
@@ -39,14 +39,14 @@
             <div id="nilai-pt-legend" class="ml-auto">
                 <div class="row">
                     <div class="col">
-                        <div class="line-txt sts-apt-line mr-3 pull-left"></div>
-                        <span class="legend-text pull-left">Status APT</span>
+                        <div class="line-txt sts-apt-line mr-3 float-left"></div>
+                        <span class="legend-text float-left">Status APT</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <div class="line-txt nil-pt-line mr-3 pull-left"></div>
-                        <span class="legend-text pull-left">Nilai PT</span>
+                        <div class="line-txt nil-pt-line mr-3 float-left"></div>
+                        <span class="legend-text float-left">Nilai PT</span>
                     </div>
                 </div>
             </div>

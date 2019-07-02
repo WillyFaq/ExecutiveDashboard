@@ -19,7 +19,6 @@
     <!-- Nunito sans Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap" rel="stylesheet">
     <!-- Custom Fonts -->
-    <link href="{{ asset("css/font-awesome.css") }}" rel="stylesheet" type="text/css">
     <!-- Custom CSS -->
     <link href="{{ asset("css/sb-admin-2.v4.0.6.min.css") }}" rel="stylesheet">
     <link href="{{ asset("css/dashboard-executive.css") }}" rel="stylesheet">
@@ -35,6 +34,7 @@
         // Chart.defaults.global.plugins.datalabels.display = false
         Chart.plugins.unregister(ChartDataLabels);
     </script>
+    <script src="{{ asset("js/font-awesome.all.min.js") }}" type="text/javascript"></script>
     @yield('body')
 </body>
 </html>
