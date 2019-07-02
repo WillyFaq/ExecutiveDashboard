@@ -19,18 +19,11 @@
     margin-bottom: 0;
     color: black;
     font-weight: bolder;
+    text-align: center;
 }
 #kriteria-pt .data-value{
     font-size: 24px;
     margin-bottom: 0;
-}
-#kriteria-pt .left .data-value i,
-#kriteria-pt .left .data-value span{
-    float: left;
-}
-#kriteria-pt .right .data-value i,
-#kriteria-pt .right .data-value span{
-    float: right;
 }
 </style>
 <div class="card" id="kriteria-pt">
@@ -46,8 +39,8 @@
         <div class="sub-card kondisi_ekternal top right mt-3 mr-3">
             <p class="data-label">{{$data_profil_0['kondisi_ekternal']['nama']}}</p>
             <p class="data-value {{$data_profil_0['kondisi_ekternal']['nilai']<2.7?'text-danger':'text-primary'}}">
-                <span>{{number_format($data_profil_0['kondisi_ekternal']['nilai'], 2)}}</span>
                 <i class="fac fa-arrow-up-thin"></i>
+                <span>{{number_format($data_profil_0['kondisi_ekternal']['nilai'], 2)}}</span>
             </p>
         </div>
         <div class="sub-card profil_institusi bottom left mb-3 ml-3">
@@ -60,8 +53,8 @@
         <div class="sub-card pengembangan bottom right mb-3 mr-3">
             <p class="data-label">{{$data_profil_0['pengembangan']['nama']}}</p>
             <p class="data-value {{$data_profil_0['pengembangan']['nilai']<2.7?'text-danger':'text-primary'}}">
-                <span>{{number_format($data_profil_0['pengembangan']['nilai'], 2)}}</span>
                 <i class="fac fa-arrow-up-thin"></i>
+                <span>{{number_format($data_profil_0['pengembangan']['nilai'], 2)}}</span>
             </p>
         </div>
     </div>
