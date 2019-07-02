@@ -105,8 +105,8 @@
 			        },
 					scales: {
 						yAxes: [{
-							barPercentage: 0.5,
-				            barThickness: 8,
+							barPercentage: 0.6,
+							categoryPercentage: 0.8,
 				            ticks:{
 				            	beginAtZero: true,
 	                            reverse: true,
