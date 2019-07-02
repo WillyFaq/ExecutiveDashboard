@@ -32,9 +32,9 @@
 					echo "},\n";
 					echo "{";
 						echo "label: '".$data['lalu'][0]."',";
-						echo "borderColor: 'rgba(241, 196, 15, 0.3)',";
+						// echo "borderColor: 'rgba(241, 196, 15, 0.3)',";
 						echo "backgroundColor: 'rgba(241, 196, 15, 0.3)',";
-						echo "borderWidth: 3,";
+						echo "borderWidth: 0,";
 						echo "fill: true,";
 						echo "data: [";
 						foreach($data['lalu'][1] as $k => $v){
