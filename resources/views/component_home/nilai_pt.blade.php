@@ -11,7 +11,7 @@
     margin-top: 5px
 }
 .legend-text{
-    font-size: 10px;
+    font-size: 14px;
 }
 </style>
 <div class="card">

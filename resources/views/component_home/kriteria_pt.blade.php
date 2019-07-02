@@ -15,14 +15,14 @@
     left: 0;
 }
 #kriteria-pt .data-label{
-    font-size: 12px;
+    font-size: 16px;
     margin-bottom: 0;
     color: black;
     font-weight: bolder;
     text-align: center;
 }
 #kriteria-pt .data-value{
-    font-size: 24px;
+    font-size: 32px;
     margin-bottom: 0;
 }
 </style>
