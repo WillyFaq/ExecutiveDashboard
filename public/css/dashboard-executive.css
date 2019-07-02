@@ -39,7 +39,7 @@ body {
 .chart-title {
     font-size: 15px;
     font-weight: bold;
-    color: black;
+    color: #2C3E50;
 }
 
 .chart-subtitle {
@@ -292,6 +292,7 @@ body {
 
 .data-value {
     font-size: 24px;
+    font-weight: bold;
 }
 
 .progress-bar {
@@ -332,20 +333,4 @@ body {
 
 .progress {
     height: 10px;
-}
-
-.fa-arrow-down,
-.fa-arrow-down:before,
-.fa-arrow-up,
-.fa-arrow-up:before {
-    height: 24px;
-    width: 24px;
-}
-
-.fa-arrow-up:before {
-    content: url('../imgs/baseline-arrow_upward-24px.svg') !important;
-}
-
-.fa-arrow-down:before {
-    content: url('../imgs/baseline-arrow_downward-24px.svg') !important;
 }
