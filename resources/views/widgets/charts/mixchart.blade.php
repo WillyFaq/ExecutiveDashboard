@@ -71,9 +71,7 @@
 							ticks: {
 								fontSize: 10
 							},
-
-							barPercentage: 0.5,
-				            barThickness: 6,
+							barPercentage: 0.3,
 						}],
 						yAxes: [{
 							gridLines:  {
