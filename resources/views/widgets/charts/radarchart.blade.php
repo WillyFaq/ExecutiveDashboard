@@ -7,7 +7,7 @@
         $label = array_map(function($data_profil) {
             return [
                 $data_profil['nama'],
-                $data_profil['nilai'],
+                number_format($data_profil['nilai'],2),
             ];
         }, $data_profil);
         $data = array_map(function($data_profil) {
