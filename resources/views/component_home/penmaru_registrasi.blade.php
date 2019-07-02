@@ -10,7 +10,7 @@
                 @php
                     $persen_regis = round((($regis['total']/$regis['total_lalu'])-1)*100,2);
                 @endphp
-                <i class="fa {{$persen_regis>=0?'fa-arrow-up':'fa-arrow-down'}}"></i>
+                <i class="fac {{$persen_regis>=0?'fa-arrow-up-thin text-primary':'fa-arrow-down-thin text-danger'}}"></i>
                 <p class="m-0 chart-subtitle {{$persen_regis>=0?'text-primary':'text-danger'}}">
                     {{ abs($persen_regis) }}%
                 </p>
