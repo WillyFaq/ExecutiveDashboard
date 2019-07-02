@@ -4,7 +4,6 @@
     font-weight: normal;
 }
 #kriteria-khusus .data-value .current {
-    color: black;
     font-weight: bold;
 }
 #kriteria-khusus .data-label {
@@ -23,25 +22,25 @@
     <div class="list-group list-group-flush">
         @foreach($kriteria_khusus as $kk => $row)
             <div class="list-group-item border-0 pb-2 pt-0">
+                @php
+                    if($row[1] <= 1){
+                        $class_name = "danger";
+                    }elseif($row[1] <= 2){
+                        $class_name = "warning";
+                    }elseif($row[1] <= 3){
+                        $class_name = "success";
+                    }else{
+                        $class_name = "primary";
+                    }
+                @endphp
                 <div class="mb-0">
                     <span class="data-label">{{$row[0]}}</span>
                     <span class="float-right data-value">
-                        <span class="current">{{number_format($row[1], 2)}}</span>/4.00
+                        <span class="current text-{{$class_name}}">{{number_format($row[1], 2)}}</span>/4.00
                     </span>
                 </div>
-                @php
-                    if($row[1] <= 1){
-                        $class_name = "bg-danger";
-                    }elseif($row[1] <= 2){
-                        $class_name = "bg-warning";
-                    }elseif($row[1] <= 3){
-                        $class_name = "bg-success";
-                    }else{
-                        $class_name = "bg-primary";
-                    }
-                @endphp
                 @include('widgets.progress', [
-                    'class' => $class_name, 
+                    'class' => "bg-$class_name", 
                     'value' => $row[1]*100/4, 
                 ])
             </div>
