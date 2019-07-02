@@ -36,9 +36,9 @@
 	<p><b>Dosen Institut Bisnis dan Informatika Stikom Surabaya</b></p><br>
 	<p>
 		Filter By : 
-		<select name="prodi" id="prodi" onchange="getprodi();">
-		@foreach($prodi as $hasil)
-			<option value="{{$hasil->id}}">{{$hasil->alias}} ( {{$hasil->nama}} )</option>			  
+		<select name="prodi" id="prodi" onchange="changeProdi($(this))">
+		@foreach($list_prodi as $hasil)
+			<option value="{{$hasil->id}}" {{$hasil->id==$prodi->id?'selected':null}}>{{$hasil->alias}} ({{$hasil->nama}})</option>
 		@endforeach
 		</select>
 	</p>
@@ -66,7 +66,10 @@
 					@endphp
 						<tr>
 							<td>{{$no}}</td>
-							<td><a href='list_dosen_detail/{{$dosen->nik}}'>{{$dosen->nama}}</a></td>
+							<td><a href="{{route('sdm.dosen.detail', [
+								$prodi->id, 
+								$dosen->nik,
+							])}}">{{$dosen->nama}}</a></td>
 							<td>{{$dosen->gelar_depan}} {{$dosen->gelar_belakang}}</td>
 							<td>{{$dosen->jenis_kelamin}}</td>
 							<td>{{$dosen->jenjang_studi_last}}</td>
@@ -137,6 +140,9 @@
                 $("#modal_berkas").modal('show');
             }
         });
+    }
+    function changeProdi(input){
+        window.location.href = "{{route('sdm.dosen', ':kode_prodi')}}".replace(':kode_prodi', input.val())+location.search;
     }
 </script>
 @stop
