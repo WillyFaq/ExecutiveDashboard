@@ -56,16 +56,7 @@
 								</div>
 							</div>
 							<div class="col-xs-4 card-smd-legend">
-								<table class="tbl-legend-sdm" cellpadding="0" cellspacing="0">
-									<tr>
-										<td><div class="dot dot_dos_tetap"></div></td>
-										<td><p><span>Dosen Tetap : </span>106 Orang</p></td>
-									</tr>
-									<tr>
-										<td><div class="dot dot_gur_besar"></div></td>
-										<td><p><span>Dosen Besar : </span>0 Orang</p></td>
-									</tr>
-								</table>
+								<div id="legend-jafung"></div>
 							</div>
 							<div class="text-center card-sdm-right top-right pg_info">
 								<p class="txt_card_subtitle">Skor</p>
@@ -84,7 +75,8 @@
                                         'line'	=> ['Guru Besar', $dosen_guru_besar ],
                                         'bar'	=> ['Dosen Tetap', $dosen_tetap ],
                                     ],
-                                    'onClickFn' => 'show_modal_jafung',
+									'onClickFn' => 'show_modal_jafung',
+									'id_legend' => 'legend-jafung',
                                 ])
 							</div>
 						</div>
@@ -289,16 +281,7 @@
 							</div>
 							
 							<div class="col-xs-4 card-smd-legend">
-								<table class="tbl-legend-sdm" cellpadding="0" cellspacing="0">
-									<tr>
-										<td><div class="dot dot_dos_tetap"></div></td>
-										<td><p><span>Dosen Tetap : </span>106 Orang</p></td>
-									</tr>
-									<tr>
-										<td><div class="dot dot_gur_besar"></div></td>
-										<td><p><span>Dosen Besar : </span>0 Orang</p></td>
-									</tr>
-								</table>
+								<div id="legend-sertifikasi"></div>
 							</div>
 								<div class="text-center card-sdm-right top-right pg_warning">
 									<p class="txt_card_subtitle">Skor</p>
@@ -317,7 +300,8 @@
                                         'line' => ['Sertifikasi', $dosen_tetap_bersertifikasi],
                                         'bar'	=> ['Dosen Tetap', $dosen_tetap ],
                                     ],
-                                    'onClickFn' => 'show_modal_sertifikasi',
+									'onClickFn' => 'show_modal_sertifikasi',
+									'id_legend' => 'legend-sertifikasi',
                                 ])
 							</div>
 						</div>
@@ -339,16 +323,16 @@
 						</div>
 						<div class="row" style="padding-top:20px;">
 							<div class="col-xs-12">
-								@include('widgets.charts.cpiechart', ['data' => [
-									'Dosen Tetap' => $jml_dosen_tetap,
-									'Dosen Tidak Tetap' => $jml_dosen_tidak_tetap,
-								]])
+								@include('widgets.charts.cpiechart', [
+									'data' => [
+										'Dosen Tetap' => $jml_dosen_tetap,
+										'Dosen Tidak Tetap' => $jml_dosen_tidak_tetap,
+									],
+									'id_legend' => 'legend-dosen',
+								])
 							</div>
-							<div class="col-xs-12 card-home-legend">
-									<ul>
-										<li><span class="dot dot_dos_tetap"></span>Dosen Tetap : <strong>{{ $jml_dosen_tetap }} Orang</strong> </li>
-										<li><span class="dot dot_gur_besar"></span>Dosen Tidak Tetap : <strong>{{ $jml_dosen_tidak_tetap }} Orang</strong> </li>
-									</ul>
+							<div class="col-xs-12">
+								<div id="legend-dosen"></div>
 							</div>
 						</div>
 					</div>
