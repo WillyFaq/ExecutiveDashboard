@@ -180,7 +180,6 @@
 												<tr class="txt_color_info">
 													<th>{{array_sum(array_values($jml_penelitian_dosen))}}</th>
 													<th>{{0}}</th>
-													<th>{{$skor_penelitian}}</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -193,7 +192,7 @@
 									</div>
 									<div class="just-right text-center card-sdm-right pg_danger">	
 										<p class="txt_card_subtitle">Skor</p>
-		                                <h1>1.00</h1>
+		                                <h1>{{$skor_penelitian}}</h1>
 									</div>
 								</div>
 							</div>
@@ -218,21 +217,19 @@
 												<tr class="txt_color_yellow">
 													<th>{{array_sum(array_values($jml_pkm_dosen))}}</th>
 													<th>{{0}}</th>
-													<th>{{$skor_pkm}}</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr>
 													<td>Nasional</td>
 													<td>Internasional</td>
-													<td>Skor</td>
 												</tr>
 											</tbody>
 										</table>
 									</div>
 									<div class="just-right text-center card-sdm-right pg_danger">	
 										<p class="txt_card_subtitle">Skor</p>
-		                                <h1>1.00</h1>
+		                                <h1>{{$skor_pkm}}</h1>
 									</div>
 								</div>
 							</div>
@@ -257,21 +254,19 @@
 												<tr class="txt_color_info">
 													<th>{{array_sum(array_values($jml_rekognisi_dosen))}}</th>
 													<th>{{0}}</th>
-													<th>{{$skor_rekognisi}}</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr>
 													<td>Nasional</td>
 													<td>Internasional</td>
-													<td>Skor</td>
 												</tr>
 											</tbody>
 										</table>
 									</div>
 									<div class="just-right text-center card-sdm-right pg_purple">	
 										<p class="txt_card_subtitle">Skor</p>
-		                                <h1>1.00</h1>
+		                                <h1>{{$skor_rekognisi}}</h1>
 									</div>
 								</div>
 							</div>
