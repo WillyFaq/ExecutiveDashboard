@@ -446,6 +446,7 @@ class SdmController extends Controller
         $list_dosen = $prodi->prodi_ewmp->map(function($prodi_ewmp) {
             return $prodi_ewmp->karyawan;
         });
+        $list_dosen = $list_dosen->sortBy('nama')->values();
 
         $list_jafung = JenisJabatanFungsional::whereNotNull('bobot_jabatan')->get();
 
