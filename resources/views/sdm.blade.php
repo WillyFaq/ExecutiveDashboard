@@ -27,7 +27,7 @@
 						</div>
 						<div class="row sdm-main-gauge" >
 							<div class="col-xs-12">
-                    			@include('widgets.charts.gauge_sdm', array('value' => $skor_nilai_sdm))
+                    			@include('widgets.charts.gauge_sdm', array('value' => number_format($skor_nilai_sdm,2)))
 							</div>
 							<div class="col-xs-12">
 								<div class="keterangan_box">
@@ -60,7 +60,7 @@
 							</div>
 							<div class="text-center card-sdm-right top-right pg_info">
 								<p class="txt_card_subtitle">Skor</p>
-                                <h1>{{ $skor_jabatan_fungsional }}</h1>
+                                <h1>{{ number_format($skor_jabatan_fungsional,2) }}</h1>
 							</div>
 							<!-- <div class="col-xs-10 card-home-subtitle">
 							                                <input class="btn btn-default btn-sm" type="button" onclick="window.location='{{url('/sdm/list_dosen')}}'" value="Detail"/>
@@ -94,7 +94,7 @@
 									</div>
 									<div class="col-xs-4">
                                         @include('widgets.charts.gauge', [
-                                            'skor'=> $skor_rasio_dosen_mahasiswa, 
+                                            'skor'=> number_format($skor_rasio_dosen_mahasiswa,2), 
                                             'type' => 2 ,
                                         ])
 									</div>
@@ -110,7 +110,7 @@
 									</div>
 									<div class="col-xs-4">
                                         @include('widgets.charts.gauge', [
-                                            'skor'=> $skor_rasio_prodi_dosen, 
+                                            'skor'=> number_format($skor_rasio_prodi_dosen,2), 
                                             'type' => 2 ,
                                         ])
 									</div>
@@ -134,7 +134,7 @@
 									</div>
 									<div class="col-xs-4">
                                         @include('widgets.charts.gauge', [
-                                            'skor'=> $skor_tenaga_kependidikan, 
+                                            'skor'=> number_format($skor_tenaga_kependidikan,2), 
                                             'type' => 2,
                                         ])
 									</div>
@@ -184,7 +184,7 @@
 									</div>
 									<div class="just-right text-center card-sdm-right pg_danger">	
 										<p class="txt_card_subtitle">Skor</p>
-		                                <h1>{{$skor_penelitian}}</h1>
+		                                <h1>{{number_format($skor_penelitian,2)}}</h1>
 									</div>
 								</div>
 							</div>
@@ -221,7 +221,7 @@
 									</div>
 									<div class="just-right text-center card-sdm-right pg_danger">	
 										<p class="txt_card_subtitle">Skor</p>
-		                                <h1>{{$skor_pkm}}</h1>
+		                                <h1>{{number_format($skor_pkm,2)}}</h1>
 									</div>
 								</div>
 							</div>
@@ -258,7 +258,7 @@
 									</div>
 									<div class="just-right text-center card-sdm-right pg_purple">	
 										<p class="txt_card_subtitle">Skor</p>
-		                                <h1>{{$skor_rekognisi}}</h1>
+		                                <h1>{{number_format($skor_rekognisi,2)}}</h1>
 									</div>
 								</div>
 							</div>
@@ -285,7 +285,7 @@
 							</div>
 								<div class="text-center card-sdm-right top-right pg_warning">
 									<p class="txt_card_subtitle">Skor</p>
-                                    <h1>{{ $skor_sertifikat_pendidikan }}</h1>
+                                    <h1>{{ number_format($skor_sertifikat_pendidikan,2) }}</h1>
 								</div>
 							<!-- <div class="col-xs-10 card-home-subtitle">
 							                                <input class="btn btn-default btn-sm" type="button" onclick="window.location='{{url('/sdm/list_dosen')}}'" value="Detail"/>
@@ -318,7 +318,7 @@
 
 								<div class="text-center card-sdm-right top-right pg_purple">
 									<p class="txt_card_subtitle">Skor</p>
-                                    <h1>{{ $skor_presentase_dosen_tidak_tetap }}</h1>
+                                    <h1>{{ number_format($skor_presentase_dosen_tidak_tetap,2) }}</h1>
 								</div>
 						</div>
 						<div class="row" style="padding-top:20px;">
