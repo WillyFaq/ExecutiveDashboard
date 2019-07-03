@@ -1,4 +1,4 @@
-<div class="m-auto" style="position:relative; height:256px;">
+<div class="m-auto" style="position:relative; height:309px;">
 	<canvas id="radarchart"></canvas>
 </div>
 
@@ -7,7 +7,7 @@
         $label = array_map(function($data_profil) {
             return [
                 $data_profil['nama'],
-                $data_profil['nilai'],
+                number_format($data_profil['nilai'],2),
             ];
         }, $data_profil);
         $data = array_map(function($data_profil) {
@@ -24,12 +24,14 @@
 				datasets: [{
 					label: 'Kriteria Perguruan Tinggi',
 					backgroundColor: 'rgba(26, 188, 156, 0.5)',//color(window.chartColors.red).alpha(0.2).rgbString(),
-					borderColor: '#1ABC9C',//window.chartColors.red,
+					// borderColor: '#1ABC9C',//window.chartColors.red,
+					borderWidth: 0,
 					pointBackgroundColor: '#1ABC9C',//window.chartColors.red,
 					data: data
 				}]
 			},
 			options: {
+				maintainAspectRatio: false,
 				legend: {
 					display: false,
 					position: 'top',

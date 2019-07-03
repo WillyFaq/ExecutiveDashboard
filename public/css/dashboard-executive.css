@@ -4,6 +4,7 @@
 
 body {
     background-color: #CCDAE3;
+    height: 1080px;
 }
 
 .card {
@@ -36,13 +37,13 @@ body {
 }
 
 .chart-title {
-    font-size: 15px;
+    font-size: 18px;
     font-weight: bold;
-    color: black;
+    color: #2C3E50;
 }
 
 .chart-subtitle {
-    font-size: 10px;
+    font-size: 14px;
     color: #969696;
 }
 
@@ -52,8 +53,8 @@ body {
 }
 
 .card-icon {
-    width: 32px;
-    height: 32px;
+    width: 48px;
+    height: 48px;
     background: rgba(150, 150, 150, 0.2);
     padding: 0 5px;
     border-radius: 50%;
@@ -290,7 +291,8 @@ body {
 }
 
 .data-value {
-    font-size: 24px;
+    font-size: 32px;
+    font-weight: bold;
 }
 
 .progress-bar {
@@ -331,20 +333,4 @@ body {
 
 .progress {
     height: 10px;
-}
-
-.fa-arrow-down,
-.fa-arrow-down:before,
-.fa-arrow-up,
-.fa-arrow-up:before {
-    height: 24px;
-    width: 24px;
-}
-
-.fa-arrow-up:before {
-    content: url('../imgs/baseline-arrow_upward-24px.svg') !important;
-}
-
-.fa-arrow-down:before {
-    content: url('../imgs/baseline-arrow_downward-24px.svg') !important;
 }

@@ -6,16 +6,16 @@
                 <p class="chart-title mb-0">Pendaftar</p>
                 <p class="chart-subtitle mb-0">{{$periode}}</p>
             </div>
-            <div class="ml-auto mr-1 text-right">
+            <div class="ml-auto mr-1 text-center">
                 @php
                     $persen_daftar = round((($daftar['total']/$daftar['total_lalu'])-1)*100,2);
                 @endphp
-                <i class="fa {{$persen_daftar>=0?'fa-arrow-up':'fa-arrow-down'}}"></i>
+                <i class="fac {{$persen_daftar>=0?'fa-arrow-up-thin text-primary':'fa-arrow-down-thin text-danger'}} data-value"></i>
                 <p class="m-0 chart-subtitle {{$persen_daftar>=0?'text-primary':'text-danger'}}">
                     {{ abs($persen_daftar) }}%
                 </p>
             </div>
-            <div>
+            <div class="text-center">
                 <h4 class="m-0 data-value {{$persen_daftar>=0?'text-parimary':'text-danger'}}">
                     {{$daftar['total']}}
                 </h4>

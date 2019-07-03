@@ -1,7 +1,7 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<div class="m-auto" style="position:relative; width:258px; height:216px;">
+<div class="m-auto" style="position:relative; height:358px;">
 	<canvas id="hormixchart_{{$_idbx}}"></canvas >
 </div>
 
@@ -105,8 +105,8 @@
 			        },
 					scales: {
 						yAxes: [{
-							barPercentage: 0.5,
-				            barThickness: 6,
+							barPercentage: 0.6,
+							categoryPercentage: 0.8,
 				            ticks:{
 				            	beginAtZero: true,
 	                            reverse: true,
@@ -115,6 +115,9 @@
 							gridLines:  {
 								display: false,
 							},
+							afterFit: function(scaleInstance) {
+								scaleInstance.width = 70; // sets the width to 100px
+							}
 						}],
 						xAxes: [{
 							ticks: {
