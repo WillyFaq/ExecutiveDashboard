@@ -58,7 +58,6 @@
 	    .text(0)
 	    .attr('text-anchor', 'middle')
 	    .attr('class', 'nhuruf');*/
-	console.log($(document).width());
 	var gicon = svg.append('g');
 	var gaicon = svg.append('g');
 	if($(document).width()>1900){
