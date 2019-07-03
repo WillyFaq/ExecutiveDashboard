@@ -267,7 +267,7 @@ class SdmController extends Controller
         $prodi = Prodi::with(['prodi_ewmp' => function ($query) {
             return $query
             ->with([
-                'karyawan.jabatan_fungsional_last.jenis_jafung',
+                'karyawan.jabatan_fungsional_last',
                 'karyawan.pendidikan_formal_last',
             ])
             ->whereHas('karyawan', function ($query) {
