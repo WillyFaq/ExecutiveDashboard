@@ -286,8 +286,14 @@ body {
 .card-header.flushed,
 .card-footer.flushed {
     background-color: inherit;
-    border-bottom: inherit;
-    border-top: inherit;
+}
+
+.card-header.flushed {
+    border-bottom: none;
+}
+
+.card-footer.flushed {
+    border-top: none;
 }
 
 .data-value {

@@ -463,6 +463,10 @@ class SdmController extends Controller
         ));
 	}
 	
+    public function getKaryawan($nik){
+        return Karyawan::with('berkas_portofolio')->find($nik);
+    }
+
     public function getBerkasPortofolio($id_berkas){
         return BerkasPortofolio::find($id_berkas);
     }
