@@ -147,9 +147,19 @@ class SdmController extends Controller
         ])->find(180402);
         $skor_jabatan_fungsional = round($materi_jabatan_fungsional->nilai_latest ? $materi_jabatan_fungsional->nilai_latest->nilai : 0, 2);
         // Skor Rasio Dosen Mahasiswa
-        $skor_rasio_dosen_mahasiswa = 0;
+        $materi_rasio_dosen_mahasiswa = MateriBorang::with([
+            'nilai_latest' => function($query) use ($tahun_now) {
+                return $query->where('tahun','<=',$tahun_now);
+            }
+        ])->find(180405);
+        $skor_rasio_dosen_mahasiswa = round($materi_rasio_dosen_mahasiswa->nilai_latest ? $materi_rasio_dosen_mahasiswa->nilai_latest->nilai : 0, 2);
         // Skor Rasio Prodi Dosen
-        $skor_rasio_prodi_dosen = 0;
+        $materi_rasio_prodi_dosen = MateriBorang::with([
+            'nilai_latest' => function($query) use ($tahun_now) {
+                return $query->where('tahun','<=',$tahun_now);
+            }
+        ])->find(180401);
+        $skor_rasio_prodi_dosen = round($materi_rasio_prodi_dosen->nilai_latest ? $materi_rasio_prodi_dosen->nilai_latest->nilai : 0, 2);
         // Skor Presentase Dosen Tidak Tetap
         $materi_presentase_dosen_tidak_tetap = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
