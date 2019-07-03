@@ -35,7 +35,6 @@ class SdmController extends Controller
             return $query
             ->whereHas('karyawan', function ($query) {
                 return $query
-                ->whereIsAktif()
                 ->whereIsDosenTetap();
             })
             ->with('karyawan.sertifikasi');
@@ -58,7 +57,6 @@ class SdmController extends Controller
             ->whereHas('karyawan', function ($query) {
                 return $query
                 ->whereIsDosenTetap()
-                ->whereIsAktif()
                 ->whereHas('jabatan_fungsional_last', function ($query) {
                     return $query->where('id_jfa', 5);
                 });
@@ -86,6 +84,7 @@ class SdmController extends Controller
         $rasio_prodi_dosen = round($jml_dosen / $jml_prodi, 2);
         // PRESENTASE DOSEN: TETAP TIDAK TETAP
         $jml_dosen_tetap = Karyawan::whereIsDosenTetap()
+        ->whereHas('prodi_ewmp')
         ->count();
         // JUMLAH PENELITIAN DOSEN
         $periode_ewmp = collect(range($tahun_now-3, $tahun_now));
@@ -267,7 +266,7 @@ class SdmController extends Controller
         $prodi = Prodi::with(['prodi_ewmp' => function ($query) {
             return $query
             ->with([
-                'karyawan.jabatan_fungsional_last.jenis_jafung',
+                'karyawan.jabatan_fungsional_last',
                 'karyawan.pendidikan_formal_last',
             ])
             ->whereHas('karyawan', function ($query) {
@@ -438,11 +437,19 @@ class SdmController extends Controller
             return $prodi_ewmp->karyawan;
         });
 
-        $list_prodi = Prodi::whereIsAktif()
-        ->orderByDefault()
-        ->get();
+        $list_jafung = JenisJabatanFungsional::whereNotNull('bobot_jabatan')->get();
 
-        return view('list_dosen', compact('prodi','list_dosen','list_prodi'));
+        $list_pendidikan = collect(['S1','S2','S3']);
+
+        $list_sertifikasi = collect([]);
+
+        return view('list_dosen', compact(
+            'prodi',
+            'list_dosen',
+            'list_jafung', 
+            'list_pendidikan',
+            'list_sertifikasi'
+        ));
 	}
 	
     public function getBerkasPortofolio($id_berkas){

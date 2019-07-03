@@ -27,7 +27,7 @@
 						</div>
 						<div class="row sdm-main-gauge" >
 							<div class="col-xs-12">
-                    			@include('widgets.charts.gauge_sdm', array('value' => $skor_nilai_sdm))
+                    			@include('widgets.charts.gauge_sdm', array('value' => number_format($skor_nilai_sdm,2)))
 							</div>
 							<div class="col-xs-12">
 								<div class="keterangan_box">
@@ -56,20 +56,22 @@
 								</div>
 							</div>
 							<div class="col-xs-4 card-smd-legend">
-								<table class="tbl-legend-sdm" cellpadding="0" cellspacing="0">
-									<tr>
-										<td><div class="dot dot_dos_tetap"></div></td>
-										<td><p><span>Dosen Tetap : </span>106 Orang</p></td>
-									</tr>
-									<tr>
-										<td><div class="dot dot_gur_besar"></div></td>
-										<td><p><span>Dosen Besar : </span>0 Orang</p></td>
-									</tr>
-								</table>
+								<div id="legend-jafung"></div>
 							</div>
-							<div class="text-center card-sdm-right top-right pg_info">
+							@php
+								if($skor_jabatan_fungsional <= 1){
+									$class_name = "danger";
+								}elseif($skor_jabatan_fungsional <= 2){
+									$class_name = "warning";
+								}elseif($skor_jabatan_fungsional <= 3){
+									$class_name = "purple";
+								}else{
+									$class_name = "info";
+								}
+							@endphp
+							<div class="text-center card-sdm-right top-right pg_{{$class_name}}">
 								<p class="txt_card_subtitle">Skor</p>
-                                <h1>{{ $skor_jabatan_fungsional }}</h1>
+                                <h1>{{ number_format($skor_jabatan_fungsional,2) }}</h1>
 							</div>
 							<!-- <div class="col-xs-10 card-home-subtitle">
 							                                <input class="btn btn-default btn-sm" type="button" onclick="window.location='{{url('/sdm/list_dosen')}}'" value="Detail"/>
@@ -84,7 +86,8 @@
                                         'line'	=> ['Guru Besar', $dosen_guru_besar ],
                                         'bar'	=> ['Dosen Tetap', $dosen_tetap ],
                                     ],
-                                    'onClickFn' => 'show_modal_jafung',
+									'onClickFn' => 'show_modal_jafung',
+									'id_legend' => 'legend-jafung',
                                 ])
 							</div>
 						</div>
@@ -102,7 +105,7 @@
 									</div>
 									<div class="col-xs-4">
                                         @include('widgets.charts.gauge', [
-                                            'skor'=> $skor_rasio_dosen_mahasiswa, 
+                                            'skor'=> number_format($skor_rasio_dosen_mahasiswa,2), 
                                             'type' => 2 ,
                                         ])
 									</div>
@@ -118,7 +121,7 @@
 									</div>
 									<div class="col-xs-4">
                                         @include('widgets.charts.gauge', [
-                                            'skor'=> $skor_rasio_prodi_dosen, 
+                                            'skor'=> number_format($skor_rasio_prodi_dosen,2), 
                                             'type' => 2 ,
                                         ])
 									</div>
@@ -142,7 +145,7 @@
 									</div>
 									<div class="col-xs-4">
                                         @include('widgets.charts.gauge', [
-                                            'skor'=> $skor_tenaga_kependidikan, 
+                                            'skor'=> number_format($skor_tenaga_kependidikan,2), 
                                             'type' => 2,
                                         ])
 									</div>
@@ -180,7 +183,6 @@
 												<tr class="txt_color_info">
 													<th>{{array_sum(array_values($jml_penelitian_dosen))}}</th>
 													<th>{{0}}</th>
-													<th>{{$skor_penelitian}}</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -191,9 +193,20 @@
 											</tbody>
 										</table>
 									</div>
-									<div class="just-right text-center card-sdm-right pg_danger">	
+									@php
+										if($skor_penelitian <= 1){
+											$class_name = "danger";
+										}elseif($skor_penelitian <= 2){
+											$class_name = "warning";
+										}elseif($skor_penelitian <= 3){
+											$class_name = "purple";
+										}else{
+											$class_name = "info";
+										}
+									@endphp
+									<div class="just-right text-center card-sdm-right pg_{{$class_name}}">	
 										<p class="txt_card_subtitle">Skor</p>
-		                                <h1>1.00</h1>
+		                                <h1>{{number_format($skor_penelitian,2)}}</h1>
 									</div>
 								</div>
 							</div>
@@ -218,21 +231,30 @@
 												<tr class="txt_color_yellow">
 													<th>{{array_sum(array_values($jml_pkm_dosen))}}</th>
 													<th>{{0}}</th>
-													<th>{{$skor_pkm}}</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr>
 													<td>Nasional</td>
 													<td>Internasional</td>
-													<td>Skor</td>
 												</tr>
 											</tbody>
 										</table>
 									</div>
-									<div class="just-right text-center card-sdm-right pg_danger">	
+									@php
+										if($skor_pkm <= 1){
+											$class_name = "danger";
+										}elseif($skor_pkm <= 2){
+											$class_name = "warning";
+										}elseif($skor_pkm <= 3){
+											$class_name = "purple";
+										}else{
+											$class_name = "info";
+										}
+									@endphp
+									<div class="just-right text-center card-sdm-right pg_{{$class_name}}">	
 										<p class="txt_card_subtitle">Skor</p>
-		                                <h1>1.00</h1>
+		                                <h1>{{number_format($skor_pkm,2)}}</h1>
 									</div>
 								</div>
 							</div>
@@ -257,21 +279,30 @@
 												<tr class="txt_color_info">
 													<th>{{array_sum(array_values($jml_rekognisi_dosen))}}</th>
 													<th>{{0}}</th>
-													<th>{{$skor_rekognisi}}</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr>
 													<td>Nasional</td>
 													<td>Internasional</td>
-													<td>Skor</td>
 												</tr>
 											</tbody>
 										</table>
 									</div>
-									<div class="just-right text-center card-sdm-right pg_purple">	
+									@php
+										if($skor_rekognisi <= 1){
+											$class_name = "danger";
+										}elseif($skor_rekognisi <= 2){
+											$class_name = "warning";
+										}elseif($skor_rekognisi <= 3){
+											$class_name = "purple";
+										}else{
+											$class_name = "info";
+										}
+									@endphp
+									<div class="just-right text-center card-sdm-right pg_{{$class_name}}">	
 										<p class="txt_card_subtitle">Skor</p>
-		                                <h1>1.00</h1>
+		                                <h1>{{number_format($skor_rekognisi,2)}}</h1>
 									</div>
 								</div>
 							</div>
@@ -294,20 +325,22 @@
 							</div>
 							
 							<div class="col-xs-4 card-smd-legend">
-								<table class="tbl-legend-sdm" cellpadding="0" cellspacing="0">
-									<tr>
-										<td><div class="dot dot_dos_tetap"></div></td>
-										<td><p><span>Dosen Tetap : </span>106 Orang</p></td>
-									</tr>
-									<tr>
-										<td><div class="dot dot_gur_besar"></div></td>
-										<td><p><span>Dosen Besar : </span>0 Orang</p></td>
-									</tr>
-								</table>
+								<div id="legend-sertifikasi"></div>
 							</div>
-								<div class="text-center card-sdm-right top-right pg_warning">
+								@php
+									if($skor_sertifikat_pendidikan <= 1){
+										$class_name = "danger";
+									}elseif($skor_sertifikat_pendidikan <= 2){
+										$class_name = "warning";
+									}elseif($skor_sertifikat_pendidikan <= 3){
+										$class_name = "purple";
+									}else{
+										$class_name = "info";
+									}
+								@endphp
+								<div class="text-center card-sdm-right top-right pg_{{$class_name}}">
 									<p class="txt_card_subtitle">Skor</p>
-                                    <h1>{{ $skor_sertifikat_pendidikan }}</h1>
+                                    <h1>{{ number_format($skor_sertifikat_pendidikan,2) }}</h1>
 								</div>
 							<!-- <div class="col-xs-10 card-home-subtitle">
 							                                <input class="btn btn-default btn-sm" type="button" onclick="window.location='{{url('/sdm/list_dosen')}}'" value="Detail"/>
@@ -322,7 +355,8 @@
                                         'line' => ['Sertifikasi', $dosen_tetap_bersertifikasi],
                                         'bar'	=> ['Dosen Tetap', $dosen_tetap ],
                                     ],
-                                    'onClickFn' => 'show_modal_sertifikasi',
+									'onClickFn' => 'show_modal_sertifikasi',
+									'id_legend' => 'legend-sertifikasi',
                                 ])
 							</div>
 						</div>
@@ -336,24 +370,34 @@
 							<div class="col-xs-10 card-home-title">
 								<h2>Persentase Dosen Tidak Tetap</h2>
 							</div>
-
-								<div class="text-center card-sdm-right top-right pg_purple">
+								@php
+									if($skor_presentase_dosen_tidak_tetap <= 1){
+										$class_name = "danger";
+									}elseif($skor_presentase_dosen_tidak_tetap <= 2){
+										$class_name = "warning";
+									}elseif($skor_presentase_dosen_tidak_tetap <= 3){
+										$class_name = "purple";
+									}else{
+										$class_name = "info";
+									}
+								@endphp
+								<div class="text-center card-sdm-right top-right pg_{{$class_name}}">
 									<p class="txt_card_subtitle">Skor</p>
-                                    <h1>{{ $skor_presentase_dosen_tidak_tetap }}</h1>
+                                    <h1>{{ number_format($skor_presentase_dosen_tidak_tetap,2) }}</h1>
 								</div>
 						</div>
 						<div class="row" style="padding-top:20px;">
 							<div class="col-xs-12">
-								@include('widgets.charts.cpiechart', ['data' => [
-									'Dosen Tetap' => $jml_dosen_tetap,
-									'Dosen Tidak Tetap' => $jml_dosen_tidak_tetap,
-								]])
+								@include('widgets.charts.cpiechart', [
+									'data' => [
+										'Dosen Tetap' => $jml_dosen_tetap,
+										'Dosen Tidak Tetap' => $jml_dosen_tidak_tetap,
+									],
+									'id_legend' => 'legend-dosen',
+								])
 							</div>
-							<div class="col-xs-12 card-home-legend">
-									<ul>
-										<li><span class="dot dot_dos_tetap"></span>Dosen Tetap : <strong>{{ $jml_dosen_tetap }} Orang</strong> </li>
-										<li><span class="dot dot_gur_besar"></span>Dosen Tidak Tetap : <strong>{{ $jml_dosen_tidak_tetap }} Orang</strong> </li>
-									</ul>
+							<div class="col-xs-12">
+								<div id="legend-dosen"></div>
 							</div>
 						</div>
 					</div>

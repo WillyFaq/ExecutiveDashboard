@@ -101,9 +101,9 @@ class Karyawan extends Model
     {
         return $this->hasOne(JabatanFungsional::class, 'nik')
         ->latest('mulai_tetap_tmt')
-        ->withDefault([
-            'jenis_jafung' => JenisJabatanFungsional::find(1),
-        ]);
+        ->withDefault(function ($jabatan_fungsional_last) {
+            $jabatan_fungsional_last->id_jfa = 1;
+        });
     }
 
     public function histori_ajar()
@@ -144,9 +144,9 @@ class Karyawan extends Model
         }
     }
 
-    public function getJenisDosenAttribute()
+    public function getIkatanKerjaDosenAttribute()
     {
-        switch ($this->attribute['kary_type']) {
+        switch ($this->attributes['kary_type']) {
             case 'DC': return 'Dosen Percobaan';
             case 'DH': return 'Dosen Homebase';
             case 'KD': return 'Dosen Kontrak';
