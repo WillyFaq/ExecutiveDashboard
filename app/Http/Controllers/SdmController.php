@@ -35,7 +35,6 @@ class SdmController extends Controller
             return $query
             ->whereHas('karyawan', function ($query) {
                 return $query
-                ->whereIsAktif()
                 ->whereIsDosenTetap();
             })
             ->with('karyawan.sertifikasi');
@@ -58,7 +57,6 @@ class SdmController extends Controller
             ->whereHas('karyawan', function ($query) {
                 return $query
                 ->whereIsDosenTetap()
-                ->whereIsAktif()
                 ->whereHas('jabatan_fungsional_last', function ($query) {
                     return $query->where('id_jfa', 5);
                 });
@@ -86,6 +84,7 @@ class SdmController extends Controller
         $rasio_prodi_dosen = round($jml_dosen / $jml_prodi, 2);
         // PRESENTASE DOSEN: TETAP TIDAK TETAP
         $jml_dosen_tetap = Karyawan::whereIsDosenTetap()
+        ->whereHas('prodi_ewmp')
         ->count();
         // JUMLAH PENELITIAN DOSEN
         $periode_ewmp = collect(range($tahun_now-3, $tahun_now));
