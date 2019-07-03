@@ -144,9 +144,9 @@ class Karyawan extends Model
         }
     }
 
-    public function getJenisDosenAttribute()
+    public function getIkatanKerjaDosenAttribute()
     {
-        switch ($this->attribute['kary_type']) {
+        switch ($this->attributes['kary_type']) {
             case 'DC': return 'Dosen Percobaan';
             case 'DH': return 'Dosen Homebase';
             case 'KD': return 'Dosen Kontrak';
