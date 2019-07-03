@@ -455,12 +455,7 @@
                         </div>
 	        		</div>
 	        		<div class="col-xs-12">
-	        			<div class="keterangan_box">
-							<p><span class="dot d_dgrey"></span> Strata 1</p>
-							<p><span class="dot d_dgreen"></span> Strata 2</p>
-							<p><span class="dot d_dblue"></span> Strata 3</p>
-							<p><span class="dot d_red"></span> Jumlah Dosen</p>
-						</div>
+	        			<div id="legend_ajax"></div>
 	        		</div>
 	        	</div>
 	      	</div>
@@ -535,9 +530,27 @@
                 legend: {
                     display: false,
                     position: 'bottom'
-                }
+                },
+				legendCallback: function(chart) {
+					var text = []; 
+					text.push('<div class="text-center">');
+					for (var i = 0; i < chart.data.datasets.length; i++) { 
+						if (chart.data.datasets[i].label) { 
+							text.push('<div class="chart-subtitle" style="display:inline-block; margin-right:50px;">');
+							text.push('<span>');
+							text.push('<div style="background-color:' + chart.data.datasets[i].backgroundColor + '; height:8px; width:8px; display:inline-block; margin-right:5px;"></div>'); 
+							text.push(chart.data.datasets[i].label); 
+							text.push('</span>');
+							text.push('</div>');
+						} 
+					} 
+					text.push('</div>');
+
+					return text.join(''); 
+				},
             }
         });
+		document.getElementById('legend_ajax').innerHTML = window.chart_modal.generateLegend();
     }
     const data_prodi = {!! json_encode($prodi) !!};
     function show_modal_sertifikasi(mouseEvent, clickedChart) {
