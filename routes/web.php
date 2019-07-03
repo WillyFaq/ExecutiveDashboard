@@ -22,6 +22,7 @@ Route::get('/sdm/dosen/{kode_prodi}', 'SdmController@list_dosen')->name('sdm.dos
 Route::get('/sdm/dosen/{kode_prodi}/{nik}', 'SdmController@list_dosen_detail')->name('sdm.dosen.detail');
 
 Route::get('/sdm/dosen', 'SdmController@dosen');
+Route::get('/sdm/detail_ajax/{type}', 'SdmController@detail_ajax')->name('sdm.detail_ajax');;
 Route::get('/sdm/dosen_document', 'SdmController@dosen_document')->name('sdm.dosen_document');;
 Route::get('/sdm/dosen_detail', 'SdmController@dosen_detail');
 

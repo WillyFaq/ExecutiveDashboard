@@ -17,8 +17,8 @@
 				if(isset($data)){
 					echo "{";
 						echo "label: '".$data['line'][0]."',";
-						echo "borderColor: '#BE1E2D',";
-						echo "backgroundColor: '#BE1E2D',";
+						echo "borderColor: '#2C3E50',";
+						echo "backgroundColor: '#2C3E50',";
 						echo "borderWidth: 4,";
 						echo "fill: false,";
 						echo "data: [";
@@ -31,8 +31,8 @@
 					echo "},\n";
 					echo "{";
 						echo "label: '".$data['bar'][0]."',";
-						echo "borderColor: '#FE9D28',";
-						echo "backgroundColor: '#FE9D28',";
+						echo "borderColor: '#1ABC9C',";
+						echo "backgroundColor: '#1ABC9C',";
 						echo "borderWidth: 1,";
 						echo "fill: false,";
 						echo "data: [";

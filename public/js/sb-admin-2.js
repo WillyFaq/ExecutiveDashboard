@@ -39,4 +39,16 @@ $(function() {
     if (element.is('li')) {
         element.addClass('active');
     }*/
+    var height1 = $(".main-dash:eq(0)>div:eq(1)").height(); 
+    var height2 = $(".main-dash:eq(1)>div:eq(1)").height(); 
+    
+    $(".main-dash:eq(0)>div>:eq(0).card").css('height', height1);
+    $(".main-dash:eq(1)>div:eq(2)>.card").css('height', height2);
+
+
+    var height_sdm_bottom_left_card = $(".sdm-bottom-left-card").parent().height();
+    $(".just-right").css('height', height_sdm_bottom_left_card);
+
+   /* $(".main-dash:eq(0)>div>:eq(0).card>.row>.card-home-title>h2").css('font-size', "2em");
+    $(".main-dash:eq(0)>div>:eq(0).card>.row>div>.txt_card_subtitle").css('font-size', "1.5em");*/
 });
