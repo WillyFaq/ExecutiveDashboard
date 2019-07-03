@@ -58,7 +58,18 @@
 							<div class="col-xs-4 card-smd-legend">
 								<div id="legend-jafung"></div>
 							</div>
-							<div class="text-center card-sdm-right top-right pg_info">
+							@php
+								if($skor_jabatan_fungsional <= 1){
+									$class_name = "danger";
+								}elseif($skor_jabatan_fungsional <= 2){
+									$class_name = "warning";
+								}elseif($skor_jabatan_fungsional <= 3){
+									$class_name = "purple";
+								}else{
+									$class_name = "info";
+								}
+							@endphp
+							<div class="text-center card-sdm-right top-right pg_{{$class_name}}">
 								<p class="txt_card_subtitle">Skor</p>
                                 <h1>{{ number_format($skor_jabatan_fungsional,2) }}</h1>
 							</div>
@@ -182,7 +193,18 @@
 											</tbody>
 										</table>
 									</div>
-									<div class="just-right text-center card-sdm-right pg_danger">	
+									@php
+										if($skor_penelitian <= 1){
+											$class_name = "danger";
+										}elseif($skor_penelitian <= 2){
+											$class_name = "warning";
+										}elseif($skor_penelitian <= 3){
+											$class_name = "purple";
+										}else{
+											$class_name = "info";
+										}
+									@endphp
+									<div class="just-right text-center card-sdm-right pg_{{$class_name}}">	
 										<p class="txt_card_subtitle">Skor</p>
 		                                <h1>{{number_format($skor_penelitian,2)}}</h1>
 									</div>
@@ -219,7 +241,18 @@
 											</tbody>
 										</table>
 									</div>
-									<div class="just-right text-center card-sdm-right pg_danger">	
+									@php
+										if($skor_pkm <= 1){
+											$class_name = "danger";
+										}elseif($skor_pkm <= 2){
+											$class_name = "warning";
+										}elseif($skor_pkm <= 3){
+											$class_name = "purple";
+										}else{
+											$class_name = "info";
+										}
+									@endphp
+									<div class="just-right text-center card-sdm-right pg_{{$class_name}}">	
 										<p class="txt_card_subtitle">Skor</p>
 		                                <h1>{{number_format($skor_pkm,2)}}</h1>
 									</div>
@@ -256,7 +289,18 @@
 											</tbody>
 										</table>
 									</div>
-									<div class="just-right text-center card-sdm-right pg_purple">	
+									@php
+										if($skor_rekognisi <= 1){
+											$class_name = "danger";
+										}elseif($skor_rekognisi <= 2){
+											$class_name = "warning";
+										}elseif($skor_rekognisi <= 3){
+											$class_name = "purple";
+										}else{
+											$class_name = "info";
+										}
+									@endphp
+									<div class="just-right text-center card-sdm-right pg_{{$class_name}}">	
 										<p class="txt_card_subtitle">Skor</p>
 		                                <h1>{{number_format($skor_rekognisi,2)}}</h1>
 									</div>
@@ -283,7 +327,18 @@
 							<div class="col-xs-4 card-smd-legend">
 								<div id="legend-sertifikasi"></div>
 							</div>
-								<div class="text-center card-sdm-right top-right pg_warning">
+								@php
+									if($skor_sertifikat_pendidikan <= 1){
+										$class_name = "danger";
+									}elseif($skor_sertifikat_pendidikan <= 2){
+										$class_name = "warning";
+									}elseif($skor_sertifikat_pendidikan <= 3){
+										$class_name = "purple";
+									}else{
+										$class_name = "info";
+									}
+								@endphp
+								<div class="text-center card-sdm-right top-right pg_{{$class_name}}">
 									<p class="txt_card_subtitle">Skor</p>
                                     <h1>{{ number_format($skor_sertifikat_pendidikan,2) }}</h1>
 								</div>
@@ -315,8 +370,18 @@
 							<div class="col-xs-10 card-home-title">
 								<h2>Persentase Dosen Tidak Tetap</h2>
 							</div>
-
-								<div class="text-center card-sdm-right top-right pg_purple">
+								@php
+									if($skor_presentase_dosen_tidak_tetap <= 1){
+										$class_name = "danger";
+									}elseif($skor_presentase_dosen_tidak_tetap <= 2){
+										$class_name = "warning";
+									}elseif($skor_presentase_dosen_tidak_tetap <= 3){
+										$class_name = "purple";
+									}else{
+										$class_name = "info";
+									}
+								@endphp
+								<div class="text-center card-sdm-right top-right pg_{{$class_name}}">
 									<p class="txt_card_subtitle">Skor</p>
                                     <h1>{{ number_format($skor_presentase_dosen_tidak_tetap,2) }}</h1>
 								</div>
