@@ -100,7 +100,10 @@ class Karyawan extends Model
     public function jabatan_fungsional_last()
     {
         return $this->hasOne(JabatanFungsional::class, 'nik')
-        ->latest('mulai_tetap_tmt');
+        ->latest('mulai_tetap_tmt')
+        ->withDefault(function ($jabatan_fungsional_last) {
+            $jabatan_fungsional_last->id_jfa = 1;
+        });
     }
 
     public function histori_ajar()
@@ -111,5 +114,44 @@ class Karyawan extends Model
     public function getSumHistoriSksAttribute()
     {
         return $this->histori_ajar->sum('sks');
+    }
+
+    public function getJenisKelaminAttribute()
+    {
+        if (1 == $this->attributes['sex']) {
+            return 'Laki-laki';
+        }
+
+        return   'Perempuan';
+    }
+
+    public function getNamaJabatanFungsionalLastAttribute()
+    {
+        if (null == $this->relations['jabatan_fungsional_last']) {
+            return 'Tenaga Pengajar';
+        }
+
+        return $this->relations['jabatan_fungsional_last']->jenis_jafung->jabatan_fungsional;
+    }
+
+    public function getJenjangStudiLastAttribute()
+    {
+        switch ($this->relations['pendidikan_formal_last']->jenjang_studi) {
+            case 'S1': return 'Strata 1';
+            case 'S2': return 'Strata 2';
+            case 'S3': return 'Strata 3';
+            default: return $this->relations['pendidikan_formal_last']->jenjang_studi;
+        }
+    }
+
+    public function getIkatanKerjaDosenAttribute()
+    {
+        switch ($this->attributes['kary_type']) {
+            case 'DC': return 'Dosen Percobaan';
+            case 'DH': return 'Dosen Homebase';
+            case 'KD': return 'Dosen Kontrak';
+            case 'TD': return 'Dosen Tetap';
+            default: return  '-';
+        }
     }
 }

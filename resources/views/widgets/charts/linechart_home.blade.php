@@ -1,7 +1,7 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<div class="m-auto" style="position:relative; width:515px; height:240px;">
+<div class="m-auto" style="position:relative; height:389px;">
 	<canvas id="linechart_{{$_idbx}}"></canvas >
 </div>
 <script>

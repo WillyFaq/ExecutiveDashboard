@@ -7,7 +7,9 @@
 <script type="text/javascript" >
 	var size = $("#chart-gauge-half-{{$_idgau}}").width()/2;//150,
     thickness = 12;
-
+    if($(document).width()>1900){
+    	thickness = 20;
+    }
 	//console.log(size);
 	var color = d3.scaleLinear()
 	    //.domain([0, 50, 100])
@@ -34,24 +36,20 @@
 	    .datum({
 	        endAngle: Math.PI / 2
 	    })
-	    .attr('class', 'background')
+	    .attr('class', 'background smd-main-gauge-background')
 	    .attr('d', arc);
 
 	var foreground = chart.append('path')
 	    .datum({
 	        endAngle: -Math.PI / 2
 	    })
+	    .attr('class', 'smd-main-gauge-gaugeval')
 	    .style('fill', '#db2828')
 	    .attr('d', arc)
 	    .style('stroke-linecap', 'round')
 	    .style('stroke-linejoin', 'round');
 
-	var value = svg.append('g')
-	    .attr('transform', 'translate(' + size + ',' + (size * 1.15) + ')')
-	    .append('text')
-	    .text(0)
-	    .attr('text-anchor', 'middle')
-	    .attr('class', 'value');
+	var value;
 
 
 	/*var kete = svg.append('g')
@@ -60,20 +58,21 @@
 	    .text(0)
 	    .attr('text-anchor', 'middle')
 	    .attr('class', 'nhuruf');*/
+	if($(document).width()>1900){
+		value = svg.append('g').attr('transform', 'translate(' + size + ',' + (size * 1.00) + ')')
+	    .append('text')
+	    .text(0)
+	    .attr('text-anchor', 'middle')
+	    .attr('class', 'value smd-main-gauge-value');
+	}else{
+		value= svg.append('g').attr('transform', 'translate(' + size + ',' + (size * 1.15) + ')')
+	    .append('text')
+	    .text(0)
+	    .attr('text-anchor', 'middle')
+	    .attr('class', 'value smd-main-gauge-value');
+	}
 
-	var gicon = svg.append('g')
-	    .attr('transform', 'translate(' + size + ',' + (size * 0.49) + ')')
-	    .append('circle')
-	    .attr("cx", 0)
-	    .attr("cy", 0)
-	    .attr("r", 12)
-	    .style("fill", "#E8F3FC");
-
-	var gaicon = svg.append('g')
-	    .attr('transform', 'translate(' + (size * 0.9) + ',' + (size * 0.40) + ')')
-	    .append('path')
-	    .attr("d", "M8,7H20a1,1,0,0,0,0-2H8A1,1,0,0,0,8,7ZM20,17H8a1,1,0,0,0,0,2H20a1,1,0,0,0,0-2Zm0-6H8a1,1,0,0,0,0,2H20a1,1,0,0,0,0-2ZM4.5,16h-2a.5.5,0,0,0,0,1H4v.5H3.5a.5.5,0,0,0,0,1H4V19H2.5a.5.5,0,0,0,0,1h2a.5.5,0,0,0,.5-.5v-3A.5.5,0,0,0,4.5,16ZM2.5,5H3V7.5a.5.5,0,0,0,1,0v-3A.5.5,0,0,0,3.5,4h-1a.5.5,0,0,0,0,1Zm2,5h-2a.5.5,0,0,0,0,1H3.8L2.12,12.96a.49.49,0,0,0-.12.32v.22a.5.5,0,0,0,.5.5h2a.5.5,0,0,0,0-1H3.2l1.68-1.96A.49.49,0,0,0,5,10.72V10.5A.5.5,0,0,0,4.5,10Z")
-	    .style("fill", "#2386de");
+	
 
 
 	var scale = svg.append('g')
