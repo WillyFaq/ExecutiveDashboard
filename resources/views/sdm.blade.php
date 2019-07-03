@@ -99,9 +99,20 @@
 						<div class="col-xs-12">
 							<div class="card">
 								<div class="row">
+									@php
+										if($skor_rasio_dosen_mahasiswa <= 1){
+											$class_name = "danger";
+										}elseif($skor_rasio_dosen_mahasiswa <= 2){
+											$class_name = "warning";
+										}elseif($skor_rasio_dosen_mahasiswa <= 3){
+											$class_name = "purple";
+										}else{
+											$class_name = "info";
+										}
+									@endphp
 									<div class="col-xs-8 sdm-small-card-tittle">
 										<p>Rasio Dosen : Mahasiswa</p>
-										<h1 class="txt_color_info">1 : {{ $rasio_dosen_mahasiswa }}</h1>
+										<h1 class="txt_color_{{$class_name}}">1 : {{ $rasio_dosen_mahasiswa }}</h1>
 									</div>
 									<div class="col-xs-4">
                                         @include('widgets.charts.gauge', [
@@ -115,9 +126,20 @@
 						<div class="col-xs-12">
 							<div class="card">
 								<div class="row">
+									@php
+										if($skor_rasio_prodi_dosen <= 1){
+											$class_name = "danger";
+										}elseif($skor_rasio_prodi_dosen <= 2){
+											$class_name = "warning";
+										}elseif($skor_rasio_prodi_dosen <= 3){
+											$class_name = "purple";
+										}else{
+											$class_name = "info";
+										}
+									@endphp
 									<div class="col-xs-8 sdm-small-card-tittle">
 										<p>Rasio Program Studi : Dosen</p>
-										<h1 class="txt_color_yellow">1 : {{ $rasio_prodi_dosen }}</h1>
+										<h1 class="txt_color_{{$class_name}}">1 : {{ $rasio_prodi_dosen }}</h1>
 									</div>
 									<div class="col-xs-4">
                                         @include('widgets.charts.gauge', [
@@ -177,22 +199,6 @@
 											])
 										</div>
 									</div>
-									<div class="col-xs-4 just-center">
-										<table class="table-keterangan-sdm-card">
-											<thead>
-												<tr class="txt_color_info">
-													<th>{{array_sum(array_values($jml_penelitian_dosen))}}</th>
-													<th>{{0}}</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Nasional</td>
-													<td>Internasional</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
 									@php
 										if($skor_penelitian <= 1){
 											$class_name = "danger";
@@ -204,6 +210,22 @@
 											$class_name = "info";
 										}
 									@endphp
+									<div class="col-xs-4 just-center">
+										<table class="table-keterangan-sdm-card">
+											<thead>
+												<tr>
+													<th class="txt_color_success">{{array_sum(array_values($jml_penelitian_dosen))}}</th>
+													<th class="txt_color_{{$class_name}}">{{0}}<span style="font-size:12px"> of {{array_sum(array_values($jml_penelitian_dosen))}}</span></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Nasional</td>
+													<td>Internasional</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 									<div class="just-right text-center card-sdm-right pg_{{$class_name}}">	
 										<p class="txt_card_subtitle">Skor</p>
 		                                <h1>{{number_format($skor_penelitian,2)}}</h1>
@@ -225,22 +247,6 @@
 											])
 										</div>
 									</div>
-									<div class="col-xs-4">
-										<table class="table-keterangan-sdm-card">
-											<thead>
-												<tr class="txt_color_yellow">
-													<th>{{array_sum(array_values($jml_pkm_dosen))}}</th>
-													<th>{{0}}</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Nasional</td>
-													<td>Internasional</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
 									@php
 										if($skor_pkm <= 1){
 											$class_name = "danger";
@@ -252,6 +258,22 @@
 											$class_name = "info";
 										}
 									@endphp
+									<div class="col-xs-4">
+										<table class="table-keterangan-sdm-card">
+											<thead>
+												<tr>
+													<th class="txt_color_success">{{array_sum(array_values($jml_pkm_dosen))}}</th>
+													<th class="txt_color_{{$class_name}}">{{0}}<span style="font-size:12px"> of {{array_sum(array_values($jml_pkm_dosen))}}</span></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Nasional</td>
+													<td>Internasional</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 									<div class="just-right text-center card-sdm-right pg_{{$class_name}}">	
 										<p class="txt_card_subtitle">Skor</p>
 		                                <h1>{{number_format($skor_pkm,2)}}</h1>
@@ -273,22 +295,6 @@
 											])
 										</div>
 									</div>
-									<div class="col-xs-4">
-										<table class="table-keterangan-sdm-card">
-											<thead>
-												<tr class="txt_color_info">
-													<th>{{array_sum(array_values($jml_rekognisi_dosen))}}</th>
-													<th>{{0}}</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Nasional</td>
-													<td>Internasional</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
 									@php
 										if($skor_rekognisi <= 1){
 											$class_name = "danger";
@@ -300,6 +306,22 @@
 											$class_name = "info";
 										}
 									@endphp
+									<div class="col-xs-4">
+										<table class="table-keterangan-sdm-card">
+											<thead>
+												<tr>
+													<th class="txt_color_success">{{array_sum(array_values($jml_rekognisi_dosen))}}</th>
+													<th class="txt_color_{{$class_name}}">{{0}}<span style="font-size:12px"> of {{array_sum(array_values($jml_rekognisi_dosen))}}</span></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Nasional</td>
+													<td>Internasional</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 									<div class="just-right text-center card-sdm-right pg_{{$class_name}}">	
 										<p class="txt_card_subtitle">Skor</p>
 		                                <h1>{{number_format($skor_rekognisi,2)}}</h1>
