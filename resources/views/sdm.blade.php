@@ -215,7 +215,7 @@
 											<thead>
 												<tr>
 													<th class="txt_color_success">{{array_sum(array_values($jml_penelitian_dosen))}}</th>
-													<th class="txt_color_{{$class_name}}">{{0}}<span style="font-size:12px"> of {{array_sum(array_values($jml_penelitian_dosen))}}</span></th>
+													<th class="txt_color_{{$class_name}}">{{0}}<span style="font-size:12px">/{{array_sum(array_values($jml_penelitian_dosen))}}</span></th>
 												</tr>
 											</thead>
 											<tbody>
@@ -263,7 +263,7 @@
 											<thead>
 												<tr>
 													<th class="txt_color_success">{{array_sum(array_values($jml_pkm_dosen))}}</th>
-													<th class="txt_color_{{$class_name}}">{{0}}<span style="font-size:12px"> of {{array_sum(array_values($jml_pkm_dosen))}}</span></th>
+													<th class="txt_color_{{$class_name}}">{{0}}<span style="font-size:12px">/{{array_sum(array_values($jml_pkm_dosen))}}</span></th>
 												</tr>
 											</thead>
 											<tbody>
@@ -311,7 +311,7 @@
 											<thead>
 												<tr>
 													<th class="txt_color_success">{{array_sum(array_values($jml_rekognisi_dosen))}}</th>
-													<th class="txt_color_{{$class_name}}">{{0}}<span style="font-size:12px"> of {{array_sum(array_values($jml_rekognisi_dosen))}}</span></th>
+													<th class="txt_color_{{$class_name}}">{{0}}<span style="font-size:12px">/{{array_sum(array_values($jml_rekognisi_dosen))}}</span></th>
 												</tr>
 											</thead>
 											<tbody>
