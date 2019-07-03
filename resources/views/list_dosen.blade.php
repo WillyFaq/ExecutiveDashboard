@@ -96,7 +96,6 @@
 		<table id="table-dosen" class="display" style="width:100%">
 			<thead>
 				<tr>
-					<th>No.</th>
 					<th>Nama Dosen</th>
 					<th>Gelar</th>
 					<th>Jenis Kelamin</th>
@@ -108,11 +107,7 @@
 			</thead>
 			<tbody>
 				@foreach($list_dosen as $i => $dosen)
-					@php
-						$no = $i + 1;
-					@endphp
 						<tr>
-							<td>{{$no}}</td>
 							<td><a href="{{route('sdm.dosen.detail', [
 								$prodi->id, 
 								$dosen->nik,
@@ -123,10 +118,10 @@
 							<td>{{$dosen->ikatan_kerja_dosen}}</td>
 							<td>{{$dosen->nama_jabatan_fungsional_last}}</td>
 							<td>
-							<a href='' data-toggle="modal" data-target="#berkasModal{{$no}}"><img src="{{ asset("imgs/document.png") }}" alt="Upload Berkas" width="24" height="24"></a>
+							<a href='' data-toggle="modal" data-target="#berkasModal{{$i}}"><img src="{{ asset("imgs/document.png") }}" alt="Upload Berkas" width="24" height="24"></a>
 							</td>
 						</tr>
-						<div class="modal fade" id="berkasModal{{$no}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal fade" id="berkasModal{{$i}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						  <div class="modal-dialog" role="document">
 							<div class="modal-content">
 							  <div class="modal-header">
@@ -195,7 +190,7 @@
             }
             let pendidikan = $('#input-filter-pendidikan');
             if(!pendidikan.val()) return true;
-            if(pendidikan.find('option:selected').text() == data[4].replace(/(.).+(.)/g, function(match, part1,part2){
+            if(pendidikan.find('option:selected').text() == data[3].replace(/(.).+(.)/g, function(match, part1,part2){
                 return part1+part2;
             })){
                 return true;
@@ -210,7 +205,7 @@
             }
             let jafung = $('#input-filter-jafung');
             if(!jafung.val()) return true;
-            if(jafung.find('option:selected').text() == data[6]){
+            if(jafung.find('option:selected').text() == data[5]){
                 return true;
             }
             return false;
