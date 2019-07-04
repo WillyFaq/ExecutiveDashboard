@@ -493,14 +493,12 @@
             options: {
                 responsive: true,
                 hoverMode: 'index',
-                stacked: false,
                 title: {
                     display: false,
                     text: 'Chart.js Line Chart - Multi Axis'
                 },
                 scales: {
                     xAxes: [{
-                        stacked:true,
                         gridLines:  {
                             display: false
                         },
@@ -510,7 +508,6 @@
 
                     }],
                     yAxes: [{
-                        stacked:true,
                         gridLines:  {
                             display: true,
                         },
@@ -534,12 +531,23 @@
 				legendCallback: function(chart) {
 					var text = []; 
 					text.push('<div class="text-center">');
-					for (var i = 0; i < chart.data.datasets.length; i++) { 
-						if (chart.data.datasets[i].label) { 
+					let legend_data = chart.data.datasets.map(function(data){
+						return {
+							label:data.label,
+							backgroundColor:data.backgroundColor,
+						};
+					});
+					legend_data.push(legend_data.shift());
+					legend_data.map(function(data){
+						data.label = data.label.replace(/^S([0-9])$/, "Strata $1");
+						return data;
+					});
+					for (var i = 0; i < legend_data.length; i++) { 
+						if (legend_data[i].label) { 
 							text.push('<div class="chart-subtitle" style="display:inline-block; margin-right:50px;">');
 							text.push('<span>');
-							text.push('<div style="background-color:' + chart.data.datasets[i].backgroundColor + '; height:8px; width:8px; display:inline-block; margin-right:5px;"></div>'); 
-							text.push(chart.data.datasets[i].label); 
+							text.push('<div style="background-color:' + legend_data[i].backgroundColor + '; height:8px; width:8px; display:inline-block; margin-right:5px;"></div>'); 
+							text.push(legend_data[i].label); 
 							text.push('</span>');
 							text.push('</div>');
 						} 
