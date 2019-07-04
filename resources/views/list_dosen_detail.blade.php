@@ -18,6 +18,13 @@
     #profil-dosen {
         color: black;
     }
+    .profile-pic {
+        height: 130px;
+        width: 130px;
+        background-position: center;
+        background-size:cover;
+        border-radius: 50%;
+    }
 </style>
 <div class="card">
     <div class="card-body">
@@ -28,14 +35,12 @@
     </div>
 </div>
 <div class="card mt-2" id="profil-dosen">
-    <div class="card-body">
+    <div class="card-body pt-4">
         <div class="row">
-            <div class="col-6 col-md-3"> 
-                <p align="center">
-                    <img src="https://sicyca.stikom.edu/static/foto/{{$result->nik}}" class="rounded-circle" width="135" height="150">
-                    <b class="d-block">{{$result->nama}}</b>
-                    <span class="d-block">({{$result->nip}})</span>
-                </p>
+            <div class="col-6 col-md-3 text-center"> 
+                <div class="profile-pic d-block mx-auto mb-2" style="background-image: url(https://sicyca.stikom.edu/static/foto/{{$result->nik}});"></div>
+                <b class="d-block">{{$result->nama}}</b>
+                <span class="d-block">({{$result->nip}})</span>
             </div>
             <div class="col-6 col-md-4">
                 <table style="margin-top:25px;">
