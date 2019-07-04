@@ -5,6 +5,12 @@
 body {
     background-color: #CCDAE3;
     height: 1080px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+    display: none;
 }
 
 .card {
