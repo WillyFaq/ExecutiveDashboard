@@ -119,7 +119,7 @@
 							<td>{{$dosen->nama_jabatan_fungsional_last}}</td>
 							<td>
                                 <a href='#' onclick="openModalListBerkas('{{$dosen->nik}}')">
-                                    <img src="{{ asset("imgs/document.png") }}" alt="Upload Berkas" width="24" height="24">
+                                    <i class="fac fa-detail"></i>
                                 </a>
 							</td>
 						</tr>
