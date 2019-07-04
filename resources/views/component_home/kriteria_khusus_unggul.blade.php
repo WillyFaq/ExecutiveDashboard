@@ -46,4 +46,22 @@
             </div>
         @endforeach
     </div>
+    <div class="card-body text-center">
+        <div class="chart-subtitle d-inline-block">
+            <div class="mx-1 bg-primary legend-block d-inline-block"></div>
+            Sangat Baik
+        </div>
+        <div class="chart-subtitle d-inline-block">
+            <div class="mx-1 bg-success legend-block d-inline-block"></div>
+            Baik
+        </div>
+        <div class="chart-subtitle d-inline-block">
+            <div class="mx-1 bg-warning legend-block d-inline-block"></div>
+            Sedang
+        </div>
+        <div class="chart-subtitle d-inline-block">
+            <div class="mx-1 bg-danger legend-block d-inline-block"></div>
+            Buruk
+        </div>
+    </div>
 </div>

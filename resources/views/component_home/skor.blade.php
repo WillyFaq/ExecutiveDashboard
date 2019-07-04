@@ -5,6 +5,9 @@
         color: black;
         line-height: 20px;
     }
+    #panel-skor .alert {
+        height: 349px;
+    }
     #panel-skor .detail-pt {
         font-size: 13px;
     }
@@ -17,7 +20,7 @@
         font-weight: bold;
         font-size: 18px;
     }
-    #home-panel-skor.unggul {
+    #panel-skor .bg-primary {
         background: #00F2FE;
         background: -moz-linear-gradient(117deg, #00F2FE 0%, #4FACFE 100%);
         background: -webkit-gradient(117deg, right bottom, color-stop(0%, #00F2FE), color-stop(100%, #4FACFE));
@@ -27,7 +30,7 @@
         background: linear-gradient(117deg, #00F2FE 0%, #4FACFE 100%);
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00F2FE', endColorstr='#4FACFE', GradientType=1 );
     }
-    #panel-skor .baik_sekali {
+    #panel-skor .bg-success {
         background: #FF527A;
         background: -moz-linear-gradient(117deg, #FF527A 0%, #26D1FE 100%);
         background: -webkit-gradient(117deg, right bottom, color-stop(0%, #FF527A), color-stop(100%, #26D1FE));
@@ -37,7 +40,7 @@
         background: linear-gradient(117deg, #FF527A 0%, #26D1FE 100%);
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff527a', endColorstr='#26cffe', GradientType=1 );
     }
-    #panel-skor .baik {
+    #panel-skor .bg-warning {
         background: #FF9575;
         background: -moz-linear-gradient(117deg, #FF9575 0%, #FE8C00 100%);
         background: -webkit-gradient(117deg, right bottom, color-stop(0%, #FF9575), color-stop(100%, #FE8C00));
@@ -47,7 +50,7 @@
         background: linear-gradient(117deg, #FF9575 0%, #FE8C00 100%);
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff527a', endColorstr='#26cffe', GradientType=1 );
     }
-    #panel-skor .tidak_terakreditasi {
+    #panel-skor .bg-danger {
         background: #FF527A;
         background: -moz-linear-gradient(117deg, #FF527A 0%, #FF9575 100%);
         background: -webkit-gradient(117deg, right bottom, color-stop(0%, #FF527A), color-stop(100%, #FF9575));
@@ -77,25 +80,25 @@
     </div>
     @php
     if($skor['nilai'] < 200){
-        $status = 'tidak_terakreditasi';
+        $status = 'danger';
     }elseif($skor['nilai'] < 300){
-        $status = 'baik';
+        $status = 'warning';
     }elseif($skor['nilai'] < 360){
-        $status = 'baik_sekali';
+        $status = 'success';
     }else{
-        $status = 'unggul';
+        $status = 'primary';
     }
     @endphp
-    <div class="card-body pt-2">
-        <div class="alert {{$status}}" style="height:100%">
-            <div class="row pt-2">
-                <div class="col">
+    <div class="card-body py-2">
+        <div class="alert mb-0 bg-{{$status}}">
+            <div class="row">
+                <div class="col" style="padding-top:56px">
                     @php
                         $skor['chart']['status'] = $status
                     @endphp
                     @include('widgets.charts.gauge_home', $skor['chart'])
                 </div>
-                <div class="col skor-desc align-middle">
+                <div class="col skor-desc" style="padding-top:95px">
                     <p>Status</p>
                     <p class="value pb-2">
                         @if($skor['nilai'] < 200)
