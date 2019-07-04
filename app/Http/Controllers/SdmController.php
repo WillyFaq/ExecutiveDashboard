@@ -12,6 +12,7 @@ use DB;
 use App\JenisJabatanFungsional;
 use App\Penelitian;
 use App\BerkasPortofolio;
+use App\JenisBerkasPortofolio;
 
 class SdmController extends Controller
 {
@@ -88,11 +89,11 @@ class SdmController extends Controller
         ->count();
         // JUMLAH PENELITIAN DOSEN
         $periode_ewmp = collect(range($tahun_now-3, $tahun_now));
-        $penelitian_dosen = Penelitian::whereBetween(\DB::Raw("SUBSTR(periode, -4)"), [$tahun_now-3, $tahun_now])
+        $penelitian_dosen = Penelitian::whereBetween(\DB::Raw("TO_CHAR(TO_DATE(SUBSTR(smt,1,2),'RR'),'YYYY')"), [$tahun_now-3, $tahun_now])
         ->get();
         $jml_penelitian_dosen = $periode_ewmp->map(function($tahun) use ($penelitian_dosen){
             return $penelitian_dosen->filter(function($penelitian_dosen) use ($tahun) {
-                return substr($penelitian_dosen->periode, -4) == $tahun;
+                return Carbon::createFromFormat('y', substr($penelitian_dosen->smt, 0, 2))->format('Y') == $tahun;
             })
             ->count();
         });
@@ -463,29 +464,51 @@ class SdmController extends Controller
         ));
 	}
 	
-    public function getBerkasPortofolio($id_berkas){
-        return BerkasPortofolio::find($id_berkas);
+    public function getKaryawan($nik){
+        $karyawan = Karyawan::find($nik);
+        $karyawan->berkas_portofolio = JenisBerkasPortofolio::whereHas('berkas_portofolio', function($query) use ($nik) {
+            return $query->where('nik',$nik);
+        })->get();
+
+        return $karyawan;
+    }
+
+    public function getBerkasPortofolio($nik, $id_jenis){
+        return BerkasPortofolio::where('nik',$nik)
+        ->where('id_jenis',$id_jenis)
+        ->get();
     }
 	
 	public function list_dosen_detail($kode_prodi, $nik){
-		$result = DB::connection('oracle_stikom_dev')->select("select nik, nip, nama, decode(sex, 1, 'Laki - Laki', 2, 'Perempuan') sex, decode(kary_type, 'DC', 'Dosen Percobaan', 'DH', 'Dosen Homebase', 'KD', 'Dosen Kontrak', 'TD', 'Dosen Tetap') kary_type, (select nama from v_fakultas@get_ori where id = fakul_id) prodi,
-								(select jabatan_fungsional from v_jafung@get_ori where id_jabatan = (select id_jfa from v_jafung_akademik@get_ori a where id_jfa = 
-									(select max(id_jfa) from v_jafung_akademik@get_ori where nik = a.nik) and nik = kar.nik
-								)) jafung,
-								decode((select jenjang_studi from V_PEND_FORMAL_KAR@get_ori a where nik = kar.nik and no = 
-									(select max(no) from v_pend_formal_kar@get_ori where nik = a.nik and jenjang_studi is not null)
-								),'S1', 'Strata 1', 'S2', 'Strata 2', 'S3', 'Strata 3') jenjang_studi
-							from v_karyawan@get_ori kar where nik = '$nik'");
-		$akademik = DB::connection('oracle_stikom_dev')->select("select no, jenjang, nama_sekolah, jenjang_studi, substr(tahun_lulus, -4) tahun_lulus, jurusan from V_PEND_FORMAL_KAR@get_ori where nik = '$nik'
-										and lower(jenjang_studi) in ('s1','s2','s3') order by 1");										
-		/*$penelitian = DB::connection('oracle_stikom_dev')->select("select mk, 'Institut Bisnis dan Informatika Stikom Surabaya' lembaga, substr(periode, -4) tahun from pantja.ewmp_b@get_ori where nik = '$id' and lower(mk) not like '%studi lanjut%'");*/
-		
-		$penelitian = DB::connection('oracle_stikom_dev')->select("select judul, jns, substr(smt,1,2) tahun, 'Institut Bisnis dan Informatika Stikom Surabaya' lembaga from pantja.ewmp_b_dashboard@get_ori where nik = '$nik' order by tahun");
-		
-		/*$riwayat = DB::select("select substr(smt,1,2) tahun, sum(b.sks) sks from jdwkul_mf_his a join kurlkl_mf b on a.klkl_id = b.id where a.prodi = b.fakul_id and kary_nik = '$id' group by substr(smt,1,2) order by 1");*/
-		
-		$riwayat = DB::connection('oracle_stikom_dev')->select("select substr(a.semester,1,2) tahun, sum(b.sks) sks from rekap_mf@get_ori a join kurlkl_mf@get_ori b on a.jkul_klkl_id = b.id where a.prodi = b.fakul_id and jkul_kary_nik = '$nik' and sts_dosen = '*' and substr(a.semester, 1,1) <> '9' group by substr(a.semester,1,2) order by 1");
-		
-		return view('list_dosen_detail', ['result' => $result, 'akademik' => $akademik, 'penelitian' => $penelitian, 'line' => $riwayat]);
+        $karyawan = Karyawan::with([
+            'prodi_ewmp.program_studi',
+            'jabatan_fungsional_last',
+            'pendidikan_formal_last',
+            'pendidikan_formal' => function($query) {
+                return $query->filterInJenjang(['S1','S2','S3']);
+            },
+            'penelitian',
+            'histori_ajar' => function ($query) {
+                return $query->orderBySemester();
+            },
+        ])
+        ->find($nik);
+
+        $histori_ajar = $karyawan->histori_ajar->groupBy(function($histori_ajar){
+            return substr($histori_ajar->semester,0,2);
+        })->map(function($histori_ajar, $tahun){
+            return [
+                'tahun' => $tahun,
+                'sks' => $histori_ajar->sum('sks'),
+            ];
+        })
+        ->values();
+
+        return view('list_dosen_detail', [
+            'result' => $karyawan, 
+            'akademik' => $karyawan->pendidikan_formal,
+            'penelitian' => $karyawan->penelitian,
+            'line' => $histori_ajar,
+        ]);
 	}
 }

@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Penelitian extends Model
 {
-    protected $table = 'pantja.ewmp_b';
+    protected $table = 'pantja.ewmp_b_dashboard';
 
-    public function newQuery()
+    public function getLembagaAttribute()
     {
-        return parent::newQuery()
-        ->where('mk', '<>', 'Studi Lanjut');
+        return isset($this->attributes['lembaga']) ?
+        $this->attributes['lembaga'] :
+        'Institut Bisnis dan Informatika Stikom Surabaya';
     }
 }
