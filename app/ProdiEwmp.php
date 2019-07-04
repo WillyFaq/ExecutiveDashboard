@@ -8,7 +8,13 @@ class ProdiEwmp extends Model
 {
     protected $table = 'v_prodiewmp';
 
-    public function prodi()
+    public function newQuery()
+    {
+        return parent::newQuery()
+        ->addSelect(['nik', 'prodi']);
+    }
+
+    public function program_studi()
     {
         return $this->belongsTo(Prodi::class, 'prodi');
     }

@@ -29,47 +29,48 @@
 	</script>
 <div class="container container-main container-home" style="padding-top:10px;">
 <div class="card">
-	<p><b>Biodata Dosen S1 Sistem Informasi</b></p>
+	<a href="{{url('sdm.dosen', $result->prodi_ewmp->program_studi->id)}}">
+		<img src="{{asset('imgs/baseline-arrow_back_ios-24px.svg')}}" class="back-icon float-left mr-2">
+	</a>
+	<p><b>Biodata Dosen {{$result->prodi_ewmp->program_studi->nama}}</b></p>
 </div>
 <br>
 <div class="card">	
 	<div class="container">
 		<div class="row">
-		@foreach($result as $row)
 			<div class="col-6 col-md-3"> 
-				<p align="center"><img src="https://sicyca.stikom.edu/static/foto/{{$row->nik}}" class="img-circle" width="135" height="150"><br>
-				<b>{{$row->nama}}</b><br>({{$row->nip}})</p>
+				<p align="center"><img src="https://sicyca.stikom.edu/static/foto/{{$result->nik}}" class="img-circle" width="135" height="150"><br>
+				<b>{{$result->nama}}</b><br>({{$result->nip}})</p>
 			</div>
 			<div class="col-6 col-md-4">
 				<table style="margin-top:25px;">
 					<tr>
 						<td><b>Program Studi </b></td>
 						<td>&nbsp; &nbsp; : &nbsp; &nbsp;</td>
-						<td>{{$row->prodi}}</td>
+						<td>{{$result->prodi_ewmp->program_studi->nama}}</td>
 					</tr>
 					<tr>
 						<td><b>Jenis Kelamin </b></td>
 						<td>&nbsp; &nbsp; : &nbsp; &nbsp;</td>
-						<td>{{$row->sex}}</td>
+						<td>{{$result->jenis_kelamin}}</td>
 					</tr>
 					<tr>
 						<td><b>Jabatan Fungsional </b></td>
 						<td>&nbsp; &nbsp; : &nbsp; &nbsp;</td>
-						<td>{{$row->jafung}}</td>
+						<td>{{$result->nama_jabatan_fungsional_last}}</td>
 					</tr>
 					<tr>
 						<td><b>Pendidikan Tertinggi </b></td>
 						<td>&nbsp; &nbsp; : &nbsp; &nbsp;</td>
-						<td>{{$row->jenjang_studi}}</td>
+						<td>{{$result->jenjang_studi_last}}</td>
 					</tr>
 					<tr>
 						<td><b>Status Ikatan Kerja </b></td>
 						<td>&nbsp; &nbsp; : &nbsp; &nbsp;</td>
-						<td>{{$row->kary_type}}</td>
+						<td>{{$result->ikatan_kerja_dosen}}</td>
 					</tr>
 				</table>
 			</div>
-		@endforeach
 			<div class="col-6 col-md-5">
 				<p><b>Riwayat Mengajar</b></p>
 				<canvas id="myChart"></canvas>
@@ -151,18 +152,17 @@ var ctx = document.getElementById('myChart').getContext('2d');
 var gradientFill = ctx.createLinearGradient(500, 0, 100, 0);
 gradientFill.addColorStop(0, "rgba(128, 182, 244, 0.6)");
 gradientFill.addColorStop(1, "rgba(244, 144, 128, 0.6)");
-
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: {!!json_encode(array_map(function($row){
-            return "20".$row->tahun;
-        }, $line))!!},
+        labels: {!!json_encode(array_values($line->map(function($history){
+            return $history['tahun'];
+        })->toArray()))!!},
         datasets: [{
             label: 'Jumlah SKS',
-            data: {!!json_encode(array_map(function($row){
-                return $row->sks;
-            }, $line))!!},
+            data: {!!json_encode(array_values($line->map(function($history){
+                return $history['sks'];
+            })->toArray()))!!},
             /*backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',

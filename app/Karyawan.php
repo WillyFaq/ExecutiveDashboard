@@ -84,7 +84,7 @@ class Karyawan extends Model
 
     public function prodi_ewmp()
     {
-        return $this->hasMany(ProdiEwmp::class, 'nik');
+        return $this->hasOne(ProdiEwmp::class, 'nik');
     }
 
     public function sertifikasi()
@@ -108,12 +108,12 @@ class Karyawan extends Model
 
     public function histori_ajar()
     {
-        return $this->hasMany(HistoriAjar::class, 'kary_nik');
+        return $this->hasMany(HistoriAjar::class, 'jkul_kary_nik');
     }
 
-    public function getSumHistoriSksAttribute()
+    public function penelitian()
     {
-        return $this->histori_ajar->sum('sks');
+        return $this->hasMany(Penelitian::class, 'nik');
     }
 
     public function getJenisKelaminAttribute()
