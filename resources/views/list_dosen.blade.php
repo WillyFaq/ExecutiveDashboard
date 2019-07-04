@@ -20,7 +20,7 @@
 		<div class="row">
 			<div class="col-md-3">
 				<a href="{{url('sdm')}}">
-					<img src="{{asset('imgs/baseline-arrow_back_ios-24px.svg')}}" class="card-icon float-left mr-2">
+					<img src="{{asset('imgs/baseline-arrow_back_ios-24px.svg')}}" class="back-icon float-left mr-2">
 				</a>
 				<span class="chart-title">Dosen Program Studi {{$prodi->nama}}</span>
 			</div>
