@@ -1,4 +1,4 @@
-<div class="m-auto" style="position:relative; height:309px;">
+<div class="m-auto" style="height:404px;">
 	<canvas id="radarchart"></canvas>
 </div>
 
