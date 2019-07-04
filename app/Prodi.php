@@ -48,4 +48,9 @@ class Prodi extends Model
         // return 'D3' == substr($this->attributes['alias'], 0, 2) ? $this->attributes['alias'] : substr($this->attributes['alias'], 3);
         return str_replace('-', ' ', $this->attributes['alias']);
     }
+
+    public function getNamaAttribute()
+    {
+        return substr($this->attributes['alias'], 0, 2).' '.$this->attributes['nama'];
+    }
 }
