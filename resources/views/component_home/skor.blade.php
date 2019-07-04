@@ -91,14 +91,14 @@
     @endphp
     <div class="card-body py-2">
         <div class="alert mb-0 bg-{{$status}}">
-            <div class="row pt-2">
-                <div class="col">
+            <div class="row">
+                <div class="col" style="padding-top:56px">
                     @php
                         $skor['chart']['status'] = $status
                     @endphp
                     @include('widgets.charts.gauge_home', $skor['chart'])
                 </div>
-                <div class="col skor-desc align-middle">
+                <div class="col skor-desc" style="padding-top:95px">
                     <p>Status</p>
                     <p class="value pb-2">
                         @if($skor['nilai'] < 200)
