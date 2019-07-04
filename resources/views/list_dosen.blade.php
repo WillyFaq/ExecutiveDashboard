@@ -155,8 +155,16 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="thumbnail">
-                        <img id="img_berkas" style="width:100%" src="">
+                    <div id="img_berkas" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner"></div>
+                        <a class="carousel-control-prev" href="#img_berkas" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#img_berkas" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -186,7 +194,7 @@
                         }},
                         { title:'Nama Berkas', data: 'nama_jenis'},
                         { title:'Action', render: function(data, type, row){
-                            return '<a href="#" onclick="openModalBerkas('+row.id_berkas+')"><i class="fac fa-download" style="font-size:24px"></i></a>'
+                            return '<a href="#" onclick="openModalBerkas(\''+nik+'\','+row.id_jenis+')"><i class="fac fa-download" style="font-size:24px"></i></a>'
                         }},
                     ],
                 });
@@ -194,13 +202,15 @@
             }
         });
     }
-    function openModalBerkas(id_berkas){
+    function openModalBerkas(nik, id_jenis){
         $.ajax({
-            url: '{{route("sdm.dosen.berkas", ":id_berkas")}}'.replace(':id_berkas', id_berkas),
+            url: '{{route("sdm.dosen.berkas", [":nik",":id_jenis"])}}'.replace(':id_jenis', id_jenis).replace(':nik',nik),
             success: function(result) {
-                $("#img_berkas").attr({
-                    src:'{{asset("imgs/berkas/:path")}}'.replace(':path', result.file_path)
-                });
+                $('#img_berkas').find('.carousel-inner').html(result.map(function(result, index){
+                    return '<div class="carousel-item :active"><img style="width:100%" src="{{asset("imgs/berkas/:path")}}"></div>'
+                    .replace(':path', result.file_path)
+                    .replace(':active',index == 0 ? 'active' : null);
+                }).join(''))
                 $("#modal_berkas").modal('show');
             }
         });

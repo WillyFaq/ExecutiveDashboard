@@ -24,6 +24,6 @@ Route::group(['prefix' => '/sdm/dosen'], function(){
     });
     Route::get('karyawan/{nik}', 'SdmController@getKaryawan')
     ->name('sdm.dosen.karyawan');
-    Route::get('berkas/{id_berkas}', 'SdmController@getBerkasPortofolio')
+    Route::get('berkas/{nik}/{id_berkas}', 'SdmController@getBerkasPortofolio')
     ->name('sdm.dosen.berkas');
 });

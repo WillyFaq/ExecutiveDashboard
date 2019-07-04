@@ -12,6 +12,7 @@ use DB;
 use App\JenisJabatanFungsional;
 use App\Penelitian;
 use App\BerkasPortofolio;
+use App\JenisBerkasPortofolio;
 
 class SdmController extends Controller
 {
@@ -464,11 +465,18 @@ class SdmController extends Controller
 	}
 	
     public function getKaryawan($nik){
-        return Karyawan::with('berkas_portofolio')->find($nik);
+        $karyawan = Karyawan::find($nik);
+        $karyawan->berkas_portofolio = JenisBerkasPortofolio::whereHas('berkas_portofolio', function($query) use ($nik) {
+            return $query->where('nik',$nik);
+        })->get();
+
+        return $karyawan;
     }
 
-    public function getBerkasPortofolio($id_berkas){
-        return BerkasPortofolio::find($id_berkas);
+    public function getBerkasPortofolio($nik, $id_jenis){
+        return BerkasPortofolio::where('nik',$nik)
+        ->where('id_jenis',$id_jenis)
+        ->get();
     }
 	
 	public function list_dosen_detail($kode_prodi, $nik){
