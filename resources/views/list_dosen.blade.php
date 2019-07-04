@@ -186,7 +186,7 @@
                         }},
                         { title:'Nama Berkas', data: 'nama_jenis'},
                         { title:'Action', render: function(data, type, row){
-                            return '<a href="#" onclick="openModalBerkas('+row.id_berkas+')">Lihat Detail</a>'
+                            return '<a href="#" onclick="openModalBerkas('+row.id_berkas+')"><i class="fac fa-download" style="font-size:24px"></i></a>'
                         }},
                     ],
                 });
