@@ -31,7 +31,7 @@
                 <img src="{{asset('imgs/chart.svg')}}" class="card-icon mr-1">
                 <div class="media-body chart-title">
                     Nilai Perguruan Tinggi
-                    <div class="d-inline-block ml-1">
+                    <div class="d-inline-block">
                         <div class="input-group input-group-sm">
                             <select id="tahun_mulai" class="form-control">
                                 @foreach($list_tahun as $i=>$tahun)
