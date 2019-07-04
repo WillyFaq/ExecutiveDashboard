@@ -51,16 +51,14 @@
 					},
 					legendCallback: function(chart){
 						var text = []; 
-						text.push('<div class="row">');
 					    for (var i = 0; i < 2; i++) { 
-							text.push('<div class="chart-subtitle">');
-							text.push('<div class="mx-1" style="border:1px :dashed :color; height:0; margin-bottom:3px; width:25px; display:inline-block;"></div>'
+							text.push('<div class="chart-subtitle d-inline-block">');
+							text.push('<div class="mx-1 legend-line d-inline-block" style="border:1px :dashed :color"></div>'
 							.replace(':dashed', chart.data.datasets[i].borderDash?'dashed':'solid')
 							.replace(':color', chart.data.datasets[i].borderColor)); 
 							text.push(chart.data.datasets[i].label); 
 							text.push('</div>');
 					    } 
-						text.push('</div>');
 
 					    return text.join(''); 
 					}
