@@ -60,6 +60,14 @@ body {
     border-radius: 50%;
 }
 
+.back-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(150, 150, 150, 0.2);
+    padding: 0 5px;
+    border-radius: 50%;
+}
+
 .col,
 .col-1,
 .col-10,
@@ -286,8 +294,14 @@ body {
 .card-header.flushed,
 .card-footer.flushed {
     background-color: inherit;
-    border-bottom: inherit;
-    border-top: inherit;
+}
+
+.card-header.flushed {
+    border-bottom: none;
+}
+
+.card-footer.flushed {
+    border-top: none;
 }
 
 .data-value {

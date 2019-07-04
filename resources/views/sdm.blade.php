@@ -99,9 +99,20 @@
 						<div class="col-xs-12">
 							<div class="card">
 								<div class="row">
+									@php
+										if($skor_rasio_dosen_mahasiswa <= 1){
+											$class_name = "danger";
+										}elseif($skor_rasio_dosen_mahasiswa <= 2){
+											$class_name = "warning";
+										}elseif($skor_rasio_dosen_mahasiswa <= 3){
+											$class_name = "purple";
+										}else{
+											$class_name = "info";
+										}
+									@endphp
 									<div class="col-xs-8 sdm-small-card-tittle">
 										<p>Rasio Dosen : Mahasiswa</p>
-										<h1 class="txt_color_info">1 : {{ $rasio_dosen_mahasiswa }}</h1>
+										<h1 class="txt_color_{{$class_name}}">1 : {{ $rasio_dosen_mahasiswa }}</h1>
 									</div>
 									<div class="col-xs-4">
                                         @include('widgets.charts.gauge', [
@@ -115,9 +126,20 @@
 						<div class="col-xs-12">
 							<div class="card">
 								<div class="row">
+									@php
+										if($skor_rasio_prodi_dosen <= 1){
+											$class_name = "danger";
+										}elseif($skor_rasio_prodi_dosen <= 2){
+											$class_name = "warning";
+										}elseif($skor_rasio_prodi_dosen <= 3){
+											$class_name = "purple";
+										}else{
+											$class_name = "info";
+										}
+									@endphp
 									<div class="col-xs-8 sdm-small-card-tittle">
 										<p>Rasio Program Studi : Dosen</p>
-										<h1 class="txt_color_yellow">1 : {{ $rasio_prodi_dosen }}</h1>
+										<h1 class="txt_color_{{$class_name}}">1 : {{ $rasio_prodi_dosen }}</h1>
 									</div>
 									<div class="col-xs-4">
                                         @include('widgets.charts.gauge', [
@@ -177,22 +199,6 @@
 											])
 										</div>
 									</div>
-									<div class="col-xs-4 just-center">
-										<table class="table-keterangan-sdm-card">
-											<thead>
-												<tr class="txt_color_info">
-													<th>{{array_sum(array_values($jml_penelitian_dosen))}}</th>
-													<th>{{0}}</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Nasional</td>
-													<td>Internasional</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
 									@php
 										if($skor_penelitian <= 1){
 											$class_name = "danger";
@@ -204,6 +210,22 @@
 											$class_name = "info";
 										}
 									@endphp
+									<div class="col-xs-4 just-center">
+										<table class="table-keterangan-sdm-card">
+											<thead>
+												<tr>
+													<th class="txt_color_success">{{array_sum(array_values($jml_penelitian_dosen))}}</th>
+													<th class="txt_color_{{$class_name}}">{{0}}<span style="font-size:12px">/{{array_sum(array_values($jml_penelitian_dosen))}}</span></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Nasional</td>
+													<td>Internasional</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 									<div class="just-right text-center card-sdm-right pg_{{$class_name}}">	
 										<p class="txt_card_subtitle">Skor</p>
 		                                <h1>{{number_format($skor_penelitian,2)}}</h1>
@@ -225,22 +247,6 @@
 											])
 										</div>
 									</div>
-									<div class="col-xs-4">
-										<table class="table-keterangan-sdm-card">
-											<thead>
-												<tr class="txt_color_yellow">
-													<th>{{array_sum(array_values($jml_pkm_dosen))}}</th>
-													<th>{{0}}</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Nasional</td>
-													<td>Internasional</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
 									@php
 										if($skor_pkm <= 1){
 											$class_name = "danger";
@@ -252,6 +258,22 @@
 											$class_name = "info";
 										}
 									@endphp
+									<div class="col-xs-4">
+										<table class="table-keterangan-sdm-card">
+											<thead>
+												<tr>
+													<th class="txt_color_success">{{array_sum(array_values($jml_pkm_dosen))}}</th>
+													<th class="txt_color_{{$class_name}}">{{0}}<span style="font-size:12px">/{{array_sum(array_values($jml_pkm_dosen))}}</span></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Nasional</td>
+													<td>Internasional</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 									<div class="just-right text-center card-sdm-right pg_{{$class_name}}">	
 										<p class="txt_card_subtitle">Skor</p>
 		                                <h1>{{number_format($skor_pkm,2)}}</h1>
@@ -273,22 +295,6 @@
 											])
 										</div>
 									</div>
-									<div class="col-xs-4">
-										<table class="table-keterangan-sdm-card">
-											<thead>
-												<tr class="txt_color_info">
-													<th>{{array_sum(array_values($jml_rekognisi_dosen))}}</th>
-													<th>{{0}}</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Nasional</td>
-													<td>Internasional</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
 									@php
 										if($skor_rekognisi <= 1){
 											$class_name = "danger";
@@ -300,6 +306,22 @@
 											$class_name = "info";
 										}
 									@endphp
+									<div class="col-xs-4">
+										<table class="table-keterangan-sdm-card">
+											<thead>
+												<tr>
+													<th class="txt_color_success">{{array_sum(array_values($jml_rekognisi_dosen))}}</th>
+													<th class="txt_color_{{$class_name}}">{{0}}<span style="font-size:12px">/{{array_sum(array_values($jml_rekognisi_dosen))}}</span></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Nasional</td>
+													<td>Internasional</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 									<div class="just-right text-center card-sdm-right pg_{{$class_name}}">	
 										<p class="txt_card_subtitle">Skor</p>
 		                                <h1>{{number_format($skor_rekognisi,2)}}</h1>
@@ -433,12 +455,7 @@
                         </div>
 	        		</div>
 	        		<div class="col-xs-12">
-	        			<div class="keterangan_box">
-							<p><span class="dot d_dgrey"></span> Strata 1</p>
-							<p><span class="dot d_dgreen"></span> Strata 2</p>
-							<p><span class="dot d_dblue"></span> Strata 3</p>
-							<p><span class="dot d_red"></span> Jumlah Dosen</p>
-						</div>
+	        			<div id="legend_ajax"></div>
 	        		</div>
 	        	</div>
 	      	</div>
@@ -476,14 +493,12 @@
             options: {
                 responsive: true,
                 hoverMode: 'index',
-                stacked: false,
                 title: {
                     display: false,
                     text: 'Chart.js Line Chart - Multi Axis'
                 },
                 scales: {
                     xAxes: [{
-                        stacked:true,
                         gridLines:  {
                             display: false
                         },
@@ -493,7 +508,6 @@
 
                     }],
                     yAxes: [{
-                        stacked:true,
                         gridLines:  {
                             display: true,
                         },
@@ -513,9 +527,38 @@
                 legend: {
                     display: false,
                     position: 'bottom'
-                }
+                },
+				legendCallback: function(chart) {
+					var text = []; 
+					text.push('<div class="text-center">');
+					let legend_data = chart.data.datasets.map(function(data){
+						return {
+							label:data.label,
+							backgroundColor:data.backgroundColor,
+						};
+					});
+					legend_data.push(legend_data.shift());
+					legend_data.map(function(data){
+						data.label = data.label.replace(/^S([0-9])$/, "Strata $1");
+						return data;
+					});
+					for (var i = 0; i < legend_data.length; i++) { 
+						if (legend_data[i].label) { 
+							text.push('<div class="chart-subtitle" style="display:inline-block; margin-right:50px;">');
+							text.push('<span>');
+							text.push('<div style="background-color:' + legend_data[i].backgroundColor + '; height:8px; width:8px; display:inline-block; margin-right:5px;"></div>'); 
+							text.push(legend_data[i].label); 
+							text.push('</span>');
+							text.push('</div>');
+						} 
+					} 
+					text.push('</div>');
+
+					return text.join(''); 
+				},
             }
         });
+		document.getElementById('legend_ajax').innerHTML = window.chart_modal.generateLegend();
     }
     const data_prodi = {!! json_encode($prodi) !!};
     function show_modal_sertifikasi(mouseEvent, clickedChart) {

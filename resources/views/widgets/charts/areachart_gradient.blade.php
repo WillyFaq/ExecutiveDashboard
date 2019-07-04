@@ -1,6 +1,5 @@
 @php
 	$_idbx = rand(0, 999); 
-	$colors = array('default'=> '#5D99FF', 'warning'=> '#FE9D28');
 @endphp
 <div id="chart_{{$_idbx}}"></div>
 <script type="text/javascript">
@@ -22,7 +21,7 @@
             	show: false,
             }
         },
-        colors:['{{$colors[$color]}}'],
+        colors:['#16A085'],
         dataLabels: {
             enabled: false
         },

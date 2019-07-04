@@ -20,7 +20,7 @@
 		<div class="row">
 			<div class="col-md-3">
 				<a href="{{url('sdm')}}">
-					<img src="{{asset('imgs/baseline-arrow_back_ios-24px.svg')}}" class="card-icon float-left mr-2">
+					<img src="{{asset('imgs/baseline-arrow_back_ios-24px.svg')}}" class="back-icon float-left mr-2">
 				</a>
 				<span class="chart-title">Dosen Program Studi {{$prodi->nama}}</span>
 			</div>
@@ -96,7 +96,6 @@
 		<table id="table-dosen" class="display" style="width:100%">
 			<thead>
 				<tr>
-					<th>No.</th>
 					<th>Nama Dosen</th>
 					<th>Gelar</th>
 					<th>Jenis Kelamin</th>
@@ -108,11 +107,7 @@
 			</thead>
 			<tbody>
 				@foreach($list_dosen as $i => $dosen)
-					@php
-						$no = $i + 1;
-					@endphp
 						<tr>
-							<td>{{$no}}</td>
 							<td><a href="{{route('sdm.dosen.detail', [
 								$prodi->id, 
 								$dosen->nik,
@@ -123,53 +118,53 @@
 							<td>{{$dosen->ikatan_kerja_dosen}}</td>
 							<td>{{$dosen->nama_jabatan_fungsional_last}}</td>
 							<td>
-							<a href='' data-toggle="modal" data-target="#berkasModal{{$no}}"><img src="{{ asset("imgs/document.png") }}" alt="Upload Berkas" width="24" height="24"></a>
+                                <a href='#' onclick="openModalListBerkas('{{$dosen->nik}}')">
+                                    <i class="fac fa-detail"></i>
+                                </a>
 							</td>
 						</tr>
-						<div class="modal fade" id="berkasModal{{$no}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						  <div class="modal-dialog" role="document">
-							<div class="modal-content">
-							  <div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">{{$dosen->nama}} <br> ( {{$dosen->nip}} )</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								  <span aria-hidden="true">&times;</span>
-								</button>
-							  </div>
-							  <div class="modal-body">
-								<div class="row">
-								  <div class="col-6 col-md-1">No.</div>
-								  <div class="col-6 col-md-3">Nama Berkas</div>
-								  <div class="col-6 col-md-3">Action</div>
-								</div>
-								@foreach($dosen->berkas_portofolio as $i => $berkas_portofolio)
-									<div class="row">
-										<div class="col-6 col-md-1">{{$i+1}}</div>
-										<div class="col-6 col-md-3">{{$berkas_portofolio->nama_jenis}}</div>
-                                        <div class="col-6 col-md-3">
-                                            <a href="#" onclick="openModal({{$berkas_portofolio->id_berkas}})">Lihat Detail</a>
-                                        </div>
-									</div>
-								@endforeach
-							  </div>
-							</div>
-						  </div>
-						</div>
 				@endforeach
 			</tbody>
 		</table>
 	</div>
+    <div class="modal fade" id="modal_list_berkas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="card-header flushed">
+                    <img id="foto_kary" class="img-profile rounded-circle float-left mr-1" style="width:40px; height:40px;"> 
+                    <div class="float-left">
+                        <p class="chart-title mb-0" id="nama_kary"></p>
+                        <p class="chart-subtitle mb-0" id="nip_kary"></p>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <table class="display" style="width:100%" id="table_berkas"></table>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="modal_berkas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">BERKAS</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="thumbnail">
-                        <img id="img_berkas" src="">
+                    <div id="img_berkas" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner"></div>
+                        <a class="carousel-control-prev" href="#img_berkas" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#img_berkas" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -177,13 +172,45 @@
     </div>
 </div>
 <script>
-    function openModal(id_berkas){
+    function openModalListBerkas(nik){
         $.ajax({
-            url: '{{route("sdm.dosen.berkas", ":id_berkas")}}'.replace(':id_berkas', id_berkas),
+            url: '{{route("sdm.dosen.karyawan", ":nik")}}'.replace(':nik', nik),
             success: function(result) {
-                $("#img_berkas").attr({
-                    src:'{{asset("imgs/berkas/:path")}}'.replace(':path', result.file_path)
+                $("#foto_kary").attr({
+                    src:"https://sicyca.stikom.edu/static/foto/"+result.nik
                 });
+                $("#nama_kary").html(result.nama);
+                $("#nip_kary").html(result.nip);
+                if(window.tableBerkas) window.tableBerkas.destroy();
+                window.tableBerkas = $('#table_berkas').DataTable({
+                    paging:   false,
+                    ordering: false,
+                    info:     false,
+                    dom: 't',
+                    data: result.berkas_portofolio,
+                    columns: [
+                        { title:'No', render: function(data, type, row, meta){
+                            return meta.row+1;
+                        }},
+                        { title:'Nama Berkas', data: 'nama_jenis'},
+                        { title:'Action', render: function(data, type, row){
+                            return '<a href="#" onclick="openModalBerkas(\''+nik+'\','+row.id_jenis+')"><i class="fac fa-download" style="font-size:24px"></i></a>'
+                        }},
+                    ],
+                });
+                $("#modal_list_berkas").modal('show');
+            }
+        });
+    }
+    function openModalBerkas(nik, id_jenis){
+        $.ajax({
+            url: '{{route("sdm.dosen.berkas", [":nik",":id_jenis"])}}'.replace(':id_jenis', id_jenis).replace(':nik',nik),
+            success: function(result) {
+                $('#img_berkas').find('.carousel-inner').html(result.map(function(result, index){
+                    return '<div class="carousel-item :active"><img style="width:100%" src="{{asset("imgs/berkas/:path")}}"></div>'
+                    .replace(':path', result.file_path)
+                    .replace(':active',index == 0 ? 'active' : null);
+                }).join(''))
                 $("#modal_berkas").modal('show');
             }
         });
@@ -195,7 +222,7 @@
             }
             let pendidikan = $('#input-filter-pendidikan');
             if(!pendidikan.val()) return true;
-            if(pendidikan.find('option:selected').text() == data[4].replace(/(.).+(.)/g, function(match, part1,part2){
+            if(pendidikan.find('option:selected').text() == data[3].replace(/(.).+(.)/g, function(match, part1,part2){
                 return part1+part2;
             })){
                 return true;
@@ -210,7 +237,7 @@
             }
             let jafung = $('#input-filter-jafung');
             if(!jafung.val()) return true;
-            if(jafung.find('option:selected').text() == data[6]){
+            if(jafung.find('option:selected').text() == data[5]){
                 return true;
             }
             return false;
