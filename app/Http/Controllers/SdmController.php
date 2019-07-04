@@ -88,11 +88,11 @@ class SdmController extends Controller
         ->count();
         // JUMLAH PENELITIAN DOSEN
         $periode_ewmp = collect(range($tahun_now-3, $tahun_now));
-        $penelitian_dosen = Penelitian::whereBetween(\DB::Raw("SUBSTR(periode, -4)"), [$tahun_now-3, $tahun_now])
+        $penelitian_dosen = Penelitian::whereBetween(\DB::Raw("TO_CHAR(TO_DATE(SUBSTR(smt,1,2),'RR'),'YYYY')"), [$tahun_now-3, $tahun_now])
         ->get();
         $jml_penelitian_dosen = $periode_ewmp->map(function($tahun) use ($penelitian_dosen){
             return $penelitian_dosen->filter(function($penelitian_dosen) use ($tahun) {
-                return substr($penelitian_dosen->periode, -4) == $tahun;
+                return Carbon::createFromFormat('y', substr($penelitian_dosen->smt, 0, 2))->format('Y') == $tahun;
             })
             ->count();
         });
