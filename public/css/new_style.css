@@ -518,7 +518,7 @@ a.active{
 /* ======================== */
 
 .txt_color_red{color: #E53935 !important; }
-.txt_color_yellow{color: #FE9D28 !important; }
+.txt_color_yellow{color: #FE8C00 !important; }
 .txt_color_green{color: #388E3C !important; }
 .txt_color_grey{color: #A6A4BF !important; }
 .txt_color_info{color: #2386DE !important; }
@@ -534,26 +534,26 @@ a.active{
 }
 
 .d_red{background-color: #ff0000; }
-.d_yellow{background-color: #FE9D28; }
+.d_yellow{background-color: #FE8C00; }
 .d_green{background-color: #388E3C; }
-.d_info{background-color: #0000ff; }
-.d_purple{background-color: #C216CC; }
+.d_info{background-color: #2386DE; }
+.d_purple{background-color: #D16D96; }
 .d_dgrey{background-color: #95A5A6; }
 .d_dgreen{background-color: #1ABC9C; }
 .d_dblue{background-color: #34495E; }
 
 .pg_success{background-color: #388E3C;}
-.pg_warning{background-color: #FE9D28;}
+.pg_warning{background-color: #FE8C00;}
 .pg_danger{background-color: #ff0000;}
-.pg_info{background-color: #0000ff;}
-.pg_purple{background-color: #C216CC;}
+.pg_info{background-color: #2386DE;}
+.pg_purple{background-color: #D16D96;}
 .pg_home_success{background-color: #2386DE;}
 .pg_home_warning{background-color: #FE8C00;}
 
 .txt_color_danger{color:#ff0000;}
-.txt_color_warning{color:#FE9D28;}
-.txt_color_purple{color:#C216CC;}
-.txt_color_info{color:#0000ff;}
+.txt_color_warning{color:#FE8C00;}
+.txt_color_purple{color:#D16D96;}
+.txt_color_info{color:#2386DE;}
 .txt_color_success{color:#16A085;}
 
 /* ======================== */
