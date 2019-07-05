@@ -28,6 +28,7 @@
             'data' => [
                 'line'	=> ['Guru Besar', $dosen_guru_besar ],
                 'bar'	=> ['Dosen Tetap', $dosen_tetap ],
+                'line_target' => ['Target', $target_dosen_guru_besar],
             ],
             'onClickFn' => 'show_modal_jafung',
             'id_legend' => 'legend-jafung',
@@ -43,6 +44,9 @@
                     'anchor' => 'end',
                     'align' => 'end',
                 ],
+                'line_target' => [
+                    'display' => false,
+                ]
             ],
         ])
     </div>

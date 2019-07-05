@@ -28,6 +28,7 @@
             'data' => [
                 'line' => ['Sertifikasi', $dosen_tetap_bersertifikasi],
                 'bar'	=> ['Dosen Tetap', $dosen_tetap ],
+                'line_target' => ['Target', $target_dosen_tetap_bersertifikasi],
             ],
             'onClickFn' => 'show_modal_sertifikasi',
             'id_legend' => 'legend-sertifikasi',
@@ -43,6 +44,9 @@
                     'anchor' => 'end',
                     'align' => 'end',
                 ],
+                'line_target' => [
+                    'display' => false,
+                ]
             ],
         ])
     </div>
