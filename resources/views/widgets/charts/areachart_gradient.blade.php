@@ -1,7 +1,9 @@
 @php
     $_idbx = rand(0, 999); 
 @endphp
-<canvas height="180px" id="linechart_{{$_idbx}}"></canvas >
+<div style="position:relative; height:85px;">
+    <canvas id="linechart_{{$_idbx}}"></canvas >
+</div>
 <script>
     $(document).ready(function(){
         var ctx = document.getElementById('linechart_{{$_idbx}}').getContext('2d');
@@ -31,7 +33,7 @@
                 ]
             },
             options: {
-                responsive: true,
+                maintainAspectRatio: false,
                 hoverMode: 'index',
                 stacked: false,
                 title: {
