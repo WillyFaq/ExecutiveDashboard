@@ -24,7 +24,7 @@
     display: none;
 }
 </style>
-<div class="card">
+<div class="card mb-3">
     <div class="card-header flushed pb-0">
         <div class="d-flex justify-content-between">
             <div class="media">

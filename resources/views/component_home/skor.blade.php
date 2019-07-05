@@ -68,7 +68,7 @@
         background: rgba(255, 255, 255, 0.14);
     }
 </style>
-<div id="panel-skor" class="card">
+<div id="panel-skor" class="card mb-3">
     <div class="card-header flushed pb-0">
         <div class="d-flex">
             <img class="rounded-circle" src="{{asset('imgs/stikom.jpg')}}" alt="Stikom" style="height:80px;width:80px;">
