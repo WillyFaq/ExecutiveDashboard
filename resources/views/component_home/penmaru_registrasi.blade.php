@@ -1,5 +1,5 @@
 <div class="card">
-    <div class="card-header flushed pb-0">
+    <div class="card-header flushed">
         <div class="d-flex">
             <img src="{{asset('imgs/group.svg')}}" class="card-icon mr-1">
             <div class="align-top">
@@ -29,5 +29,5 @@
             'id_legend' => 'legend-register',
         ))
     </div>
-    <div class="card-footer flushed pt-0" id="legend-register"></div>
+    <div class="card-footer flushed pt-0 text-center" id="legend-register"></div>
 </div>

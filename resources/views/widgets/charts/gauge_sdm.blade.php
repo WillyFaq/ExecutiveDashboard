@@ -159,12 +159,14 @@
 
 	function get_color(v){
 		if(v>300){
-    		return '#2386DE';	
-    	}else if(v <=300 && v >= 200){
-    		return '#FE9D28';	
-    	}else{
-    		return '#E53935';	
-    	}
+			return '#2386DE';
+		}else if(v <=300 && v >= 200){
+			return '#D16D96';
+		}else if(v <=200 && v >= 100){
+			return '#FE8C00';
+		}else{
+			return '#ff0000';
+		}
 	}
 
 	function rentang(v){

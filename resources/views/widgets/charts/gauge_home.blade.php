@@ -80,16 +80,16 @@
 	  font-weight: bold;
 	  fill: #FFF;
 	  }
-	.cluster-circle.unggul{
+	.cluster-circle.bg-primary{
 		fill: #41B9FE;
 	}
-	.cluster-circle.baik_sekali{
+	.cluster-circle.bg-success{
 		fill: #BA7AA4;
 	}
-	.cluster-circle.baik{
+	.cluster-circle.bg-warning{
 		fill: #FE8E16;
 	}
-	.cluster-circle.tidak_terakreditasi{
+	.cluster-circle.bg-danger{
 		fill: #FF5A79;
 	}
 
@@ -121,7 +121,7 @@
 			          a 13.4155 13.4155 0 0 1 0 -26.831"
 		      	/>
 		      	<g>
-	            	<circle {{ $clus_position[$clus][0] }} r="3" stroke="#EEE" stroke-width="0.7" class="cluster-circle {{ $status }}"/> 
+	            	<circle {{ $clus_position[$clus][0] }} r="3" stroke="#EEE" stroke-width="0.7" class="cluster-circle bg-{{ $status }}"/> 
 	            	<text {{$clus_position[$clus][1]}} text-anchor="middle" class="cluster" >{{$clus}}</text>
           		</g>
 			    <text x="18" y="14.35" class="percentage_ket">Peringkat</text> 

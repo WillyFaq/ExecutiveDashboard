@@ -1,7 +1,7 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<div class="m-auto" style="position:relative; height:389px;">
+<div class="m-auto" style="position:relative; height:350px">
 	<canvas id="linechart_{{$_idbx}}"></canvas >
 </div>
 <script>
@@ -48,9 +48,30 @@
 					legend: {
 			            display: false,
 			            position: 'right'
-			        }
+					},
+					legendCallback: function(chart){
+						var text = [];
+					    for (var i = 0; i < chart.data.datasets
+						.map(function(data){
+							return data.label;
+						})
+						.filter(function(value, index, self){
+							return self.indexOf(value) === index;
+						})
+						.length; i++) { 
+							text.push('<div class="chart-subtitle d-inline-block">');
+							text.push('<div class="mx-1 legend-line d-inline-block" style="border:1px :dashed :color"></div>'
+							.replace(':dashed', chart.data.datasets[i].borderDash?'dashed':'solid')
+							.replace(':color', chart.data.datasets[i].borderColor)); 
+							text.push(chart.data.datasets[i].label); 
+							text.push('</div>');
+					    } 
+
+					    return text.join(''); 
+					}
 				}
 			});
+			document.getElementById('{{$id_legend}}').innerHTML = myLine.generateLegend();
 		}
 		
 		function reloadData_{{$_idbx}}(){
@@ -79,7 +100,7 @@
 							pointHoverRadius: 6,
 						},
 						{
-							label: 'Dashed',
+							label: 'Status PT',
 							fill: false,
 							borderColor: '#F1C40F',
 							borderWidth: 1,
@@ -91,7 +112,7 @@
 							pointHoverRadius: 0,
 						},
 						{
-							label: 'Dashed',
+							label: 'Status PT',
 							fill: false,
 							borderColor: '#F1C40F',
 							borderWidth: 1,
@@ -103,7 +124,7 @@
 							pointHoverRadius: 0,
 						},
 						{
-							label: 'Dashed',
+							label: 'Status PT',
 							fill: false,
 							borderColor: '#F1C40F',
 							borderWidth: 1,
