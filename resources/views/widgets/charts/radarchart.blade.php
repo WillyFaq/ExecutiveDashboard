@@ -40,24 +40,34 @@
 					display: false,
 					text: 'Chart.js Radar Chart'
 				},
-
 				scale: {
-					 pointLabels: {
-					 	fontSize:11,
-                        callback: function(value, index, values) {
-                        	//console.log(value);
-                            return value;
-                        }
-                    },
+					pointLabels: {
+						fontSize: 11,
+						// callback: function(value, index, values) {
+						// 	return value;
+						// }
+					},
 					ticks: {
 						min: 0,
 						max: 4,
-						display:false
+						stepSize: 1,
+						callback: function(value){
+							return value.toFixed(2);
+						}
 					}
 				}
-			}
+			},
+			// plugins: [
+			// 	{
+			// 		beforeDraw: function(chart){
+			// 			foreach(chart.scale.ctx as chart){
+
+			// 			}
+			// 		}
+			// 	}
+			// ]
 		};
-        window.onload = function() {
+		$(document).ready(function(){
             let chartElement = document.getElementById('radarchart');
             let chartContext = chartElement.getContext('2d');
             window.myRadar = new Chart(chartContext, config);
@@ -65,9 +75,8 @@
                 let dot = window.myRadar.getElementAtEvent(e);
                 if(!dot.length) return;
                 window.location.href = label[dot[0]._index][0].replace(' ','_').toLowerCase();
-            }
-        };
-		
+			}
+		});
 
 		/*
 		$(document).ready(function(){
