@@ -24,11 +24,11 @@
                     <div class="col-6">
                         <div class="d-inline-block text-center mr-1">
                             <p class="mb-0 text-info">{{array_sum(array_values($jml_rekognisi_dosen))}}</p>
-                            <p class="pb-0">Jumlah Pengakuan</p>
+                            <p class="pb-0">Pengakuan</p>
                         </div>
                         <div class="d-inline-block text-center">
                             <p class="mb-0 text-{{$class_name}}">{{$jml_dosen_tetap}}</p>
-                            <p class="pb-0">Jumlah Dosen Tetap</p>
+                            <p class="pb-0">Dosen Tetap</p>
                         </div>
                     </div>
                 </div>
