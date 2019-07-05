@@ -524,9 +524,12 @@ class SdmController extends Controller
     }
 
     public function getBerkasPortofolio($nik, $id_jenis){
-        return BerkasPortofolio::where('nik',$nik)
-        ->where('id_jenis',$id_jenis)
-        ->get();
+        return Karyawan::with(['berkas_portofolio' => function($query) use ($id_jenis) {
+            return $query
+            ->with('jenis_berkas_portofolio')
+            ->where('id_jenis', $id_jenis);
+        }])
+        ->find($nik);
     }
 	
 	public function list_dosen_detail($kode_prodi, $nik){
