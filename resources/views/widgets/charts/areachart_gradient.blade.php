@@ -1,14 +1,18 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<div id="chart_{{$_idbx}}"></div>
+<div class="m-auto" style="height:123px;">
+    <div id="chart_{{$_idbx}}"></div>
+</div>
 <script type="text/javascript">
-    var h = 100;
-    var w = 150;
-    if($(document).width()>1900){
-        h = 140;
-        w = 200;
-    }
+    let h = 86;
+    let w = 150;
+    // var h = 100;
+    // var w = 150;
+    // if($(document).width()>1900){
+    //     h = 140;
+    //     w = 200;
+    // }
 	var options_{{$_idbx}} = {
         chart: {
             height: h,
