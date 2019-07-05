@@ -31,6 +31,19 @@
             ],
             'onClickFn' => 'show_modal_jafung',
             'id_legend' => 'legend-jafung',
+            'data_labels' => [
+                'line' => [
+                    'display' => true,
+                    'anchor' => 'center',
+                    'align' => 'center',
+                    'color' => 'white',
+                ],
+                'bar' => [
+                    'display' => true,
+                    'anchor' => 'end',
+                    'align' => 'end',
+                ],
+            ],
         ])
     </div>
 </div>

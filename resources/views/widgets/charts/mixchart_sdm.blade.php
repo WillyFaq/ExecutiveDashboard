@@ -22,12 +22,16 @@
 						echo "borderColor: '#2C3E50',";
 						echo "backgroundColor: '#2C3E50',";
 						echo "borderWidth: 4,";
+						echo "pointRadius: 8,";
+						echo "pointHoverRadius: 10,";
 						echo "fill: false,";
 						echo "data: [";
 						foreach($data['line'][1] as $k => $v){
 							echo "$v,";
 						}
 						echo "],";
+						echo 'datalabels: '.json_encode($data_labels['line']);
+						echo ",";
 						echo "type: 'line',";
 						echo "lineTension: 0";
 					echo "},\n";
@@ -42,6 +46,8 @@
 							echo "$v,";
 						}
 						echo "],";
+						echo 'datalabels: '.json_encode($data_labels['bar']);
+						echo ",";
 						echo "yAxisID: 'y-axis-1',";
 					echo "},\n";
 					
@@ -54,6 +60,7 @@
 		$(document).ready(function(){
 			var ctxa_{{$_idbx}} = document.getElementById('mixchart_{{$_idbx}}').getContext('2d');
 			var mixchart_{{$_idbx}} = new Chart(ctxa_{{$_idbx}}, {
+				plugins: [ChartDataLabels],
     			type: 'bar',
 				data: mixChartData_{{$_idbx}},
 				options: {
@@ -89,8 +96,12 @@
 								// stepSize: 1,
 								// suggestedMin: 0,
 								// suggestedMax: 400,
-								fontSize: 10
-							}
+								fontSize: 10,
+								callback: function(tick){
+									let percent = tick/{{array_sum($data['bar'][1])}};
+									return (Math.round(percent*100))+'%';
+								}
+							},
 						}],
 					},
 					legend: {
