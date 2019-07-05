@@ -95,7 +95,7 @@
                 datasets.borderColor = '#95A5A6';
                 datasets.backgroundColor = '#95A5A6';
                 datasets.datalabels = {
-                    'display': true,
+                    'display': false,
                     'anchor': 'start',
                     'align': 'end',
                 };
@@ -103,7 +103,7 @@
                 datasets.borderColor = '#1ABC9C';
                 datasets.backgroundColor = '#1ABC9C';
                 datasets.datalabels = {
-                    'display': true,
+                    'display': false,
                     'anchor': 'start',
                     'align': 'end',
                 };
@@ -111,7 +111,7 @@
                 datasets.borderColor = '#34495E';
                 datasets.backgroundColor = '#34495E';
                 datasets.datalabels = {
-                    'display': true,
+                    'display': false,
                     'anchor': 'start',
                     'align': 'end',
                 };

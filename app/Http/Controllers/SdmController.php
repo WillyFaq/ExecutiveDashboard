@@ -15,6 +15,7 @@ use App\BerkasPortofolio;
 use App\JenisBerkasPortofolio;
 use App\ProduktifitasPkmDosen;
 use App\RekognisiDosen;
+use App\SertifikasiDosen;
 
 class SdmController extends Controller
 {
@@ -265,15 +266,27 @@ class SdmController extends Controller
 
         $jenis_sertifikasi = collect([
             [
-                'nama' => 'Tidak Tersertifikasi',
+                'nama' => 'Pendidik Profesional',
                 'filter' => function($karyawan) {
-                    return !count($karyawan->sertifikasi);
+                    return $karyawan->sertifikasi->filter(function($sertifikasi){
+                        return $sertifikasi->jenis_sertifikasi == SertifikasiDosen::SERTIFIKASI_PENDIDIK_PROFESIONAL;
+                    })->count();
                 }
             ],
             [
-                'nama' => 'Tersertifikasi',
+                'nama' => 'Kompetensi',
                 'filter' => function($karyawan) {
-                    return count($karyawan->sertifikasi);
+                    return $karyawan->sertifikasi->filter(function($sertifikasi){
+                        return $sertifikasi->jenis_sertifikasi == SertifikasiDosen::SERTIFIKASI_KOMPETENSI;
+                    })->count();
+                }
+            ],
+            [
+                'nama' => 'Profesi',
+                'filter' => function($karyawan) {
+                    return $karyawan->sertifikasi->filter(function($sertifikasi){
+                        return $sertifikasi->jenis_sertifikasi == SertifikasiDosen::SERTIFIKASI_PROFESI;
+                    })->count();
                 }
             ],
         ]);
@@ -511,9 +524,12 @@ class SdmController extends Controller
     }
 
     public function getBerkasPortofolio($nik, $id_jenis){
-        return BerkasPortofolio::where('nik',$nik)
-        ->where('id_jenis',$id_jenis)
-        ->get();
+        return Karyawan::with(['berkas_portofolio' => function($query) use ($id_jenis) {
+            return $query
+            ->with('jenis_berkas_portofolio')
+            ->where('id_jenis', $id_jenis);
+        }])
+        ->find($nik);
     }
 	
 	public function list_dosen_detail($kode_prodi, $nik){

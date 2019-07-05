@@ -30,7 +30,7 @@
 						if (chart.data.labels[i]) { 
 							text.push('<div class="chart-subtitle d-block">');
 							text.push('<span>');
-							text.push('<div style="background-color:' + chart.data.datasets[0].backgroundColor[i] + '; height:8px; width:8px; display:inline-block; margin-right:5px;"></div>'); 
+							text.push('<div class="mx-1 legend-block d-inline-block" style="background-color:' + chart.data.datasets[0].backgroundColor[i] + '"></div>'); 
 							text.push(chart.data.labels[i]);
 							text.push(': ');
 							text.push('<strong>'+chart.data.datasets[0].data[i]+' Orang</strong>');

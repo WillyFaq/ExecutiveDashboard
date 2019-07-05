@@ -128,41 +128,46 @@
 		</table>
 	</div>
     <div class="modal fade" id="modal_list_berkas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="card-header flushed">
-                    <img id="foto_kary" class="img-profile rounded-circle float-left mr-1" style="width:40px; height:40px;"> 
+                <div class="card-header flushed pb-0">
+                    <img class="foto_kary img-profile rounded-circle float-left mr-1" style="width:40px; height:40px;"> 
                     <div class="float-left">
-                        <p class="chart-title mb-0" id="nama_kary"></p>
-                        <p class="chart-subtitle mb-0" id="nip_kary"></p>
+                        <p class="chart-title mb-0 nama_kary"></p>
+                        <p class="chart-subtitle mb-0 nip_kary"></p>
                     </div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="card-body">
+                <div class="card-body pt-0">
                     <table class="display" style="width:100%" id="table_berkas"></table>
                 </div>
             </div>
         </div>
     </div>
     <div class="modal fade" id="modal_berkas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="card-header flushed pb-0">
+                    <img class="foto_kary img-profile rounded-circle float-left mr-1" style="width:40px; height:40px;"> 
+                    <div class="float-left">
+                        <p class="chart-title mb-0 nama_kary"></p>
+                        <p class="chart-subtitle mb-0 jenis_berkas"></p>
+                    </div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div id="img_berkas" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner"></div>
-                        <a class="carousel-control-prev" href="#img_berkas" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <div class="card-body pt-1">
+                    <div id="img_berkas" class="carousel slide d-flex justify-content-center" data-ride="carousel" data-interval="false">
+                        <a class="text-dark" href="#img_berkas" role="button" data-slide="prev">
+                            <i class="fa fa-chevron-left"></i>
                             <span class="sr-only">Previous</span>
                         </a>
-                        <a class="carousel-control-next" href="#img_berkas" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <div class="carousel-inner"></div>
+                        <a class="text-dark" href="#img_berkas" role="button" data-slide="next">
+                            <i class="fa fa-chevron-right"></i>
                             <span class="sr-only">Next</span>
                         </a>
                     </div>
@@ -176,11 +181,11 @@
         $.ajax({
             url: '{{route("sdm.dosen.karyawan", ":nik")}}'.replace(':nik', nik),
             success: function(result) {
-                $("#foto_kary").attr({
+                $(".foto_kary").attr({
                     src:"https://sicyca.stikom.edu/static/foto/"+result.nik
                 });
-                $("#nama_kary").html(result.nama);
-                $("#nip_kary").html(result.nip);
+                $(".nama_kary").html(result.nama);
+                $(".nip_kary").html(result.nip);
                 if(window.tableBerkas) window.tableBerkas.destroy();
                 window.tableBerkas = $('#table_berkas').DataTable({
                     paging:   false,
@@ -206,10 +211,14 @@
         $.ajax({
             url: '{{route("sdm.dosen.berkas", [":nik",":id_jenis"])}}'.replace(':id_jenis', id_jenis).replace(':nik',nik),
             success: function(result) {
-                $('#img_berkas').find('.carousel-inner').html(result.map(function(result, index){
-                    return '<div class="carousel-item :active"><img style="width:100%" src="{{asset("imgs/berkas/:path")}}"></div>'
-                    .replace(':path', result.file_path)
-                    .replace(':active',index == 0 ? 'active' : null);
+                $(".nama_kary").html(result.nama);
+                $(".jenis_berkas").html(result.berkas_portofolio[0].jenis_berkas_portofolio.nama_jenis);
+                $('#img_berkas').find('.carousel-inner').html(result.berkas_portofolio.map(function(berkas, index){
+                    return '<div class="carousel-item :active"><p class="text-center">:page of :page_count</p><img style="width:100%" src="{{asset("imgs/berkas/:path")}}"></div>'
+                    .replace(':path', berkas.file_path)
+                    .replace(':active',index == 0 ? 'active' : null)
+                    .replace(':page', index+1)
+                    .replace(':page_count', result.berkas_portofolio.length);
                 }).join(''))
                 $("#modal_berkas").modal('show');
             }
