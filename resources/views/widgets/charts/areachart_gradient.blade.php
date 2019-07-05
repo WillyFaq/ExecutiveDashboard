@@ -5,8 +5,8 @@
     <div id="chart_{{$_idbx}}"></div>
 </div>
 <script type="text/javascript">
-    let h = 86;
-    let w = 150;
+    var h = 86;
+    var w = 150;
     // var h = 100;
     // var w = 150;
     // if($(document).width()>1900){

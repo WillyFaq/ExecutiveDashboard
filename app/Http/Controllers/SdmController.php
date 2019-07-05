@@ -13,6 +13,8 @@ use App\JenisJabatanFungsional;
 use App\Penelitian;
 use App\BerkasPortofolio;
 use App\JenisBerkasPortofolio;
+use App\ProduktifitasPkmDosen;
+use App\RekognisiDosen;
 
 class SdmController extends Controller
 {
@@ -98,9 +100,23 @@ class SdmController extends Controller
             ->count();
         });
         // JUMLAH PKM DOSEN
-        $jml_pkm_dosen = collect([]);
+        $pkm_dosen = ProduktifitasPkmDosen::whereBetween(\DB::Raw("TO_CHAR(TO_DATE(SUBSTR(smt,1,2),'RR'),'YYYY')"), [$tahun_now-3, $tahun_now])
+        ->get();
+        $jml_pkm_dosen = $periode_ewmp->map(function($tahun) use ($pkm_dosen){
+            return $pkm_dosen->filter(function($pkm_dosen) use ($tahun) {
+                return Carbon::createFromFormat('y', substr($pkm_dosen->smt, 0, 2))->format('Y') == $tahun;
+            })
+            ->count();
+        });
         // JUMLAH REKOGNISI DOSEN
-        $jml_rekognisi_dosen = collect([]);
+        $rekognisi_dosen = RekognisiDosen::whereBetween(\DB::Raw("TO_CHAR(selesai,'YYYY')"), [$tahun_now-3, $tahun_now])
+        ->get();
+        $jml_rekognisi_dosen = $periode_ewmp->map(function($tahun) use ($rekognisi_dosen){
+            return $rekognisi_dosen->filter(function($rekognisi_dosen) use ($tahun) {
+                return $rekognisi_dosen->selesai->format('Y') == $tahun;
+            })
+            ->count();
+        });
         // SKOR PENELITIAN
         $materi_penelitian = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {

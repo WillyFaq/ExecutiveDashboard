@@ -27,7 +27,7 @@
                             <p class="pb-0">Nasional</p>
                         </div>
                         <div class="d-inline-block text-center">
-                            <p class="mb-0 text-{{$class_name}}">{{0}}<span style="font-size:12px">/{{array_sum(array_values($jml_pkm_dosen))}}</span></p>
+                            <p class="mb-0 text-{{$class_name}}">{{0}}<span style="font-size:12px">/{{ceil($jml_dosen_tetap*0.15)}}</span></p>
                             <p class="pb-0">Internasional</p>
                         </div>
                     </div>
