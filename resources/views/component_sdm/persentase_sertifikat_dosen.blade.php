@@ -13,7 +13,7 @@
     <div class="card-header flushed pb-0">
         <div class="d-flex">
             <div class="align-top">
-                <p class="chart-title mb-0">Persentase Sertifikat Pendidikan</p>
+                <p class="chart-title mb-0">{{$judul['180403']}}</p>
                 <p class="chart-subtitle mb-0">{{$periode}}</p>
             </div>
             <div class="d-inline-block ml-auto mr-3" id="legend-sertifikasi"></div>

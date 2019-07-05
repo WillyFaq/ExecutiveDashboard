@@ -13,7 +13,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-9">
-                <p class="chart-title">Rasio Dosen : Mahasiswa</p>
+                <p class="chart-title">{{$judul['180405']}}</p>
                 <p class="data-value text-{{$class_name}}">1 : {{$rasio_dosen_mahasiswa}}</p>
             </div>
             <div class="col-3">

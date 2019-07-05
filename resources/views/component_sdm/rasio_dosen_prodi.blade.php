@@ -13,7 +13,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-9">
-                <p class="chart-title">Rasio Program Studi : Dosen</p>
+                <p class="chart-title">{{$judul['180401']}}</p>
                 <p class="data-value text-{{$class_name}}">1 : {{$rasio_prodi_dosen}}</p>
             </div>
             <div class="col-3">

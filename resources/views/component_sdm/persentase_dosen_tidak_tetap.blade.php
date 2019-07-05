@@ -13,7 +13,7 @@
     <div class="card-header flushed pb-0">
         <div class="d-flex">
             <div class="align-top">
-                <p class="chart-title mb-0">Persentase Dosen Tidak Tetap</p>
+                <p class="chart-title mb-0">{{$judul['180404']}}</p>
                 <p class="chart-subtitle mb-0">{{ $periode }}</p>
             </div>
             <div class="ml-auto text-center rounded-top-right bg-{{$class_name}} py-1 px-2 skor-panel" style="margin-top:-20px; margin-right:-30px">

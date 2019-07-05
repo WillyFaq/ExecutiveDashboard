@@ -13,7 +13,7 @@
     <div class="card-header flushed pb-0">
         <div class="d-flex">
             <div class="align-top">
-                <p class="chart-title mb-0">Jabatan Fungsional Dosen</p>
+                <p class="chart-title mb-0">{{$judul['180402']}}</p>
                 <p class="chart-subtitle mb-0">{{ $periode }}</p>
             </div>
             <div class="d-inline-block ml-auto mr-3" id="legend-jafung"></div>

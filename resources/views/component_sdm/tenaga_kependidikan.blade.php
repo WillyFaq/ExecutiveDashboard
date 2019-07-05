@@ -13,7 +13,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-9">
-                <p class="chart-title">Tenaga Kependidikan</p>
+                <p class="chart-title">{{$judul['180409']}}</p>
                 <div class="star-box">
                     @for($i=1; $i <= 4; $i++)
                         @if($i <= $skor_tenaga_kependidikan)

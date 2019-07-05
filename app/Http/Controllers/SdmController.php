@@ -168,6 +168,16 @@ class SdmController extends Controller
             }
         ])->find(180404);
         $skor_presentase_dosen_tidak_tetap = round($materi_presentase_dosen_tidak_tetap->nilai_latest ? $materi_presentase_dosen_tidak_tetap->nilai_latest->nilai : 0, 2);
+        // Judul
+        $materi_borang = MateriBorang::where('kd_std','like','18040%')
+        ->whereNull('keterangan')
+        ->orderBy('kd_std')
+        ->get()
+        ->groupBy('kd_std')
+        ->map(function($materi){
+            return $materi->first()->nm_std;
+        });
+
         return view('sdm', [
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
             'prodi' => $prodi->map(function ($prodi) {
@@ -200,6 +210,8 @@ class SdmController extends Controller
             'skor_pkm' => $skor_pkm,
             'skor_rekognisi' => $skor_rekognisi,
             'skor_tenaga_kependidikan' => $skor_tenaga_kependidikan,
+            // Judul
+            'judul' => $materi_borang->toArray(),
         ]);
     }
 

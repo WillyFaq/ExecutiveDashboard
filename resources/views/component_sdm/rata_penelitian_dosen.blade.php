@@ -13,7 +13,7 @@
     <div class="card-body p-1">
         <div class="row">
             <div class="col-10">
-                <p>Rata-Rata Penelitian Dosen</p>
+                <p>{{$judul['180406']}}</p>
                 <div class="row">
                     <div class="col-6">
                         @include('widgets.charts.areachart_gradient', [
