@@ -96,24 +96,13 @@
 			        },
 					legendCallback: function(chart) {
 			            var text = []; 
-						text.push('<div class="row">');
 					    for (var i = 0; i < chart.data.datasets.length; i++) { 
-							text.push('<div class="col">');
-					        if (chart.data.datasets[i].label) { 
-								if(i%2==0){
-									text.push('<div class="chart-subtitle text-right">');
-								}else{
-									text.push('<div class="chart-subtitle text-left">');
-								}
-								text.push('<span>');
-								text.push('<div style="background-color:' + chart.data.datasets[i].backgroundColor + '; height:8px; width:8px; display:inline-block; margin-right:5px;"></div>'); 
-					            text.push(chart.data.datasets[i].label); 
-								text.push('</span>');
-								text.push('</div>');
-					        } 
+							text.push('<div class="chart-subtitle d-inline-block">');
+							text.push('<div class="mx-1 legend-block d-inline-block" style="background-color: :warna"></div>'
+							.replace(':warna',chart.data.datasets[i].backgroundColor)); 
+							text.push(chart.data.datasets[i].label); 
 							text.push('</div>');
 					    } 
-						text.push('</div>');
 
 					    return text.join(''); 
 			        },

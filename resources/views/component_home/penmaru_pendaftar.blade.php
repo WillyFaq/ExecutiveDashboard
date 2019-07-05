@@ -29,5 +29,5 @@
             'id_legend' => 'legend-pendaftar',
         ))
     </div>
-    <div class="card-footer flushed pt-0" id="legend-pendaftar"></div>
+    <div class="card-footer flushed pt-0 text-center" id="legend-pendaftar"></div>
 </div>

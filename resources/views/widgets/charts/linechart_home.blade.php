@@ -48,9 +48,23 @@
 					legend: {
 			            display: false,
 			            position: 'right'
-			        }
+					},
+					legendCallback: function(chart){
+						var text = []; 
+					    for (var i = 0; i < 2; i++) { 
+							text.push('<div class="chart-subtitle d-inline-block">');
+							text.push('<div class="mx-1 legend-line d-inline-block" style="border:1px :dashed :color"></div>'
+							.replace(':dashed', chart.data.datasets[i].borderDash?'dashed':'solid')
+							.replace(':color', chart.data.datasets[i].borderColor)); 
+							text.push(chart.data.datasets[i].label); 
+							text.push('</div>');
+					    } 
+
+					    return text.join(''); 
+					}
 				}
 			});
+			document.getElementById('{{$id_legend}}').innerHTML = myLine.generateLegend();
 		}
 		
 		function reloadData_{{$_idbx}}(){
@@ -79,7 +93,7 @@
 							pointHoverRadius: 6,
 						},
 						{
-							label: 'Dashed',
+							label: 'Status PT',
 							fill: false,
 							borderColor: '#F1C40F',
 							borderWidth: 1,
@@ -91,7 +105,7 @@
 							pointHoverRadius: 0,
 						},
 						{
-							label: 'Dashed',
+							label: 'Status PT',
 							fill: false,
 							borderColor: '#F1C40F',
 							borderWidth: 1,
@@ -103,7 +117,7 @@
 							pointHoverRadius: 0,
 						},
 						{
-							label: 'Dashed',
+							label: 'Status PT',
 							fill: false,
 							borderColor: '#F1C40F',
 							borderWidth: 1,
