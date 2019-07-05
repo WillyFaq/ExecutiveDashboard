@@ -22,7 +22,7 @@ class SdmController extends Controller
         // SKOR NILAI SDM
         $materi_sdm = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
-                return $query->where('tahun', '<=', $tahun_now);
+                return $query->where('tahun', '=', $tahun_now);
             },
         ])
         ->find(1804);
@@ -104,7 +104,7 @@ class SdmController extends Controller
         // SKOR PENELITIAN
         $materi_penelitian = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
-                return $query->where('tahun', '<=', $tahun_now);
+                return $query->where('tahun', '=', $tahun_now);
             }
         ])
         ->find(180406);
@@ -112,7 +112,7 @@ class SdmController extends Controller
         // SKOR PKM
         $materi_pkm = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
-                return $query->where('tahun', '<=', $tahun_now);
+                return $query->where('tahun', '=', $tahun_now);
             }
         ])
         ->find(180407);
@@ -120,7 +120,7 @@ class SdmController extends Controller
         // SKOR REKOGNISI
         $materi_rekognisi = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
-                return $query->where('tahun', '<=', $tahun_now);
+                return $query->where('tahun', '=', $tahun_now);
             }
         ])
         ->find(180408);
@@ -128,7 +128,7 @@ class SdmController extends Controller
         // SKOR TENAGA KEPENDIDIKAN
         $materi_kependidikan = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
-                return $query->where('tahun', '<=', $tahun_now);
+                return $query->where('tahun', '=', $tahun_now);
             }
         ])
         ->find(180409);
@@ -136,35 +136,35 @@ class SdmController extends Controller
         // Skor Sertifikat Pendidikan
         $materi_sertifikat_pendidikan = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
-                return $query->where('tahun','<=',$tahun_now);
+                return $query->where('tahun', '=', $tahun_now);
             }
         ])->find(180403);
         $skor_sertifikat_pendidikan = round($materi_sertifikat_pendidikan->nilai_latest ? $materi_sertifikat_pendidikan->nilai_latest->nilai : 0, 2);
         // Skor Jabatan Fungsional
         $materi_jabatan_fungsional = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
-                return $query->where('tahun','<=',$tahun_now);
+                return $query->where('tahun', '=', $tahun_now);
             }
         ])->find(180402);
         $skor_jabatan_fungsional = round($materi_jabatan_fungsional->nilai_latest ? $materi_jabatan_fungsional->nilai_latest->nilai : 0, 2);
         // Skor Rasio Dosen Mahasiswa
         $materi_rasio_dosen_mahasiswa = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
-                return $query->where('tahun','<=',$tahun_now);
+                return $query->where('tahun', '=', $tahun_now);
             }
         ])->find(180405);
         $skor_rasio_dosen_mahasiswa = round($materi_rasio_dosen_mahasiswa->nilai_latest ? $materi_rasio_dosen_mahasiswa->nilai_latest->nilai : 0, 2);
         // Skor Rasio Prodi Dosen
         $materi_rasio_prodi_dosen = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
-                return $query->where('tahun','<=',$tahun_now);
+                return $query->where('tahun', '=', $tahun_now);
             }
         ])->find(180401);
         $skor_rasio_prodi_dosen = round($materi_rasio_prodi_dosen->nilai_latest ? $materi_rasio_prodi_dosen->nilai_latest->nilai : 0, 2);
         // Skor Presentase Dosen Tidak Tetap
         $materi_presentase_dosen_tidak_tetap = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
-                return $query->where('tahun','<=',$tahun_now);
+                return $query->where('tahun', '=', $tahun_now);
             }
         ])->find(180404);
         $skor_presentase_dosen_tidak_tetap = round($materi_presentase_dosen_tidak_tetap->nilai_latest ? $materi_presentase_dosen_tidak_tetap->nilai_latest->nilai : 0, 2);

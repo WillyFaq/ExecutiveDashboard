@@ -1,7 +1,9 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<canvas height="105px" id="mixchart_{{$_idbx}}"></canvas >
+<div class="m-auto" style="height:388px;">
+	<canvas id="mixchart_{{$_idbx}}"></canvas >
+</div>
 
 <script>
 		var mixChartData_{{$_idbx}} = {
@@ -55,7 +57,7 @@
     			type: 'bar',
 				data: mixChartData_{{$_idbx}},
 				options: {
-					responsive: true,
+  					maintainAspectRatio: false,
 					hoverMode: 'index',
 					stacked: false,
 					title: {
@@ -97,22 +99,18 @@
 			        },
 					legendCallback: function(chart) {
 			            var text = []; 
-						text.push('<div class="row">');
 					    for (var i = 0; i < chart.data.datasets.length; i++) { 
-							text.push('<div class="col">');
-					        if (chart.data.datasets[i].label) { 
-								text.push('<div class="chart-subtitle">');
-								text.push('<span>');
-								text.push('<div style="background-color:' + chart.data.datasets[i].backgroundColor + '; height:8px; width:8px; display:inline-block; margin-right:5px;"></div>'); 
-					            text.push(chart.data.datasets[i].label);
-								text.push(': ');
-								text.push('<strong>'+chart.data.datasets[i].data.reduce(function(a,b){ return a+b; })+' Orang</strong>');
-								text.push('</span>');
-								text.push('</div>');
-					        } 
+							text.push('<div class="chart-subtitle d-block">');
+							text.push('<div class="mx-1 legend-block d-inline-block" style="background-color: :warna"></div>'
+							.replace(':warna',chart.data.datasets[i].backgroundColor)); 
+							text.push(chart.data.datasets[i].label);
+							text.push(': ');
+							text.push('<span class="font-weight-bold">:jml_orang Orang</span>'
+							.replace(':jml_orang', chart.data.datasets[i].data.reduce(function(a,b){ 
+								return a+b; 
+							})));
 							text.push('</div>');
 					    } 
-						text.push('</div>');
 
 					    return text.join(''); 
 			        },

@@ -1,7 +1,9 @@
 @php
 	$_idpie = rand(0, 999); 
 @endphp
-<canvas class="canvas_cpiechart"  id="pie_{{$_idpie}}"></canvas >
+<div class="m-auto" style="height:316px;">
+	<canvas id="pie_{{$_idpie}}"></canvas >
+</div>
 <script>
 
 		let config = {
@@ -18,18 +20,15 @@
 				labels: {!! json_encode(array_keys($data)) !!},
 			},
 			options: {
-				responsive: false,
     			maintainAspectRatio: false,
 				legend: {
 		            display: false,
 		        },
 				legendCallback: function(chart) {
 					var text = []; 
-					text.push('<div class="row">');
 					for (var i = 0; i < chart.data.datasets[0].data.length; i++) { 
-						text.push('<div class="col">');
 						if (chart.data.labels[i]) { 
-							text.push('<div class="chart-subtitle">');
+							text.push('<div class="chart-subtitle d-block">');
 							text.push('<span>');
 							text.push('<div style="background-color:' + chart.data.datasets[0].backgroundColor[i] + '; height:8px; width:8px; display:inline-block; margin-right:5px;"></div>'); 
 							text.push(chart.data.labels[i]);
@@ -38,9 +37,23 @@
 							text.push('</span>');
 							text.push('</div>');
 						} 
+					} 
+
+					return text.join(''); 
+
+					var text = []; 
+					for (var i = 0; i < chart.data.datasets.length; i++) { 
+						text.push('<div class="chart-subtitle d-block">');
+						text.push('<div class="mx-1 legend-block d-inline-block" style="background-color: :warna"></div>'
+						.replace(':warna',chart.data.datasets[i].backgroundColor)); 
+						text.push(chart.data.datasets[i].label);
+						text.push(': ');
+						text.push('<span class="font-weight-bold">:jml_orang Orang</span>'
+						.replace(':jml_orang', chart.data.datasets[i].data.reduce(function(a,b){ 
+							return a+b; 
+						})));
 						text.push('</div>');
 					} 
-					text.push('</div>');
 
 					return text.join(''); 
 				},
