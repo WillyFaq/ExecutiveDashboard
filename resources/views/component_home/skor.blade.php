@@ -6,7 +6,7 @@
         line-height: 20px;
     }
     #panel-skor .alert {
-        height: 349px;
+        height: 250px;
     }
     #panel-skor .detail-pt {
         font-size: 13px;
@@ -69,9 +69,9 @@
     }
 </style>
 <div id="panel-skor" class="card mb-3">
-    <div class="card-header flushed pb-0">
+    <div class="card-header flushed">
         <div class="d-flex">
-            <img class="rounded-circle" src="{{asset('imgs/stikom.jpg')}}" alt="Stikom" style="height:80px;width:80px;">
+            <img class="rounded-circle" src="{{asset('imgs/stikom.jpg')}}" alt="Stikom" style="height:105px;width:105px;">
             <div class="align-top ml-2">
                 <h3 class="nama-pt mb-1">Institut Bisnis dan Informatika Stikom Surabaya</h3>
                 <h5 class="detail-pt">Jl. Raya Kedung Baruk Nomor 98<br/>(031) 8721731</h5>

@@ -25,7 +25,7 @@
 }
 </style>
 <div class="card mb-3">
-    <div class="card-header flushed pb-0">
+    <div class="card-header flushed">
         <div class="d-flex justify-content-between">
             <div class="media">
                 <img src="{{asset('imgs/chart.svg')}}" class="card-icon mr-1">
@@ -51,7 +51,7 @@
             <div id="nilai-pt-legend" class="text-right"></div>
         </div>
     </div>
-    <div class="card-body px-2">
+    <div class="card-body pt-1 px-2">
         @include('widgets.charts.linechart_home',[
             'id_tahun_mulai' => 'tahun_mulai',
             'id_tahun_selesai' => 'tahun_selesai',

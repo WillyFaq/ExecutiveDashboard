@@ -3,23 +3,23 @@
 @section('section')
 <style>
     #home-section .top-row > * > .card{
-        min-height: 482px;
+        min-height: 467px;
     }
     #home-section .bottom-row > * > .card{
-        min-height: 482px;
+        min-height: 467px;
     }
     #home-section .right-col > .card{
         background-color: #BDC3C7;
         border-color: #BDC3C7;
     }
     #home-section .right-col > .card > .card-body{
-        padding: 10px;
+        padding: 15px;
     }
     #home-section .right-col .card:first-child {
-        min-height: 472px;
+        min-height: 455px;
     }
     #home-section .right-col .card:not(:first-child) {
-        min-height: 472px;
+        min-height: 455px;
     }
 </style>
 <div class="row" id="home-section">
