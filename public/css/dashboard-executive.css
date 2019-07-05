@@ -74,6 +74,12 @@ body::-webkit-scrollbar {
     border-radius: 50%;
 }
 
+/*
+.row {
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
 .col,
 .col-1,
 .col-10,
@@ -146,7 +152,7 @@ body::-webkit-scrollbar {
 .col-xl-auto {
     padding-right: 10px;
     padding-left: 10px;
-}
+} */
 
 .mb-1,
 .m-1,
@@ -338,11 +344,6 @@ body::-webkit-scrollbar {
 .p-4,
 .px-4 {
     padding-right: 30px !important;
-}
-
-.row {
-    margin-left: -10px;
-    margin-right: -10px;
 }
 
 .card-header.flushed,
