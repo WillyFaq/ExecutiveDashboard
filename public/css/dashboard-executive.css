@@ -13,6 +13,12 @@ body::-webkit-scrollbar {
     display: none;
 }
 
+.container,
+.container-fluid {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
 .card {
     border: 0;
 }
