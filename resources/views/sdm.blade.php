@@ -80,18 +80,41 @@
                 datasets.borderColor = '#C91865';
                 datasets.backgroundColor = '#C91865';
                 datasets.borderWidth = 4;
+                datasets.pointRadius = 8;
+                datasets.pointHoverRadius = 10;
                 datasets.fill = false;
                 datasets.type = 'line';
                 datasets.lineTension = 0;
+                datasets.datalabels = {
+                    'display': true,
+                    'anchor': 'center',
+                    'align': 'center',
+                    'color': 'white',
+                };
             }else if(datasets.label == 'S1'){
                 datasets.borderColor = '#95A5A6';
                 datasets.backgroundColor = '#95A5A6';
+                datasets.datalabels = {
+                    'display': true,
+                    'anchor': 'end',
+                    'align': 'end',
+                };
             }else if(datasets.label == 'S2'){
                 datasets.borderColor = '#1ABC9C';
                 datasets.backgroundColor = '#1ABC9C';
+                datasets.datalabels = {
+                    'display': true,
+                    'anchor': 'end',
+                    'align': 'end',
+                };
             }else if(datasets.label == 'S3'){
                 datasets.borderColor = '#34495E';
                 datasets.backgroundColor = '#34495E';
+                datasets.datalabels = {
+                    'display': true,
+                    'anchor': 'end',
+                    'align': 'end',
+                };
             }
             return datasets;
         });
@@ -100,6 +123,7 @@
         window.chart_modal = new Chart(ctxa, {
             type: 'bar',
             data: mixChartData,
+            plugins: [ChartDataLabels],
             options: {
                 responsive: true,
                 hoverMode: 'index',
