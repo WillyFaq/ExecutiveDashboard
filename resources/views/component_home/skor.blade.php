@@ -6,19 +6,19 @@
         line-height: 20px;
     }
     #panel-skor .alert {
-        height: 250px;
+        height: 272px;
     }
     #panel-skor .detail-pt {
         font-size: 13px;
     }
     #panel-skor .skor-desc p {
         color: white;
-        font-size: 13px;
+        font-size: 18px;
         margin-bottom: 0;
     }
     #panel-skor .skor-desc p.value {
         font-weight: bold;
-        font-size: 18px;
+        font-size: 32px;
     }
     #panel-skor .bg-primary {
         background: #00F2FE;
@@ -62,8 +62,8 @@
     }
     #panel-skor .card-bubble{
         position: absolute;
-        width: 58.96px;
-        height: 58.96px;
+        width: 72px;
+        height: 72px;
         border-radius: 50%;
         background: rgba(255, 255, 255, 0.14);
     }
@@ -89,16 +89,16 @@
         $status = 'primary';
     }
     @endphp
-    <div class="card-body py-2">
+    <div class="card-body pt-2 pb-4">
         <div class="alert mb-0 bg-{{$status}}">
             <div class="row">
-                <div class="col" style="padding-top:56px">
+                <div class="col" style="padding-top:20px">
                     @php
                         $skor['chart']['status'] = $status
                     @endphp
                     @include('widgets.charts.gauge_home', $skor['chart'])
                 </div>
-                <div class="col skor-desc" style="padding-top:95px">
+                <div class="col skor-desc" style="padding-top:30px">
                     <p>Status</p>
                     <p class="value pb-2">
                         @if($skor['nilai'] < 200)
@@ -116,7 +116,7 @@
                 </div>
             </div>
         </div>
-        <div class="card-bubble" style="bottom:35px; right:-5px;"></div>
+        <div class="card-bubble" style="bottom:45px; right:-5px;"></div>
         <div class="card-bubble" style="bottom:0px; right:20px;"></div>
     </div>
 </div>
