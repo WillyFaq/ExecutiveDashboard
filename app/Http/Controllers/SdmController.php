@@ -90,7 +90,7 @@ class SdmController extends Controller
         ->whereHas('prodi_ewmp')
         ->count();
         // JUMLAH PENELITIAN DOSEN
-        $periode_ewmp = collect(range($tahun_now-3, $tahun_now));
+        $periode_ewmp = collect(range($tahun_now-2, $tahun_now));
         $penelitian_dosen = Penelitian::whereBetween(\DB::Raw("TO_CHAR(TO_DATE(SUBSTR(smt,1,2),'RR'),'YYYY')"), [$tahun_now-3, $tahun_now])
         ->get();
         $jml_penelitian_dosen = $periode_ewmp->map(function($tahun) use ($penelitian_dosen){
@@ -199,6 +199,7 @@ class SdmController extends Controller
             'prodi' => $prodi->map(function ($prodi) {
                 return $prodi->id;
             })->toArray(),
+            'periode_ewmp' => $periode_ewmp->toArray(),
             // NILAI SDM
             'skor_nilai_sdm' => $skor_nilai_sdm,
             // PRESENTASE SERTIFIKAT PENDIDIKAN

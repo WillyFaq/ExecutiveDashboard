@@ -18,7 +18,7 @@
                     <div class="col-6">
                         @include('widgets.charts.areachart_gradient', [
                             'color' => "default", 
-                            'data' => $jml_pkm_dosen,
+                            'data' => array_combine($periode_ewmp, $jml_pkm_dosen),
                         ])
                     </div>
                     <div class="col-6">
