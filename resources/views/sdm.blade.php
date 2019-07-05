@@ -58,36 +58,23 @@
     </div>
 </div>
 <div class="modal fade" id="modal_chart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header" style="border-bottom:none;">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<br>
-				<div class="col-xs-1">
-					<div style="padding:5px;width:42px;height:42px;border-radius:50%;background:rgba(150, 150, 150, 0.2);text-align:center;">
-						<img src="{{ asset("imgs/account_box.svg") }}" alt="icon" style="width:32px;height:32px;">
-					</div>
-				</div>
-				<div class="col-xs-11">
-					<h4 class="modal-title" style="color:#000;font-weight:900;" id="modal_chart_label"></h4>
-					<p class="txt_card_subtitle">{{$periode}}</p>
-				</div>
-				<div style="clear:both;"></div>
-			</div>
-			<div class="modal-body">
-				<div class="row">
-					<div class="col-xs-12">
-						<div id="load_chart">
-							<canvas height="105px" id="mixchart_ajax"></canvas>
-						</div>
-					</div>
-					<div class="col-xs-12">
-						<div id="legend_ajax"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="card-header flushed" style="border-bottom:none;">
+                <img src="{{asset('imgs/account_box.svg')}}" class="card-icon float-left mr-1"> 
+                <div class="float-left">
+                    <p class="chart-title mb-0" style="color:#000;font-weight:900;" id="modal_chart_label"></p>
+                    <p class="chart-subtitle mb-0">{{$periode}}</p>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="load_chart">
+                    <canvas height="105px" id="mixchart_ajax"></canvas>
+                </div>
+                <div id="legend_ajax"></div>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
     function renderChart(mixChartData) {
