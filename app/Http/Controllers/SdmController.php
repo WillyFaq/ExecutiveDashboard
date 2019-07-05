@@ -13,6 +13,8 @@ use App\JenisJabatanFungsional;
 use App\Penelitian;
 use App\BerkasPortofolio;
 use App\JenisBerkasPortofolio;
+use App\ProduktifitasPkmDosen;
+use App\RekognisiDosen;
 
 class SdmController extends Controller
 {
@@ -22,7 +24,7 @@ class SdmController extends Controller
         // SKOR NILAI SDM
         $materi_sdm = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
-                return $query->where('tahun', '<=', $tahun_now);
+                return $query->where('tahun', '=', $tahun_now);
             },
         ])
         ->find(1804);
@@ -88,7 +90,7 @@ class SdmController extends Controller
         ->whereHas('prodi_ewmp')
         ->count();
         // JUMLAH PENELITIAN DOSEN
-        $periode_ewmp = collect(range($tahun_now-3, $tahun_now));
+        $periode_ewmp = collect(range($tahun_now-2, $tahun_now));
         $penelitian_dosen = Penelitian::whereBetween(\DB::Raw("TO_CHAR(TO_DATE(SUBSTR(smt,1,2),'RR'),'YYYY')"), [$tahun_now-3, $tahun_now])
         ->get();
         $jml_penelitian_dosen = $periode_ewmp->map(function($tahun) use ($penelitian_dosen){
@@ -98,13 +100,27 @@ class SdmController extends Controller
             ->count();
         });
         // JUMLAH PKM DOSEN
-        $jml_pkm_dosen = collect([]);
+        $pkm_dosen = ProduktifitasPkmDosen::whereBetween(\DB::Raw("TO_CHAR(TO_DATE(SUBSTR(smt,1,2),'RR'),'YYYY')"), [$tahun_now-3, $tahun_now])
+        ->get();
+        $jml_pkm_dosen = $periode_ewmp->map(function($tahun) use ($pkm_dosen){
+            return $pkm_dosen->filter(function($pkm_dosen) use ($tahun) {
+                return Carbon::createFromFormat('y', substr($pkm_dosen->smt, 0, 2))->format('Y') == $tahun;
+            })
+            ->count();
+        });
         // JUMLAH REKOGNISI DOSEN
-        $jml_rekognisi_dosen = collect([]);
+        $rekognisi_dosen = RekognisiDosen::whereBetween(\DB::Raw("TO_CHAR(selesai,'YYYY')"), [$tahun_now-3, $tahun_now])
+        ->get();
+        $jml_rekognisi_dosen = $periode_ewmp->map(function($tahun) use ($rekognisi_dosen){
+            return $rekognisi_dosen->filter(function($rekognisi_dosen) use ($tahun) {
+                return $rekognisi_dosen->selesai->format('Y') == $tahun;
+            })
+            ->count();
+        });
         // SKOR PENELITIAN
         $materi_penelitian = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
-                return $query->where('tahun', '<=', $tahun_now);
+                return $query->where('tahun', '=', $tahun_now);
             }
         ])
         ->find(180406);
@@ -112,7 +128,7 @@ class SdmController extends Controller
         // SKOR PKM
         $materi_pkm = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
-                return $query->where('tahun', '<=', $tahun_now);
+                return $query->where('tahun', '=', $tahun_now);
             }
         ])
         ->find(180407);
@@ -120,7 +136,7 @@ class SdmController extends Controller
         // SKOR REKOGNISI
         $materi_rekognisi = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
-                return $query->where('tahun', '<=', $tahun_now);
+                return $query->where('tahun', '=', $tahun_now);
             }
         ])
         ->find(180408);
@@ -128,7 +144,7 @@ class SdmController extends Controller
         // SKOR TENAGA KEPENDIDIKAN
         $materi_kependidikan = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
-                return $query->where('tahun', '<=', $tahun_now);
+                return $query->where('tahun', '=', $tahun_now);
             }
         ])
         ->find(180409);
@@ -136,52 +152,71 @@ class SdmController extends Controller
         // Skor Sertifikat Pendidikan
         $materi_sertifikat_pendidikan = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
-                return $query->where('tahun','<=',$tahun_now);
+                return $query->where('tahun', '=', $tahun_now);
             }
         ])->find(180403);
         $skor_sertifikat_pendidikan = round($materi_sertifikat_pendidikan->nilai_latest ? $materi_sertifikat_pendidikan->nilai_latest->nilai : 0, 2);
         // Skor Jabatan Fungsional
         $materi_jabatan_fungsional = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
-                return $query->where('tahun','<=',$tahun_now);
+                return $query->where('tahun', '=', $tahun_now);
             }
         ])->find(180402);
         $skor_jabatan_fungsional = round($materi_jabatan_fungsional->nilai_latest ? $materi_jabatan_fungsional->nilai_latest->nilai : 0, 2);
         // Skor Rasio Dosen Mahasiswa
         $materi_rasio_dosen_mahasiswa = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
-                return $query->where('tahun','<=',$tahun_now);
+                return $query->where('tahun', '=', $tahun_now);
             }
         ])->find(180405);
         $skor_rasio_dosen_mahasiswa = round($materi_rasio_dosen_mahasiswa->nilai_latest ? $materi_rasio_dosen_mahasiswa->nilai_latest->nilai : 0, 2);
         // Skor Rasio Prodi Dosen
         $materi_rasio_prodi_dosen = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
-                return $query->where('tahun','<=',$tahun_now);
+                return $query->where('tahun', '=', $tahun_now);
             }
         ])->find(180401);
         $skor_rasio_prodi_dosen = round($materi_rasio_prodi_dosen->nilai_latest ? $materi_rasio_prodi_dosen->nilai_latest->nilai : 0, 2);
         // Skor Presentase Dosen Tidak Tetap
         $materi_presentase_dosen_tidak_tetap = MateriBorang::with([
             'nilai_latest' => function($query) use ($tahun_now) {
-                return $query->where('tahun','<=',$tahun_now);
+                return $query->where('tahun', '=', $tahun_now);
             }
         ])->find(180404);
         $skor_presentase_dosen_tidak_tetap = round($materi_presentase_dosen_tidak_tetap->nilai_latest ? $materi_presentase_dosen_tidak_tetap->nilai_latest->nilai : 0, 2);
+        // Judul
+        $materi_borang = MateriBorang::where('kd_std','like','18040%')
+        ->whereNull('keterangan')
+        ->orderBy('kd_std')
+        ->get()
+        ->groupBy('kd_std')
+        ->map(function($materi){
+            return $materi->first()->nm_std;
+        });
+
         return view('sdm', [
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
             'prodi' => $prodi->map(function ($prodi) {
                 return $prodi->id;
             })->toArray(),
+            'periode_ewmp' => $periode_ewmp->toArray(),
             // NILAI SDM
             'skor_nilai_sdm' => $skor_nilai_sdm,
             // PRESENTASE SERTIFIKAT PENDIDIKAN
             'dosen_tetap' => $dosen_tetap->toArray(),
             'dosen_tetap_bersertifikasi' => $dosen_tetap_bersertifikasi->toArray(),
             'skor_sertifikat_pendidikan' => $skor_sertifikat_pendidikan,
+            'target_dosen_tetap_bersertifikasi' => $prodi->map(function() use ($prodi, $dosen_tetap) {
+                $target_sertifikasi = 80/100; // KONSTANTA RUMUS BORANG
+                return ceil(($dosen_tetap->sum()*$target_sertifikasi)/$prodi->count());
+            }),
             // JABATAN FUNGSIONAL DOSEN
             'dosen_guru_besar' => $dosen_guru_besar->toArray(),
             'skor_jabatan_fungsional' => $skor_jabatan_fungsional,
+            'target_dosen_guru_besar' => $prodi->map(function() use ($prodi, $dosen_tetap) {
+                $target_guru_besar = 15/100; // KONSTANTA RUMUS BORANG
+                return ceil(($dosen_tetap->sum()*$target_guru_besar)/$prodi->count());
+            }),
             // RASIO DOSEN:MAHASISWA
             'rasio_dosen_mahasiswa' => $rasio_dosen_mahasiswa,
             'skor_rasio_dosen_mahasiswa' => $skor_rasio_dosen_mahasiswa,
@@ -200,6 +235,8 @@ class SdmController extends Controller
             'skor_pkm' => $skor_pkm,
             'skor_rekognisi' => $skor_rekognisi,
             'skor_tenaga_kependidikan' => $skor_tenaga_kependidikan,
+            // Judul
+            'judul' => $materi_borang->toArray(),
         ]);
     }
 
