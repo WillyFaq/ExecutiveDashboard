@@ -3,26 +3,20 @@
 @section('section')
 <style>
     #sdm-section .row > * > .card:not(:only-child){
-        min-height: 147px;
+        height: 142px;
     }
     #sdm-section .top-row > * > .card:only-child{
-        min-height: 482px;
+        min-height: 467px;
     }
     #sdm-section .bottom-row > * > .card:only-child{
-        min-height: 482px;
+        min-height: 467px;
     }
     #sdm-section .right-col > .card{
         background-color: #BDC3C7;
         border-color: #BDC3C7;
     }
     #sdm-section .right-col > .card > .card-body{
-        padding: 10px;
-    }
-    #sdm-section .right-col .card:first-child {
-        min-height: 472px;
-    }
-    #sdm-section .right-col .card:not(:first-child) {
-        min-height: 472px;
+        padding: 15px;
     }
 </style>
 <link rel="stylesheet" href="{{ asset("d3-chart/gauge.css") }}">

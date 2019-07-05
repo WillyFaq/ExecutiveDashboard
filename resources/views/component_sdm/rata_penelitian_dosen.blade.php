@@ -9,7 +9,7 @@
         $class_name = "primary";
     }
 @endphp
-<div class="card mb-3">
+<div class="card mb-2">
     <div class="card-body p-1">
         <div class="row">
             <div class="col-10">
@@ -33,7 +33,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-2 pr-0" style="margin:-10px -10px -10px 0">
+            <div class="col-2 pr-0">
                 <div class="py-3 rounded-right text-center card-sdm-right bg-{{$class_name}} skor-panel">	
                     <p class="chart-subtitle">Skor</p>
                     <h1 class="data-value">{{number_format($skor_penelitian,2)}}</h1>

@@ -1,7 +1,7 @@
 @php
 	$_idpie = rand(0, 999); 
 @endphp
-<div class="m-auto" style="height:316px;">
+<div class="m-auto" style="position:relative; height:247px">
 	<canvas id="pie_{{$_idpie}}"></canvas >
 </div>
 <script>

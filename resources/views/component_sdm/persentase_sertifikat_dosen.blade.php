@@ -10,14 +10,14 @@
     }
 @endphp
 <div class="card mb-3">
-    <div class="card-header pb-0">
+    <div class="card-header flushed pb-0">
         <div class="d-flex">
             <div class="align-top">
                 <p class="chart-title mb-0">Persentase Sertifikat Pendidikan</p>
                 <p class="chart-subtitle mb-0">{{$periode}}</p>
             </div>
             <div class="d-inline-block ml-auto mr-3" id="legend-sertifikasi"></div>
-            <div class="text-center rounded-top-right bg-{{$class_name}} py-1 px-2 skor-panel" style="margin:-15px -20px 0 0;">
+            <div class="text-center rounded-top-right bg-{{$class_name}} py-1 px-2 skor-panel" style="margin-top:-20px; margin-right:-30px">
                 <p class="chart-subtitle mb-0">Skor</p>
                 <p class="data-value mb-0">{{number_format($skor_sertifikat_pendidikan,2)}}</p>
             </div>
