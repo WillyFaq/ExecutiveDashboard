@@ -66,6 +66,9 @@
                     <p class="chart-title mb-0" style="color:#000;font-weight:900;" id="modal_chart_label"></p>
                     <p class="chart-subtitle mb-0">{{$periode}}</p>
                 </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="card-body">
                 <div id="load_chart">
