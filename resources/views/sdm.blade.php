@@ -474,14 +474,14 @@
                 datasets.type = 'line';
                 datasets.lineTension = 0;
             }else if(datasets.label == 'S1'){
-                datasets.borderColor = '#A358BF';
-                datasets.backgroundColor = '#A358BF';
+                datasets.borderColor = '#95A5A6';
+                datasets.backgroundColor = '#95A5A6';
             }else if(datasets.label == 'S2'){
-                datasets.borderColor = '#9E7CD7';
-                datasets.backgroundColor = '#9E7CD7';
+                datasets.borderColor = '#1ABC9C';
+                datasets.backgroundColor = '#1ABC9C';
             }else if(datasets.label == 'S3'){
-                datasets.borderColor = '#C2B4E2';
-                datasets.backgroundColor = '#C2B4E2';
+                datasets.borderColor = '#34495E';
+                datasets.backgroundColor = '#34495E';
             }
             return datasets;
         });
