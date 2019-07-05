@@ -1,5 +1,5 @@
-<div class="card">
-    <div class="card-header flushed pb-0">
+<div class="card mb-1">
+    <div class="card-header flushed">
         <div class="d-flex">
             <img src="{{asset('imgs/person.svg')}}" class="card-icon mr-1">
             <div class="align-top">
