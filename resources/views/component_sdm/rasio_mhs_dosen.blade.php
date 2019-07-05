@@ -20,6 +20,7 @@
                 @include('widgets.charts.gauge', [
                     'skor'=> number_format($skor_rasio_dosen_mahasiswa,2), 
                     'type' => 2 ,
+                    'class_name' => $class_name,
                 ])
             </div>
         </div>

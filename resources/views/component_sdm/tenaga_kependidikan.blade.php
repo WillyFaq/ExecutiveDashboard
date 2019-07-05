@@ -17,9 +17,9 @@
                 <div class="star-box">
                     @for($i=1; $i <= 4; $i++)
                         @if($i <= $skor_tenaga_kependidikan)
-                            <img src="{{asset('imgs/star-on.svg')}}" alt="On">
+                            <i class="mr-1 fac fa-star text-{{$class_name}}"></i>
                         @else
-                            <img src="{{asset('imgs/star-off.svg')}}" alt="Off">
+                            <i class="mr-1 fac fa-star text-muted"></i>
                         @endif
                     @endfor
                 </div>
@@ -28,6 +28,7 @@
                 @include('widgets.charts.gauge', [
                     'skor'=> number_format($skor_tenaga_kependidikan,2), 
                     'type' => 2,
+                    'class_name' => $class_name,
                 ])
             </div>
         </div>
