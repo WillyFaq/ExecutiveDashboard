@@ -96,7 +96,7 @@
                 datasets.backgroundColor = '#95A5A6';
                 datasets.datalabels = {
                     'display': true,
-                    'anchor': 'end',
+                    'anchor': 'start',
                     'align': 'end',
                 };
             }else if(datasets.label == 'S2'){
@@ -104,7 +104,7 @@
                 datasets.backgroundColor = '#1ABC9C';
                 datasets.datalabels = {
                     'display': true,
-                    'anchor': 'end',
+                    'anchor': 'start',
                     'align': 'end',
                 };
             }else if(datasets.label == 'S3'){
@@ -112,7 +112,7 @@
                 datasets.backgroundColor = '#34495E';
                 datasets.datalabels = {
                     'display': true,
-                    'anchor': 'end',
+                    'anchor': 'start',
                     'align': 'end',
                 };
             }
