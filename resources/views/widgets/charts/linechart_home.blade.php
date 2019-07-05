@@ -50,8 +50,15 @@
 			            position: 'right'
 					},
 					legendCallback: function(chart){
-						var text = []; 
-					    for (var i = 0; i < 2; i++) { 
+						var text = [];
+					    for (var i = 0; i < chart.data.datasets
+						.map(function(data){
+							return data.label;
+						})
+						.filter(function(value, index, self){
+							return self.indexOf(value) === index;
+						})
+						.length; i++) { 
 							text.push('<div class="chart-subtitle d-inline-block">');
 							text.push('<div class="mx-1 legend-line d-inline-block" style="border:1px :dashed :color"></div>'
 							.replace(':dashed', chart.data.datasets[i].borderDash?'dashed':'solid')
