@@ -205,16 +205,16 @@ class SdmController extends Controller
             'dosen_tetap' => $dosen_tetap->toArray(),
             'dosen_tetap_bersertifikasi' => $dosen_tetap_bersertifikasi->toArray(),
             'skor_sertifikat_pendidikan' => $skor_sertifikat_pendidikan,
-            'target_dosen_tetap_bersertifikasi' => $prodi->map(function() use ($prodi, $dosen_tetap) {
+            'target_dosen_tetap_bersertifikasi' => $dosen_tetap->map(function($jml_dosen) {
                 $target_sertifikasi = 80/100; // KONSTANTA RUMUS BORANG
-                return ceil(($dosen_tetap->sum()*$target_sertifikasi)/$prodi->count());
+                return ceil($jml_dosen * $target_sertifikasi);
             }),
             // JABATAN FUNGSIONAL DOSEN
             'dosen_guru_besar' => $dosen_guru_besar->toArray(),
             'skor_jabatan_fungsional' => $skor_jabatan_fungsional,
-            'target_dosen_guru_besar' => $prodi->map(function() use ($prodi, $dosen_tetap) {
+            'target_dosen_guru_besar' => $dosen_tetap->map(function($jml_dosen) {
                 $target_guru_besar = 15/100; // KONSTANTA RUMUS BORANG
-                return ceil(($dosen_tetap->sum()*$target_guru_besar)/$prodi->count());
+                return ceil($jml_dosen * $target_guru_besar);
             }),
             // RASIO DOSEN:MAHASISWA
             'rasio_dosen_mahasiswa' => $rasio_dosen_mahasiswa,
