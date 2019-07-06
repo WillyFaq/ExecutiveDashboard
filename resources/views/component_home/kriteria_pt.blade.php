@@ -26,7 +26,7 @@
     margin-bottom: 0;
 }
 </style>
-<div class="card mb-3" id="kriteria-pt">
+<div class="card mb-2" id="kriteria-pt">
     <div class="card-header flushed pb-0">
         <img src="{{asset('imgs/copy.svg')}}" class="card-icon float-left mr-1"> 
         <div class="float-left">

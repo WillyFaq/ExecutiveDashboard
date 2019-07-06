@@ -1,17 +1,17 @@
 <style>
 #kriteria-khusus .data-value {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: normal;
 }
 #kriteria-khusus .data-value .current {
     font-weight: bold;
 }
 #kriteria-khusus .data-label {
-    font-size: 18px;
+    font-size: 16px;
     color: black;
 }
 </style>
-<div class="card mb-3" id="kriteria-khusus">
+<div class="card mb-2" id="kriteria-khusus">
     <div class="card-header flushed pb-2">
         <img src="{{asset('imgs/check.svg')}}" class="card-icon float-left mr-1">
         <div class="float-left">
@@ -21,7 +21,7 @@
     </div>
     <div class="list-group list-group-flush">
         @foreach($kriteria_khusus as $kk => $row)
-            <div class="list-group-item border-0 pb-2 pt-0">
+            <div class="list-group-item border-0 pb-1 pt-0">
                 @php
                     if($row[1] <= 1){
                         $class_name = "danger";
@@ -33,7 +33,7 @@
                         $class_name = "primary";
                     }
                 @endphp
-                <div class="mb-0">
+                <div style="margin-bottom:15px">
                     <span class="data-label">{{$row[0]}}</span>
                     <span class="float-right data-value">
                         <span class="current text-{{$class_name}}">{{number_format($row[1], 2)}}</span>/4.00
@@ -47,21 +47,21 @@
         @endforeach
     </div>
     <div class="card-body text-center">
-        <div class="chart-subtitle d-inline-block">
+        <div class="mr-3 d-inline-block">
             <div class="mx-1 bg-primary legend-block d-inline-block"></div>
-            Sangat Baik
+            <span class="legend-text text-dark">Sangat Baik</span>
         </div>
-        <div class="chart-subtitle d-inline-block">
+        <div class="mr-3 d-inline-block">
             <div class="mx-1 bg-success legend-block d-inline-block"></div>
-            Baik
+            <span class="legend-text text-dark">Baik</span>
         </div>
-        <div class="chart-subtitle d-inline-block">
+        <div class="mr-3 d-inline-block">
             <div class="mx-1 bg-warning legend-block d-inline-block"></div>
-            Sedang
+            <span class="legend-text text-dark">Sedang</span>
         </div>
-        <div class="chart-subtitle d-inline-block">
+        <div class="mr-3 d-inline-block">
             <div class="mx-1 bg-danger legend-block d-inline-block"></div>
-            Buruk
+            <span class="legend-text text-dark">Buruk</span>
         </div>
     </div>
 </div>

@@ -1,15 +1,18 @@
 <style>
     #panel-skor .nama-pt {
-        font-size: 14pt;
+        font-size: 22px;
         font-weight: bold;
         color: black;
-        line-height: 20px;
+        line-height: 26px;
+        margin-bottom: 5px;
     }
     #panel-skor .alert {
-        height: 272px;
+        height: 273px;
     }
     #panel-skor .detail-pt {
-        font-size: 13px;
+        font-size: 16px;
+        line-height: 20px;
+        margin-bottom: 5px;
     }
     #panel-skor .skor-desc p {
         color: white;
@@ -68,13 +71,14 @@
         background: rgba(255, 255, 255, 0.14);
     }
 </style>
-<div id="panel-skor" class="card mb-3">
-    <div class="card-header flushed">
+<div id="panel-skor" class="card mb-2">
+    <div class="card-header flushed pb-1">
         <div class="d-flex">
             <img class="rounded-circle" src="{{asset('imgs/stikom.jpg')}}" alt="Stikom" style="height:105px;width:105px;">
             <div class="align-top ml-2">
-                <h3 class="nama-pt mb-1">Institut Bisnis dan Informatika Stikom Surabaya</h3>
-                <h5 class="detail-pt">Jl. Raya Kedung Baruk Nomor 98<br/>(031) 8721731</h5>
+                <h3 class="nama-pt">Institut Bisnis dan Informatika Stikom Surabaya</h3>
+                <h5 class="detail-pt">Jl. Raya Kedung Baruk Nomor 98</h5>
+                <h5 class="detail-pt">(031) 8721731</h5>
             </div>
         </div>
     </div>
@@ -89,16 +93,16 @@
         $status = 'primary';
     }
     @endphp
-    <div class="card-body pt-2 pb-4">
+    <div class="card-body pt-1 pb-5">
         <div class="alert mb-0 bg-{{$status}}">
             <div class="row">
-                <div class="col" style="padding-top:20px">
+                <div class="col pt-2">
                     @php
                         $skor['chart']['status'] = $status
                     @endphp
                     @include('widgets.charts.gauge_home', $skor['chart'])
                 </div>
-                <div class="col skor-desc" style="padding-top:30px">
+                <div class="col skor-desc pt-4">
                     <p>Status</p>
                     <p class="value pb-2">
                         @if($skor['nilai'] < 200)

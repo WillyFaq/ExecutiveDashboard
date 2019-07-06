@@ -1,7 +1,7 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<div class="m-auto" style="position:relative; height:297px">
+<div class="m-auto" style="position:relative; height:295px">
 	<canvas id="hormixchart_{{$_idbx}}"></canvas >
 </div>
 
@@ -83,10 +83,12 @@
 					legendCallback: function(chart) {
 			            var text = []; 
 					    for (var i = 0; i < chart.data.datasets.length; i++) { 
-							text.push('<div class="chart-subtitle d-inline-block">');
+							text.push('<div class="mr-1 d-inline-block">');
 							text.push('<div class="mx-1 legend-block d-inline-block" style="background-color: :warna"></div>'
 							.replace(':warna',chart.data.datasets[i].backgroundColor)); 
-							text.push(chart.data.datasets[i].label); 
+							text.push('<span class="legend-text small">');
+							text.push(chart.data.datasets[i].label);
+							text.push('</span>');
 							text.push('</div>');
 					    } 
 
@@ -99,13 +101,15 @@
 				            ticks:{
 				            	beginAtZero: true,
 	                            reverse: true,
-	                            start: 0
+	                            start: 0,
+								mirror: true,
+								padding: 80,
 				            },
 							gridLines:  {
 								display: false,
 							},
 							afterFit: function(scaleInstance) {
-								scaleInstance.width = 70; // sets the width to 100px
+								scaleInstance.width = 90;
 							}
 						}],
 						xAxes: [{

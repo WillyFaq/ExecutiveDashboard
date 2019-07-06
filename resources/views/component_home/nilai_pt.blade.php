@@ -5,14 +5,6 @@
 .nil-pt-line {
     border: 1px solid #1ABC9C;
 }
-.line-txt {
-    width: 50px;
-    height: 1px;
-    margin-top: 5px
-}
-.legend-text{
-    font-size: 14px;
-}
 #tahun_mulai, #tahun_selesai{
     border:none;
     -moz-appearance: none;
@@ -24,7 +16,7 @@
     display: none;
 }
 </style>
-<div class="card mb-3">
+<div class="card mb-2">
     <div class="card-header flushed">
         <div class="d-flex justify-content-between">
             <div class="media">
