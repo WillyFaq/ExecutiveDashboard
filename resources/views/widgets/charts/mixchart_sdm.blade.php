@@ -143,15 +143,17 @@
 					    for (var i = 0; i < chart.data.datasets.filter(function(data){
 							return data.label != 'Target';
 						}).length; i++) { 
-							text.push('<div class="chart-subtitle d-block">');
+							text.push('<div class="d-block">');
 							text.push('<div class="mx-1 legend-block d-inline-block" style="background-color: :warna"></div>'
 							.replace(':warna',chart.data.datasets[i].backgroundColor)); 
+							text.push('<span class="legend-text large">');
 							text.push(chart.data.datasets[i].label);
 							text.push(': ');
-							text.push('<span class="font-weight-bold">:jml_orang Orang</span>'
+							text.push('<span class="font-weight-bold text-dark">:jml_orang Orang</span>'
 							.replace(':jml_orang', chart.data.datasets[i].data.reduce(function(a,b){ 
 								return a+b; 
 							})));
+							text.push('</span>');
 							text.push('</div>');
 					    } 
 
