@@ -6,7 +6,7 @@
         line-height: 20px;
     }
     #panel-skor .alert {
-        height: 272px;
+        height: 270px;
     }
     #panel-skor .detail-pt {
         font-size: 13px;
@@ -68,7 +68,7 @@
         background: rgba(255, 255, 255, 0.14);
     }
 </style>
-<div id="panel-skor" class="card mb-3">
+<div id="panel-skor" class="card mb-2">
     <div class="card-header flushed">
         <div class="d-flex">
             <img class="rounded-circle" src="{{asset('imgs/stikom.jpg')}}" alt="Stikom" style="height:105px;width:105px;">

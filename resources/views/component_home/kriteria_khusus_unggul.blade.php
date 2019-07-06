@@ -11,7 +11,7 @@
     color: black;
 }
 </style>
-<div class="card mb-3" id="kriteria-khusus">
+<div class="card mb-2" id="kriteria-khusus">
     <div class="card-header flushed pb-2">
         <img src="{{asset('imgs/check.svg')}}" class="card-icon float-left mr-1">
         <div class="float-left">
