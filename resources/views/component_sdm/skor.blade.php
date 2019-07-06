@@ -1,4 +1,4 @@
-<div class="card mb-3">
+<div class="card mb-2">
     <div class="card-header flushed">
         <h2 class="page-title">Nilai SDM</h2>
         <p class="chart-title text-dark">Minimum :  3.50</p>

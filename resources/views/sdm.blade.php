@@ -3,13 +3,13 @@
 @section('section')
 <style>
     #sdm-section .row > * > .card:not(:only-child){
-        height: 142px;
+        height: 141px;
     }
     #sdm-section .top-row > * > .card:only-child{
-        min-height: 467px;
+        min-height: 465px;
     }
     #sdm-section .bottom-row > * > .card:only-child{
-        min-height: 467px;
+        min-height: 468px;
     }
     #sdm-section .right-col > .card{
         background-color: #BDC3C7;
