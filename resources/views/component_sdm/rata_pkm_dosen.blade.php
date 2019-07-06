@@ -32,9 +32,11 @@
                 </div>
             </div>
         </div>
-        <div class="d-inline-block ml-auto py-3 px-1 rounded-right text-center card-sdm-right bg-{{$class_name}} skor-panel" style="position:absolute; top:0; right:0; height:142px">
-            <p class="chart-subtitle">Skor</p>
-            <h1 class="data-value">{{number_format($skor_pkm,2)}}</h1>
+        <div class="d-inline-block px-1 rounded-right text-center bg-{{$class_name}} skor-panel d-table" style="position:absolute; top:0; right:0; height:142px">
+            <div class="d-table-cell align-middle">
+                <p class="chart-subtitle">Skor</p>
+                <h1 class="data-value">{{number_format($skor_pkm,2)}}</h1>
+            </div>
         </div>
     </div>
 </div>

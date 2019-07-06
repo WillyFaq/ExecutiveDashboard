@@ -436,12 +436,12 @@ body::-webkit-scrollbar {
     /* height: 100%; */
 }
 
-.skor-panel>* {
+.skor-panel * {
     color: white;
 }
 
-.skor-panel>.data-value {
-    font-size: 13px;
+.skor-panel .data-value {
+    font-size: 22px;
 }
 
 .progress-bar {
