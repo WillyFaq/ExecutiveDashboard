@@ -1,13 +1,13 @@
 <style>
 #kriteria-khusus .data-value {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: normal;
 }
 #kriteria-khusus .data-value .current {
     font-weight: bold;
 }
 #kriteria-khusus .data-label {
-    font-size: 18px;
+    font-size: 16px;
     color: black;
 }
 </style>
@@ -21,7 +21,7 @@
     </div>
     <div class="list-group list-group-flush">
         @foreach($kriteria_khusus as $kk => $row)
-            <div class="list-group-item border-0 pb-2 pt-0">
+            <div class="list-group-item border-0 pb-1 pt-0">
                 @php
                     if($row[1] <= 1){
                         $class_name = "danger";
@@ -33,7 +33,7 @@
                         $class_name = "primary";
                     }
                 @endphp
-                <div class="mb-0">
+                <div style="margin-bottom:15px">
                     <span class="data-label">{{$row[0]}}</span>
                     <span class="float-right data-value">
                         <span class="current text-{{$class_name}}">{{number_format($row[1], 2)}}</span>/4.00
