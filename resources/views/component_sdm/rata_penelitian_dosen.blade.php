@@ -12,9 +12,9 @@
 <div class="card mb-2">
     <div class="card-body p-1">
         <div class="d-inline-block">
-            <p class="d-block">{{$judul['180406']}}</p>
+            <p class="d-block chart-title">{{$judul['180406']}}</p>
             <div class="d-flex">
-                <div style="width:190px;">
+                <div style="width:184px;">
                     @include('widgets.charts.areachart_gradient', [
                         'color' => "default", 
                         'data' => array_combine($periode_ewmp, $jml_penelitian_dosen),
@@ -35,7 +35,7 @@
         <div class="d-inline-block rounded-right text-center bg-{{$class_name}} skor-panel d-table" style="padding-left:10px; padding-right:10px; position:absolute; top:0; right:0; height:142px">
             <div class="d-table-cell align-middle">
                 <p class="chart-subtitle">Skor</p>
-                <h1 class="data-value">{{number_format($skor_penelitian,2)}}</h1>
+                <h1 class="data-value small">{{number_format($skor_penelitian,2)}}</h1>
             </div>
         </div>
     </div>
