@@ -63,7 +63,9 @@
 							text.push('<div class="mx-1 legend-line d-inline-block" style="border:1px :dashed :color"></div>'
 							.replace(':dashed', chart.data.datasets[i].borderDash?'dashed':'solid')
 							.replace(':color', chart.data.datasets[i].borderColor)); 
+							text.push('<span class="legend-text small text-dark">');
 							text.push(chart.data.datasets[i].label); 
+							text.push('</span>');
 							text.push('</div>');
 					    } 
 

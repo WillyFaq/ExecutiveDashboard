@@ -47,21 +47,21 @@
         @endforeach
     </div>
     <div class="card-body text-center">
-        <div class="chart-subtitle d-inline-block">
+        <div class="mr-3 d-inline-block">
             <div class="mx-1 bg-primary legend-block d-inline-block"></div>
-            Sangat Baik
+            <span class="legend-text text-dark">Sangat Baik</span>
         </div>
-        <div class="chart-subtitle d-inline-block">
+        <div class="mr-3 d-inline-block">
             <div class="mx-1 bg-success legend-block d-inline-block"></div>
-            Baik
+            <span class="legend-text text-dark">Baik</span>
         </div>
-        <div class="chart-subtitle d-inline-block">
+        <div class="mr-3 d-inline-block">
             <div class="mx-1 bg-warning legend-block d-inline-block"></div>
-            Sedang
+            <span class="legend-text text-dark">Sedang</span>
         </div>
-        <div class="chart-subtitle d-inline-block">
+        <div class="mr-3 d-inline-block">
             <div class="mx-1 bg-danger legend-block d-inline-block"></div>
-            Buruk
+            <span class="legend-text text-dark">Buruk</span>
         </div>
     </div>
 </div>

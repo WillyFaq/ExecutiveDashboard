@@ -488,8 +488,24 @@ body::-webkit-scrollbar {
     color: #16A085 !important;
 }
 
+.text-dark {
+    color: black !important;
+}
+
 .progress {
     height: 10px;
+}
+
+.legend-text {
+    font-size: 14px;
+}
+
+.legend-text.small {
+    font-size: 12px;
+}
+
+.legend-text.large {
+    font-size: 16px;
 }
 
 .legend-block {

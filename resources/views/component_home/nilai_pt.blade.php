@@ -5,14 +5,6 @@
 .nil-pt-line {
     border: 1px solid #1ABC9C;
 }
-.line-txt {
-    width: 50px;
-    height: 1px;
-    margin-top: 5px
-}
-.legend-text{
-    font-size: 14px;
-}
 #tahun_mulai, #tahun_selesai{
     border:none;
     -moz-appearance: none;
