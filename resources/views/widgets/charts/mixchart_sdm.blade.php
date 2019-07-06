@@ -130,7 +130,7 @@
 								fontSize: 10,
 								callback: function(tick){
 									let percent = tick/{{array_sum($data['bar'][1])}};
-									return (Math.round(percent*100))+'%';
+									return (Math.round(percent*100));
 								}
 							},
 						}],
