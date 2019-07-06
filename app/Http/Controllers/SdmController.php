@@ -274,18 +274,18 @@ class SdmController extends Controller
                 }
             ],
             [
-                'nama' => 'Kompetensi',
-                'filter' => function($karyawan) {
-                    return $karyawan->sertifikasi->filter(function($sertifikasi){
-                        return $sertifikasi->jenis_sertifikasi == SertifikasiDosen::SERTIFIKASI_KOMPETENSI;
-                    })->count();
-                }
-            ],
-            [
                 'nama' => 'Profesi',
                 'filter' => function($karyawan) {
                     return $karyawan->sertifikasi->filter(function($sertifikasi){
                         return $sertifikasi->jenis_sertifikasi == SertifikasiDosen::SERTIFIKASI_PROFESI;
+                    })->count();
+                }
+            ],
+            [
+                'nama' => 'Kompetensi',
+                'filter' => function($karyawan) {
+                    return $karyawan->sertifikasi->filter(function($sertifikasi){
+                        return $sertifikasi->jenis_sertifikasi == SertifikasiDosen::SERTIFIKASI_KOMPETENSI;
                     })->count();
                 }
             ],
