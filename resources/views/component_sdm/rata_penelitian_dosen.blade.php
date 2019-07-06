@@ -32,7 +32,7 @@
                 </div>
             </div>
         </div>
-        <div class="d-inline-block rounded-right text-center bg-{{$class_name}} skor-panel d-table" style="padding-left:10px; padding-right:10px; position:absolute; top:0; right:0; height:142px">
+        <div class="d-inline-block rounded-right text-center bg-{{$class_name}} skor-panel d-table" style="padding-left:8px; padding-right:8px; position:absolute; top:0; right:0; height:142px">
             <div class="d-table-cell align-middle">
                 <p class="chart-subtitle">Skor</p>
                 <h1 class="data-value small">{{number_format($skor_penelitian,2)}}</h1>
