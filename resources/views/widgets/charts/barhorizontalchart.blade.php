@@ -101,13 +101,15 @@
 				            ticks:{
 				            	beginAtZero: true,
 	                            reverse: true,
-	                            start: 0
+	                            start: 0,
+								mirror: true,
+								padding: 80,
 				            },
 							gridLines:  {
 								display: false,
 							},
 							afterFit: function(scaleInstance) {
-								scaleInstance.width = 70; // sets the width to 100px
+								scaleInstance.width = 90;
 							}
 						}],
 						xAxes: [{
