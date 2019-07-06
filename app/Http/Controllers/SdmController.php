@@ -72,24 +72,22 @@ class SdmController extends Controller
         ->map(function ($prodi) {
             return $prodi->first()->prodi_ewmp->count();
         });
-        // RASIO DOSEN:MAHASISWA
-        $jml_dosen = Karyawan::whereIsDosenTetap()
+        // PRESENTASE DOSEN: TETAP TIDAK TETAP
+        $jml_dosen_tetap = Karyawan::whereIsDosenTetap()
+        ->whereHas('prodi_ewmp')
         ->count();
+        // RASIO DOSEN:MAHASISWA
         $jml_mahasiswa = Mahasiswa::whereHas('histori_kuliah', function ($query) use ($tahun_now) {
             return $query
             ->where('semester', 'LIKE', Carbon::createFromFormat('Y', $tahun_now - 1)->format('y').'1')
             ->whereIsAktif();
         })
         ->count();
-        $rasio_dosen_mahasiswa = round($jml_mahasiswa / $jml_dosen, 2);
+        $rasio_dosen_mahasiswa = round($jml_mahasiswa / $jml_dosen_tetap, 2);
         // RASIO PRODI:DOSEN
         $jml_prodi = Prodi::whereIsAktif()
         ->count();
-        $rasio_prodi_dosen = round($jml_dosen / $jml_prodi, 2);
-        // PRESENTASE DOSEN: TETAP TIDAK TETAP
-        $jml_dosen_tetap = Karyawan::whereIsDosenTetap()
-        ->whereHas('prodi_ewmp')
-        ->count();
+        $rasio_prodi_dosen = round($jml_dosen_tetap / $jml_prodi, 2);
         // JUMLAH PENELITIAN DOSEN
         $periode_ewmp = collect(range($tahun_now-2, $tahun_now));
         $penelitian_dosen = Penelitian::whereBetween(\DB::Raw("TO_CHAR(TO_DATE(SUBSTR(smt,1,2),'RR'),'YYYY')"), [$tahun_now-3, $tahun_now])
