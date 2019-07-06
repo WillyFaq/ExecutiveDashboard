@@ -12,7 +12,7 @@
 <div class="card mb-2">
     <div class="card-body p-1">
         <div class="d-inline-block">
-            <p class="d-block chart-title">{{$judul['180406']}}</p>
+            <p class="d-block chart-title small mb-1">{{$judul['180406']}}</p>
             <div class="d-flex">
                 <div style="width:184px;">
                     @include('widgets.charts.areachart_gradient', [
@@ -20,13 +20,13 @@
                         'data' => array_combine($periode_ewmp, $jml_penelitian_dosen),
                     ])
                 </div>
-                <div style="width:195px;">
+                <div style="width:195px;" class="pl-1 pb-1">
                     <div class="d-inline-block text-center mr-1">
-                        <p class="mb-0 text-info">{{array_sum(array_values($jml_penelitian_dosen))}}</p>
+                        <p class="mb-0 data-value text-info">{{array_sum(array_values($jml_penelitian_dosen))}}</p>
                         <p class="pb-0">Nasional</p>
                     </div>
                     <div class="d-inline-block text-center">
-                        <p class="mb-0 text-{{$class_name}}">{{0}}<span style="font-size:12px">/{{ceil($jml_dosen_tetap*0.3)}}</span></p>
+                        <p class="mb-0 data-value text-{{$class_name}}">{{0}}<span style="font-size:12px">/{{ceil($jml_dosen_tetap*0.3)}}</span></p>
                         <p class="pb-0">Internasional</p>
                     </div>
                 </div>
