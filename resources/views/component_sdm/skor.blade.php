@@ -1,7 +1,6 @@
 <div class="card mb-2">
-    <div class="card-header flushed">
+    <div class="card-header flushed mb-2">
         <h2 class="page-title">Nilai SDM</h2>
-        <p class="chart-title text-dark">Minimum :  3.50</p>
     </div>
     <div class="card-body">
         @include('widgets.charts.gauge_sdm', array('value' => number_format($skor_nilai_sdm,2)))
