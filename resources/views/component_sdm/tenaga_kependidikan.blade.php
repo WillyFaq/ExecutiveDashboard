@@ -18,9 +18,9 @@
             <div class="card-body">
                 @for($i=1; $i <= 4; $i++)
                     @if($i <= $skor_tenaga_kependidikan)
-                        <i class="mr-2 data-value large fac fa-star text-{{$class_name}}"></i>
+                        <i class="mr-3 d-inline-block data-value large fac fa-star text-{{$class_name}}"></i>
                     @else
-                        <i class="mr-2 data-value large fac fa-star text-muted"></i>
+                        <i class="mr-3 d-inline-block data-value large fac fa-star text-muted"></i>
                     @endif
                 @endfor
             </div>
