@@ -432,6 +432,10 @@ body::-webkit-scrollbar {
     font-weight: bold;
 }
 
+.data-value.extra-large {
+    font-size: 42px;
+}
+
 .card-body .skor-panel {
     /* height: 100%; */
 }

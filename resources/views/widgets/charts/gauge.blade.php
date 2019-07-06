@@ -28,7 +28,7 @@
 		stroke: #2386DE;
 	}
 	#gauge_{{$_idbx}} text.skor {
-		font-size: 18px;
+		font-size: 24px;
 		font-weight: bold;
 		text-anchor: middle;
 	}

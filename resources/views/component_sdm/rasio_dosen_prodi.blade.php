@@ -16,7 +16,7 @@
                 <p class="chart-title mb-0">{{$judul['180401']}}</p>
             </div>
             <div class="card-body">
-                <p class="data-value mb-0 text-{{$class_name}}">1 : {{$rasio_prodi_dosen}}</p>
+                <p class="data-value extra-large mb-0 text-{{$class_name}}">1 : {{$rasio_prodi_dosen}}</p>
             </div>
         </div>
         <div class="col-4 py-2 mx-auto">
