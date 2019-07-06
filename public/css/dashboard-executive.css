@@ -48,6 +48,12 @@ body::-webkit-scrollbar {
     padding: .5rem 30px;
 }
 
+.page-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2C3E50;
+}
+
 .sidebar .nav-item .nav-link .img-profile,
 .topbar .nav-item .nav-link .img-profile {
     width: 56px;
@@ -375,6 +381,18 @@ body::-webkit-scrollbar {
     font-weight: bold;
 }
 
+.card-body .skor-panel {
+    /* height: 100%; */
+}
+
+.skor-panel>* {
+    color: white;
+}
+
+.skor-panel>.data-value {
+    font-size: 13px;
+}
+
 .progress-bar {
     background-color: #2386DE;
 }
@@ -392,7 +410,11 @@ body::-webkit-scrollbar {
 }
 
 .bg-danger {
-    background-color: #E53935 !important;
+    background-color: red !important;
+}
+
+.bg-info {
+    background-color: #16A085 !important;
 }
 
 .text-primary {
@@ -408,7 +430,11 @@ body::-webkit-scrollbar {
 }
 
 .text-danger {
-    color: #E53935 !important;
+    color: red !important;
+}
+
+.text-info {
+    color: #16A085 !important;
 }
 
 .progress {
@@ -416,12 +442,17 @@ body::-webkit-scrollbar {
 }
 
 .legend-block {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
+    border-radius: 90%;
 }
 
 .legend-line {
     width: 25px;
     height: 0px;
     margin-bottom: 3px;
+}
+
+.rounded-top-right {
+    border-top-right-radius: .35rem !important;
 }

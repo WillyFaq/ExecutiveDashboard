@@ -1,468 +1,78 @@
-@extends('layouts.dashboard')
+@extends('layouts.refactored.dashboard')
 @section('page_heading','SDM')
 @section('section')
-
+<style>
+    #sdm-section .row > * > .card:not(:only-child){
+        height: 142px;
+    }
+    #sdm-section .top-row > * > .card:only-child{
+        min-height: 467px;
+    }
+    #sdm-section .bottom-row > * > .card:only-child{
+        min-height: 467px;
+    }
+    #sdm-section .right-col > .card{
+        background-color: #BDC3C7;
+        border-color: #BDC3C7;
+    }
+    #sdm-section .right-col > .card > .card-body{
+        padding: 15px;
+    }
+</style>
 <link rel="stylesheet" href="{{ asset("d3-chart/gauge.css") }}">
-<script src="{{ asset("js/popper.min.js") }}" type="text/javascript"></script>
 <script src="{{ asset("d3-chart/d3.v5.min.js") }}" type="text/javascript"></script>
-
-<script src="{{ asset("js/Chart.js") }}" type="text/javascript"></script>
 <script src="{{ asset("js/utils.js") }}" type="text/javascript"></script>
 <script src="{{ asset("js/apexcharts.js") }}" type="text/javascript"></script>
-
-<div class="container container-main container-home" style="padding-top:10px;">
-	<div class="row">
-		<!-- group card top -->
-		<div class="col-xs-12">
-			<div class="row main-dash">
-				<div class="col-xs-3">
-					<div class="card">
-						<div class="row">
-							<div class="col-xs-12 card-home-title">
-								<h2>Nilai SDM</h2>
-							</div>
-							<div class=" col-xs-12 ">
-								<p class="txt_card_subtitle">Minimum :  3.50</p>
-							</div>
-						</div>
-						<div class="row sdm-main-gauge" >
-							<div class="col-xs-12">
-                    			@include('widgets.charts.gauge_sdm', array('value' => number_format($skor_nilai_sdm,2)))
-							</div>
-							<div class="col-xs-12">
-								<div class="keterangan_box">
-									<p><span class="dot d_info"></span> Sangat Baik</p>
-									<p><span class="dot d_purple"></span> Baik</p>
-									<p><span class="dot d_yellow"></span> Sedang</p>
-									<p><span class="dot d_red"></span> Buruk</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-
-				<div class="col-xs-6">
-					<div class="card" style="padding-top:10px;">
-						<div class="row">
-							<div class="col-xs-8">
-								<div class="row">
-									<div class="col-xs-12 card-home-title">
-										<h2>Jabatan Fungsional Dosen</h2>
-									</div>
-									<div class="col-xs-12 card-home-subtitle">
-                                        <p class="txt_card_subtitle">{{ $periode }}</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-xs-4 card-smd-legend">
-								<div id="legend-jafung"></div>
-							</div>
-							@php
-								if($skor_jabatan_fungsional <= 1){
-									$class_name = "danger";
-								}elseif($skor_jabatan_fungsional <= 2){
-									$class_name = "warning";
-								}elseif($skor_jabatan_fungsional <= 3){
-									$class_name = "purple";
-								}else{
-									$class_name = "info";
-								}
-							@endphp
-							<div class="text-center card-sdm-right top-right pg_{{$class_name}}">
-								<p class="txt_card_subtitle">Skor</p>
-                                <h1>{{ number_format($skor_jabatan_fungsional,2) }}</h1>
-							</div>
-							<!-- <div class="col-xs-10 card-home-subtitle">
-							                                <input class="btn btn-default btn-sm" type="button" onclick="window.location='{{url('/sdm/list_dosen')}}'" value="Detail"/>
-							</div> -->
-							<div class="col-xs-2 text-center card-home-right">
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-12" style="padding-top:10px;">
-                                @include('widgets.charts.mixchart_sdm', [
-                                    'data' => [
-                                        'line'	=> ['Guru Besar', $dosen_guru_besar ],
-                                        'bar'	=> ['Dosen Tetap', $dosen_tetap ],
-                                    ],
-									'onClickFn' => 'show_modal_jafung',
-									'id_legend' => 'legend-jafung',
-                                ])
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<div class="col-xs-3">
-					<div class="row sdm-small-card">
-						<div class="col-xs-12">
-							<div class="card">
-								<div class="row">
-									@php
-										if($skor_rasio_dosen_mahasiswa <= 1){
-											$class_name = "danger";
-										}elseif($skor_rasio_dosen_mahasiswa <= 2){
-											$class_name = "warning";
-										}elseif($skor_rasio_dosen_mahasiswa <= 3){
-											$class_name = "purple";
-										}else{
-											$class_name = "info";
-										}
-									@endphp
-									<div class="col-xs-8 sdm-small-card-tittle">
-										<p>Rasio Dosen : Mahasiswa</p>
-										<h1 class="txt_color_{{$class_name}}">1 : {{ $rasio_dosen_mahasiswa }}</h1>
-									</div>
-									<div class="col-xs-4">
-                                        @include('widgets.charts.gauge', [
-                                            'skor'=> number_format($skor_rasio_dosen_mahasiswa,2), 
-                                            'type' => 2 ,
-                                        ])
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-xs-12">
-							<div class="card">
-								<div class="row">
-									@php
-										if($skor_rasio_prodi_dosen <= 1){
-											$class_name = "danger";
-										}elseif($skor_rasio_prodi_dosen <= 2){
-											$class_name = "warning";
-										}elseif($skor_rasio_prodi_dosen <= 3){
-											$class_name = "purple";
-										}else{
-											$class_name = "info";
-										}
-									@endphp
-									<div class="col-xs-8 sdm-small-card-tittle">
-										<p>Rasio Program Studi : Dosen</p>
-										<h1 class="txt_color_{{$class_name}}">1 : {{ $rasio_prodi_dosen }}</h1>
-									</div>
-									<div class="col-xs-4">
-                                        @include('widgets.charts.gauge', [
-                                            'skor'=> number_format($skor_rasio_prodi_dosen,2), 
-                                            'type' => 2 ,
-                                        ])
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-xs-12">
-							<div class="card">
-								<div class="row">
-									<div class="col-xs-8 sdm-small-card-tittle">
-										<p>Tenaga Kependidikan</p>
-										<div class="star-box">
-                                            @for($i=1; $i <= 4; $i++)
-                                                @if($i <= $skor_tenaga_kependidikan)
-                                                    <img src="{{ asset("imgs/star-on.svg") }}" alt="On">
-                                                @else
-                                                    <img src="{{ asset("imgs/star-off.svg") }}" alt="Off">
-                                                @endif
-                                            @endfor
-										</div>
-									</div>
-									<div class="col-xs-4">
-                                        @include('widgets.charts.gauge', [
-                                            'skor'=> number_format($skor_tenaga_kependidikan,2), 
-                                            'type' => 2,
-                                        ])
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- end group card top -->
-		<!-- group card bottom -->
-		<div class="col-xs-12">
-			<div class="row main-dash">
-
-				<div class="col-xs-3">
-					<div class="row sdm-small-card">
-						<div class="col-xs-12">
-							<div class="card">
-								<div class="row">
-									<div class="col-xs-12 sdm-small-card-tittle">
-										<p>Rata-Rata Penelitian Dosen</p>
-									</div>
-									<div class="col-xs-6">
-										<div class="sdm-area-grad">
-											@include('widgets.charts.areachart_gradient', [
-												'color' => "default", 
-												'data' => $jml_penelitian_dosen,
-											])
-										</div>
-									</div>
-									@php
-										if($skor_penelitian <= 1){
-											$class_name = "danger";
-										}elseif($skor_penelitian <= 2){
-											$class_name = "warning";
-										}elseif($skor_penelitian <= 3){
-											$class_name = "purple";
-										}else{
-											$class_name = "info";
-										}
-									@endphp
-									<div class="col-xs-4 just-center">
-										<table class="table-keterangan-sdm-card">
-											<thead>
-												<tr>
-													<th class="txt_color_success">{{array_sum(array_values($jml_penelitian_dosen))}}</th>
-													<th class="txt_color_{{$class_name}}">{{0}}<span style="font-size:12px">/{{array_sum(array_values($jml_penelitian_dosen))}}</span></th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Nasional</td>
-													<td>Internasional</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-									<div class="just-right text-center card-sdm-right pg_{{$class_name}}">	
-										<p class="txt_card_subtitle">Skor</p>
-		                                <h1>{{number_format($skor_penelitian,2)}}</h1>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-xs-12">
-							<div class="card sdm-bottom-left-card">
-								<div class="row">
-									<div class="col-xs-12 sdm-small-card-tittle">
-										<p>Rata-Rata PKM Dosen</p>
-									</div>
-									<div class="col-xs-6">
-										<div class="sdm-area-grad">
-											@include('widgets.charts.areachart_gradient', [
-												'color' => "default", 
-												'data' => $jml_pkm_dosen,
-											])
-										</div>
-									</div>
-									@php
-										if($skor_pkm <= 1){
-											$class_name = "danger";
-										}elseif($skor_pkm <= 2){
-											$class_name = "warning";
-										}elseif($skor_pkm <= 3){
-											$class_name = "purple";
-										}else{
-											$class_name = "info";
-										}
-									@endphp
-									<div class="col-xs-4">
-										<table class="table-keterangan-sdm-card">
-											<thead>
-												<tr>
-													<th class="txt_color_success">{{array_sum(array_values($jml_pkm_dosen))}}</th>
-													<th class="txt_color_{{$class_name}}">{{0}}<span style="font-size:12px">/{{array_sum(array_values($jml_pkm_dosen))}}</span></th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Nasional</td>
-													<td>Internasional</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-									<div class="just-right text-center card-sdm-right pg_{{$class_name}}">	
-										<p class="txt_card_subtitle">Skor</p>
-		                                <h1>{{number_format($skor_pkm,2)}}</h1>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-xs-12">
-							<div class="card sdm-bottom-left-card">
-								<div class="row">
-									<div class="col-xs-12 sdm-small-card-tittle">
-										<p>Rata-Rata Rekognisi Dosen</p>
-									</div>
-									<div class="col-xs-6">
-										<div class="sdm-area-grad">
-											@include('widgets.charts.areachart_gradient', [
-												'color' => "default", 
-												'data' => $jml_rekognisi_dosen,
-											])
-										</div>
-									</div>
-									@php
-										if($skor_rekognisi <= 1){
-											$class_name = "danger";
-										}elseif($skor_rekognisi <= 2){
-											$class_name = "warning";
-										}elseif($skor_rekognisi <= 3){
-											$class_name = "purple";
-										}else{
-											$class_name = "info";
-										}
-									@endphp
-									<div class="col-xs-4">
-										<table class="table-keterangan-sdm-card">
-											<thead>
-												<tr>
-													<th class="txt_color_success">{{array_sum(array_values($jml_rekognisi_dosen))}}</th>
-													<th class="txt_color_{{$class_name}}">{{0}}<span style="font-size:12px">/{{array_sum(array_values($jml_rekognisi_dosen))}}</span></th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Nasional</td>
-													<td>Internasional</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-									<div class="just-right text-center card-sdm-right pg_{{$class_name}}">	
-										<p class="txt_card_subtitle">Skor</p>
-		                                <h1>{{number_format($skor_rekognisi,2)}}</h1>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-xs-6">
-					<div class="card" style="padding-top:10px;">
-						<div class="row">
-							<div class="col-xs-8">
-								<div class="row">
-									<div class="col-xs-12 card-home-title">
-										<h2>Persentase Sertifikat Pendidikan</h2>
-									</div>
-									<div class="col-xs-12 card-home-subtitle">
-										<p class="txt_card_subtitle">{{ $periode }}</p>
-									</div>
-								</div>
-							</div>
-							
-							<div class="col-xs-4 card-smd-legend">
-								<div id="legend-sertifikasi"></div>
-							</div>
-								@php
-									if($skor_sertifikat_pendidikan <= 1){
-										$class_name = "danger";
-									}elseif($skor_sertifikat_pendidikan <= 2){
-										$class_name = "warning";
-									}elseif($skor_sertifikat_pendidikan <= 3){
-										$class_name = "purple";
-									}else{
-										$class_name = "info";
-									}
-								@endphp
-								<div class="text-center card-sdm-right top-right pg_{{$class_name}}">
-									<p class="txt_card_subtitle">Skor</p>
-                                    <h1>{{ number_format($skor_sertifikat_pendidikan,2) }}</h1>
-								</div>
-							<!-- <div class="col-xs-10 card-home-subtitle">
-							                                <input class="btn btn-default btn-sm" type="button" onclick="window.location='{{url('/sdm/list_dosen')}}'" value="Detail"/>
-							</div> -->
-							<div class="col-xs-2 text-center card-home-right">
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-12" style="padding-top:10px;">
-                                @include('widgets.charts.mixchart_sdm', [
-                                    'data' => [
-                                        'line' => ['Sertifikasi', $dosen_tetap_bersertifikasi],
-                                        'bar'	=> ['Dosen Tetap', $dosen_tetap ],
-                                    ],
-									'onClickFn' => 'show_modal_sertifikasi',
-									'id_legend' => 'legend-sertifikasi',
-                                ])
-							</div>
-						</div>
-					</div>
-				</div>
-				
-
-				<div class="col-xs-3">
-					<div class="card">
-						<div class="row">
-							<div class="col-xs-10 card-home-title">
-								<h2>Persentase Dosen Tidak Tetap</h2>
-							</div>
-								@php
-									if($skor_presentase_dosen_tidak_tetap <= 1){
-										$class_name = "danger";
-									}elseif($skor_presentase_dosen_tidak_tetap <= 2){
-										$class_name = "warning";
-									}elseif($skor_presentase_dosen_tidak_tetap <= 3){
-										$class_name = "purple";
-									}else{
-										$class_name = "info";
-									}
-								@endphp
-								<div class="text-center card-sdm-right top-right pg_{{$class_name}}">
-									<p class="txt_card_subtitle">Skor</p>
-                                    <h1>{{ number_format($skor_presentase_dosen_tidak_tetap,2) }}</h1>
-								</div>
-						</div>
-						<div class="row" style="padding-top:20px;">
-							<div class="col-xs-12">
-								@include('widgets.charts.cpiechart', [
-									'data' => [
-										'Dosen Tetap' => $jml_dosen_tetap,
-										'Dosen Tidak Tetap' => $jml_dosen_tidak_tetap,
-									],
-									'id_legend' => 'legend-dosen',
-								])
-							</div>
-							<div class="col-xs-12">
-								<div id="legend-dosen"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- end group card bottom -->
-	</div>
+<div id="sdm-section">
+    <div class="row top-row">
+        <div class="col-md-3">
+            @include('component_sdm.skor')
+        </div>
+        <div class="col-md-6">
+            @include('component_sdm.jabatan_fungsional')
+        </div>
+        <div class="col-md-3">
+            @include('component_sdm.rasio_mhs_dosen')
+            @include('component_sdm.rasio_dosen_prodi')
+            @include('component_sdm.tenaga_kependidikan')
+        </div>
+    </div>
+    <div class="row bottom-row">
+        <div class="col-md-3">
+            @include('component_sdm.rata_penelitian_dosen')
+            @include('component_sdm.rata_pkm_dosen')
+            @include('component_sdm.rata_rekognisi_dosen')
+        </div>
+        <div class="col-md-6">
+            @include('component_sdm.persentase_sertifikat_dosen')
+        </div>
+        <div class="col-md-3">
+            @include('component_sdm.persentase_dosen_tidak_tetap')
+        </div>
+    </div>
 </div>
-
 <div class="modal fade" id="modal_chart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  	<div class="modal-dialog modal-lg">
-	    <div class="modal-content">
-	      	<div class="modal-header" style="border-bottom:none;">
-	        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	       	 	<br>
-       	 		<div class="col-xs-1">
-       	 			<div style="padding:5px;width:42px;height:42px;border-radius:50%;background:rgba(150, 150, 150, 0.2);text-align:center;">
-       	 				<img src="{{ asset("imgs/account_box.svg") }}" alt="icon" style="width:32px;height:32px;">
-       	 			</div>
-       	 		</div>
-       	 		<div class="col-xs-11">
-       	 			<h4 class="modal-title" style="color:#000;font-weight:900;" id="modal_chart_label"></h4>
-       	 			<p class="txt_card_subtitle">{{$periode}}</p>
-       	 		</div>
-		       	<div style="clear:both;"></div>
-	      	</div>
-	      	<div class="modal-body">
-	        	<div class="row">
-	        		<div class="col-xs-12">
-                        <div id="load_chart">
-							<canvas height="105px" id="mixchart_ajax"></canvas>
-                        </div>
-	        		</div>
-	        		<div class="col-xs-12">
-	        			<div id="legend_ajax"></div>
-	        		</div>
-	        	</div>
-	      	</div>
-	    </div>
-  	</div>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="card-header flushed" style="border-bottom:none;">
+                <img src="{{asset('imgs/account_box.svg')}}" class="card-icon float-left mr-1"> 
+                <div class="float-left">
+                    <p class="chart-title mb-0" style="color:#000;font-weight:900;" id="modal_chart_label"></p>
+                    <p class="chart-subtitle mb-0">{{$periode}}</p>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="card-body">
+                <div id="load_chart">
+                    <canvas height="105px" id="mixchart_ajax"></canvas>
+                </div>
+                <div id="legend_ajax"></div>
+            </div>
+        </div>
+    </div>
 </div>
-
 <script type="text/javascript">
     function renderChart(mixChartData) {
         mixChartData.datasets = mixChartData.datasets.map(function(datasets){
@@ -470,18 +80,41 @@
                 datasets.borderColor = '#C91865';
                 datasets.backgroundColor = '#C91865';
                 datasets.borderWidth = 4;
+                datasets.pointRadius = 8;
+                datasets.pointHoverRadius = 10;
                 datasets.fill = false;
                 datasets.type = 'line';
                 datasets.lineTension = 0;
+                datasets.datalabels = {
+                    'display': true,
+                    'anchor': 'center',
+                    'align': 'center',
+                    'color': 'white',
+                };
             }else if(datasets.label == 'S1'){
-                datasets.borderColor = '#A358BF';
-                datasets.backgroundColor = '#A358BF';
+                datasets.borderColor = '#95A5A6';
+                datasets.backgroundColor = '#95A5A6';
+                datasets.datalabels = {
+                    'display': false,
+                    'anchor': 'start',
+                    'align': 'end',
+                };
             }else if(datasets.label == 'S2'){
-                datasets.borderColor = '#9E7CD7';
-                datasets.backgroundColor = '#9E7CD7';
+                datasets.borderColor = '#1ABC9C';
+                datasets.backgroundColor = '#1ABC9C';
+                datasets.datalabels = {
+                    'display': false,
+                    'anchor': 'start',
+                    'align': 'end',
+                };
             }else if(datasets.label == 'S3'){
-                datasets.borderColor = '#C2B4E2';
-                datasets.backgroundColor = '#C2B4E2';
+                datasets.borderColor = '#34495E';
+                datasets.backgroundColor = '#34495E';
+                datasets.datalabels = {
+                    'display': false,
+                    'anchor': 'start',
+                    'align': 'end',
+                };
             }
             return datasets;
         });
@@ -490,6 +123,7 @@
         window.chart_modal = new Chart(ctxa, {
             type: 'bar',
             data: mixChartData,
+            plugins: [ChartDataLabels],
             options: {
                 responsive: true,
                 hoverMode: 'index',
