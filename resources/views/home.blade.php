@@ -3,10 +3,10 @@
 @section('section')
 <style>
     #home-section .top-row > * > .card{
-        min-height: 467px;
+        min-height: 465px;
     }
     #home-section .bottom-row > * > .card{
-        min-height: 467px;
+        min-height: 468px;
     }
     #home-section .right-col > .card{
         background-color: #BDC3C7;
@@ -16,10 +16,10 @@
         padding: 15px;
     }
     #home-section .right-col .card:first-child {
-        min-height: 455px;
+        min-height: 453px;
     }
     #home-section .right-col .card:not(:first-child) {
-        min-height: 455px;
+        min-height: 453px;
     }
 </style>
 <div class="row" id="home-section">
