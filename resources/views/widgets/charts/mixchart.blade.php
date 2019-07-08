@@ -1,7 +1,9 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<canvas height="230px" id="mixchart_{{$_idbx}}"></canvas >
+<div class="m-auto" style="position:relative; height:295px">
+	<canvas id="mixchart_{{$_idbx}}"></canvas >
+</div>
 
 <script>
 		var mixChartData = {
@@ -17,8 +19,8 @@
 				if(isset($data)){
 					echo "{";
 						echo "label: '".$data['sekarang'][0]."',";
-						echo "borderColor: '#BE1E2D',";
-						echo "backgroundColor: '#BE1E2D',";
+						echo "borderColor: '#1ABC9C',";
+						echo "backgroundColor: '#1ABC9C',";
 						echo "borderWidth: 1,";
 						echo "fill: false,";
 						echo "data: [";
@@ -30,9 +32,9 @@
 					echo "},\n";
 					echo "{";
 						echo "label: '".$data['lalu'][0]."',";
-						echo "borderColor: 'rgba(35, 134, 222, 0.3)',";
-						echo "backgroundColor: 'rgba(35, 134, 222, 0.3)',";
-						echo "borderWidth: 3,";
+						// echo "borderColor: 'rgba(241, 196, 15, 0.3)',";
+						echo "backgroundColor: 'rgba(241, 196, 15, 0.3)',";
+						echo "borderWidth: 0,";
 						echo "fill: true,";
 						echo "data: [";
 						foreach($data['lalu'][1] as $k => $v){
@@ -54,7 +56,7 @@
     			type: 'bar',
 				data: mixChartData,
 				options: {
-					responsive: true,
+  					maintainAspectRatio: false,
 					hoverMode: 'index',
 					stacked: false,
 					title: {
@@ -69,9 +71,7 @@
 							ticks: {
 								fontSize: 10
 							},
-
-							barPercentage: 0.5,
-				            barThickness: 6,
+							barPercentage: 0.3,
 						}],
 						yAxes: [{
 							gridLines:  {
@@ -96,24 +96,15 @@
 			        },
 					legendCallback: function(chart) {
 			            var text = []; 
-						text.push('<div class="row">');
 					    for (var i = 0; i < chart.data.datasets.length; i++) { 
-							text.push('<div class="col-xs-6">');
-					        if (chart.data.datasets[i].label) { 
-								if(i%2==0){
-									text.push('<div class="txt_card_subtitle text-right">');
-								}else{
-									text.push('<div class="txt_card_subtitle text-left">');
-								}
-								text.push('<span>');
-								text.push('<div style="background-color:' + chart.data.datasets[i].backgroundColor + '; height:8px; width:8px; display:inline-block; margin-right:5px;"></div>'); 
-					            text.push(chart.data.datasets[i].label); 
-								text.push('</span>');
-								text.push('</div>');
-					        } 
+							text.push('<div class="mr-1 d-inline-block">');
+							text.push('<div class="mx-1 legend-block d-inline-block" style="background-color: :warna"></div>'
+							.replace(':warna',chart.data.datasets[i].backgroundColor)); 
+							text.push('<span class="legend-text small">');
+							text.push(chart.data.datasets[i].label); 
+							text.push('</span>');
 							text.push('</div>');
 					    } 
-						text.push('</div>');
 
 					    return text.join(''); 
 			        },

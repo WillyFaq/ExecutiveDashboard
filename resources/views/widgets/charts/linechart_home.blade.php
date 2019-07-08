@@ -1,7 +1,9 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<canvas height="115px" id="linechart_{{$_idbx}}"></canvas >
+<div class="m-auto" style="position:relative; height:348px">
+	<canvas id="linechart_{{$_idbx}}"></canvas >
+</div>
 <script>
 		function renderLineChart_{{$_idbx}}(data){
 			
@@ -10,7 +12,7 @@
 			var myLine = Chart.Line(ctx, {
 				data: data,
 				options: {
-					responsive: true,
+  					maintainAspectRatio: false,
 					hoverMode: 'index',
 					stacked: false,
 					title: {
@@ -34,7 +36,7 @@
 							display: true,
 							id: 'y-axis-1',
 					        ticks: {
-								min: 150,
+								// min: 150,
 								max: 400,
 								stepSize: 50,
 								suggestedMin: 0,
@@ -46,9 +48,32 @@
 					legend: {
 			            display: false,
 			            position: 'right'
-			        }
+					},
+					legendCallback: function(chart){
+						var text = [];
+					    for (var i = 0; i < chart.data.datasets
+						.map(function(data){
+							return data.label;
+						})
+						.filter(function(value, index, self){
+							return self.indexOf(value) === index;
+						})
+						.length; i++) { 
+							text.push('<div class="chart-subtitle d-inline-block">');
+							text.push('<div class="mx-1 legend-line d-inline-block" style="border:1px :dashed :color"></div>'
+							.replace(':dashed', chart.data.datasets[i].borderDash?'dashed':'solid')
+							.replace(':color', chart.data.datasets[i].borderColor)); 
+							text.push('<span class="legend-text small text-dark">');
+							text.push(chart.data.datasets[i].label); 
+							text.push('</span>');
+							text.push('</div>');
+					    } 
+
+					    return text.join(''); 
+					}
 				}
 			});
+			document.getElementById('{{$id_legend}}').innerHTML = myLine.generateLegend();
 		}
 		
 		function reloadData_{{$_idbx}}(){
@@ -67,8 +92,8 @@
 					datasets: [
 						{
 							label: 'Nilai PT',
-							borderColor: '#BE1E2D',
-							backgroundColor: '#BE1E2D',
+							borderColor: '#1ABC9C',
+							backgroundColor: '#1ABC9C',
 							borderWidth: 1.5,
 							fill: false,
 							data: Object.values(response),
@@ -77,9 +102,9 @@
 							pointHoverRadius: 6,
 						},
 						{
-							label: 'Dashed',
+							label: 'Status PT',
 							fill: false,
-							borderColor: '#FE8C00',
+							borderColor: '#F1C40F',
 							borderWidth: 1,
 							borderDash: [5, 5, 5],
 							data: Object.values(response).map(function(){
@@ -89,9 +114,9 @@
 							pointHoverRadius: 0,
 						},
 						{
-							label: 'Dashed',
+							label: 'Status PT',
 							fill: false,
-							borderColor: '#FE8C00',
+							borderColor: '#F1C40F',
 							borderWidth: 1,
 							borderDash: [5, 5, 5],
 							data: Object.values(response).map(function(){
@@ -101,9 +126,9 @@
 							pointHoverRadius: 0,
 						},
 						{
-							label: 'Dashed',
+							label: 'Status PT',
 							fill: false,
-							borderColor: '#FE8C00',
+							borderColor: '#F1C40F',
 							borderWidth: 1,
 							borderDash: [5, 5, 5],
 							data: Object.values(response).map(function(){

@@ -95,9 +95,7 @@ class HomeController extends Controller
         // MHS REGISTRASI
         $get_mhs_registrasi = function ($tahun) {
             $prodi = Prodi::whereIsAktif()
-            ->orderBy('id_fakultas')
-            ->orderBy(\DB::Raw('DECODE(SUBSTR(id, 1, 1), 4, 1, 5, 2, 3, 3)'))
-            ->orderBy('id')
+            ->orderByDefault()
             ->get()
             ->map(function ($prodi) use ($tahun) {
                 $prodi->jml_mahasiswa = Mahasiswa::where(\DB::Raw('SUBSTR(nim, 3, 5)'), $prodi->id)
@@ -216,7 +214,7 @@ class HomeController extends Controller
         $tahun_start = $tahun_param->first();
         $tahun_end = $tahun_param->last();
         $list_tahun = collect(CarbonPeriod::create(
-            Carbon::now()->year('2015'),
+            Carbon::now()->year('2014'),
             '1 year',
             Carbon::now()->year($tahun_now)
         )->toArray())

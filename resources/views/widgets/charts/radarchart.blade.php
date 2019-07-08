@@ -1,11 +1,13 @@
-<canvas style="width:100%; height:280px"  id="radarchart"></canvas >
+<div class="m-auto" style="position:relative; height:348px">
+	<canvas id="radarchart"></canvas>
+</div>
 
 <script>
     @php
         $label = array_map(function($data_profil) {
             return [
                 $data_profil['nama'],
-                $data_profil['nilai'],
+                number_format($data_profil['nilai'],2),
             ];
         }, $data_profil);
         $data = array_map(function($data_profil) {
@@ -21,13 +23,17 @@
 				labels: label,
 				datasets: [{
 					label: 'Kriteria Perguruan Tinggi',
-					backgroundColor: 'rgba(190, 30, 45, 0.5)',//color(window.chartColors.red).alpha(0.2).rgbString(),
-					borderColor: '#BE1E2D',//window.chartColors.red,
-					pointBackgroundColor: '#BE1E2D',//window.chartColors.red,
-					data: data
+					backgroundColor: 'rgba(26, 188, 156, 0.5)',//color(window.chartColors.red).alpha(0.2).rgbString(),
+					// borderColor: '#1ABC9C',//window.chartColors.red,
+					borderWidth: 0,
+					pointBackgroundColor: '#1ABC9C',//window.chartColors.red,
+					data: data,
+					pointRadius: 5,
+					pointHoverRadius: 7,
 				}]
 			},
 			options: {
+				maintainAspectRatio: false,
 				legend: {
 					display: false,
 					position: 'top',
@@ -36,24 +42,34 @@
 					display: false,
 					text: 'Chart.js Radar Chart'
 				},
-
 				scale: {
-					 pointLabels: {
-					 	fontSize:11,
-                        callback: function(value, index, values) {
-                        	//console.log(value);
-                            return value;
-                        }
-                    },
+					pointLabels: {
+						fontSize: 11,
+						// callback: function(value, index, values) {
+						// 	return value;
+						// }
+					},
 					ticks: {
 						min: 0,
 						max: 4,
-						display:false
+						stepSize: 1,
+						callback: function(value){
+							return value.toFixed(2);
+						}
 					}
 				}
-			}
+			},
+			// plugins: [
+			// 	{
+			// 		beforeDraw: function(chart){
+			// 			foreach(chart.scale.ctx as chart){
+
+			// 			}
+			// 		}
+			// 	}
+			// ]
 		};
-        window.onload = function() {
+		$(document).ready(function(){
             let chartElement = document.getElementById('radarchart');
             let chartContext = chartElement.getContext('2d');
             window.myRadar = new Chart(chartContext, config);
@@ -61,9 +77,8 @@
                 let dot = window.myRadar.getElementAtEvent(e);
                 if(!dot.length) return;
                 window.location.href = label[dot[0]._index][0].replace(' ','_').toLowerCase();
-            }
-        };
-		
+			}
+		});
 
 		/*
 		$(document).ready(function(){

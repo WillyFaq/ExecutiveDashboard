@@ -20,6 +20,14 @@ class Prodi extends Model
         return $query->where('sts_aktif', 'Y');
     }
 
+    public function scopeOrderByDefault($query)
+    {
+        return $query
+        ->orderBy('id_fakultas')
+        ->orderBy(\DB::Raw('DECODE(SUBSTR(id, 1, 1), 4, 1, 5, 2, 3, 3)'))
+        ->orderBy('id');
+    }
+
     public function prodi_ewmp()
     {
         return $this->hasMany(ProdiEwmp::class, 'prodi');
@@ -37,6 +45,12 @@ class Prodi extends Model
 
     public function getAliasAttribute()
     {
-        return 'D3' == substr($this->attributes['alias'], 0, 2) ? $this->attributes['alias'] : substr($this->attributes['alias'], 3);
+        // return 'D3' == substr($this->attributes['alias'], 0, 2) ? $this->attributes['alias'] : substr($this->attributes['alias'], 3);
+        return str_replace('-', ' ', $this->attributes['alias']);
+    }
+
+    public function getNamaAttribute()
+    {
+        return substr($this->attributes['alias'], 0, 2).' '.$this->attributes['nama'];
     }
 }

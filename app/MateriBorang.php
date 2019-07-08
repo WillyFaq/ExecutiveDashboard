@@ -35,6 +35,12 @@ class MateriBorang extends Model
         return $this->hasMany(NilaiBorang::class, 'kd_std');
     }
 
+    public function nilai_latest()
+    {
+        return $this->hasOne(NilaiBorang::class, 'kd_std')
+        ->latest('tahun');
+    }
+
     public function induk_materi()
     {
         return $this->belongsTo(self::class, 'kd_induk');

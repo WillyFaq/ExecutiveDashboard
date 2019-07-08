@@ -2,11 +2,16 @@
 
 namespace App;
 
-class Penelitian extends RekapEwmp
+use Illuminate\Database\Eloquent\Model;
+
+class Penelitian extends Model
 {
-    public function newQuery()
+    protected $table = 'pantja.ewmp_b_dashboard';
+
+    public function getLembagaAttribute()
     {
-        return parent::newQuery()
-            ->whereIsPenelitian();
+        return isset($this->attributes['lembaga']) ?
+        $this->attributes['lembaga'] :
+        'Institut Bisnis dan Informatika Stikom Surabaya';
     }
 }

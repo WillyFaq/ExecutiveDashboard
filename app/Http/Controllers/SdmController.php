@@ -9,6 +9,13 @@ use App\Mahasiswa;
 use App\Prodi;
 use App\MateriBorang;
 use DB;
+use App\JenisJabatanFungsional;
+use App\Penelitian;
+use App\BerkasPortofolio;
+use App\JenisBerkasPortofolio;
+use App\ProduktifitasPkmDosen;
+use App\RekognisiDosen;
+use App\SertifikasiDosen;
 
 class SdmController extends Controller
 {
@@ -17,179 +24,357 @@ class SdmController extends Controller
         $tahun_now = $request->input('tahun', Carbon::now()->format('Y'));
         // SKOR NILAI SDM
         $materi_sdm = MateriBorang::with([
-            'nilai' => function ($query) use ($tahun_now) {
-                return $query->where('tahun', $tahun_now);
-            }
+            'nilai_latest' => function($query) use ($tahun_now) {
+                return $query->where('tahun', '=', $tahun_now);
+            },
         ])
         ->find(1804);
-        $nilai_sdm = $materi_sdm->nilai->first();
-        $skor_nilai_sdm = round($nilai_sdm->nilai ? $nilai_sdm->nilai : 0,2);
-        // DATA DOSEN & SERTIFIKASINYA
+        $skor_nilai_sdm = round($materi_sdm->nilai_latest ? $materi_sdm->nilai_latest->nilai : 0, 2);
+        // DATA PRODI
         $prodi = Prodi::whereIsAktif()
-        ->orderBy('id')
-        ->with(['prodi_ewmp' => function ($query) {
+        ->orderByDefault()
+        ->get();
+        // DATA DOSEN & SERTIFIKASINYA
+        $prodi_w_dosen_sertifikasi = $prodi->load(['prodi_ewmp' => function ($query) {
             return $query
             ->whereHas('karyawan', function ($query) {
                 return $query
-                ->whereIsAktif()
                 ->whereIsDosenTetap();
             })
             ->with('karyawan.sertifikasi');
-        }])
-        ->get();
-        $dosen_tetap = $prodi
+        }]);
+        $dosen_tetap = $prodi_w_dosen_sertifikasi
         ->groupBy('alias')
         ->map(function ($prodi) {
             return $prodi->first()->prodi_ewmp->count();
         });
-        $dosen_tetap_bersertifikasi = $prodi
+        $dosen_tetap_bersertifikasi = $prodi_w_dosen_sertifikasi
+        ->groupBy('alias')
         ->map(function ($prodi) {
-            $prodi->prodi_ewmp = $prodi->prodi_ewmp->filter(function ($prodi_ewmp) {
+            return $prodi->first()->prodi_ewmp->filter(function ($prodi_ewmp) {
                 return count($prodi_ewmp->karyawan->sertifikasi);
-            });
-
-            return $prodi;
-        })
-        ->groupBy('alias')
-        ->map(function ($prodi) {
-            return $prodi->first()->prodi_ewmp->count();
+            })->count();
         });
-        $prodi = Prodi::whereIsAktif()
-        ->orderBy('id')
-        ->with(['prodi_ewmp' => function ($query) {
+        // DATA DOSEN & JABATAN FUNGSIONALNYA
+        $prodi_w_dosen_jafung = $prodi->load(['prodi_ewmp' => function ($query) {
             return $query
-            ->with('karyawan.jabatan_fungsional')
             ->whereHas('karyawan', function ($query) {
                 return $query
-                ->whereIsDosen()
-                ->whereIsAktif()
-                ->wherehas('jabatan_fungsional', function ($query) {
-                    return $query->whereIn('id_jfa', [4, 5]);
+                ->whereIsDosenTetap()
+                ->whereHas('jabatan_fungsional_last', function ($query) {
+                    return $query->where('id_jfa', 5);
                 });
-            });
-        }])
-        ->get();
-        $dosen_lektor_kepala = $prodi->map(function ($prodi) {
-            $prodi->prodi_ewmp = $prodi->prodi_ewmp->filter(function ($prodi_ewmp) {
-                return $prodi_ewmp->karyawan->jabatan_fungsional
-                ->filter(function ($jabatan_fungsional) {
-                    return 4 == $jabatan_fungsional->id_jfa;
-                })
-                ->count();
-            });
-
-            return $prodi;
-        })
+            })
+            ->with('karyawan.jabatan_fungsional_last');
+        }]);
+        $dosen_guru_besar = $prodi_w_dosen_jafung
         ->groupBy('alias')
         ->map(function ($prodi) {
             return $prodi->first()->prodi_ewmp->count();
         });
-        $dosen_guru_besar = $prodi->map(function ($prodi) {
-            $prodi->prodi_ewmp = $prodi->prodi_ewmp->filter(function ($prodi_ewmp) {
-                return $prodi_ewmp->karyawan->jabatan_fungsional
-                ->filter(function ($jabatan_fungsional) {
-                    return 5 == $jabatan_fungsional->id_jfa;
-                })
-                ->count();
-            });
-
-            return $prodi;
-        })
-        ->groupBy('alias')
-        ->map(function ($prodi) {
-            return $prodi->first()->prodi_ewmp->count();
-        });
-        // RASIO DOSEN:MAHASISWA
-        $jml_dosen = Karyawan::whereIsDosenTetap()
+        // PRESENTASE DOSEN: TETAP TIDAK TETAP
+        $jml_dosen_tetap = Karyawan::whereIsDosenTetap()
+        ->whereHas('prodi_ewmp')
         ->count();
+        // RASIO DOSEN:MAHASISWA
         $jml_mahasiswa = Mahasiswa::whereHas('histori_kuliah', function ($query) use ($tahun_now) {
             return $query
             ->where('semester', 'LIKE', Carbon::createFromFormat('Y', $tahun_now - 1)->format('y').'1')
             ->whereIsAktif();
         })
         ->count();
-        $rasio_dosen_mahasiswa = round($jml_mahasiswa / $jml_dosen, 2);
+        $rasio_dosen_mahasiswa = round($jml_mahasiswa / $jml_dosen_tetap, 2);
         // RASIO PRODI:DOSEN
         $jml_prodi = Prodi::whereIsAktif()
         ->count();
-        $rasio_prodi_dosen = round($jml_dosen / $jml_prodi, 2);
-        // PRESENTASE DOSEN: TETAP TIDAK TETAP
-        $jml_dosen_tetap = Karyawan::whereIsDosenTetap()
-        ->count();
+        $rasio_prodi_dosen = round($jml_dosen_tetap / $jml_prodi, 2);
+        // JUMLAH PENELITIAN DOSEN
+        $periode_ewmp = collect(range($tahun_now-2, $tahun_now));
+        $penelitian_dosen = Penelitian::whereBetween(\DB::Raw("TO_CHAR(TO_DATE(SUBSTR(smt,1,2),'RR'),'YYYY')"), [$tahun_now-3, $tahun_now])
+        ->get();
+        $jml_penelitian_dosen = $periode_ewmp->map(function($tahun) use ($penelitian_dosen){
+            return $penelitian_dosen->filter(function($penelitian_dosen) use ($tahun) {
+                return Carbon::createFromFormat('y', substr($penelitian_dosen->smt, 0, 2))->format('Y') == $tahun;
+            })
+            ->count();
+        });
+        // JUMLAH PKM DOSEN
+        $pkm_dosen = ProduktifitasPkmDosen::whereBetween(\DB::Raw("TO_CHAR(TO_DATE(SUBSTR(smt,1,2),'RR'),'YYYY')"), [$tahun_now-3, $tahun_now])
+        ->get();
+        $jml_pkm_dosen = $periode_ewmp->map(function($tahun) use ($pkm_dosen){
+            return $pkm_dosen->filter(function($pkm_dosen) use ($tahun) {
+                return Carbon::createFromFormat('y', substr($pkm_dosen->smt, 0, 2))->format('Y') == $tahun;
+            })
+            ->count();
+        });
+        // JUMLAH REKOGNISI DOSEN
+        $rekognisi_dosen = RekognisiDosen::whereBetween(\DB::Raw("TO_CHAR(selesai,'YYYY')"), [$tahun_now-3, $tahun_now])
+        ->get();
+        $jml_rekognisi_dosen = $periode_ewmp->map(function($tahun) use ($rekognisi_dosen){
+            return $rekognisi_dosen->filter(function($rekognisi_dosen) use ($tahun) {
+                return $rekognisi_dosen->selesai->format('Y') == $tahun;
+            })
+            ->count();
+        });
+        // SKOR PENELITIAN
+        $materi_penelitian = MateriBorang::with([
+            'nilai_latest' => function($query) use ($tahun_now) {
+                return $query->where('tahun', '=', $tahun_now);
+            }
+        ])
+        ->find(180406);
+        $skor_penelitian = round($materi_penelitian->nilai_latest ? $materi_penelitian->nilai_latest->nilai : 0, 2);
+        // SKOR PKM
+        $materi_pkm = MateriBorang::with([
+            'nilai_latest' => function($query) use ($tahun_now) {
+                return $query->where('tahun', '=', $tahun_now);
+            }
+        ])
+        ->find(180407);
+        $skor_pkm = round($materi_pkm->nilai_latest ? $materi_pkm->nilai_latest->nilai : 0, 2);
+        // SKOR REKOGNISI
+        $materi_rekognisi = MateriBorang::with([
+            'nilai_latest' => function($query) use ($tahun_now) {
+                return $query->where('tahun', '=', $tahun_now);
+            }
+        ])
+        ->find(180408);
+        $skor_rekognisi = round($materi_rekognisi->nilai_latest ? $materi_rekognisi->nilai_latest->nilai : 0, 2);
+        // SKOR TENAGA KEPENDIDIKAN
+        $materi_kependidikan = MateriBorang::with([
+            'nilai_latest' => function($query) use ($tahun_now) {
+                return $query->where('tahun', '=', $tahun_now);
+            }
+        ])
+        ->find(180409);
+        $skor_tenaga_kependidikan = round($materi_kependidikan->nilai_latest ? $materi_kependidikan->nilai_latest->nilai : 0, 2);
+        // Skor Sertifikat Pendidikan
+        $materi_sertifikat_pendidikan = MateriBorang::with([
+            'nilai_latest' => function($query) use ($tahun_now) {
+                return $query->where('tahun', '=', $tahun_now);
+            }
+        ])->find(180403);
+        $skor_sertifikat_pendidikan = round($materi_sertifikat_pendidikan->nilai_latest ? $materi_sertifikat_pendidikan->nilai_latest->nilai : 0, 2);
+        // Skor Jabatan Fungsional
+        $materi_jabatan_fungsional = MateriBorang::with([
+            'nilai_latest' => function($query) use ($tahun_now) {
+                return $query->where('tahun', '=', $tahun_now);
+            }
+        ])->find(180402);
+        $skor_jabatan_fungsional = round($materi_jabatan_fungsional->nilai_latest ? $materi_jabatan_fungsional->nilai_latest->nilai : 0, 2);
+        // Skor Rasio Dosen Mahasiswa
+        $materi_rasio_dosen_mahasiswa = MateriBorang::with([
+            'nilai_latest' => function($query) use ($tahun_now) {
+                return $query->where('tahun', '=', $tahun_now);
+            }
+        ])->find(180405);
+        $skor_rasio_dosen_mahasiswa = round($materi_rasio_dosen_mahasiswa->nilai_latest ? $materi_rasio_dosen_mahasiswa->nilai_latest->nilai : 0, 2);
+        // Skor Rasio Prodi Dosen
+        $materi_rasio_prodi_dosen = MateriBorang::with([
+            'nilai_latest' => function($query) use ($tahun_now) {
+                return $query->where('tahun', '=', $tahun_now);
+            }
+        ])->find(180401);
+        $skor_rasio_prodi_dosen = round($materi_rasio_prodi_dosen->nilai_latest ? $materi_rasio_prodi_dosen->nilai_latest->nilai : 0, 2);
+        // Skor Presentase Dosen Tidak Tetap
+        $materi_presentase_dosen_tidak_tetap = MateriBorang::with([
+            'nilai_latest' => function($query) use ($tahun_now) {
+                return $query->where('tahun', '=', $tahun_now);
+            }
+        ])->find(180404);
+        $skor_presentase_dosen_tidak_tetap = round($materi_presentase_dosen_tidak_tetap->nilai_latest ? $materi_presentase_dosen_tidak_tetap->nilai_latest->nilai : 0, 2);
+        // Judul
+        $materi_borang = MateriBorang::where('kd_std','like','18040%')
+        ->whereNull('keterangan')
+        ->orderBy('kd_std')
+        ->get()
+        ->groupBy('kd_std')
+        ->map(function($materi){
+            return $materi->first()->nm_std;
+        });
 
         return view('sdm', [
             'periode' => ($tahun_now - 1).'/'.$tahun_now,
+            'prodi' => $prodi->map(function ($prodi) {
+                return $prodi->id;
+            })->toArray(),
+            'periode_ewmp' => $periode_ewmp->toArray(),
             // NILAI SDM
             'skor_nilai_sdm' => $skor_nilai_sdm,
-            // TENAGA KEPENDIDIKAN
-            'skor_tenaga_kependidikan' => 3,
             // PRESENTASE SERTIFIKAT PENDIDIKAN
             'dosen_tetap' => $dosen_tetap->toArray(),
             'dosen_tetap_bersertifikasi' => $dosen_tetap_bersertifikasi->toArray(),
-            'skor_sertifikat_pendidikan' => 3.21,
+            'skor_sertifikat_pendidikan' => $skor_sertifikat_pendidikan,
+            'target_dosen_tetap_bersertifikasi' => $dosen_tetap->map(function($jml_dosen) {
+                $target_sertifikasi = 80/100; // KONSTANTA RUMUS BORANG
+                return ceil($jml_dosen * $target_sertifikasi);
+            }),
             // JABATAN FUNGSIONAL DOSEN
-            'dosen_lektor_kepala' => $dosen_lektor_kepala->toArray(),
             'dosen_guru_besar' => $dosen_guru_besar->toArray(),
-            'skor_jabatan_fungsional' => 2.00,
+            'skor_jabatan_fungsional' => $skor_jabatan_fungsional,
+            'target_dosen_guru_besar' => $dosen_tetap->map(function($jml_dosen) {
+                $target_guru_besar = 15/100; // KONSTANTA RUMUS BORANG
+                return ceil($jml_dosen * $target_guru_besar);
+            }),
             // RASIO DOSEN:MAHASISWA
             'rasio_dosen_mahasiswa' => $rasio_dosen_mahasiswa,
-            'skor_rasio_dosen_mahasiswa' => 4.00,
+            'skor_rasio_dosen_mahasiswa' => $skor_rasio_dosen_mahasiswa,
             // RASIO PRODI:DOSEN
             'rasio_prodi_dosen' => $rasio_prodi_dosen,
-            'skor_rasio_prodi_dosen' => 3.26,
+            'skor_rasio_prodi_dosen' => $skor_rasio_prodi_dosen,
             // PRESENTASE DOSEN: TETAP
             'jml_dosen_tetap' => $jml_dosen_tetap,
             'jml_dosen_tidak_tetap' => 0,
-            'skor_presentase_dosen_tidak_tetap' => 4,
+            'skor_presentase_dosen_tidak_tetap' => $skor_presentase_dosen_tidak_tetap,
+            // EWMP
+            'jml_penelitian_dosen' => $jml_penelitian_dosen->toArray(),
+            'jml_pkm_dosen' => $jml_pkm_dosen->toArray(),
+            'jml_rekognisi_dosen' => $jml_rekognisi_dosen->toArray(),
+            'skor_penelitian' => $skor_penelitian,
+            'skor_pkm' => $skor_pkm,
+            'skor_rekognisi' => $skor_rekognisi,
+            'skor_tenaga_kependidikan' => $skor_tenaga_kependidikan,
+            // Judul
+            'judul' => $materi_borang->toArray(),
         ]);
     }
 
-    public function detail($judul="", $nilai=""){
-    		$line = array(
-    					'2011' => 1.4,
-						'2012' => 1.2,
-						'2013' => 2.6,
-						'2014' => 3.7,
-						'2015' => 2.8,
-						'2016' => 3.2,
-						'2017' => 3.6,
-						'2018' => 3.1);
-    		$bar = array(
-    					'SI' => 3.4,
-    					'SK' => 3.2,
-    					'DKV' => 3.3,
-    					'D3 SI' => 2.7,
-    					'Profiti' => 3.0,
-    					'Desgraf' => 1.7,
-    					'Manajemen' => 2.4,
-    					'Akuntansi' => 2.6,
-    					'KPK' => 2.7
-    					);
-    		if($judul=="Lektor & Guru besar"){
-    			$line = array(
-    					'2011' => array("Lektor" => 2.0, "Guru Besar" => 2.3),
-    					'2012' => array("Lektor" => 2.1, "Guru Besar" => 2.4),
-    					'2013' => array("Lektor" => 2.2, "Guru Besar" => 2.5),
-    					'2014' => array("Lektor" => 2.3, "Guru Besar" => 2.7),
-    					'2015' => array("Lektor" => 2.7, "Guru Besar" => 2.6),
-    					'2016' => array("Lektor" => 2.1, "Guru Besar" => 2.8),
-    					'2017' => array("Lektor" => 3.6, "Guru Besar" => 3.7),
-    					'2018' => array("Lektor" => 3.7, "Guru Besar" => 3.8),
-    					);
-    			$bar = array(
-    					'SI' => array("Lektor" => 2.0, "Guru Besar" => 2.3),
-    					'SK' => array("Lektor" => 2.1, "Guru Besar" => 2.4),
-    					'DKV' => array("Lektor" => 2.2, "Guru Besar" => 2.5),
-    					'D3 SI' => array("Lektor" => 2.3, "Guru Besar" => 2.7),
-    					'Profiti' => array("Lektor" => 2.7, "Guru Besar" => 2.6),
-    					'Desgraf' => array("Lektor" => 2.1, "Guru Besar" => 2.8),
-    					'Manajemen' => array("Lektor" => 3.6, "Guru Besar" => 3.7),
-    					'Akuntansi' => array("Lektor" => 3.7, "Guru Besar" => 3.8),
-    					'KPK' => array("Lektor" => 2.0, "Guru Besar" => 2.3)
-    				);
-    		}
-    		return view('sdm_detail', ['judul' => $judul, 'nilai' => $nilai, 'line' => $line, 'bar' => $bar]);
-		}
+    public function getDosenProdiSertifikasi(Request $request, $kode_prodi)
+    {
+        $prodi = Prodi::with(['prodi_ewmp' => function ($query) {
+            return $query
+            ->with([
+                'karyawan.sertifikasi',
+                'karyawan.pendidikan_formal_last',
+            ])
+            ->whereHas('karyawan', function ($query) {
+                return $query
+                ->whereIsAktif()
+                ->whereIsDosenTetap();
+            });
+        }])
+        ->find($kode_prodi);
+
+        $karyawan = $prodi->prodi_ewmp
+        ->map(function ($prodi_ewmp) {
+            $karyawan = $prodi_ewmp->karyawan;
+
+            return $karyawan;
+        });
+
+        $jenis_sertifikasi = collect([
+            [
+                'nama' => 'Pendidik Profesional',
+                'filter' => function($karyawan) {
+                    return $karyawan->sertifikasi->filter(function($sertifikasi){
+                        return $sertifikasi->jenis_sertifikasi == SertifikasiDosen::SERTIFIKASI_PENDIDIK_PROFESIONAL;
+                    })->count();
+                }
+            ],
+            [
+                'nama' => 'Profesi',
+                'filter' => function($karyawan) {
+                    return $karyawan->sertifikasi->filter(function($sertifikasi){
+                        return $sertifikasi->jenis_sertifikasi == SertifikasiDosen::SERTIFIKASI_PROFESI;
+                    })->count();
+                }
+            ],
+            [
+                'nama' => 'Kompetensi',
+                'filter' => function($karyawan) {
+                    return $karyawan->sertifikasi->filter(function($sertifikasi){
+                        return $sertifikasi->jenis_sertifikasi == SertifikasiDosen::SERTIFIKASI_KOMPETENSI;
+                    })->count();
+                }
+            ],
+        ]);
+
+        $jenjang_studi = collect(['S1', 'S2', 'S3']);
+
+        $data = $jenjang_studi->map(function($jenjang_studi) use ($jenis_sertifikasi, $karyawan) {
+            $karyawan = $karyawan->filter(function($karyawan) use ($jenjang_studi) {
+                return $karyawan->pendidikan_formal_last->jenjang_studi == $jenjang_studi;
+            });
+            return [
+                'label' => $jenjang_studi,
+                'data' => $jenis_sertifikasi->map(function($jenis_sertifikasi) use ($karyawan) {
+                    return $karyawan->filter(function($karyawan) use ($jenis_sertifikasi) {
+                        return $jenis_sertifikasi['filter']($karyawan);
+                    })->count();
+                }),
+            ];
+        })
+        ->prepend([
+            'label' => 'Jumlah Dosen',
+            'data' => $jenis_sertifikasi->map(function($jenis_sertifikasi) use ($karyawan) {
+                return $karyawan->filter(function($karyawan) use ($jenis_sertifikasi) {
+                    return $jenis_sertifikasi['filter']($karyawan);
+                })->count();
+            }),
+        ]);
+
+        return [
+            'nama' => $prodi->nama,
+            'labels' => $jenis_sertifikasi->pluck('nama')->toArray(),
+            'datasets' => $data,
+        ];
+    }
+
+    public function getDosenProdiJafung(Request $request, $kode_prodi)
+    {
+        $prodi = Prodi::with(['prodi_ewmp' => function ($query) {
+            return $query
+            ->with([
+                'karyawan.jabatan_fungsional_last',
+                'karyawan.pendidikan_formal_last',
+            ])
+            ->whereHas('karyawan', function ($query) {
+                return $query
+                ->whereIsDosenTetap()
+                ->whereIsAktif();
+            });
+        }])
+        ->find($kode_prodi);
+        $karyawan = $prodi->prodi_ewmp
+        ->map(function ($prodi_ewmp) {
+            $karyawan = $prodi_ewmp->karyawan;
+
+            return $karyawan;
+        });
+        $jabatan_fungsional = JenisJabatanFungsional::whereIn('id_jabatan', [1,2,3,4,5])
+        ->orderBy('bobot_jabatan')
+        ->get();
+
+        $jenjang_studi = collect(['S1', 'S2', 'S3']);
+
+        $data = $jenjang_studi->map(function($jenjang_studi) use ($jabatan_fungsional, $karyawan) {
+            $karyawan = $karyawan->filter(function($karyawan) use ($jenjang_studi) {
+                return $karyawan->pendidikan_formal_last->jenjang_studi == $jenjang_studi;
+            });
+            return [
+                'label' => $jenjang_studi,
+                'data' => $jabatan_fungsional->map(function($jabatan_fungsional) use ($karyawan) {
+                    return $karyawan->filter(function($karyawan) use ($jabatan_fungsional) {
+                        return $karyawan->jabatan_fungsional_last->id_jfa == $jabatan_fungsional->id_jabatan;
+                    })->count();
+                }),
+            ];
+        })
+        ->prepend([
+            'label' => 'Jumlah Dosen',
+            'data' => $jabatan_fungsional->map(function ($jabatan_fungsional) use ($karyawan) {
+                return $karyawan->filter(function ($karyawan) use ($jabatan_fungsional) {
+                    return $karyawan->jabatan_fungsional_last->id_jfa == $jabatan_fungsional->id_jabatan;
+                })->count();
+            }),
+        ]);
+
+        return [
+            'nama' => $prodi->nama,
+            'labels' => $jabatan_fungsional->pluck('jabatan_fungsional')->toArray(),
+            'datasets' => $data,
+        ];
+    }
 
 		public function profil(){
     		$data_profil = [];
@@ -288,93 +473,93 @@ class SdmController extends Controller
         return view('sdm_dosen_detail');
     }
 	
-	public function list_dosen(){
-		/*$result = DB::select("select nik, nama, sex, gelar_depan, gelar_belakang, kary_type, (select jenjang_studi from V_PEND_FORMAL_KAR a where nik = kar.nik and no = (select max(no) from v_pend_formal_kar where nik = a.nik and jenjang_studi is not null)) jenjang_studi 
-		from v_karyawan kar where status = 'A' and kary_type like '%D%' and kary_type <> 'AD'");
-		*/
-		$result = \App\Karyawan::with([
-			'pendidikan_formal' => function($query){
-				return $query->whereNotNull('jenjang_studi');
-			},
-			'berkas_portofolio',
-			'jabatan_fungsional.jenis_jafung',
-		])
-		->whereIsAktif()
-		->whereIsDosenTetap()
-		->get();
-		$result = $result->map(function($dosen){
-			$dosen->pendidikan_formal = $dosen->pendidikan_formal
-			->sortByDesc('no')
-			->first();
-			
-			$dosen->jabatan_fungsional = $dosen->jabatan_fungsional
-			->sortByDesc('mulai_tetap_tmt')
-			->first();
-			return $dosen;			
-		});
-		
-		$prodi = Prodi::whereIsAktif()
-        ->orderBy('id')        
-        ->get();
-		
-		return view('list_dosen', ['result' => $result, 'prodi' => $prodi]);		
-		//return view('list_dosen');
+	public function list_dosen($kode_prodi){
+        $prodi = Prodi::with(['prodi_ewmp' => function($query) {
+            return $query->whereHas('karyawan', function($query) {
+                return $query
+                ->whereIsAktif()
+                ->whereIsDosenTetap();
+            })
+            ->with(['karyawan' => function($query){
+                return $query->with([
+                    'pendidikan_formal_last' => function($query) {
+                        return $query->whereNotNull('jenjang_studi');
+                    },
+                    'berkas_portofolio',
+                    'jabatan_fungsional_last.jenis_jafung',
+                ]);
+            }]);
+        }])
+        ->find($kode_prodi);
+
+        $list_dosen = $prodi->prodi_ewmp->map(function($prodi_ewmp) {
+            return $prodi_ewmp->karyawan;
+        });
+        $list_dosen = $list_dosen->sortBy('nama')->values();
+
+        $list_jafung = JenisJabatanFungsional::whereNotNull('bobot_jabatan')->get();
+
+        $list_pendidikan = collect(['S1','S2','S3']);
+
+        $list_sertifikasi = collect([]);
+
+        return view('list_dosen', compact(
+            'prodi',
+            'list_dosen',
+            'list_jafung', 
+            'list_pendidikan',
+            'list_sertifikasi'
+        ));
 	}
 	
-	public function list_dosen_detail($id){
-		$result = DB::connection('oracle_stikom_dev')->select("select nik, nip, nama, decode(sex, 1, 'Laki - Laki', 2, 'Perempuan') sex, decode(kary_type, 'DC', 'Dosen Percobaan', 'DH', 'Dosen Homebase', 'KD', 'Dosen Kontrak', 'TD', 'Dosen Tetap') kary_type, (select nama from v_fakultas@get_ori where id = fakul_id) prodi,
-								(select jabatan_fungsional from v_jafung@get_ori where id_jabatan = (select id_jfa from v_jafung_akademik@get_ori a where id_jfa = 
-									(select max(id_jfa) from v_jafung_akademik@get_ori where nik = a.nik) and nik = kar.nik
-								)) jafung,
-								decode((select jenjang_studi from V_PEND_FORMAL_KAR@get_ori a where nik = kar.nik and no = 
-									(select max(no) from v_pend_formal_kar@get_ori where nik = a.nik and jenjang_studi is not null)
-								),'S1', 'Strata 1', 'S2', 'Strata 2', 'S3', 'Strata 3') jenjang_studi
-							from v_karyawan@get_ori kar where nik = '$id'");
-		$akademik = DB::connection('oracle_stikom_dev')->select("select no, jenjang, nama_sekolah, jenjang_studi, substr(tahun_lulus, -4) tahun_lulus, jurusan from V_PEND_FORMAL_KAR@get_ori where nik = '$id'
-										and lower(jenjang_studi) in ('s1','s2','s3') order by 1");										
-		/*$penelitian = DB::connection('oracle_stikom_dev')->select("select mk, 'Institut Bisnis dan Informatika Stikom Surabaya' lembaga, substr(periode, -4) tahun from pantja.ewmp_b@get_ori where nik = '$id' and lower(mk) not like '%studi lanjut%'");*/
-		
-		$penelitian = DB::connection('oracle_stikom_dev')->select("select judul, jns, substr(smt,1,2) tahun, 'Institut Bisnis dan Informatika Stikom Surabaya' lembaga from pantja.ewmp_b_dashboard@get_ori where nik = '$id' order by tahun");
-		
-		/*$riwayat = DB::select("select substr(smt,1,2) tahun, sum(b.sks) sks from jdwkul_mf_his a join kurlkl_mf b on a.klkl_id = b.id where a.prodi = b.fakul_id and kary_nik = '$id' group by substr(smt,1,2) order by 1");*/
-		
-		$riwayat = DB::connection('oracle_stikom_dev')->select("select substr(a.semester,1,2) tahun, sum(b.sks) sks from rekap_mf@get_ori a join kurlkl_mf@get_ori b on a.jkul_klkl_id = b.id where a.prodi = b.fakul_id and jkul_kary_nik = '$id' and sts_dosen = '*' and substr(a.semester, 1,1) <> '9' group by substr(a.semester,1,2) order by 1");
-		
-		return view('list_dosen_detail', ['result' => $result, 'akademik' => $akademik, 'penelitian' => $penelitian, 'line' => $riwayat]);
-	}
+    public function getKaryawan($nik){
+        $karyawan = Karyawan::find($nik);
+        $karyawan->berkas_portofolio = JenisBerkasPortofolio::whereHas('berkas_portofolio', function($query) use ($nik) {
+            return $query->where('nik',$nik);
+        })->get();
+
+        return $karyawan;
+    }
+
+    public function getBerkasPortofolio($nik, $id_jenis){
+        return Karyawan::with(['berkas_portofolio' => function($query) use ($id_jenis) {
+            return $query
+            ->with('jenis_berkas_portofolio')
+            ->where('id_jenis', $id_jenis);
+        }])
+        ->find($nik);
+    }
 	
-	public function list_dosen_filter($id){
-		/*$result = DB::select("select nik, nama, sex, gelar_depan, gelar_belakang, kary_type, (select jenjang_studi from V_PEND_FORMAL_KAR a where nik = kar.nik and no = (select max(no) from v_pend_formal_kar where nik = a.nik and jenjang_studi is not null)) jenjang_studi 
-		from v_karyawan kar where status = 'A' and kary_type like '%D%' and kary_type <> 'AD'");
-		*/
-		
-		$result = \App\Karyawan::with([
-			'pendidikan_formal' => function($query){
-				return $query->whereNotNull('jenjang_studi');
-			},
-			'berkas_portofolio',
-			'jabatan_fungsional.jenis_jafung',
-		])
-		->whereIsAktif()
-		->whereIsDosenTetap()
-		->where('fakul_id',$id)
-		->get();
-		$result = $result->map(function($dosen){
-			$dosen->pendidikan_formal = $dosen->pendidikan_formal
-			->sortByDesc('no')
-			->first();
-			
-			$dosen->jabatan_fungsional = $dosen->jabatan_fungsional
-			->sortByDesc('id_jfa')
-			->first();
-			return $dosen;			
-		});
-		
-		$prodi = Prodi::whereIsAktif()
-        ->orderBy('id')        
-        ->get();
-		
-		return view('list_dosen_filter', ['result' => $result, 'prodi' => $prodi]);		
-		//return view('list_dosen_filter');
+	public function list_dosen_detail($kode_prodi, $nik){
+        $karyawan = Karyawan::with([
+            'prodi_ewmp.program_studi',
+            'jabatan_fungsional_last',
+            'pendidikan_formal_last',
+            'pendidikan_formal' => function($query) {
+                return $query->filterInJenjang(['S1','S2','S3']);
+            },
+            'penelitian',
+            'histori_ajar' => function ($query) {
+                return $query->orderBySemester();
+            },
+        ])
+        ->find($nik);
+
+        $histori_ajar = $karyawan->histori_ajar->groupBy(function($histori_ajar){
+            return substr($histori_ajar->semester,0,2);
+        })->map(function($histori_ajar, $tahun){
+            return [
+                'tahun' => $tahun,
+                'sks' => $histori_ajar->sum('sks'),
+            ];
+        })
+        ->values();
+
+        return view('list_dosen_detail', [
+            'result' => $karyawan, 
+            'akademik' => $karyawan->pendidikan_formal,
+            'penelitian' => $karyawan->penelitian,
+            'line' => $histori_ajar,
+        ]);
 	}
 }

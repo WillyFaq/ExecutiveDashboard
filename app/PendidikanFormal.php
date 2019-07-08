@@ -27,4 +27,9 @@ class PendidikanFormal extends Model
     {
         return $query->whereNotIn('jenjang_studi', $filter);
     }
+
+    public function scopeOrderByDefault($query)
+    {
+        return $query->orderBy(\DB::Raw("CASE jenjang_studi WHEN 'S1' THEN 1 WHEN 'S2' THEN 2 WHEN 'S3' THEN 3 ELSE 0 END"));
+    }
 }

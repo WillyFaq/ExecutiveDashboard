@@ -6,28 +6,39 @@ use Illuminate\Database\Eloquent\Model;
 
 class HistoriAjar extends Model
 {
-    protected $table = 'jdwkul_his';
+    protected $table = 'rekap_mf';
 
     public function newQuery()
     {
         return parent::newQuery()
         ->addSelect([
-            'jdwkul_his.kary_nik',
-            'jdwkul_his.smt',
-            'jdwkul_his.klkl_id',
+            'rekap_mf.jkul_kary_nik',
+            'rekap_mf.semester',
+            'rekap_mf.jkul_klkl_id',
         ])
         ->join('kurlkl_mf', function ($join) {
             return $join
-            ->on('jdwkul_his.klkl_id', 'kurlkl_mf.id')
-            ->on('jdwkul_his.prodi', 'kurlkl_mf.fakul_id');
+            ->on('rekap_mf.jkul_klkl_id', 'kurlkl_mf.id')
+            ->on('rekap_mf.prodi', 'kurlkl_mf.fakul_id');
         })
         ->addSelect([
             'kurlkl_mf.sks',
-        ]);
+        ])
+        ->whereIsValid();
     }
 
     public function karyawan()
     {
-        return $this->belongsTo(Karyawan::class, 'kary_nik');
+        return $this->belongsTo(Karyawan::class, 'jkul_kary_nik');
+    }
+
+    public function scopeOrderBySemester($query)
+    {
+        return $query->orderBy(\DB::Raw("TO_DATE(SUBSTR(rekap_mf.semester,1,2),'RR')"));
+    }
+
+    public function scopeWhereIsValid($query)
+    {
+        return $query->where('sts_dosen', '*');
     }
 }
