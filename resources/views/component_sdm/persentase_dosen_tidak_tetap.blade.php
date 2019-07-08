@@ -16,9 +16,9 @@
                 <p class="chart-title mb-0">{{$judul['180404']}}</p>
                 <p class="chart-subtitle mb-0">{{ $periode }}</p>
             </div>
-            <div class="ml-auto text-center rounded-top-right bg-{{$class_name}} py-1 px-2 skor-panel" style="margin-top:-20px; margin-right:-30px">
+            <div class="ml-auto text-center rounded-top-right bg-{{$class_name}} px-2 skor-panel" style="padding-top:8px; padding-bottom:10px; margin-top:-20px; margin-right:-30px">
                 <p class="chart-subtitle mb-0">Skor</p>
-                <p class="data-value mb-0">{{ number_format($skor_presentase_dosen_tidak_tetap,2) }}</p>
+                <p class="data-value medium mb-0">{{ number_format($skor_presentase_dosen_tidak_tetap,2) }}</p>
             </div>
         </div>
     </div>

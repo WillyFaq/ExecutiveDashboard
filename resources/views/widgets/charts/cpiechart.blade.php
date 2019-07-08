@@ -28,12 +28,13 @@
 					var text = []; 
 					for (var i = 0; i < chart.data.datasets[0].data.length; i++) { 
 						if (chart.data.labels[i]) { 
-							text.push('<div class="chart-subtitle d-block">');
+							text.push('<div class="d-block">');
 							text.push('<span>');
-							text.push('<div class="mx-1 legend-block d-inline-block" style="background-color:' + chart.data.datasets[0].backgroundColor[i] + '"></div>'); 
+							text.push('<div class="mx-1 legend-block d-inline-block" style="background-color: :warna"></div>'.replace(':warna', chart.data.datasets[0].backgroundColor[i])); 
+							text.push('<span class="legend-text large">');
 							text.push(chart.data.labels[i]);
 							text.push(': ');
-							text.push('<strong>'+chart.data.datasets[0].data[i]+' Orang</strong>');
+							text.push('<span class="font-weight-bold text-dark">:jml_orang Orang</span>'.replace(':jml_orang', chart.data.datasets[0].data[i]));
 							text.push('</span>');
 							text.push('</div>');
 						} 
