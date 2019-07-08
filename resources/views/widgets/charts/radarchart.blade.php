@@ -27,7 +27,9 @@
 					// borderColor: '#1ABC9C',//window.chartColors.red,
 					borderWidth: 0,
 					pointBackgroundColor: '#1ABC9C',//window.chartColors.red,
-					data: data
+					data: data,
+					pointRadius: 5,
+					pointHoverRadius: 7,
 				}]
 			},
 			options: {
