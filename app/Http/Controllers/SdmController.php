@@ -72,24 +72,22 @@ class SdmController extends Controller
         ->map(function ($prodi) {
             return $prodi->first()->prodi_ewmp->count();
         });
-        // RASIO DOSEN:MAHASISWA
-        $jml_dosen = Karyawan::whereIsDosenTetap()
+        // PRESENTASE DOSEN: TETAP TIDAK TETAP
+        $jml_dosen_tetap = Karyawan::whereIsDosenTetap()
+        ->whereHas('prodi_ewmp')
         ->count();
+        // RASIO DOSEN:MAHASISWA
         $jml_mahasiswa = Mahasiswa::whereHas('histori_kuliah', function ($query) use ($tahun_now) {
             return $query
             ->where('semester', 'LIKE', Carbon::createFromFormat('Y', $tahun_now - 1)->format('y').'1')
             ->whereIsAktif();
         })
         ->count();
-        $rasio_dosen_mahasiswa = round($jml_mahasiswa / $jml_dosen, 2);
+        $rasio_dosen_mahasiswa = round($jml_mahasiswa / $jml_dosen_tetap, 2);
         // RASIO PRODI:DOSEN
         $jml_prodi = Prodi::whereIsAktif()
         ->count();
-        $rasio_prodi_dosen = round($jml_dosen / $jml_prodi, 2);
-        // PRESENTASE DOSEN: TETAP TIDAK TETAP
-        $jml_dosen_tetap = Karyawan::whereIsDosenTetap()
-        ->whereHas('prodi_ewmp')
-        ->count();
+        $rasio_prodi_dosen = round($jml_dosen_tetap / $jml_prodi, 2);
         // JUMLAH PENELITIAN DOSEN
         $periode_ewmp = collect(range($tahun_now-2, $tahun_now));
         $penelitian_dosen = Penelitian::whereBetween(\DB::Raw("TO_CHAR(TO_DATE(SUBSTR(smt,1,2),'RR'),'YYYY')"), [$tahun_now-3, $tahun_now])
@@ -207,16 +205,16 @@ class SdmController extends Controller
             'dosen_tetap' => $dosen_tetap->toArray(),
             'dosen_tetap_bersertifikasi' => $dosen_tetap_bersertifikasi->toArray(),
             'skor_sertifikat_pendidikan' => $skor_sertifikat_pendidikan,
-            'target_dosen_tetap_bersertifikasi' => $prodi->map(function() use ($prodi, $dosen_tetap) {
+            'target_dosen_tetap_bersertifikasi' => $dosen_tetap->map(function($jml_dosen) {
                 $target_sertifikasi = 80/100; // KONSTANTA RUMUS BORANG
-                return ceil(($dosen_tetap->sum()*$target_sertifikasi)/$prodi->count());
+                return ceil($jml_dosen * $target_sertifikasi);
             }),
             // JABATAN FUNGSIONAL DOSEN
             'dosen_guru_besar' => $dosen_guru_besar->toArray(),
             'skor_jabatan_fungsional' => $skor_jabatan_fungsional,
-            'target_dosen_guru_besar' => $prodi->map(function() use ($prodi, $dosen_tetap) {
+            'target_dosen_guru_besar' => $dosen_tetap->map(function($jml_dosen) {
                 $target_guru_besar = 15/100; // KONSTANTA RUMUS BORANG
-                return ceil(($dosen_tetap->sum()*$target_guru_besar)/$prodi->count());
+                return ceil($jml_dosen * $target_guru_besar);
             }),
             // RASIO DOSEN:MAHASISWA
             'rasio_dosen_mahasiswa' => $rasio_dosen_mahasiswa,
@@ -274,18 +272,18 @@ class SdmController extends Controller
                 }
             ],
             [
-                'nama' => 'Kompetensi',
-                'filter' => function($karyawan) {
-                    return $karyawan->sertifikasi->filter(function($sertifikasi){
-                        return $sertifikasi->jenis_sertifikasi == SertifikasiDosen::SERTIFIKASI_KOMPETENSI;
-                    })->count();
-                }
-            ],
-            [
                 'nama' => 'Profesi',
                 'filter' => function($karyawan) {
                     return $karyawan->sertifikasi->filter(function($sertifikasi){
                         return $sertifikasi->jenis_sertifikasi == SertifikasiDosen::SERTIFIKASI_PROFESI;
+                    })->count();
+                }
+            ],
+            [
+                'nama' => 'Kompetensi',
+                'filter' => function($karyawan) {
+                    return $karyawan->sertifikasi->filter(function($sertifikasi){
+                        return $sertifikasi->jenis_sertifikasi == SertifikasiDosen::SERTIFIKASI_KOMPETENSI;
                     })->count();
                 }
             ],

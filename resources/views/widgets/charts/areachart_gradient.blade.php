@@ -45,7 +45,7 @@
                             display: true
                         },
                         ticks: {
-                            fontSize: 10
+                            fontSize: 12
                         }
                     }],
                     yAxes: [{
