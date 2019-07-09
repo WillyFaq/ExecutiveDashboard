@@ -33,7 +33,7 @@
                         $class_name = "primary";
                     }
                 @endphp
-                <div style="margin-bottom:15px">
+                <div class="home-pgbar">
                     <span class="data-label">{{$row[0]}}</span>
                     <span class="float-right data-value">
                         <span class="current text-{{$class_name}}">{{number_format($row[1], 2)}}</span>/4.00
@@ -46,7 +46,7 @@
             </div>
         @endforeach
     </div>
-    <div class="card-body text-center">
+    <div class="card-body text-center home-legend-kriteriakhusus">
         <div class="mr-3 d-inline-block">
             <div class="mx-1 bg-primary legend-block d-inline-block"></div>
             <span class="legend-text text-dark">Sangat Baik</span>

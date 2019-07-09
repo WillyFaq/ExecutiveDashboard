@@ -1,7 +1,7 @@
 @php
 	$_idbx = rand(0, 999); 
 @endphp
-<div class="m-auto" style="position:relative; height:295px">
+<div class="m-auto home-chart-pendaftar" style="position:relative; height:295px">
 	<canvas id="mixchart_{{$_idbx}}"></canvas >
 </div>
 

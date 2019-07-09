@@ -9,6 +9,7 @@
             <div class="ml-auto mr-1 text-center">
                 @php
                     $persen_daftar = round((($daftar['total']/$daftar['total_lalu'])-1)*100,2);
+                    //$persen_daftar = 20;//round((($daftar['total']/$daftar['total_lalu'])-1)*100,2);
                 @endphp
                 <i class="fac {{$persen_daftar>=0?'fa-arrow-up-thin text-primary':'fa-arrow-down-thin text-danger'}} data-value"></i>
                 <p class="m-0 chart-subtitle {{$persen_daftar>=0?'text-primary':'text-danger'}}">
@@ -23,7 +24,7 @@
             </div>
         </div>
     </div>
-    <div class="card-body px-2 pt-1 pb-0">
+    <div class="card-body px-2 pt-1 pb-0 home-chart-pendaftar">
         @include('widgets.charts.mixchart', array(
             'data' => $daftar,
             'id_legend' => 'legend-pendaftar',

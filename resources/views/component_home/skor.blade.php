@@ -74,7 +74,7 @@
 <div id="panel-skor" class="card mb-2">
     <div class="card-header flushed pb-1">
         <div class="d-flex">
-            <img class="rounded-circle" src="{{asset('imgs/stikom.jpg')}}" alt="Stikom" style="height:105px;width:105px;">
+            <img class="rounded-circle img-pt" src="{{asset('imgs/stikom.jpg')}}" alt="Stikom">
             <div class="align-top ml-2">
                 <h3 class="nama-pt">Institut Bisnis dan Informatika Stikom Surabaya</h3>
                 <h5 class="detail-pt">Jl. Raya Kedung Baruk Nomor 98</h5>
@@ -96,7 +96,7 @@
     <div class="card-body pt-1 pb-5">
         <div class="alert mb-0 bg-{{$status}}">
             <div class="row">
-                <div class="col pt-2">
+                <div class="col pt-2 home-gauge">
                     @php
                         $skor['chart']['status'] = $status
                     @endphp
